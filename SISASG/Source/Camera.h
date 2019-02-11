@@ -6,7 +6,7 @@
 class Camera
 {
 public:
-	Vector3 pos;
+	Vector3 position;
 	Vector3 target;
 	Vector3 up;
 
