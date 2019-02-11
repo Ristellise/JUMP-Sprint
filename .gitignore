@@ -7,3 +7,5 @@
 /Debug/*.pdb
 /SISASG/Debug
 /Debug/*.ilk
+/.vs/SISASG/v15
+/Common/x64/Debug

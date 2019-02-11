@@ -1,4 +1,4 @@
-#include "SceneSkybox.h"
+#include "SceneWorld.h"
 #include "GL\glew.h"
 
 #include "shader.hpp"
@@ -9,15 +9,15 @@
 
 
 
-SceneSkybox::SceneSkybox()
+SceneWorld::SceneWorld()
 {
 }
 
-SceneSkybox::~SceneSkybox()
+SceneWorld::~SceneWorld()
 {
 }
 
-void SceneSkybox::Init()
+void SceneWorld::Init()
 {
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -185,7 +185,7 @@ void SceneSkybox::Init()
     //meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", 1, 1, 1);
     //meshList[GEO_CIRCLE] = MeshBuilder::GenerateCircle("cube", 5);
     //meshList[GEO_RING] = MeshBuilder::GenerateRing("ring", 3, 5);
-    std::vector<Mesh*> buffer;
+    /*std::vector<Mesh*> buffer;
     buffer = MeshBuilder::GenerateOBJ("[Object-object]", "OBJ//BuildingShell.obj");
     GLuint* TGASheet = new GLuint;
     *TGASheet = LoadTGA("Image//col.tga", GL_LINEAR, GL_REPEAT);
@@ -245,45 +245,46 @@ void SceneSkybox::Init()
         buffer[i]->textureID = *TGASheet;
         this->meshListVector.push_back(buffer[i]);
     }
+*/
+    //meshList[GEO_BACK] = MeshBuilder::GenerateQuad("GEOBACK", Color(178, 147, 108),1.0f);
+    //meshList[GEO_BACK]->textureID = LoadTGA("Image//SK_back.tga", GL_LINEAR, GL_REPEAT);
 
-    meshList[GEO_BACK] = MeshBuilder::GenerateQuad("GEOBACK", Color(178, 147, 108),1.0f);
-    meshList[GEO_BACK]->textureID = LoadTGA("Image//SK_back.tga", GL_LINEAR, GL_REPEAT);
+    //meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("GEOLEFT", Color(178, 147, 108),1.0f);
+    //meshList[GEO_LEFT]->textureID = LoadTGA("Image//SK_left.tga", GL_LINEAR, GL_REPEAT);
 
-    meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("GEOLEFT", Color(178, 147, 108),1.0f);
-    meshList[GEO_LEFT]->textureID = LoadTGA("Image//SK_left.tga", GL_LINEAR, GL_REPEAT);
+    //meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("GEORIGHT", Color(178, 147, 108),1.0f);
+    //meshList[GEO_RIGHT]->textureID = LoadTGA("Image//SK_right.tga", GL_LINEAR, GL_REPEAT);
 
-    meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("GEORIGHT", Color(178, 147, 108),1.0f);
-    meshList[GEO_RIGHT]->textureID = LoadTGA("Image//SK_right.tga", GL_LINEAR, GL_REPEAT);
+    //meshList[GEO_TOP] = MeshBuilder::GenerateQuad("GEOTOP", Color(178, 147, 108),1.0f);
+    //meshList[GEO_TOP]->textureID = LoadTGA("Image//SK_up.tga", GL_LINEAR, GL_REPEAT);
 
-    meshList[GEO_TOP] = MeshBuilder::GenerateQuad("GEOTOP", Color(178, 147, 108),1.0f);
-    meshList[GEO_TOP]->textureID = LoadTGA("Image//SK_up.tga", GL_LINEAR, GL_REPEAT);
+    //meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("GEOBOTTOM", Color(178, 147, 108),1.0f);
+    //meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//SK_down.tga", GL_LINEAR, GL_REPEAT);
 
-    meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("GEOBOTTOM", Color(178, 147, 108),1.0f);
-    meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//SK_down.tga", GL_LINEAR, GL_REPEAT);
+    //meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("GEOFRONT", Color(178, 147, 108),1.0f);
+    //meshList[GEO_FRONT]->textureID = LoadTGA("Image//SK_front.tga", GL_LINEAR, GL_REPEAT);
 
-    meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("GEOFRONT", Color(178, 147, 108),1.0f);
-    meshList[GEO_FRONT]->textureID = LoadTGA("Image//SK_front.tga", GL_LINEAR, GL_REPEAT);
+    //meshList[GEO_DOOR] = MeshBuilder::GenerateCube("door", Color(178, 147, 108), 1.0f);
+    //meshList[GEO_DOOR]->textureID = LoadTGA("Image//wood.tga", GL_LINEAR, GL_REPEAT);
 
-    meshList[GEO_DOOR] = MeshBuilder::GenerateCube("door", Color(178, 147, 108), 1.0f);
-    meshList[GEO_DOOR]->textureID = LoadTGA("Image//wood.tga", GL_LINEAR, GL_REPEAT);
+    //meshList[GEO_LID] = MeshBuilder::GenerateSphere("Sphereshit", Color(178, 147, 108), 10, 10, 1.0f);
+    //meshList[GEO_LID]->textureID = LoadTGA("Image//wood.tga", GL_LINEAR, GL_REPEAT);
 
-    meshList[GEO_LID] = MeshBuilder::GenerateSphere("Sphereshit", Color(178, 147, 108), 10, 10, 1.0f);
-    meshList[GEO_LID]->textureID = LoadTGA("Image//wood.tga", GL_LINEAR, GL_REPEAT);
+    //meshList[GEO_TEDDY] = MeshBuilder::GenerateSphere("Teddy", Color(178, 147, 108), 10, 10, 1.0f);
+    //meshList[GEO_TEDDY]->textureID = LoadTGA("Image//cloth.tga", GL_LINEAR, GL_REPEAT);
 
-    meshList[GEO_TEDDY] = MeshBuilder::GenerateSphere("Teddy", Color(178, 147, 108), 10, 10, 1.0f);
-    meshList[GEO_TEDDY]->textureID = LoadTGA("Image//cloth.tga", GL_LINEAR, GL_REPEAT);
+    //meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lighball", Color(255, 255, 255), 10, 10, 1.0f);
 
-    meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lighball", Color(255, 255, 255), 10, 10, 1.0f);
+    ////meshList[GEO_QUAD]->textureID = LoadTGA("Image//color1.tga");
+    ////meshList[GEO_SPHERE1] = MeshBuilder::GenerateSphere("sphere1", Color(1, 0, 0), 18, 36, 1);
 
-    //meshList[GEO_QUAD]->textureID = LoadTGA("Image//color1.tga");
-    //meshList[GEO_SPHERE1] = MeshBuilder::GenerateSphere("sphere1", Color(1, 0, 0), 18, 36, 1);
-
-    // The fontsheet on a big mesh
+    //// The fontsheet on a big mesh
     meshList[GEO_TEXT] = MeshBuilder::GenerateText("saofontsheet", this->FLInstance);
     meshList[GEO_TEXT]->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
+
 }
 
-void SceneSkybox::Update(double dt)
+void SceneWorld::Update(double dt)
 {
     static const float LSPEED = 10.0f;
 
@@ -412,7 +413,7 @@ void SceneSkybox::Update(double dt)
     this->dtimestring += std::to_string(this->opendoor);
 }
 
-void SceneSkybox::RenderMesh(Mesh *mesh, bool enableLight)
+void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 	
@@ -457,7 +458,7 @@ void SceneSkybox::RenderMesh(Mesh *mesh, bool enableLight)
 static const float SKYBOXSIZE = 200.0f;
 
 // Main Render loop
-void SceneSkybox::Render()
+void SceneWorld::Render()
 {
     //Clear color & depth buffer every frame
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -490,56 +491,8 @@ void SceneSkybox::Render()
             &lightPosition_cameraspace.x);
     }
 
-    if (lights[1].type == Light::LIGHT_DIRECTIONAL)
-    {
-        Vector3 lightDir(lights[1].position.x, lights[1].position.y, lights[1].position.z);
-        Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-        glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1,
-            &lightDirection_cameraspace.x);
-    }
-    else if (lights[1].type == Light::LIGHT_SPOT)
-    {
-        Position lightPosition_cameraspace = viewStack.Top() * lights[1].position;
-        glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1,
-            &lightPosition_cameraspace.x);
-        Vector3 spotDirection_cameraspace = viewStack.Top() *
-            lights[1].spotDirection;
-        glUniform3fv(m_parameters[U_LIGHT1_SPOTDIRECTION], 1,
-            &spotDirection_cameraspace.x);
-    }
-    else
-    {
-        Position lightPosition_cameraspace = viewStack.Top() * lights[1].position;
-        glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1,
-            &lightPosition_cameraspace.x);
-    }
-
-    if (lights[2].type == Light::LIGHT_DIRECTIONAL)
-    {
-        Vector3 lightDir(lights[2].position.x, lights[2].position.y, lights[2].position.z);
-        Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-        glUniform3fv(m_parameters[U_LIGHT2_POSITION], 1,
-            &lightDirection_cameraspace.x);
-    }
-    else if (lights[2].type == Light::LIGHT_SPOT)
-    {
-        Position lightPosition_cameraspace = viewStack.Top() * lights[2].position;
-        glUniform3fv(m_parameters[U_LIGHT2_POSITION], 1,
-            &lightPosition_cameraspace.x);
-        Vector3 spotDirection_cameraspace = viewStack.Top() *
-            lights[1].spotDirection;
-        glUniform3fv(m_parameters[U_LIGHT2_SPOTDIRECTION], 1,
-            &spotDirection_cameraspace.x);
-    }
-    else
-    {
-        Position lightPosition_cameraspace = viewStack.Top() * lights[2].position;
-        glUniform3fv(m_parameters[U_LIGHT2_POSITION], 1,
-            &lightPosition_cameraspace.x);
-    }
-
     // SkyBox is the last
-    modelStack.PushMatrix();
+    /*modelStack.PushMatrix();
     modelStack.Rotate(90, 0, 1, 0);
     modelStack.Translate(0, 0, -SKYBOXSIZE / 2 + 2.f);
     modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
@@ -580,7 +533,7 @@ void SceneSkybox::Render()
     modelStack.Rotate(-90, 0, 0, 1);
     modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
     RenderMesh(meshList[GEO_BOTTOM], false);
-    modelStack.PopMatrix();
+    modelStack.PopMatrix();*/
 
     /*modelStack.PushMatrix();
         modelStack.Translate(lights[this->selector].position.x, lights[this->selector].position.y, lights[this->selector].position.z);
@@ -592,82 +545,82 @@ void SceneSkybox::Render()
         RenderMesh(meshList[GEO_AXES], false);
     modelStack.PopMatrix();
 
-    for (size_t i = 0; i < this->meshListVector.size(); i++)
-    {
-        modelStack.PushMatrix();
-            RenderMesh(this->meshListVector[i], true);
-        modelStack.PopMatrix();
-    }
+    //for (size_t i = 0; i < this->meshListVector.size(); i++)
+    //{
+    //    modelStack.PushMatrix();
+    //        RenderMesh(this->meshListVector[i], true);
+    //    modelStack.PopMatrix();
+    //}
 
-    modelStack.PushMatrix();
-        modelStack.Translate(-1.9f, 10.0f, 12.9f);
-        modelStack.Translate(0, 0, this->doormovement);
-        modelStack.Scale(1.833f, 19.2f, 15.5f);
-        RenderMesh(meshList[GEO_DOOR], true);
-    modelStack.PopMatrix();
+    //modelStack.PushMatrix();
+    //    modelStack.Translate(-1.9f, 10.0f, 12.9f);
+    //    modelStack.Translate(0, 0, this->doormovement);
+    //    modelStack.Scale(1.833f, 19.2f, 15.5f);
+    //    RenderMesh(meshList[GEO_DOOR], true);
+    //modelStack.PopMatrix();
 
-    modelStack.PushMatrix();
-        modelStack.Translate(3.72f, 5.461f, 22.78f);
-        modelStack.Translate(0, this->lidmovement, 0);
-        modelStack.Scale(2.720f, 0.324f, 2.720f);
-        RenderMesh(meshList[GEO_LID], true);
-    modelStack.PopMatrix();
+    //modelStack.PushMatrix();
+    //    modelStack.Translate(3.72f, 5.461f, 22.78f);
+    //    modelStack.Translate(0, this->lidmovement, 0);
+    //    modelStack.Scale(2.720f, 0.324f, 2.720f);
+    //    RenderMesh(meshList[GEO_LID], true);
+    //modelStack.PopMatrix();
 
-    modelStack.PushMatrix();
-        modelStack.Translate(-37.9f, 9.8f, 2.3f);
-        modelStack.PushMatrix();
-            modelStack.Scale(0.587f, 0.935f, 0.767f);
-            RenderMesh(meshList[GEO_TEDDY], true);
-        modelStack.PopMatrix();
-        // Hands
-        modelStack.PushMatrix();
-            modelStack.PushMatrix();
-                modelStack.Translate(0.5f, 0, -0.6f);
-                modelStack.Rotate(-90, 0, 0, 1.0f);
-                modelStack.Rotate(20.0f, 1.0f, 0, 0);
-                modelStack.Scale(0.153f, 0.415f, 0.145f);
-                RenderMesh(meshList[GEO_TEDDY], true);
-            modelStack.PopMatrix();
-            modelStack.PushMatrix();
-                modelStack.Translate(0.5f, 0, 0.6f);
-                modelStack.Rotate(-90, 0, 0, 1.0f);
-                modelStack.Rotate(-20.0f, 1.0f, 0, 0);
-                modelStack.Scale(0.153f, 0.415f, 0.145f);
-                RenderMesh(meshList[GEO_TEDDY], true);
-            modelStack.PopMatrix();
-        modelStack.PopMatrix();
+    //modelStack.PushMatrix();
+    //    modelStack.Translate(-37.9f, 9.8f, 2.3f);
+    //    modelStack.PushMatrix();
+    //        modelStack.Scale(0.587f, 0.935f, 0.767f);
+    //        RenderMesh(meshList[GEO_TEDDY], true);
+    //    modelStack.PopMatrix();
+    //    // Hands
+    //    modelStack.PushMatrix();
+    //        modelStack.PushMatrix();
+    //            modelStack.Translate(0.5f, 0, -0.6f);
+    //            modelStack.Rotate(-90, 0, 0, 1.0f);
+    //            modelStack.Rotate(20.0f, 1.0f, 0, 0);
+    //            modelStack.Scale(0.153f, 0.415f, 0.145f);
+    //            RenderMesh(meshList[GEO_TEDDY], true);
+    //        modelStack.PopMatrix();
+    //        modelStack.PushMatrix();
+    //            modelStack.Translate(0.5f, 0, 0.6f);
+    //            modelStack.Rotate(-90, 0, 0, 1.0f);
+    //            modelStack.Rotate(-20.0f, 1.0f, 0, 0);
+    //            modelStack.Scale(0.153f, 0.415f, 0.145f);
+    //            RenderMesh(meshList[GEO_TEDDY], true);
+    //        modelStack.PopMatrix();
+    //    modelStack.PopMatrix();
 
-        //legs
-        modelStack.PushMatrix();
-            modelStack.PushMatrix();
-                modelStack.Translate(0, -1.0f, 0.3f);
-                if (this->leg)
-                {
-                    modelStack.Translate(0, cosf(this->legdance) / 10, 0.0f);
-                }
-                modelStack.Scale(0.153f, 0.415f, 0.145f);
-                RenderMesh(meshList[GEO_TEDDY], true);
-            modelStack.PopMatrix();
+    //    //legs
+    //    modelStack.PushMatrix();
+    //        modelStack.PushMatrix();
+    //            modelStack.Translate(0, -1.0f, 0.3f);
+    //            if (this->leg)
+    //            {
+    //                modelStack.Translate(0, cosf(this->legdance) / 10, 0.0f);
+    //            }
+    //            modelStack.Scale(0.153f, 0.415f, 0.145f);
+    //            RenderMesh(meshList[GEO_TEDDY], true);
+    //        modelStack.PopMatrix();
 
-            modelStack.PushMatrix();
-                modelStack.Translate(0, -1.0f, -0.3f);
-                if (this->leg)
-                {
-                    modelStack.Translate(0, cosf(this->legdance + 90.0f) / 10, 0.0f);
-                }
-                modelStack.Scale(0.153f, 0.415f, 0.145f);
-                RenderMesh(meshList[GEO_TEDDY], true);
-            modelStack.PopMatrix();
-        modelStack.PopMatrix();
-        // Head
-        modelStack.PushMatrix();
-            modelStack.PushMatrix();
-                modelStack.Translate(0, 1.1f, 0.1f);
-                modelStack.Scale(0.525f, 0.525f, 0.525f);
-                RenderMesh(meshList[GEO_TEDDY], true);
-            modelStack.PopMatrix();
-        modelStack.PopMatrix();
-    modelStack.PopMatrix();
+    //        modelStack.PushMatrix();
+    //            modelStack.Translate(0, -1.0f, -0.3f);
+    //            if (this->leg)
+    //            {
+    //                modelStack.Translate(0, cosf(this->legdance + 90.0f) / 10, 0.0f);
+    //            }
+    //            modelStack.Scale(0.153f, 0.415f, 0.145f);
+    //            RenderMesh(meshList[GEO_TEDDY], true);
+    //        modelStack.PopMatrix();
+    //    modelStack.PopMatrix();
+    //    // Head
+    //    modelStack.PushMatrix();
+    //        modelStack.PushMatrix();
+    //            modelStack.Translate(0, 1.1f, 0.1f);
+    //            modelStack.Scale(0.525f, 0.525f, 0.525f);
+    //            RenderMesh(meshList[GEO_TEDDY], true);
+    //        modelStack.PopMatrix();
+    //    modelStack.PopMatrix();
+    //modelStack.PopMatrix();
 
     modelStack.PushMatrix();
         modelStack.Translate(5.0f, 10.0f, 2.0f);
@@ -678,7 +631,7 @@ void SceneSkybox::Render()
 /*-------------
 | - Self Renderer Works... but derpy.
 -------------*/
-void SceneSkybox::RenderText(Mesh* mesh, std::string text, Color color)
+void SceneWorld::RenderText(Mesh* mesh, std::string text, Color color)
 {
     if (!mesh || mesh->textureID <= 0) //Proper error check
         return;
@@ -722,7 +675,7 @@ void SceneSkybox::RenderText(Mesh* mesh, std::string text, Color color)
     //glEnable(GL_DEPTH_TEST);
 }
 
-void SceneSkybox::Exit()
+void SceneWorld::Exit()
 {
     // Cleanup VBO here
     glDeleteProgram(m_programID);

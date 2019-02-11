@@ -8,7 +8,7 @@
 #include "MatrixStack.h"
 #include "Light.h"
 
-class SceneSkybox : public Scene
+class SceneWorld : public Scene
 {
     enum UNIFORM_TYPE
     {
@@ -82,8 +82,8 @@ class SceneSkybox : public Scene
     };
 
 public:
-    SceneSkybox();
-    ~SceneSkybox();
+    SceneWorld();
+    ~SceneWorld();
 
     virtual void Init();
     virtual void Update(double dt);
