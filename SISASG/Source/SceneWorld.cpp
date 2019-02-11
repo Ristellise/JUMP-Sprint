@@ -33,7 +33,7 @@ void SceneWorld::Init()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    camera.Init(Vector3(10, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
+    camera.Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
     Mtx44 projection;
     projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -71,10 +71,10 @@ void SceneWorld::Init()
     // Use our shader
     glUseProgram(m_programID);
 
-    lights[0].type = Light::LIGHT_POINT;
-    lights[0].position.Set(-35.6f, 24.277f, -23);
+    lights[0].type = Light::LIGHT_DIRECTIONAL;
+    lights[0].position.Set(100.0f, 100.0f, 100.0f);
     lights[0].color.Set(1, 1, 1);
-    lights[0].power = 1;
+    lights[0].power = 1.f;
     lights[0].kC = 1.f;
     lights[0].kL = 0.01f;
     lights[0].kQ = 0.001f;
@@ -83,7 +83,7 @@ void SceneWorld::Init()
     lights[0].exponent = 3.f;
     lights[0].spotDirection.Set(0.f, 1.f, 0.f);
 
-    glUniform1i(m_parameters[U_NUMLIGHTS], 3);
+    glUniform1i(m_parameters[U_NUMLIGHTS], 8);
     glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 
     glUniform1i(m_parameters[U_LIGHT0_TYPE], lights[0].type);
@@ -105,13 +105,25 @@ void SceneWorld::Init()
     meshList[GEO_TEXT] = MeshBuilder::GenerateText("saofontsheet", this->FLInstance);
     meshList[GEO_TEXT]->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
 
+	// Test Cube
+	meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
+	meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
 
+	// Lightball
+	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
 }
 
 void SceneWorld::Update(double dt)
 {
     static const float LSPEED = 10.0f;
 
+	// For movement
+	if (Application::IsKeyPressed('A'))
+	{
+
+	}
+
+	// For culling and line / fill modes
     if (Application::IsKeyPressed('1'))
     {
         glEnable(GL_CULL_FACE);
@@ -237,6 +249,7 @@ void SceneWorld::Render()
 
     viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
     modelStack.LoadIdentity();
+
     if (lights[0].type == Light::LIGHT_DIRECTIONAL)
     {
         Vector3 lightDir(lights[0].position.x, lights[0].position.y, lights[0].position.z);
@@ -265,6 +278,18 @@ void SceneWorld::Render()
         modelStack.Translate(0, 0, 0);
         RenderMesh(meshList[GEO_AXES], false);
     modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	// modelStack.Rotate(0.0f, 0.0f, 0.0f, 0.0f);
+	// modelStack.Translate(0.0f, 0.0f, 0.0f);
+	modelStack.Scale(5.0f, 5.0f, 5.0f);
+	RenderMesh(meshList[GEO_TESTCUBE], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
+	RenderMesh(meshList[GEO_LIGHTBALL], false);
+	modelStack.PopMatrix();
 
     modelStack.PushMatrix();
         modelStack.Translate(5.0f, 10.0f, 2.0f);
