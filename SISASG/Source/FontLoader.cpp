@@ -84,16 +84,17 @@ LineType getLineType(std::string line)
 
 FontResult FontLoader::getFontData(unsigned int index)
 {
+    FontResult res;
     for (size_t i = 0; i < this->characters.size(); i++)
     {
         if (this->characters[i].id == index)
         {
-            FontResult res;
             res.font = this->characters[i];
             res.index = i;
             return res;
         }
     }
+    return res;
 }
 
 bool FontLoader::Loadfnt(std::string file_path)
