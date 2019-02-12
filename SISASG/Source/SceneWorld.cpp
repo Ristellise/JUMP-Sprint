@@ -9,8 +9,9 @@
 
 
 
-SceneWorld::SceneWorld()
+SceneWorld::SceneWorld(GLFWwindow *l_window)
 {
+    this->l_window = l_window;
 }
 
 SceneWorld::~SceneWorld()
@@ -20,7 +21,7 @@ SceneWorld::~SceneWorld()
 void SceneWorld::Init()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
+	rotateAngle = 0;
     // Generate a default VAO for now
     glGenVertexArrays(1, &m_vertexArrayID);
 	glBindVertexArray(m_vertexArrayID);
@@ -36,6 +37,8 @@ void SceneWorld::Init()
     camera.Init(Vector3(0, 0, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
 
+    camera.Init(Vector3(10, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
+    this->Mouse = MouseHandler(20.0f);
     Mtx44 projection;
     projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 10000.f);
     projectionStack.LoadMatrix(projection);
@@ -107,7 +110,6 @@ void SceneWorld::Init()
     meshList[GEO_TEXT]->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
 
 	//skybox
-
 	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
 
 	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
@@ -120,6 +122,22 @@ void SceneWorld::Init()
 
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
 
+	//planets
+	meshList[GEO_PLANET_VENUS] = MeshBuilder::GenerateOBJ("venus", "OBJ//Venus.obj")[0];
+	meshList[GEO_PLANET_VENUS]->textureID = LoadTGA("TGA//venus texture.tga", GL_LINEAR, GL_CLAMP);
+
+	meshList[GEO_PLANET_EARTH] = MeshBuilder::GenerateOBJ("earth", "OBJ//Earth.obj")[0];
+	meshList[GEO_PLANET_EARTH]->textureID = LoadTGA("TGA//earth texture.tga", GL_LINEAR, GL_CLAMP);
+
+	meshList[GEO_PLANET_MARS] = MeshBuilder::GenerateOBJ("mars", "OBJ//Mars.obj")[0];
+	meshList[GEO_PLANET_MARS]->textureID = LoadTGA("TGA//mars texture.tga", GL_LINEAR, GL_CLAMP);
+
+	meshList[GEO_PLANET_JUPITER] = MeshBuilder::GenerateOBJ("jupiter", "OBJ//Jupiter.obj")[0];
+	meshList[GEO_PLANET_JUPITER]->textureID = LoadTGA("TGA//jupiter texture.tga", GL_LINEAR, GL_CLAMP);
+
+	meshList[GEO_SUN] = MeshBuilder::GenerateOBJ("sun", "OBJ//Sun.obj")[0];
+	meshList[GEO_SUN]->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
+
 	// Test Cube
 	meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
 	meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
@@ -130,6 +148,8 @@ void SceneWorld::Init()
 
 void SceneWorld::Update(double dt)
 {
+    this->Mouse.Update(this->l_window,dt);
+    this->Mouse.Center(this->l_window);
     static const float LSPEED = 10.0f;
 
 	// For culling and line / fill modes
@@ -180,6 +200,10 @@ void SceneWorld::Update(double dt)
     this->dtimestring += "\n"	+ std::to_string(this->lights[this->selector].position.x) + " | " 
 								+ std::to_string(this->lights[this->selector].position.y) + " | "
 								+ std::to_string(this->lights[this->selector].position.z);
+
+	static int rotateDir = 1;
+	static const float ROTATE_SPEED = 10.f;
+	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
 	this->dtimestring += "\nVel :";
 	this->dtimestring += std::to_string(testCube1.velocity);
 	this->dtimestring += "\nAcl :";
@@ -232,7 +256,7 @@ void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
 	}
 }
 
-static const float SKYBOXSIZE = 200.0f;
+static const float SKYBOXSIZE = 5000.0f;
 
 void SceneWorld::RenderSkybox()
 {
@@ -285,6 +309,49 @@ void SceneWorld::RenderSkybox()
 
 }
 
+void SceneWorld::RenderPlanets()
+{
+	//venus
+	modelStack.PushMatrix();
+	modelStack.Translate(10, 0, 0);
+	modelStack.Rotate(rotateAngle, 0, 1, 0);
+	//modelStack.Scale(5.0f, 5.0f, 5.0f);
+	RenderMesh(meshList[GEO_PLANET_VENUS], true);
+	modelStack.PopMatrix();
+
+	//earth
+	modelStack.PushMatrix();
+	modelStack.Translate(20, 0, 0);
+	modelStack.Rotate(rotateAngle, 0, 1, 0);
+	//modelStack.Scale(5.0f, 5.0f, 5.0f);
+	RenderMesh(meshList[GEO_PLANET_EARTH], true);
+	modelStack.PopMatrix();
+
+	//mars
+	modelStack.PushMatrix();
+	modelStack.Translate(30, 0, 0);
+	modelStack.Rotate(rotateAngle, 0, 1, 0);
+	//modelStack.Scale(5.0f, 5.0f, 5.0f);
+	RenderMesh(meshList[GEO_PLANET_MARS], true);
+	modelStack.PopMatrix();
+
+	//jupiter
+	modelStack.PushMatrix();
+	modelStack.Translate(50, 0, 0);
+	modelStack.Rotate(rotateAngle, 0, 1, 0);
+	//modelStack.Scale(5.0f, 5.0f, 5.0f);
+	RenderMesh(meshList[GEO_PLANET_JUPITER], true);
+	modelStack.PopMatrix();
+
+	//sun
+	modelStack.PushMatrix();
+	modelStack.Translate(-60, 0, 0);
+	modelStack.Rotate(rotateAngle, 0, 1, 0);
+	//modelStack.Scale(5.0f, 5.0f, 5.0f);
+	RenderMesh(meshList[GEO_SUN], true);
+	modelStack.PopMatrix();
+}
+
 // Main Render loop
 void SceneWorld::Render()
 {
@@ -326,6 +393,8 @@ void SceneWorld::Render()
     modelStack.PopMatrix();
 
 	RenderSkybox();
+
+	RenderPlanets();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);

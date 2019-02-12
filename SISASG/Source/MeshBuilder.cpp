@@ -530,7 +530,7 @@ void pixel2UV(float pointX, float pointY,
 }
 
 
-Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderInstance)
+Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderInstance, float scale)
 {
     std::vector<Vertex> vertex_buffer_data;
     std::vector<GLuint> index_buffer_data;
@@ -545,10 +545,10 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         //TODO: Figure out a way to make positions be dynamic to the size of the glyph.
         // TexCoord Math is annoying...
         // bottom left
-        // ((float)(buff.offset.b) / (float)(ft.scaleH)) * 5.0f
+        // ((float)(buff.offset.b) / (float)(ft.scaleH)) * scale
         buff = loaderInstance.characters[i];
-        v.pos.Set(5.0f * ((float)(buff.offset.a) / (float)(ft.scaleH)),
-            5.0f - ((5.0f * (float)(buff.characterSize.b) / (float)(ft.scaleH)) + 5.0f * ((float)(buff.offset.b) / (float)(ft.scaleH))),
+        v.pos.Set(scale * ((float)(buff.offset.a) / (float)(ft.scaleH)),
+            scale - ((scale * (float)(buff.characterSize.b) / (float)(ft.scaleH)) + scale * ((float)(buff.offset.b) / (float)(ft.scaleH))),
                   0.0f);
         //v.normal.Set(1, 0, 0);
         pixel2UV((float)buff.Coordinate.a,
@@ -556,8 +556,8 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
                  (float)ft.scaleW,v.texCoord);
         vertex_buffer_data.push_back(v);
 
-        v.pos.Set(5.0f * ((float)(buff.offset.a) / (float)(ft.scaleH)),
-            5.0f - (5.0f * ((float)(buff.offset.b) / (float)(ft.scaleH)))
+        v.pos.Set(scale * ((float)(buff.offset.a) / (float)(ft.scaleH)),
+            scale - (scale * ((float)(buff.offset.b) / (float)(ft.scaleH)))
                   ,
                   0);
         pixel2UV((float)buff.Coordinate.a,
@@ -566,8 +566,8 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         //v.normal.Set(1, 0, 0);
         vertex_buffer_data.push_back(v);
 
-        v.pos.Set(((float)(buff.characterSize.a) / (float)(ft.scaleW)) * 5.0f + 5.0f * ((float)(buff.offset.a) / (float)(ft.scaleH)),
-            5.0f - (5.0f * ((float)(buff.offset.b) / (float)(ft.scaleH))),0);
+        v.pos.Set(((float)(buff.characterSize.a) / (float)(ft.scaleW)) * scale + scale * ((float)(buff.offset.a) / (float)(ft.scaleH)),
+            scale - (scale * ((float)(buff.offset.b) / (float)(ft.scaleH))),0);
         pixel2UV((float)buff.Coordinate.a + buff.characterSize.a,
                  (float)(buff.Coordinate.b),
                  (float)ft.scaleW, v.texCoord);
@@ -575,8 +575,8 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         vertex_buffer_data.push_back(v);
 
 
-        v.pos.Set(((float)(buff.characterSize.a) / (float)(ft.scaleW)) * 5.0f + 5.0f * ((float)(buff.offset.a) / (float)(ft.scaleH)),
-            5.0f - ((5.0f * (float)(buff.characterSize.b) / (float)(ft.scaleH)) + 5.0f * ((float)(buff.offset.b) / (float)(ft.scaleH))), 0);
+        v.pos.Set(((float)(buff.characterSize.a) / (float)(ft.scaleW)) * scale + scale * ((float)(buff.offset.a) / (float)(ft.scaleH)),
+            scale - ((scale * (float)(buff.characterSize.b) / (float)(ft.scaleH)) + scale * ((float)(buff.offset.b) / (float)(ft.scaleH))), 0);
         pixel2UV((float)(buff.Coordinate.a + buff.characterSize.a),
                  (float)(buff.Coordinate.b + buff.characterSize.b),
                  (float)ft.scaleW, v.texCoord);
