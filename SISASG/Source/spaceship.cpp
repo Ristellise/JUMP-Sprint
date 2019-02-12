@@ -24,17 +24,10 @@ void spaceship::Init(const Vector3& pos, const Vector3& target, const Vector3& u
 	this->up = defaultUp = right.Cross(view).Normalized();
 }
 
-void spaceship::Update(double dt)
+void spaceship::Update(double dt, float topspeed, float fwdaccl, float bwdaccl, float &accl)
 {
 	Vector3 view = (target - position).Normalized();
 	Vector3 right = view.Cross(up);
-
-	// if the velocity of the spaceship is >= 0
-	// have a natural background deceleration
-	if (velocity >= 0.f)
-	{
-		velocity -= (float)(1.5f * dt);
-	}
 
 	/*
 	if (Application::IsKeyPressed('A'))
@@ -49,20 +42,23 @@ void spaceship::Update(double dt)
 	}
 	*/
 
-	if (Application::IsKeyPressed('W'))
+	view = (target - position).Normalized();
+	position = position + view * (float)(velocity * dt);
+	target = target + view;
+
+	if ((Application::IsKeyPressed('W')) && (velocity < topspeed))
 	{
-		velocity += (float)(10.f * dt);
-		Vector3 view = (target - position).Normalized();
-		position = position + view * (float)(velocity * dt);
-		target = target + view;
+		velocity += (float)(fwdaccl * dt);
+		accl = fwdaccl;
 	}
 
-	if (Application::IsKeyPressed('S'))
+	if ((Application::IsKeyPressed('S')) && (velocity > -topspeed))
 	{
-		velocity -= (float)(10 * dt);
-		Vector3 view = (target - position).Normalized();
+		velocity += (float)(bwdaccl * dt);
+		accl = bwdaccl;
+		/*Vector3 view = (target - position).Normalized();
 		position -= view * (float)(velocity * dt);
-		target = target + view;
+		target = target + view;*/
 	}
 
 	if (Application::IsKeyPressed(VK_LEFT))
@@ -87,7 +83,7 @@ void spaceship::Update(double dt)
 		this->yawY += yaw;
 	}
 
-	if (Application::IsKeyPressed(VK_UP))
+	if (Application::IsKeyPressed(VK_DOWN))
 	{
 		float pitch = (float)(80.f * dt);
 		Vector3 view = (target - position).Normalized();
@@ -103,7 +99,7 @@ void spaceship::Update(double dt)
 		this->pitchX += pitch;
 	}
 
-	if (Application::IsKeyPressed(VK_DOWN))
+	if (Application::IsKeyPressed(VK_UP))
 	{
 		float pitch = (float)(-80.f * dt);
 		Vector3 view = (target - position).Normalized();
@@ -154,4 +150,7 @@ void spaceship::Reset()
 	position = defaultPosition;
 	target = defaultTarget;
 	up = defaultUp;
+	velocity = 0;
+	yawY = 0;
+	pitchX = 0;
 }

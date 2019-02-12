@@ -6,10 +6,6 @@
 class spaceship : public entity
 {
 private:
-	float topSpeed;
-	float acceleration;
-	float velocity;
-
 public:
 	//Vector3 position;
 	//Vector3 target;
@@ -21,11 +17,12 @@ public:
 
 	float pitchX;
 	float yawY;
+	float velocity;
 
 	spaceship();
 	~spaceship();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-	virtual void Update(double dt);
+	virtual void Update(double dt, float topspeed, float fwdaccl, float bwdaccl, float &accl);
 	virtual void Reset();
 };
 

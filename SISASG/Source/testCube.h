@@ -4,12 +4,13 @@
 #include "spaceship.h"
 
 class testCube : public spaceship
-{
-private:
-	float topSpeed;
-	float acceleration;
-
+{	
 public:
+	float topSpeed;
+	float fwdaccl;
+	float bwdaccl;
+	float accl;
+
 	testCube();
 	~testCube();
 };

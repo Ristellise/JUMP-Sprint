@@ -10,8 +10,6 @@ public:
 	Vector3 target;
 	Vector3 up;
 
-	float velocity;
-
 	entity();
 	~entity();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
