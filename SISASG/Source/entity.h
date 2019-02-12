@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include "Vector3.h"
+#include "Mesh.h"
 
 class entity
 {
@@ -9,6 +10,8 @@ public:
 	Vector3 position;
 	Vector3 target;
 	Vector3 up;
+
+	Mesh *meshptr = NULL;
 
 	entity();
 	~entity();
