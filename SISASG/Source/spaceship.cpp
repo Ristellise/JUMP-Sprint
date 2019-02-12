@@ -42,8 +42,8 @@ void spaceship::Update(double dt, float topspeed, float fwdaccl, float bwdaccl, 
 	}
 	*/
 
-	view = (target - position).Normalized();
 	position = position + view * (float)(velocity * dt);
+	view = (target - position).Normalized();
 	target = target + view;
 
 	if ((Application::IsKeyPressed('W')) && (velocity < topspeed))
@@ -56,9 +56,6 @@ void spaceship::Update(double dt, float topspeed, float fwdaccl, float bwdaccl, 
 	{
 		velocity += (float)(bwdaccl * dt);
 		accl = bwdaccl;
-		/*Vector3 view = (target - position).Normalized();
-		position -= view * (float)(velocity * dt);
-		target = target + view;*/
 	}
 
 	if (Application::IsKeyPressed(VK_LEFT))
