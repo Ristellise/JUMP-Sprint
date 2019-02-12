@@ -142,7 +142,7 @@ void SceneWorld::Update(double dt)
     }
     if (Application::IsKeyPressed(VK_SPACE))
     {
-
+		;
     }
     if (Application::IsKeyPressed('I'))
         lights[this->selector].position.z -= (float)(LSPEED * dt);
@@ -154,31 +154,8 @@ void SceneWorld::Update(double dt)
         lights[this->selector].position.x += (float)(LSPEED * dt);
     if (Application::IsKeyPressed('O'))
         lights[this->selector].position.y -= (float)(LSPEED * dt);
-    if (Application::IsKeyPressed('P'))
-        lights[this->selector].position.y += (float)(LSPEED * dt);
-    
-    // disables light when the camera is near
-    if  (
-        (
-		(this->camera.position.x < this->lights[1].position.x - 5.0f) || 
-		(this->camera.position.x < this->lights[1].position.x + 5.0f)
-		) &&
-        (
-		(this->camera.position.y < this->lights[1].position.y - 5.0f) || 
-		(this->camera.position.y < this->lights[1].position.y + 5.0f)
-		) &&
-        (
-		(this->camera.position.z < this->lights[1].position.z - 5.0f) || 
-		(this->camera.position.z < this->lights[1].position.z + 5.0f)
-		)
-        )
-    {
-        this->renable = true;
-    }
-    else
-    {
-        this->renable = false;
-    }
+	if (Application::IsKeyPressed('P'))
+		lights[this->selector].position.y += (float)(LSPEED * dt);
 
     this->lastkeypress += dt;
     camera.Update(dt);
