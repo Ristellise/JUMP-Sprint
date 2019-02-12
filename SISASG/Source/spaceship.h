@@ -1,10 +1,14 @@
-#ifndef CAMERA_3_H
-#define CAMERA_3_H
+#ifndef SPACESHIP_H
+#define SPACESHIP_H
 
 #include "entity.h"
 
-class Camera3 : public entity
+class spaceship : public entity
 {
+private:
+	float topSpeed;
+	float acceleration;
+
 public:
 	//Vector3 position;
 	//Vector3 target;
@@ -14,8 +18,8 @@ public:
 	Vector3 defaultTarget;
 	Vector3 defaultUp;
 
-	Camera3();
-	~Camera3();
+	spaceship();
+	~spaceship();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
 	virtual void Update(double dt);
 	virtual void Reset();
