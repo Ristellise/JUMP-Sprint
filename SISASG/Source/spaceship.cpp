@@ -4,6 +4,9 @@
 
 spaceship::spaceship()
 {
+	velocity = 0.f;
+	pitchX = 0.f;
+	yawY = 0.f;
 }
 
 spaceship::~spaceship()
@@ -26,54 +29,67 @@ void spaceship::Update(double dt)
 	Vector3 view = (target - position).Normalized();
 	Vector3 right = view.Cross(up);
 
-	static const float SPACESHIP_SPEED = 100.f;
+	// if the velocity of the spaceship is >= 0
+	// have a natural background deceleration
+	if (velocity >= 0.f)
+	{
+		velocity -= (float)(1.5f * dt);
+	}
 
+	/*
 	if (Application::IsKeyPressed('A'))
 	{
-		position = position - right * (float)(40.f * dt);
+		position = position - right * (float)(velocity * dt);
 		target = position + view;
 	}
 	if (Application::IsKeyPressed('D'))
 	{
-		position = position + right * (float)(40.f * dt);
+		position = position + right * (float)(velocity * dt);
 		target = position + view;
 	}
+	*/
+
 	if (Application::IsKeyPressed('W'))
 	{
+		velocity += (float)(10.f * dt);
 		Vector3 view = (target - position).Normalized();
-		position = position + view * (float)(40.f * dt);
+		position = position + view * (float)(velocity * dt);
 		target = target + view;
 	}
+
 	if (Application::IsKeyPressed('S'))
 	{
+		velocity -= (float)(10 * dt);
 		Vector3 view = (target - position).Normalized();
-		position -= view * (float)(40.f * dt);
+		position -= view * (float)(velocity * dt);
 		target = target + view;
 	}
 
 	if (Application::IsKeyPressed(VK_LEFT))
 	{
-		float yaw = (float)(SPACESHIP_SPEED * dt);
+		float yaw = (float)(80.f * dt);
 		Mtx44 rotation;
 		rotation.SetToRotation(yaw, 0, 1, 0);
 		view = rotation * view;
 		target = position + view;
 		up = rotation * up;
+		this->yawY += yaw;
 	}
 
 	if (Application::IsKeyPressed(VK_RIGHT))
 	{
-		float yaw = (float)(-SPACESHIP_SPEED * dt);
+		float yaw = (float)(-80.f * dt);
 		Mtx44 rotation;
 		rotation.SetToRotation(yaw, 0, 1, 0);
 		view = rotation * view;
 		target = position + view;
 		up = rotation * up;
+		this->yawY += yaw;
 	}
 
 	if (Application::IsKeyPressed(VK_UP))
 	{
-		float pitch = (float)(SPACESHIP_SPEED * dt);
+		float pitch = (float)(80.f * dt);
 		Vector3 view = (target - position).Normalized();
 		Vector3 right = view.Cross(up);
 		right.y = 0;
@@ -84,11 +100,12 @@ void spaceship::Update(double dt)
 		view = rotation * view;
 		target = position + view;
 		up = rotation * up;
+		this->pitchX += pitch;
 	}
 
 	if (Application::IsKeyPressed(VK_DOWN))
 	{
-		float pitch = (float)(-SPACESHIP_SPEED * dt);
+		float pitch = (float)(-80.f * dt);
 		Vector3 view = (target - position).Normalized();
 		Vector3 right = view.Cross(up);
 		right.y = 0;
@@ -99,6 +116,7 @@ void spaceship::Update(double dt)
 		view = rotation * view;
 		target = position + view;
 		up = rotation * up;
+		this->pitchX += pitch;
 	}
 
 	if (Application::IsKeyPressed('N'))

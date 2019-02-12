@@ -8,6 +8,7 @@ class spaceship : public entity
 private:
 	float topSpeed;
 	float acceleration;
+	float velocity;
 
 public:
 	//Vector3 position;
@@ -17,6 +18,9 @@ public:
 	Vector3 defaultPosition;
 	Vector3 defaultTarget;
 	Vector3 defaultUp;
+
+	float pitchX;
+	float yawY;
 
 	spaceship();
 	~spaceship();
