@@ -27,6 +27,7 @@ public:
 		float targety, 
 		float targetz
 	);
+	virtual void Updatealt(double dt);
 	virtual void Reset();
 };
 
