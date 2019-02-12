@@ -58,6 +58,13 @@ class SceneWorld : public Scene
 		// Test Cube
 		GEO_TESTCUBE,
 
+		//Planets
+		GEO_PLANET_VENUS,
+		GEO_PLANET_EARTH,
+		GEO_PLANET_MARS,
+		GEO_PLANET_JUPITER,
+		GEO_SUN,
+
         NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
     };
 
@@ -69,6 +76,7 @@ public:
     virtual void Update(double dt);
     virtual void Render();
 	void RenderSkybox();
+	void RenderPlanets();
     void RenderText(Mesh* mesh, std::string text, Color color);
     virtual void Exit();
 
@@ -92,7 +100,7 @@ private:
     bool openlid = false;
     bool renable = false;
     double lastkeypress = 0.0;
-
+	float rotateAngle;
     bool leg = false;
     float legdance = 0.0f;
 
