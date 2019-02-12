@@ -2,8 +2,8 @@
 
 testCube::testCube()
 {
-	topSpeed = 100.f;
-	acceleration = 20.f;
+	topSpeed = 40.f;
+	acceleration = 10.f;
 }
 
 testCube::~testCube()

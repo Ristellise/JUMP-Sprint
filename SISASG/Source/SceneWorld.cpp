@@ -34,6 +34,7 @@ void SceneWorld::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     camera.Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
 
     Mtx44 projection;
     projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -117,12 +118,6 @@ void SceneWorld::Update(double dt)
 {
     static const float LSPEED = 10.0f;
 
-	// For movement
-	if (Application::IsKeyPressed('A'))
-	{
-
-	}
-
 	// For culling and line / fill modes
     if (Application::IsKeyPressed('1'))
     {
@@ -158,7 +153,8 @@ void SceneWorld::Update(double dt)
 		lights[this->selector].position.y += (float)(LSPEED * dt);
 
     this->lastkeypress += dt;
-    camera.Update(dt);
+    camera.Update(dt, testCube1.position.x, testCube1.position.y, testCube1.position.z);
+	testCube1.Update(dt);
     this->dtimestring = "FPS:";
     this->dtimestring += std::to_string(1.0f / dt);
     this->dtimestring += "\nCam X:";
@@ -257,8 +253,10 @@ void SceneWorld::Render()
     modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	// modelStack.Rotate(0.0f, 0.0f, 0.0f, 0.0f);
-	// modelStack.Translate(0.0f, 0.0f, 0.0f);
+	modelStack.Rotate(testCube1.pitchX, 1, 0, 0);
+	modelStack.Rotate(testCube1.yawY, 0, 1, 0);
+	modelStack.Translate(0, 0, 0);
+	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
 	modelStack.Scale(5.0f, 5.0f, 5.0f);
 	RenderMesh(meshList[GEO_TESTCUBE], true);
 	modelStack.PopMatrix();
@@ -267,16 +265,71 @@ void SceneWorld::Render()
 	modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
 	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
-
-    modelStack.PushMatrix();
-        modelStack.Translate(5.0f, 10.0f, 2.0f);
-        RenderText(meshList[GEO_TEXT], this->dtimestring , Color(255, 255, 0));
-    modelStack.PopMatrix();
+	
+	RenderTextScreen(meshList[GEO_TEXT], this->dtimestring , Color(255, 255, 0), 2, 1.f, 24.f);
 }
 
 /*-------------
 | - Self Renderer Works... but derpy.
 -------------*/
+void SceneWorld::RenderTextScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+{
+    if (!mesh || mesh->textureID <= 0) //Proper error check
+        return;
+    //glDisable(GL_DEPTH_TEST);
+    glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
+    glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
+    glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+    glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+    glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
+
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); // size of screen UI
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); // No need for camera ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity(); // Reset modelStack
+	modelStack.Scale(size, size, size);
+	modelStack.Translate(x, y, 0);
+
+    float advance = 0;
+    float yadvance = 0.0f;
+    // 
+    charData buffer;
+    FontResult res;
+    for (unsigned i = 0; i < text.length(); ++i)
+    {
+        if (text[i] != '\n')
+        {
+            Mtx44 characterSpacing;
+            res = this->FLInstance.getFontData((unsigned int)text[i]);
+            buffer = res.font;
+            characterSpacing.SetToTranslation(advance, yadvance, 0);
+            Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
+            glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
+            advance += 1.0f / (float)buffer.advance + 0.3f; // advance the text
+            mesh->Render(res.index * 6, 6); // count is the index Size
+        }
+        else
+        {
+            yadvance -= 1.0f;
+            advance = 0.0f;
+        }
+        
+    }
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
+
+	projectionStack.PopMatrix();
+	viewStack.PopMatrix();
+	modelStack.PopMatrix();
+    //glEnable(GL_DEPTH_TEST);
+}
+
 void SceneWorld::RenderText(Mesh* mesh, std::string text, Color color)
 {
     if (!mesh || mesh->textureID <= 0) //Proper error check

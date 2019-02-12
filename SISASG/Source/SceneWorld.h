@@ -7,6 +7,7 @@
 #include "MeshBuilder.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "testCube.h"
 
 class SceneWorld : public Scene
 {
@@ -69,6 +70,7 @@ public:
     virtual void Update(double dt);
     virtual void Render();
     void RenderText(Mesh* mesh, std::string text, Color color);
+	void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void Exit();
 
 private:
@@ -79,6 +81,7 @@ private:
     unsigned m_parameters[U_TOTAL];
 
     Camera3 camera;
+	testCube testCube1;
     MS modelStack, viewStack, projectionStack;
     Light lights[8];
     FontLoader FLInstance;
