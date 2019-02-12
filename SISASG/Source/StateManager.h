@@ -14,7 +14,7 @@ class StateManager
 
 public:
     StateManager();
-    void Update();
+    void Update(double dt);
     void Render();
     bool Init(unsigned *m_parameters);
     bool InitmeshList(Mesh *StatemeshList);

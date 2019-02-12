@@ -9,7 +9,12 @@
 
 #include "StateInit.h"
 #include "State.h"
+#include <stdexcept>
 
+SceneWorld::SceneWorld()
+{
+    throw std::runtime_error("Did not define window correctly!");
+}
 
 SceneWorld::SceneWorld(GLFWwindow *l_window)
 {
@@ -37,7 +42,7 @@ void SceneWorld::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     camera.Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
-	testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
+    testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
 
     this->Mouse = MouseHandler(20.0f);
     Mtx44 projection;
@@ -152,7 +157,7 @@ void SceneWorld::Init()
 
 void SceneWorld::Update(double dt)
 {
-	// Temporarily commented out from Josh mouse handler
+    // Temporarily commented out from Josh mouse handler
     // this->Mouse.Update(this->l_window,dt);
     // this->Mouse.Center(this->l_window);
 
@@ -195,13 +200,13 @@ void SceneWorld::Update(double dt)
     this->lastkeypress += dt;
 
     camera.Update(
-		dt, 
-		testCube1.position.x, 
-		testCube1.position.y, 
-		testCube1.position.z
-	);
+        dt, 
+        testCube1.position.x, 
+        testCube1.position.y, 
+        testCube1.position.z
+    );
 
-	testCube1.Update(dt, testCube1.topSpeed, testCube1.fwdaccl, testCube1.bwdaccl, testCube1.accl);
+    testCube1.Update(dt, testCube1.topSpeed, testCube1.fwdaccl, testCube1.bwdaccl, testCube1.accl);
 
     this->dtimestring = "FPS:";
     this->dtimestring += std::to_string(1.0f / dt);
@@ -212,20 +217,22 @@ void SceneWorld::Update(double dt)
     this->dtimestring += "\nCam Z:";
     this->dtimestring += std::to_string(this->camera.position.z);
     this->dtimestring += "\n"	+ std::to_string(this->lights[this->selector].position.x) + " | " 
-								+ std::to_string(this->lights[this->selector].position.y) + " | "
-								+ std::to_string(this->lights[this->selector].position.z);
-	this->dtimestring += "\nVel :";
-	this->dtimestring += std::to_string(testCube1.velocity);
-	this->dtimestring += "\nAcl :";
-	this->dtimestring += std::to_string(testCube1.accl);
-	this->dtimestring += "\nPit :";
-	this->dtimestring += std::to_string(testCube1.pitchX);
-	this->dtimestring += "\nYaw :";
-	this->dtimestring += std::to_string(testCube1.yawY);
+                                + std::to_string(this->lights[this->selector].position.y) + " | "
+                                + std::to_string(this->lights[this->selector].position.z);
+    this->dtimestring += "\nVel :";
+    this->dtimestring += std::to_string(testCube1.velocity);
+    this->dtimestring += "\nAcl :";
+    this->dtimestring += std::to_string(testCube1.accl);
+    this->dtimestring += "\nPit :";
+    this->dtimestring += std::to_string(testCube1.pitchX);
+    this->dtimestring += "\nYaw :";
+    this->dtimestring += std::to_string(testCube1.yawY);
 
-	static int rotateDir = 1;
-	static const float ROTATE_SPEED = 10.f;
-	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
+    static int rotateDir = 1;
+    static const float ROTATE_SPEED = 10.f;
+    rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
+
+    this->StateManInst.Update(dt);
 }
 
 void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
@@ -406,23 +413,23 @@ void SceneWorld::Render()
         RenderMesh(meshList[GEO_AXES], false);
     modelStack.PopMatrix();
 
-	// RenderSkybox();
+    // RenderSkybox();
 
-	// RenderPlanets();
+    // RenderPlanets();
 
-	// first push to testCube
-	modelStack.PushMatrix();
-	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-	modelStack.Rotate(testCube1.yawY, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+    // first push to testCube
+    modelStack.PushMatrix();
+    modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
+    modelStack.Rotate(testCube1.yawY, testCube1.up.x, testCube1.up.y, testCube1.up.z);
 
-	// second push to testcube
-	modelStack.PushMatrix();
-	modelStack.Rotate(testCube1.pitchX, 1, 0, 0);
-	modelStack.Scale(5.0f, 5.0f, 5.0f);
-	RenderMesh(meshList[GEO_TESTCUBE], true);
+    // second push to testcube
+    modelStack.PushMatrix();
+    modelStack.Rotate(testCube1.pitchX, 1, 0, 0);
+    modelStack.Scale(5.0f, 5.0f, 5.0f);
+    RenderMesh(meshList[GEO_TESTCUBE], true);
 
-	modelStack.PopMatrix();
-	modelStack.PopMatrix();
+    modelStack.PopMatrix();
+    modelStack.PopMatrix();
 
     modelStack.PushMatrix();
     modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
@@ -430,8 +437,7 @@ void SceneWorld::Render()
     modelStack.PopMatrix();
     
     RenderTextScreen(meshList[GEO_TEXT], this->dtimestring , Color(255, 255, 0), 2, 1.f, 24.f);
-
-    this->StateManInst.Update();
+    this->StateManInst.Render();
 }
 
 /*-------------

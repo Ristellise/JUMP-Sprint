@@ -8,6 +8,6 @@ public:
     
     void OnEnter();
     void OnExit();
-    void OnUpdate();
+    void OnUpdate(double dt);
     void OnRender();
 };

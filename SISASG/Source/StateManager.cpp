@@ -6,11 +6,11 @@ StateManager::StateManager()
 {
 }
 
-void StateManager::Update()
+void StateManager::Update(double dt)
 {
     for (size_t i = 0; i < this->activeStates.size(); i++)
     {
-        this->activeStates[i]->OnUpdate();
+        this->activeStates[i]->OnUpdate(dt);
         
         if (this->activeStates[i]->getspawnState() != nullptr)
         {
@@ -41,6 +41,7 @@ bool StateManager::Init(unsigned *m_parameters)
 bool StateManager::InitmeshList(Mesh * StatemeshList)
 {
     *this->StatemeshList = StatemeshList;
+    return true;
 }
 
 void StateManager::addAvailable(GState * state)

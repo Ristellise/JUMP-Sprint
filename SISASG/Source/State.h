@@ -27,11 +27,11 @@ public:
     void RenderMesh(Mesh * mesh, bool enableLight);
     std::string StateName = "NULL!!";
     std::string* getspawnState() { return this->spawnState; };
-    void OnUpdate(); // Logic Calls goes first
-    void OnExit(); // Exit Calls after
-    void OnRender(); // Rendering Calls=
+    virtual void OnUpdate(double dt) = 0; // Logic Calls goes first
+    virtual void OnExit() = 0; // Exit Calls after
+    virtual void OnRender() = 0; // Rendering Calls=
     void OnCreate(unsigned * parameters, FontLoader * St_FLInstance); // GState Actually becomes active. does all the setup for the Uniforms and stuff.
-    void OnEnter(); // GState initalisation
+    virtual void OnEnter() = 0; // GState initalisation
     bool readyExit() {return this->readyExitlocal; };
     bool toggleMouseLock() { if (this->mouseLock) { this->mouseLock = true; } else { this->mouseLock = false; }; };
 };
