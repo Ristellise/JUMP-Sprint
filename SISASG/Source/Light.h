@@ -3,16 +3,17 @@
 
 #include "Vertex.h"
 
-struct Light
+class Light
 {
-	//Part 2
+public:
+	Light();
+	~Light();
 	enum LIGHT_TYPE
 	{
 		LIGHT_POINT = 0,
 		LIGHT_DIRECTIONAL,
 		LIGHT_SPOT,
 	};
-
 	LIGHT_TYPE type;
 	Vector3 spotDirection;
 	float cosCutoff;
@@ -24,15 +25,8 @@ struct Light
 	Color color;
 	float power;
 	float kC, kL, kQ;
+private:
 
-	Light() // this is constructor for Light
-	{
-		color.Set(1, 1, 1);
-		power = 1.f;
-		kC = 1.f;
-		kL = 0.f;
-		kQ = 0.f;
-	}
 };
 
 #endif

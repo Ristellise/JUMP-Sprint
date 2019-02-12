@@ -1,0 +1,138 @@
+﻿  Application.cpp
+  Camera.cpp
+  Camera3.cpp
+  FontLoader.cpp
+c:\users\jason\source\repos\jump-sprint\sisasg\source\fontloader.cpp(93): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\jason\source\repos\jump-sprint\sisasg\source\fontloader.cpp(123): warning C4477: 'sscanf' : format string '%[^\"]' requires an argument of type 'char *', but variadic argument 1 has type 'std::string *'
+c:\users\jason\source\repos\jump-sprint\sisasg\source\fontloader.cpp(123): warning C4477: 'sscanf' : format string '%[^\"]' requires an argument of type 'char *', but variadic argument 5 has type 'std::string *'
+  LoadOBJ.cpp
+  LoadTGA.cpp
+  main.cpp
+  Mesh.cpp
+  MeshBuilder.cpp
+c:\users\jason\source\repos\jump-sprint\sisasg\source\meshbuilder.cpp(61): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\jason\source\repos\jump-sprint\sisasg\source\meshbuilder.cpp(121): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\jason\source\repos\jump-sprint\sisasg\source\meshbuilder.cpp(193): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\jason\source\repos\jump-sprint\sisasg\source\meshbuilder.cpp(239): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\jason\source\repos\jump-sprint\sisasg\source\meshbuilder.cpp(302): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\jason\source\repos\jump-sprint\sisasg\source\meshbuilder.cpp(451): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\jason\source\repos\jump-sprint\sisasg\source\meshbuilder.cpp(510): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\jason\source\repos\jump-sprint\sisasg\source\meshbuilder.cpp(603): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\jason\source\repos\jump-sprint\sisasg\source\meshbuilder.cpp(632): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\jason\source\repos\jump-sprint\sisasg\source\meshbuilder.cpp(700): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+  SceneWorld.cpp
+  shader.cpp
+  Utility.cpp
+  Generating Code...
+Application.obj : error LNK2019: unresolved external symbol "public: __cdecl StopWatch::StopWatch(void)" (??0StopWatch@@QEAA@XZ) referenced in function "public: __cdecl Application::Application(void)" (??0Application@@QEAA@XZ)
+Application.obj : error LNK2019: unresolved external symbol "public: __cdecl StopWatch::~StopWatch(void)" (??1StopWatch@@QEAA@XZ) referenced in function "public: __cdecl Application::~Application(void)" (??1Application@@QEAA@XZ)
+Application.obj : error LNK2019: unresolved external symbol "public: void __cdecl StopWatch::startTimer(void)" (?startTimer@StopWatch@@QEAAXXZ) referenced in function "public: void __cdecl Application::Run(void)" (?Run@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol "public: double __cdecl StopWatch::getElapsedTime(void)" (?getElapsedTime@StopWatch@@QEAANXZ) referenced in function "public: void __cdecl Application::Run(void)" (?Run@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol "public: void __cdecl StopWatch::waitUntil(__int64)" (?waitUntil@StopWatch@@QEAAX_J@Z) referenced in function "public: void __cdecl Application::Run(void)" (?Run@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol __imp_glViewport referenced in function "void __cdecl resize_callback(struct GLFWwindow *,int,int)" (?resize_callback@@YAXPEAUGLFWwindow@@HH@Z)
+Application.obj : error LNK2019: unresolved external symbol __imp_glewInit referenced in function "public: void __cdecl Application::Init(void)" (?Init@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol __imp_glewGetErrorString referenced in function "public: void __cdecl Application::Init(void)" (?Init@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol glfwInit referenced in function "public: void __cdecl Application::Init(void)" (?Init@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol glfwTerminate referenced in function "public: void __cdecl Application::Exit(void)" (?Exit@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol glfwSetErrorCallback referenced in function "public: void __cdecl Application::Init(void)" (?Init@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol glfwWindowHint referenced in function "public: void __cdecl Application::Init(void)" (?Init@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol glfwCreateWindow referenced in function "public: void __cdecl Application::Init(void)" (?Init@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol glfwDestroyWindow referenced in function "public: void __cdecl Application::Exit(void)" (?Exit@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol glfwWindowShouldClose referenced in function "public: void __cdecl Application::Run(void)" (?Run@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol glfwSetWindowSizeCallback referenced in function "public: void __cdecl Application::Init(void)" (?Init@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol glfwPollEvents referenced in function "public: void __cdecl Application::Run(void)" (?Run@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol glfwMakeContextCurrent referenced in function "public: void __cdecl Application::Init(void)" (?Init@Application@@QEAAXXZ)
+Application.obj : error LNK2019: unresolved external symbol glfwSwapBuffers referenced in function "public: void __cdecl Application::Run(void)" (?Run@Application@@QEAAXXZ)
+Application.obj : error LNK2001: unresolved external symbol __imp_glewExperimental
+SceneWorld.obj : error LNK2001: unresolved external symbol "public: __cdecl Vector3::Vector3(float,float,float)" (??0Vector3@@QEAA@MMM@Z)
+Camera.obj : error LNK2001: unresolved external symbol "public: __cdecl Vector3::Vector3(float,float,float)" (??0Vector3@@QEAA@MMM@Z)
+Camera3.obj : error LNK2001: unresolved external symbol "public: __cdecl Vector3::Vector3(float,float,float)" (??0Vector3@@QEAA@MMM@Z)
+LoadOBJ.obj : error LNK2001: unresolved external symbol "public: __cdecl Vector3::Vector3(float,float,float)" (??0Vector3@@QEAA@MMM@Z)
+MeshBuilder.obj : error LNK2001: unresolved external symbol "public: __cdecl Vector3::Vector3(float,float,float)" (??0Vector3@@QEAA@MMM@Z)
+SceneWorld.obj : error LNK2001: unresolved external symbol "public: __cdecl Vector3::~Vector3(void)" (??1Vector3@@QEAA@XZ)
+Camera.obj : error LNK2001: unresolved external symbol "public: __cdecl Vector3::~Vector3(void)" (??1Vector3@@QEAA@XZ)
+Camera3.obj : error LNK2001: unresolved external symbol "public: __cdecl Vector3::~Vector3(void)" (??1Vector3@@QEAA@XZ)
+LoadOBJ.obj : error LNK2001: unresolved external symbol "public: __cdecl Vector3::~Vector3(void)" (??1Vector3@@QEAA@XZ)
+MeshBuilder.obj : error LNK2001: unresolved external symbol "public: __cdecl Vector3::~Vector3(void)" (??1Vector3@@QEAA@XZ)
+Camera.obj : error LNK2019: unresolved external symbol "public: void __cdecl Vector3::Set(float,float,float)" (?Set@Vector3@@QEAAXMMM@Z) referenced in function "public: virtual void __cdecl Camera::Reset(void)" (?Reset@Camera@@UEAAXXZ)
+LoadOBJ.obj : error LNK2001: unresolved external symbol "public: void __cdecl Vector3::Set(float,float,float)" (?Set@Vector3@@QEAAXMMM@Z)
+MeshBuilder.obj : error LNK2001: unresolved external symbol "public: void __cdecl Vector3::Set(float,float,float)" (?Set@Vector3@@QEAAXMMM@Z)
+SceneWorld.obj : error LNK2001: unresolved external symbol "public: void __cdecl Vector3::Set(float,float,float)" (?Set@Vector3@@QEAAXMMM@Z)
+Camera.obj : error LNK2019: unresolved external symbol "public: struct Vector3 & __cdecl Vector3::operator=(struct Vector3 const &)" (??4Vector3@@QEAAAEAU0@AEBU0@@Z) referenced in function "public: virtual void __cdecl Camera::Init(struct Vector3 const &,struct Vector3 const &,struct Vector3 const &)" (?Init@Camera@@UEAAXAEBUVector3@@00@Z)
+Camera3.obj : error LNK2001: unresolved external symbol "public: struct Vector3 & __cdecl Vector3::operator=(struct Vector3 const &)" (??4Vector3@@QEAAAEAU0@AEBU0@@Z)
+Camera3.obj : error LNK2019: unresolved external symbol "public: struct Vector3 __cdecl Vector3::operator+(struct Vector3 const &)const " (??HVector3@@QEBA?AU0@AEBU0@@Z) referenced in function "public: virtual void __cdecl Camera3::Update(double)" (?Update@Camera3@@UEAAXN@Z)
+Camera3.obj : error LNK2019: unresolved external symbol "public: struct Vector3 __cdecl Vector3::operator-(struct Vector3 const &)const " (??GVector3@@QEBA?AU0@AEBU0@@Z) referenced in function "public: virtual void __cdecl Camera3::Init(struct Vector3 const &,struct Vector3 const &,struct Vector3 const &)" (?Init@Camera3@@UEAAXAEBUVector3@@00@Z)
+Camera3.obj : error LNK2019: unresolved external symbol "public: struct Vector3 & __cdecl Vector3::operator-=(struct Vector3 const &)" (??ZVector3@@QEAAAEAU0@AEBU0@@Z) referenced in function "public: virtual void __cdecl Camera3::Update(double)" (?Update@Camera3@@UEAAXN@Z)
+Camera3.obj : error LNK2019: unresolved external symbol "public: struct Vector3 __cdecl Vector3::operator*(float)const " (??DVector3@@QEBA?AU0@M@Z) referenced in function "public: virtual void __cdecl Camera3::Update(double)" (?Update@Camera3@@UEAAXN@Z)
+Camera3.obj : error LNK2019: unresolved external symbol "public: struct Vector3 __cdecl Vector3::Cross(struct Vector3 const &)const " (?Cross@Vector3@@QEBA?AU1@AEBU1@@Z) referenced in function "public: virtual void __cdecl Camera3::Init(struct Vector3 const &,struct Vector3 const &,struct Vector3 const &)" (?Init@Camera3@@UEAAXAEBUVector3@@00@Z)
+Camera3.obj : error LNK2019: unresolved external symbol "public: struct Vector3 __cdecl Vector3::Normalized(void)const " (?Normalized@Vector3@@QEBA?AU1@XZ) referenced in function "public: virtual void __cdecl Camera3::Init(struct Vector3 const &,struct Vector3 const &,struct Vector3 const &)" (?Init@Camera3@@UEAAXAEBUVector3@@00@Z)
+Camera3.obj : error LNK2019: unresolved external symbol "public: struct Vector3 & __cdecl Vector3::Normalize(void)" (?Normalize@Vector3@@QEAAAEAU1@XZ) referenced in function "public: virtual void __cdecl Camera3::Init(struct Vector3 const &,struct Vector3 const &,struct Vector3 const &)" (?Init@Camera3@@UEAAXAEBUVector3@@00@Z)
+Camera3.obj : error LNK2019: unresolved external symbol "public: __cdecl Mtx44::Mtx44(float,float,float,float,float,float,float,float,float,float,float,float,float,float,float,float)" (??0Mtx44@@QEAA@MMMMMMMMMMMMMMMM@Z) referenced in function "public: virtual void __cdecl Camera3::Update(double)" (?Update@Camera3@@UEAAXN@Z)
+SceneWorld.obj : error LNK2001: unresolved external symbol "public: __cdecl Mtx44::Mtx44(float,float,float,float,float,float,float,float,float,float,float,float,float,float,float,float)" (??0Mtx44@@QEAA@MMMMMMMMMMMMMMMM@Z)
+Camera3.obj : error LNK2019: unresolved external symbol "public: struct Vector3 __cdecl Mtx44::operator*(struct Vector3 const &)const " (??DMtx44@@QEBA?AUVector3@@AEBU1@@Z) referenced in function "public: virtual void __cdecl Camera3::Update(double)" (?Update@Camera3@@UEAAXN@Z)
+SceneWorld.obj : error LNK2001: unresolved external symbol "public: struct Vector3 __cdecl Mtx44::operator*(struct Vector3 const &)const " (??DMtx44@@QEBA?AUVector3@@AEBU1@@Z)
+Camera3.obj : error LNK2019: unresolved external symbol "public: void __cdecl Mtx44::SetToRotation(float,float,float,float)" (?SetToRotation@Mtx44@@QEAAXMMMM@Z) referenced in function "public: virtual void __cdecl Camera3::Update(double)" (?Update@Camera3@@UEAAXN@Z)
+LoadOBJ.obj : error LNK2019: unresolved external symbol "public: __cdecl Vector3::Vector3(struct Vector3 const &)" (??0Vector3@@QEAA@AEBU0@@Z) referenced in function "public: static void __cdecl std::_Default_allocator_traits<class std::allocator<struct Vector3> >::construct<struct Vector3,struct Vector3 &>(class std::allocator<struct Vector3> &,struct Vector3 * const,struct Vector3 &)" (??$construct@UVector3@@AEAU1@@?$_Default_allocator_traits@V?$allocator@UVector3@@@std@@@std@@SAXAEAV?$allocator@UVector3@@@1@QEAUVector3@@AEAU3@@Z)
+MeshBuilder.obj : error LNK2001: unresolved external symbol "public: __cdecl Vector3::Vector3(struct Vector3 const &)" (??0Vector3@@QEAA@AEBU0@@Z)
+LoadTGA.obj : error LNK2019: unresolved external symbol __imp_glBindTexture referenced in function "unsigned int __cdecl LoadTGA(char const *,int,int)" (?LoadTGA@@YAIPEBDHH@Z)
+SceneWorld.obj : error LNK2001: unresolved external symbol __imp_glBindTexture
+LoadTGA.obj : error LNK2019: unresolved external symbol __imp_glGenTextures referenced in function "unsigned int __cdecl LoadTGA(char const *,int,int)" (?LoadTGA@@YAIPEBDHH@Z)
+LoadTGA.obj : error LNK2019: unresolved external symbol __imp_glGetFloatv referenced in function "unsigned int __cdecl LoadTGA(char const *,int,int)" (?LoadTGA@@YAIPEBDHH@Z)
+LoadTGA.obj : error LNK2019: unresolved external symbol __imp_glTexImage2D referenced in function "unsigned int __cdecl LoadTGA(char const *,int,int)" (?LoadTGA@@YAIPEBDHH@Z)
+LoadTGA.obj : error LNK2019: unresolved external symbol __imp_glTexParameteri referenced in function "unsigned int __cdecl LoadTGA(char const *,int,int)" (?LoadTGA@@YAIPEBDHH@Z)
+LoadTGA.obj : error LNK2001: unresolved external symbol __imp___glewGenerateMipmap
+Mesh.obj : error LNK2019: unresolved external symbol __imp_glDeleteTextures referenced in function "public: __cdecl Mesh::~Mesh(void)" (??1Mesh@@QEAA@XZ)
+Mesh.obj : error LNK2019: unresolved external symbol __imp_glDrawElements referenced in function "public: void __cdecl Mesh::Render(unsigned int,unsigned int)" (?Render@Mesh@@QEAAXII@Z)
+Mesh.obj : error LNK2001: unresolved external symbol __imp___glewBindBuffer
+MeshBuilder.obj : error LNK2001: unresolved external symbol __imp___glewBindBuffer
+Mesh.obj : error LNK2001: unresolved external symbol __imp___glewDeleteBuffers
+Mesh.obj : error LNK2001: unresolved external symbol __imp___glewGenBuffers
+Mesh.obj : error LNK2001: unresolved external symbol __imp___glewDisableVertexAttribArray
+Mesh.obj : error LNK2001: unresolved external symbol __imp___glewEnableVertexAttribArray
+Mesh.obj : error LNK2001: unresolved external symbol __imp___glewVertexAttribPointer
+MeshBuilder.obj : error LNK2001: unresolved external symbol __imp___glewBufferData
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: class Mtx44 __cdecl Mtx44::GetTranspose(void)const " (?GetTranspose@Mtx44@@QEBA?AV1@XZ) referenced in function "private: void __cdecl SceneWorld::RenderMesh(class Mesh *,bool)" (?RenderMesh@SceneWorld@@AEAAXPEAVMesh@@_N@Z)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: class Mtx44 __cdecl Mtx44::GetInverse(void)const " (?GetInverse@Mtx44@@QEBA?AV1@XZ) referenced in function "private: void __cdecl SceneWorld::RenderMesh(class Mesh *,bool)" (?RenderMesh@SceneWorld@@AEAAXPEAVMesh@@_N@Z)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: class Mtx44 __cdecl Mtx44::operator*(class Mtx44 const &)const " (??DMtx44@@QEBA?AV0@AEBV0@@Z) referenced in function "private: void __cdecl SceneWorld::RenderMesh(class Mesh *,bool)" (?RenderMesh@SceneWorld@@AEAAXPEAVMesh@@_N@Z)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: class Mtx44 & __cdecl Mtx44::operator=(class Mtx44 const &)" (??4Mtx44@@QEAAAEAV0@AEBV0@@Z) referenced in function "private: void __cdecl SceneWorld::RenderMesh(class Mesh *,bool)" (?RenderMesh@SceneWorld@@AEAAXPEAVMesh@@_N@Z)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: void __cdecl Mtx44::SetToTranslation(float,float,float)" (?SetToTranslation@Mtx44@@QEAAXMMM@Z) referenced in function "public: void __cdecl SceneWorld::RenderText(class Mesh *,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,struct Color)" (?RenderText@SceneWorld@@QEAAXPEAVMesh@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UColor@@@Z)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: void __cdecl Mtx44::SetToPerspective(double,double,double,double)" (?SetToPerspective@Mtx44@@QEAAXNNNN@Z) referenced in function "public: virtual void __cdecl SceneWorld::Init(void)" (?Init@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: __cdecl MS::MS(void)" (??0MS@@QEAA@XZ) referenced in function "public: __cdecl SceneWorld::SceneWorld(void)" (??0SceneWorld@@QEAA@XZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: __cdecl MS::~MS(void)" (??1MS@@QEAA@XZ) referenced in function "int `public: __cdecl SceneWorld::SceneWorld(void)'::`1'::dtor$3" (?dtor$3@?0???0SceneWorld@@QEAA@XZ@4HA)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: class Mtx44 const & __cdecl MS::Top(void)const " (?Top@MS@@QEBAAEBVMtx44@@XZ) referenced in function "public: virtual void __cdecl SceneWorld::Render(void)" (?Render@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: void __cdecl MS::PopMatrix(void)" (?PopMatrix@MS@@QEAAXXZ) referenced in function "public: virtual void __cdecl SceneWorld::Render(void)" (?Render@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: void __cdecl MS::PushMatrix(void)" (?PushMatrix@MS@@QEAAXXZ) referenced in function "public: virtual void __cdecl SceneWorld::Render(void)" (?Render@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: void __cdecl MS::LoadIdentity(void)" (?LoadIdentity@MS@@QEAAXXZ) referenced in function "public: virtual void __cdecl SceneWorld::Render(void)" (?Render@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: void __cdecl MS::LoadMatrix(class Mtx44 const &)" (?LoadMatrix@MS@@QEAAXAEBVMtx44@@@Z) referenced in function "public: virtual void __cdecl SceneWorld::Init(void)" (?Init@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: void __cdecl MS::Scale(float,float,float)" (?Scale@MS@@QEAAXMMM@Z) referenced in function "public: virtual void __cdecl SceneWorld::Render(void)" (?Render@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: void __cdecl MS::Translate(float,float,float)" (?Translate@MS@@QEAAXMMM@Z) referenced in function "public: virtual void __cdecl SceneWorld::Render(void)" (?Render@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol "public: void __cdecl MS::LookAt(double,double,double,double,double,double,double,double,double)" (?LookAt@MS@@QEAAXNNNNNNNNN@Z) referenced in function "public: virtual void __cdecl SceneWorld::Render(void)" (?Render@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol __imp_glBlendFunc referenced in function "public: virtual void __cdecl SceneWorld::Init(void)" (?Init@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol __imp_glClear referenced in function "public: virtual void __cdecl SceneWorld::Render(void)" (?Render@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol __imp_glClearColor referenced in function "public: virtual void __cdecl SceneWorld::Init(void)" (?Init@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol __imp_glDepthFunc referenced in function "public: virtual void __cdecl SceneWorld::Init(void)" (?Init@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol __imp_glDisable referenced in function "public: virtual void __cdecl SceneWorld::Update(double)" (?Update@SceneWorld@@UEAAXN@Z)
+SceneWorld.obj : error LNK2019: unresolved external symbol __imp_glEnable referenced in function "public: virtual void __cdecl SceneWorld::Init(void)" (?Init@SceneWorld@@UEAAXXZ)
+SceneWorld.obj : error LNK2019: unresolved external symbol __imp_glPolygonMode referenced in function "public: virtual void __cdecl SceneWorld::Update(double)" (?Update@SceneWorld@@UEAAXN@Z)
+SceneWorld.obj : error LNK2001: unresolved external symbol __imp___glewActiveTexture
+SceneWorld.obj : error LNK2001: unresolved external symbol __imp___glewDeleteProgram
+SceneWorld.obj : error LNK2001: unresolved external symbol __imp___glewGetUniformLocation
+SceneWorld.obj : error LNK2001: unresolved external symbol __imp___glewUniform1f
+SceneWorld.obj : error LNK2001: unresolved external symbol __imp___glewUniform1i
+SceneWorld.obj : error LNK2001: unresolved external symbol __imp___glewUniform3fv
+SceneWorld.obj : error LNK2001: unresolved external symbol __imp___glewUniformMatrix4fv
+SceneWorld.obj : error LNK2001: unresolved external symbol __imp___glewUseProgram
+SceneWorld.obj : error LNK2001: unresolved external symbol __imp___glewBindVertexArray
+SceneWorld.obj : error LNK2001: unresolved external symbol __imp___glewGenVertexArrays
+shader.obj : error LNK2001: unresolved external symbol __imp___glewAttachShader
+shader.obj : error LNK2001: unresolved external symbol __imp___glewCompileShader
+shader.obj : error LNK2001: unresolved external symbol __imp___glewCreateProgram
+shader.obj : error LNK2001: unresolved external symbol __imp___glewCreateShader
+shader.obj : error LNK2001: unresolved external symbol __imp___glewDeleteShader
+shader.obj : error LNK2001: unresolved external symbol __imp___glewGetProgramInfoLog
+shader.obj : error LNK2001: unresolved external symbol __imp___glewGetProgramiv
+shader.obj : error LNK2001: unresolved external symbol __imp___glewGetShaderInfoLog
+shader.obj : error LNK2001: unresolved external symbol __imp___glewGetShaderiv
+shader.obj : error LNK2001: unresolved external symbol __imp___glewLinkProgram
+shader.obj : error LNK2001: unresolved external symbol __imp___glewShaderSource
+C:\Users\Jason\source\repos\JUMP-Sprint\x64\Debug\SISASG.exe : fatal error LNK1120: 94 unresolved externals

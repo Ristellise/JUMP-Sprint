@@ -13,84 +13,108 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Scenes">
+      <UniqueIdentifier>{5c617f0f-9844-42ae-8ab4-21fcf409f692}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scenes">
+      <UniqueIdentifier>{48811976-1b08-40ee-8bad-eda33e07bc14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Non-Scenes">
+      <UniqueIdentifier>{acac7886-ec5d-4500-8f96-d6e09b597e94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Non-Scenes">
+      <UniqueIdentifier>{024ae5eb-182f-4973-907d-b3bc54771bc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\SceneWorld.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneHangar.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MeshBuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\LoadTGA.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\LoadOBJ.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\FontLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Camera3.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Non-Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Camera.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Non-Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneWorld.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\Camera3.cpp">
+      <Filter>Source Files\Non-Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FontLoader.cpp">
+      <Filter>Source Files\Non-Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LoadOBJ.cpp">
+      <Filter>Source Files\Non-Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LoadTGA.cpp">
+      <Filter>Source Files\Non-Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\main.cpp">
+      <Filter>Source Files\Non-Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh.cpp">
+      <Filter>Source Files\Non-Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshBuilder.cpp">
+      <Filter>Source Files\Non-Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\shader.cpp">
+      <Filter>Source Files\Non-Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utility.cpp">
+      <Filter>Source Files\Non-Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Light.cpp">
+      <Filter>Source Files\Non-Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\SceneWorld.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneHangar.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\shader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MeshBuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\LoadTGA.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\LoadOBJ.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\FontLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Camera3.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Non-Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Non-Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneWorld.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\Camera3.h">
+      <Filter>Header Files\Non-Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FontLoader.h">
+      <Filter>Header Files\Non-Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LoadOBJ.h">
+      <Filter>Header Files\Non-Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LoadTGA.h">
+      <Filter>Header Files\Non-Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mesh.h">
+      <Filter>Header Files\Non-Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MeshBuilder.h">
+      <Filter>Header Files\Non-Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene.h">
+      <Filter>Header Files\Non-Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\shader.hpp">
+      <Filter>Header Files\Non-Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utility.h">
+      <Filter>Header Files\Non-Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Vertex.h">
+      <Filter>Header Files\Non-Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Light.h">
+      <Filter>Header Files\Non-Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
