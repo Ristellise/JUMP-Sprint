@@ -20,6 +20,7 @@ class SceneWorld : public Scene
         U_MATERIAL_SPECULAR,
         U_MATERIAL_SHININESS,
         U_NUMLIGHTS,
+
         U_LIGHT0_POSITION,
         U_LIGHT0_TYPE,
         U_LIGHT0_COLOR,
@@ -31,30 +32,6 @@ class SceneWorld : public Scene
         U_LIGHT0_COSINNER,
         U_LIGHT0_EXPONENT,
         U_LIGHT0_SPOTDIRECTION,
-
-        U_LIGHT1_POSITION,
-        U_LIGHT1_TYPE,
-        U_LIGHT1_COLOR,
-        U_LIGHT1_POWER,
-        U_LIGHT1_KC,
-        U_LIGHT1_KL,
-        U_LIGHT1_KQ,
-        U_LIGHT1_COSCUTOFF,
-        U_LIGHT1_COSINNER,
-        U_LIGHT1_EXPONENT,
-        U_LIGHT1_SPOTDIRECTION,
-
-        U_LIGHT2_POSITION,
-        U_LIGHT2_TYPE,
-        U_LIGHT2_COLOR,
-        U_LIGHT2_POWER,
-        U_LIGHT2_KC,
-        U_LIGHT2_KL,
-        U_LIGHT2_KQ,
-        U_LIGHT2_COSCUTOFF,
-        U_LIGHT2_COSINNER,
-        U_LIGHT2_EXPONENT,
-        U_LIGHT2_SPOTDIRECTION,
 
         U_LIGHTENABLED,
         U_COLOR_TEXTURE_ENABLED,
@@ -68,16 +45,19 @@ class SceneWorld : public Scene
     {
         GEO_AXES,
         GEO_LIGHTBALL,
-        GEO_TEXT, // Temporary.
-        GEO_LID, // 1 Animation
-        GEO_TEDDY, // Character
-        GEO_DOOR,
+        GEO_TEXT, // To move to vector solution
+
+		// Skybox
         GEO_LEFT,
         GEO_RIGHT,
         GEO_FRONT,
         GEO_BACK,
         GEO_TOP,
         GEO_BOTTOM,
+
+		// Test Cube
+		GEO_TESTCUBE,
+
         NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
     };
 
@@ -97,8 +77,6 @@ private:
     std::vector<Mesh*> meshListVector;
     unsigned m_programID;
     unsigned m_parameters[U_TOTAL];
-
-    float rotateStar;
 
     Camera3 camera;
     MS modelStack, viewStack, projectionStack;
@@ -120,7 +98,7 @@ private:
     float redlightpow = 0.0f;
     float bluelightpow = 0.0f;
 
-    unsigned int selector = 2;
+    unsigned int selector = 0;
 };
 
 #endif
