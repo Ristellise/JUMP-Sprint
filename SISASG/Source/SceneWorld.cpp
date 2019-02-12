@@ -200,7 +200,6 @@ void SceneWorld::Update(double dt)
     this->dtimestring += "\n"	+ std::to_string(this->lights[this->selector].position.x) + " | " 
 								+ std::to_string(this->lights[this->selector].position.y) + " | "
 								+ std::to_string(this->lights[this->selector].position.z);
-
 	static int rotateDir = 1;
 	static const float ROTATE_SPEED = 10.f;
 	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);

@@ -177,7 +177,7 @@ void SceneHangar::Update(double dt)
 		lights[this->selector].position.y += (float)(LSPEED * dt);
 
 	this->lastkeypress += dt;
-	camera.Update(dt);
+	camera.Update(dt,);
 	this->dtimestring = "FPS:";
 	this->dtimestring += std::to_string(1.0f / dt);
 	this->dtimestring += "\nCam X:";
