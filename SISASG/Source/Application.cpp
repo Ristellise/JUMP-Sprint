@@ -1,8 +1,6 @@
+
 #include "Application.h"
-//Include GLEW
-#include <GL/glew.h>
-//Include GLFW
-#include <GLFW/glfw3.h>
+
 //Include the standard C++ headers
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,6 +43,7 @@ void resize_callback(GLFWwindow* window, int w, int h)
 {
     glViewport(0, 0, w, h); //update opengl the new window size
 }
+
 
 void Application::Init()
 {
@@ -98,7 +97,7 @@ void Application::Init()
 void Application::Run()
 {
     //Main Loop
-    Scene *scene = new SceneHangar();
+    Scene *scene = new SceneWorld(this->m_window);
     scene->Init();
 
     m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
