@@ -7,6 +7,8 @@
 #include "MeshBuilder.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "testCube.h"
+
 #include "MouseHandler.h"
 #include "Uniforms.h"
 class SceneWorld : public Scene
@@ -16,16 +18,19 @@ class SceneWorld : public Scene
     {
         GEO_AXES,
         GEO_LIGHTBALL,
-        GEO_TEXT, // Temporary.
-        GEO_LID, // 1 Animation
-        GEO_TEDDY, // Character
-        GEO_DOOR,
+        GEO_TEXT, // To move to vector solution
+
+		// Skybox
         GEO_LEFT,
         GEO_RIGHT,
         GEO_FRONT,
         GEO_BACK,
         GEO_TOP,
         GEO_BOTTOM,
+
+		// Test Cube
+		GEO_TESTCUBE,
+
         NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
     };
 
@@ -37,7 +42,9 @@ public:
     virtual void Init();
     virtual void Update(double dt);
     virtual void Render();
+	void RenderSkybox();
     void RenderText(Mesh* mesh, std::string text, Color color);
+	void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void Exit();
     void SetWindow(GLFWwindow* window);
 private:
@@ -48,9 +55,8 @@ private:
     unsigned m_programID;
     unsigned m_parameters[U_TOTAL];
 
-    float rotateStar;
-
     Camera3 camera;
+	testCube testCube1;
     MS modelStack, viewStack, projectionStack;
     Light lights[8];
     FontLoader FLInstance;
@@ -70,7 +76,7 @@ private:
     float redlightpow = 0.0f;
     float bluelightpow = 0.0f;
 
-    unsigned int selector = 2;
+    unsigned int selector = 0;
 };
 
 #endif

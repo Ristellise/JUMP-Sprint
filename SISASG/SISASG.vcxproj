@@ -154,7 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
-    <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\FontLoader.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
@@ -162,23 +162,27 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
+    <ClCompile Include="Source\money.cpp" />
     <ClCompile Include="Source\MouseHandler.cpp" />
     <ClCompile Include="Source\SceneWorld.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\State.cpp" />
     <ClCompile Include="Source\StateManager.cpp" />
+    <ClCompile Include="Source\spaceship.cpp" />
+    <ClCompile Include="Source\testCube.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
-    <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Camera3.h" />
+    <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\FontLoader.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\MouseHandler.h" />
+    <ClInclude Include="Source\money.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneWorld.h" />
     <ClInclude Include="Source\shader.hpp" />
@@ -186,6 +190,8 @@
     <ClInclude Include="Source\StateInit.h" />
     <ClInclude Include="Source\StateManager.h" />
     <ClInclude Include="Source\Uniforms.h" />
+    <ClInclude Include="Source\spaceship.h" />
+    <ClInclude Include="Source\testCube.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
   </ItemGroup>
