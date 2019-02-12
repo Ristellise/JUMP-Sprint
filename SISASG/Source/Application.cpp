@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 #include "SceneWorld.h"
+#include "SceneHangar.h" // For Selecting Ships
 
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
@@ -95,7 +96,8 @@ void Application::Init()
 void Application::Run()
 {
     //Main Loop
-    Scene *scene = new SceneWorld(this->m_window);
+    Scene *scene = new SceneHangar;
+	//new SceneWorld(this->m_window)
     scene->Init();
 
     m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame

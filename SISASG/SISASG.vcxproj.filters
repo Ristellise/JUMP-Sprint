@@ -13,60 +13,72 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Non-Scene">
+      <UniqueIdentifier>{518c1bd4-32dd-4036-88d7-62cb5a05f58f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Non-Scene">
+      <UniqueIdentifier>{a5c28956-6cbc-44cc-9732-928ed0acab97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MeshBuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\LoadTGA.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\LoadOBJ.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\FontLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Camera3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneWorld.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\money.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\spaceship.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Application.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera3.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\entity.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FontLoader.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LoadOBJ.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LoadTGA.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\main.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshBuilder.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\money.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MouseHandler.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\shader.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\State.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateManager.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utility.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
+    </ClCompile>
     <ClCompile Include="Source\testCube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MouseHandler.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\Light.cpp">
+      <Filter>Source Files\Non-Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\StateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\State.cpp">
+    <ClCompile Include="Source\SceneHangar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\StateInit.cpp">
@@ -74,46 +86,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\shader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MeshBuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\LoadTGA.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\LoadOBJ.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\FontLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Camera3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SceneWorld.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\money.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\spaceship.h">
@@ -122,19 +98,58 @@
     <ClInclude Include="Source\testCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MouseHandler.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\Application.h">
+      <Filter>Header Files\Non-Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\StateManager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\Camera3.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\entity.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FontLoader.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LoadOBJ.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LoadTGA.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mesh.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MeshBuilder.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\money.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MouseHandler.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\shader.hpp">
+      <Filter>Header Files\Non-Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\State.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Non-Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\StateInit.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateManager.h">
+      <Filter>Header Files\Non-Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Uniforms.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utility.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Vertex.h">
+      <Filter>Header Files\Non-Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneHangar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
