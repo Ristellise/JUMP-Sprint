@@ -321,8 +321,6 @@ void SceneWorld::RenderText(Mesh* mesh, std::string text, Color color)
     //glEnable(GL_DEPTH_TEST);
 }
 
-
-
 void SceneWorld::Exit()
 {
     // Cleanup VBO here
