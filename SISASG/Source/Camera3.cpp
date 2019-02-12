@@ -52,6 +52,29 @@ void Camera3::Update(
 	}
 }
 
+void Camera3::Updatealt(double dt)
+{
+	Vector3 view = (target - position).Normalized();
+	Vector3 right = view.Cross(up);
+
+	if (Application::IsKeyPressed('N'))
+	{
+		position = position + up * (float)(40.f * dt);
+		target = position + view;
+	}
+
+	if (Application::IsKeyPressed('M'))
+	{
+		position = position - up * (float)(40.f * dt);
+		target = position + view;
+	}
+
+	if (Application::IsKeyPressed('R'))
+	{
+		Reset();
+	}
+}
+
 void Camera3::Reset()
 {
 	position = defaultPosition;

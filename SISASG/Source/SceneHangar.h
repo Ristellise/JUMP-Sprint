@@ -7,6 +7,7 @@
 #include "MeshBuilder.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "testCube.h"
 
 class SceneHangar : public Scene
 {
@@ -101,6 +102,7 @@ private:
 	unsigned int selector = 0;
 	int NumberOfShips = 3;
 	int Delay = 0;
+	testCube testCube1;
 };
 
 #endif
