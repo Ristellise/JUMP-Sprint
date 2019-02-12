@@ -69,6 +69,7 @@ public:
     virtual void Init();
     virtual void Update(double dt);
     virtual void Render();
+	void RenderSkybox();
     void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void Exit();

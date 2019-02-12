@@ -37,7 +37,7 @@ void SceneWorld::Init()
 	testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
 
     Mtx44 projection;
-    projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
+    projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 10000.f);
     projectionStack.LoadMatrix(projection);
 
     //Load vertex and fragment shaders
@@ -105,6 +105,20 @@ void SceneWorld::Init()
     //// The fontsheet on a big mesh
     meshList[GEO_TEXT] = MeshBuilder::GenerateText("saofontsheet", this->FLInstance);
     meshList[GEO_TEXT]->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
+
+	//skybox
+
+	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
+
+	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
+
+	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
+
+	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
+
+	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
+
+	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
 
 	// Test Cube
 	meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
@@ -212,6 +226,57 @@ void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
 
 static const float SKYBOXSIZE = 200.0f;
 
+void SceneWorld::RenderSkybox()
+{
+
+	int x = this->camera.position.x;
+	int y = this->camera.position.y;
+	int z = this->camera.position.z;
+
+	modelStack.PushMatrix();
+	modelStack.Translate(x - SKYBOXSIZE / 2, y, z);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+	RenderMesh(meshList[GEO_LEFT], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(x + SKYBOXSIZE / 2, y, z);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+	RenderMesh(meshList[GEO_RIGHT], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(x, y, z + SKYBOXSIZE / 2);
+	modelStack.Rotate(90, 0, 0, 1);
+	modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+	RenderMesh(meshList[GEO_FRONT], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(x, y, z - SKYBOXSIZE / 2);
+	modelStack.Rotate(90, 0, 0, 1);
+	modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+	RenderMesh(meshList[GEO_BACK], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(x, y + SKYBOXSIZE / 2, z);
+	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+	RenderMesh(meshList[GEO_TOP], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(x, y - SKYBOXSIZE / 2, z);
+	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+	RenderMesh(meshList[GEO_BOTTOM], false);
+	modelStack.PopMatrix();
+
+}
+
 // Main Render loop
 void SceneWorld::Render()
 {
@@ -251,6 +316,8 @@ void SceneWorld::Render()
         modelStack.Translate(0, 0, 0);
         RenderMesh(meshList[GEO_AXES], false);
     modelStack.PopMatrix();
+
+	RenderSkybox();
 
 	modelStack.PushMatrix();
 	modelStack.Rotate(testCube1.pitchX, 1, 0, 0);
