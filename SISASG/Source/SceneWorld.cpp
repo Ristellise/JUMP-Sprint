@@ -34,7 +34,7 @@ void SceneWorld::Init()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    camera.Init(Vector3(0, 0, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
+    camera.Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
 
     this->Mouse = MouseHandler(20.0f);
@@ -408,11 +408,11 @@ void SceneWorld::Render()
 	// first push to testCube
 	modelStack.PushMatrix();
 	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-	modelStack.Rotate(testCube1.pitchX, 1, 0, 0);
+	modelStack.Rotate(testCube1.yawY, testCube1.up.x, testCube1.up.y, testCube1.up.z);
 
 	// second push to testcube
 	modelStack.PushMatrix();
-	modelStack.Rotate(testCube1.yawY, 0, 1, 0);
+	modelStack.Rotate(testCube1.pitchX, 1, 0, 0);
 	modelStack.Scale(5.0f, 5.0f, 5.0f);
 	RenderMesh(meshList[GEO_TESTCUBE], true);
 
