@@ -1,9 +1,9 @@
 #ifndef CAMERA_3_H
 #define CAMERA_3_H
 
-#include "Camera.h"
+#include "entity.h"
 
-class Camera3 : public Camera
+class Camera3 : public entity
 {
 public:
 	//Vector3 position;
