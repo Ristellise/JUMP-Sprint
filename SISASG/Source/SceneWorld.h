@@ -11,35 +11,10 @@
 
 #include "MouseHandler.h"
 #include "Uniforms.h"
+#include "StateManager.h"
+
 class SceneWorld : public Scene
 {
-
-    enum GEOMETRY_TYPE
-    {
-        GEO_AXES,
-        GEO_LIGHTBALL,
-        GEO_TEXT, // To move to vector solution
-
-		// Skybox
-        GEO_LEFT,
-        GEO_RIGHT,
-        GEO_FRONT,
-        GEO_BACK,
-        GEO_TOP,
-        GEO_BOTTOM,
-
-		// Test Cube
-		GEO_TESTCUBE,
-
-		//Planets
-		GEO_PLANET_VENUS,
-		GEO_PLANET_EARTH,
-		GEO_PLANET_MARS,
-		GEO_PLANET_JUPITER,
-		GEO_SUN,
-
-        NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
-    };
 
 public:
     SceneWorld();
@@ -49,22 +24,22 @@ public:
     virtual void Init();
     virtual void Update(double dt);
     virtual void Render();
-	void RenderSkybox();
-	void RenderPlanets();
+    void RenderSkybox();
+    void RenderPlanets();
     void RenderText(Mesh* mesh, std::string text, Color color);
-	void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
+    void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void Exit();
     void SetWindow(GLFWwindow* window);
 private:
     GLFWwindow* l_window;
     unsigned m_vertexArrayID;
-    Mesh* meshList[NUM_GEOMETRY];
+    
     std::vector<Mesh*> meshListVector;
     unsigned m_programID;
     unsigned m_parameters[U_TOTAL];
 
     Camera3 camera;
-	testCube testCube1;
+    testCube testCube1;
     MS modelStack, viewStack, projectionStack;
     Light lights[8];
     FontLoader FLInstance;
@@ -77,12 +52,13 @@ private:
     bool openlid = false;
     bool renable = false;
     double lastkeypress = 0.0;
-	float rotateAngle;
+    float rotateAngle;
     bool leg = false;
     float legdance = 0.0f;
-
+    StateManager StateManInst;
     float redlightpow = 0.0f;
     float bluelightpow = 0.0f;
+    Mesh* meshList[NUM_GEOMETRY];
 
     unsigned int selector = 0;
 };

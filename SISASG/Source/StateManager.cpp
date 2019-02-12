@@ -31,29 +31,47 @@ void StateManager::Render()
         this->activeStates[i]->OnRender();
     }
 }
-bool StateManager::Init()
+bool StateManager::Init(unsigned *m_parameters)
 {
+    this->StateMan_parameters = m_parameters;
     this->addState("init");
     return true;
+}
+
+bool StateManager::InitmeshList(Mesh * StatemeshList)
+{
+    *this->StatemeshList = StatemeshList;
+}
+
+void StateManager::addAvailable(GState * state)
+{
+    this->availableStates.push_back(state);
 }
 
 bool StateManager::addState(std::string Statename)
 {
     for (size_t i = 0; i < this->availableStates.size(); i++)
     {
-        if (this->availableStates[i].StateName == Statename)
+        if ((*this->availableStates[i]).StateName == Statename)
         {
-            GState* newState;
-            newState = &this->availableStates[i];
-            newState->OnCreate(this->StateMan_parameters[0],this->SM_FLInstance);
-            newState->OnEnter();
-            this->activeStates.push_back(newState);
+            (this->availableStates[i])->OnCreate(StateMan_parameters,this->SM_FLInstance);
+            (this->availableStates[i])->OnEnter();
+            this->activeStates.push_back(this->availableStates[i]);
             return true;
         }
     }
     return false;
 }
 
+
+bool StateManager::Shutdown()
+{
+    for (size_t i = 0; i < this->activeStates.size(); i++)
+    {
+        this->activeStates[i]->OnExit();
+    }
+    return true;
+}
 
 StateManager::~StateManager()
 {

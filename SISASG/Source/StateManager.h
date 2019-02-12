@@ -6,17 +6,19 @@
 class StateManager
 {
     std::vector<GState*> activeStates;
-    std::vector<GState> availableStates;
+    std::vector<GState*> availableStates;
     bool addState(std::string stateName);
     FontLoader* SM_FLInstance;
-    unsigned *StateMan_parameters[]; // copy of m_parameters.
+    unsigned *StateMan_parameters; // copy of m_parameters.
+    Mesh* StatemeshList[NUM_GEOMETRY]; // Temporary while we move to a vector solution.
 
 public:
     StateManager();
     void Update();
     void Render();
-    bool Init();
-    void addAvailable(GState state);
-    
+    bool Init(unsigned *m_parameters);
+    bool InitmeshList(Mesh *StatemeshList);
+    void addAvailable(GState* state);
+    bool Shutdown();
     ~StateManager();
 };

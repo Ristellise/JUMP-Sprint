@@ -1,5 +1,9 @@
 #pragma once
+#ifndef Uniform
 
+
+
+#include "Mesh.h"
 enum UNIFORM_TYPE
 {
     U_MVP = 0,
@@ -30,3 +34,32 @@ enum UNIFORM_TYPE
     U_TEXT_COLOR,
     U_TOTAL,
 };
+
+enum GEOMETRY_TYPE
+{
+    GEO_AXES,
+    GEO_LIGHTBALL,
+    GEO_TEXT, // To move to vector solution
+
+    // Skybox
+    GEO_LEFT,
+    GEO_RIGHT,
+    GEO_FRONT,
+    GEO_BACK,
+    GEO_TOP,
+    GEO_BOTTOM,
+
+    // Test Cube
+    GEO_TESTCUBE,
+
+    //Planets
+    GEO_PLANET_VENUS,
+    GEO_PLANET_EARTH,
+    GEO_PLANET_MARS,
+    GEO_PLANET_JUPITER,
+    GEO_SUN,
+
+    NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
+};
+
+#endif // !Uniform

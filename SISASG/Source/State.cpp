@@ -9,29 +9,10 @@ GState::~GState()
 {
 }
 
-void GState::OnUpdate()
-{
-}
-
-void GState::OnExit()
-{
-
-}
-
-void GState::OnRender()
-{
-
-}
-
 void GState::OnCreate(unsigned *parameters,FontLoader *St_FLInstance)
 {
     this->state_params = parameters;
     this->St_FLInstance = St_FLInstance;
-}
-
-void GState::OnEnter()
-{
-
 }
 
 void GState::RenderText(Mesh* mesh, std::string text, Color color)

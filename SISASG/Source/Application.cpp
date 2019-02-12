@@ -63,7 +63,7 @@ void Application::Init()
 
 
     //Create a window and create its OpenGL context
-    m_window = glfwCreateWindow(1024, 768, "Computer Graphics", NULL, NULL);
+    m_window = glfwCreateWindow(1024, 768, "SISASG Is Seriously not A Space Game", NULL, NULL);
     glfwSetWindowSizeCallback(m_window, resize_callback);
     //If the window couldn't be created
     if (!m_window)

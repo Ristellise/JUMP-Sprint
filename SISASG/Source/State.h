@@ -6,15 +6,18 @@
 #include "FontLoader.h"
 #include "Uniforms.h"
 #include "MatrixStack.h"
+#include "entity.h"
 // Contains a base template of game states Active.
 // They may be added or removed.
 class GState
 {
+protected:
     bool mouseLock = false;
     bool readyExitlocal = false;
     std::string* spawnState = nullptr;
     FontLoader* St_FLInstance;
     unsigned *state_params;
+    std::vector<entity*> entitylists;
     MS *modelStack, *viewStack, *projectionStack;
     // TODO: Vector of entities
 public:
