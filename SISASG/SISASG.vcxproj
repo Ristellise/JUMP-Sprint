@@ -22,7 +22,7 @@
     <ProjectGuid>{CA352589-4470-4810-BFBD-95CB54AE0EB0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MyGraphics</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -162,8 +162,11 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
+    <ClCompile Include="Source\MouseHandler.cpp" />
     <ClCompile Include="Source\SceneWorld.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\State.cpp" />
+    <ClCompile Include="Source\StateManager.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -175,9 +178,14 @@
     <ClInclude Include="Source\LoadTGA.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
+    <ClInclude Include="Source\MouseHandler.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneWorld.h" />
     <ClInclude Include="Source\shader.hpp" />
+    <ClInclude Include="Source\State.h" />
+    <ClInclude Include="Source\StateInit.h" />
+    <ClInclude Include="Source\StateManager.h" />
+    <ClInclude Include="Source\Uniforms.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
   </ItemGroup>

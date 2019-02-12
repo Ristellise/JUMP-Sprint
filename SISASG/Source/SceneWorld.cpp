@@ -9,8 +9,9 @@
 
 
 
-SceneWorld::SceneWorld()
+SceneWorld::SceneWorld(GLFWwindow *l_window)
 {
+    this->l_window = l_window;
 }
 
 SceneWorld::~SceneWorld()
@@ -34,7 +35,7 @@ void SceneWorld::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     camera.Init(Vector3(10, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
-
+    this->Mouse = MouseHandler(20.0f);
     Mtx44 projection;
     projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
     projectionStack.LoadMatrix(projection);
@@ -110,6 +111,8 @@ void SceneWorld::Init()
 
 void SceneWorld::Update(double dt)
 {
+    this->Mouse.Update(this->l_window,dt);
+    this->Mouse.Center(this->l_window);
     static const float LSPEED = 10.0f;
 
     if (Application::IsKeyPressed('1'))
@@ -237,34 +240,7 @@ void SceneWorld::Render()
 
     viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
     modelStack.LoadIdentity();
-    if (lights[0].type == Light::LIGHT_DIRECTIONAL)
-    {
-        Vector3 lightDir(lights[0].position.x, lights[0].position.y, lights[0].position.z);
-        Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-        glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1,
-            &lightDirection_cameraspace.x);
-    }
-    else if (lights[0].type == Light::LIGHT_SPOT)
-    {
-        Position lightPosition_cameraspace = viewStack.Top() * lights[0].position;
-        glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1,
-            &lightPosition_cameraspace.x);
-        Vector3 spotDirection_cameraspace = viewStack.Top() *
-            lights[0].spotDirection;
-        glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1,
-            &spotDirection_cameraspace.x);
-    }
-    else
-    {
-        Position lightPosition_cameraspace = viewStack.Top() * lights[0].position;
-        glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1,
-            &lightPosition_cameraspace.x);
-    }
-
-    modelStack.PushMatrix();
-        modelStack.Translate(0, 0, 0);
-        RenderMesh(meshList[GEO_AXES], false);
-    modelStack.PopMatrix();
+    
 
     modelStack.PushMatrix();
         modelStack.Translate(5.0f, 10.0f, 2.0f);
@@ -318,7 +294,6 @@ void SceneWorld::RenderText(Mesh* mesh, std::string text, Color color)
     glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
     //glEnable(GL_DEPTH_TEST);
 }
-
 
 
 void SceneWorld::Exit()
