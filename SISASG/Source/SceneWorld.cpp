@@ -277,14 +277,13 @@ void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
     }
 }
 
-static const float SKYBOXSIZE = 5000.0f;
+static const int SKYBOXSIZE = 5000;
 
 void SceneWorld::RenderSkybox()
 {
-
-    int x = this->camera.position.x;
-    int y = this->camera.position.y;
-    int z = this->camera.position.z;
+    float x = this->camera.position.x;
+    float y = this->camera.position.y;
+    float z = this->camera.position.z;
 
     modelStack.PushMatrix();
     modelStack.Translate(x - SKYBOXSIZE / 2, y, z);
@@ -420,7 +419,7 @@ void SceneWorld::Render()
     // first push to testCube
     modelStack.PushMatrix();
     modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-    modelStack.Rotate(testCube1.yawY, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+    modelStack.Rotate(testCube1.yawY, 0, 1, 0);
 
     // second push to testcube
     modelStack.PushMatrix();

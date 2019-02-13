@@ -63,7 +63,7 @@ void spaceship::Update(double dt, float topspeed, float fwdaccl, float bwdaccl, 
 	{
         yaw = (float)(80.f * dt);
 		Mtx44 rotation;
-		rotation.SetToRotation(yaw, up.x, up.y, up.z);
+		rotation.SetToRotation(yaw, 0, 1, 0);
 		view = rotation * view;
 		target = position + view;
 		up = rotation * up;
@@ -75,7 +75,7 @@ void spaceship::Update(double dt, float topspeed, float fwdaccl, float bwdaccl, 
 	{
 		yaw = (float)(-80.f * dt);
 		Mtx44 rotation;
-		rotation.SetToRotation(yaw, up.x, up.y, up.z);
+		rotation.SetToRotation(yaw, 0, 1, 0);
 		view = rotation * view;
 		target = position + view;
 		up = rotation * up;
