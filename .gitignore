@@ -6,7 +6,8 @@
 # Object files
 *.o
 *.ko
-*.obj
+debug/*.obj
+Debug/*.obj
 *.elf
 
 # Linker output
