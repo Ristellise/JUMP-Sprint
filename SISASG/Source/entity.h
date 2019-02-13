@@ -4,14 +4,24 @@
 #include "Vector3.h"
 #include "Mesh.h"
 
+enum entityType
+{
+    eT_Object,
+    eT_Text,
+    eT_TextUI,
+    eT_Count
+};
+
 class entity
 {
 public:
 	Vector3 position;
 	Vector3 target;
 	Vector3 up;
+    entityType type;
 
-	Mesh *meshptr = NULL;
+    std::string text = "";
+	Mesh *meshptr = nullptr;
 
 	entity();
 	~entity();

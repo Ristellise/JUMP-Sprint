@@ -31,9 +31,10 @@ void StateManager::Render()
         this->activeStates[i]->OnRender();
     }
 }
-bool StateManager::Init(unsigned *m_parameters)
+bool StateManager::Init(unsigned *m_parameters, FontLoader* FLInstance)
 {
     this->StateMan_parameters = m_parameters;
+    this->SM_FLInstance = FLInstance;
     this->addState("init");
     return true;
 }

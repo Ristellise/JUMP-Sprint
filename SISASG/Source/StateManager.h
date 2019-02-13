@@ -16,7 +16,7 @@ public:
     StateManager();
     void Update(double dt);
     void Render();
-    bool Init(unsigned *m_parameters);
+    bool Init(unsigned *m_parameters, FontLoader* FLInstance);
     bool InitmeshList(Mesh *StatemeshList);
     void addAvailable(GState* state);
     bool Shutdown();

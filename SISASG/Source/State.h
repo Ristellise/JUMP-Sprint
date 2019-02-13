@@ -18,11 +18,13 @@ protected:
     FontLoader* St_FLInstance;
     unsigned *state_params;
     std::vector<entity*> entitylists;
+    std::vector<Mesh*> meshList;
     MS *modelStack, *viewStack, *projectionStack;
     // TODO: Vector of entities
 public:
     GState();
     ~GState();
+    Mesh * meshGetFast(std::string meshname);
     void RenderText(Mesh * mesh, std::string text, Color color);
     void RenderMesh(Mesh * mesh, bool enableLight);
     std::string StateName = "NULL!!";
@@ -31,6 +33,7 @@ public:
     virtual void OnExit() = 0; // Exit Calls after
     virtual void OnRender() = 0; // Rendering Calls=
     void OnCreate(unsigned * parameters, FontLoader * St_FLInstance); // GState Actually becomes active. does all the setup for the Uniforms and stuff.
+    void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void OnEnter() = 0; // GState initalisation
     bool readyExit() {return this->readyExitlocal; };
     bool toggleMouseLock() { if (this->mouseLock) { this->mouseLock = true; } else { this->mouseLock = false; }; };
