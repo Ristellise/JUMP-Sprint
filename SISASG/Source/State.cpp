@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iterator>
 #include <functional>
-
+#include "testCube.h"
 GState::GState()
 {
 }
@@ -42,6 +42,12 @@ void GState::OnCreate(unsigned *parameters,FontLoader *St_FLInstance, Camera3* c
     this->St_FLInstance = St_FLInstance;
     this->state_cam = cam;
     this->mouse = mouse;
+}
+void GState::SetMatrixes(MS* model, MS* view, MS* projection)
+{
+	this->modelStack = model;
+	this->viewStack = view;
+	this->projectionStack = projection;
 }
 void GState::RenderTextScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {

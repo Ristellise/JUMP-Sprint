@@ -27,6 +27,10 @@ public:
     bool Init(unsigned * m_parameters, FontLoader * FLInstance, MouseHandler * SM_Mouse);
     bool InitmeshList(Mesh *StatemeshList);
     void addAvailable(GState* state);
+	void SetMatrixes(MS * model, MS * view, MS * projection);
     bool Shutdown();
+	MS *modelStack;
+	MS *viewStack;
+	MS *projectionStack;
     ~StateManager();
 };

@@ -1,10 +1,12 @@
 #include "State.h"
+#include "testCube.h"
 
 class Stateinit : public GState
 {
 public:
     Stateinit();
     ~Stateinit();
+	std::string dtimestring;
     
     void OnEnter();
     void OnExit();

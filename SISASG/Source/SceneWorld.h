@@ -44,7 +44,6 @@ private:
     unsigned m_parameters[U_TOTAL];
 
     Camera3 camera;
-    testCube testCube1;
     MS modelStack, viewStack, projectionStack;
     Light lights[8];
     FontLoader FLInstance;

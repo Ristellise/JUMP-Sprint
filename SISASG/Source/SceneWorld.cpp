@@ -11,8 +11,6 @@
 #include "State.h"
 #include <stdexcept>
 
-
-
 SceneWorld::SceneWorld()
 {
     throw std::runtime_error("Did not define window correctly!");
@@ -29,14 +27,8 @@ SceneWorld::~SceneWorld()
 
 void SceneWorld::Init()
 {
-	srand(time(0));
-
-	random = rand() % 10 + 1;
-
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     rotateAngle = 0;
-	movement_asteroid1_z = 0;
-
     // Generate a default VAO for now
     glGenVertexArrays(1, &m_vertexArrayID);
     glBindVertexArray(m_vertexArrayID);
@@ -49,8 +41,7 @@ void SceneWorld::Init()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    camera.Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
-    testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
     this->Mouse = MouseHandler(20.0f);
     Mtx44 projection;
@@ -120,7 +111,14 @@ void SceneWorld::Init()
     Stateinit* initInstance = new Stateinit();
     this->StateManInst.addAvailable(initInstance);
     this->StateManInst.setCam(&camera);
-    this->StateManInst.Init(this->m_parameters, &this->FLInstance,&this->Mouse);
+    this->StateManInst.Init(this->m_parameters, &this->FLInstance);
+	this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
+
+    
+    
+    
+    //** FontLoader Instance **//
+    
 
     //// The fontsheet on a big mesh
     meshList[GEO_TEXT] = MeshBuilder::GenerateText("saofontsheet", this->FLInstance);
@@ -155,21 +153,11 @@ void SceneWorld::Init()
     meshList[GEO_SUN] = MeshBuilder::GenerateOBJ("sun", "OBJ//Sun.obj")[0];
     meshList[GEO_SUN]->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
 
-	//asteroids
-	meshList[GEO_ASTEROID1] = MeshBuilder::GenerateOBJ("asteroid1", "OBJ//asteroid1.obj")[0];
-	meshList[GEO_ASTEROID1]->textureID = LoadTGA("TGA//asteroid1 texture.tga", GL_LINEAR, GL_CLAMP);
-
-    // Test Cube
-    meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
-    meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
-
-	//test car
-	meshList[GEO_CAR] = MeshBuilder::GenerateOBJ("testcar", "OBJ//Car.obj")[0];
-	meshList[GEO_CAR]->textureID = LoadTGA("TGA//car.tga", GL_LINEAR, GL_CLAMP);
+    // Test Environment
+	meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
 
     // Lightball
     meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
-
 }
 
 void SceneWorld::Update(double dt)
@@ -215,68 +203,11 @@ void SceneWorld::Update(double dt)
 
     this->lastkeypress += dt;
 
-    camera.Update(
-        dt, 
-        testCube1.position.x, 
-        testCube1.position.y, 
-        testCube1.position.z,
-		testCube1.topSpeed, 
-		testCube1.fwdaccl, 
-		testCube1.bwdaccl,
-		camera.accl,
-		testCube1.view
-    );
-
-    testCube1.Update(dt, 
-		testCube1.topSpeed,
-		testCube1.fwdaccl,
-		testCube1.bwdaccl,
-		testCube1.accl);
-
-    this->dtimestring = "FPS:";
-    this->dtimestring += std::to_string(1.0f / dt);
-    this->dtimestring += "\nCam X:";
-    this->dtimestring += std::to_string(this->camera.position.x);
-    this->dtimestring += "\nCam Y:";
-    this->dtimestring += std::to_string(this->camera.position.y);
-    this->dtimestring += "\nCam Z:";
-    this->dtimestring += std::to_string(this->camera.position.z);
-    this->dtimestring += "\n"	+ std::to_string(this->lights[this->selector].position.x) + " | " 
-                                + std::to_string(this->lights[this->selector].position.y) + " | "
-                                + std::to_string(this->lights[this->selector].position.z);
-    this->dtimestring += "\nVel :";
-    this->dtimestring += std::to_string(testCube1.velocity);
-    this->dtimestring += "\nAcl :";
-    this->dtimestring += std::to_string(testCube1.accl);
-    this->dtimestring += "\nPit :";
-    this->dtimestring += std::to_string(testCube1.pitchX);
-    this->dtimestring += "\nYaw :";
-    this->dtimestring += std::to_string(testCube1.yawY);
-
-	this->dtimestring += "\nCamVel :";
-	this->dtimestring += std::to_string(camera.velocity);
-	this->dtimestring += "\nCamAcl :";
-	this->dtimestring += std::to_string(camera.accl);
-
     static int rotateDir = 1;
-	static int rotateDir_asteroid = 1;
     static const float ROTATE_SPEED = 10.f;
     rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
-	
 
-	
-	movement_asteroid1_z += (float)(rotateDir_asteroid * ROTATE_SPEED * dt);
-
-	if (movement_asteroid1_z * rotateDir_asteroid > 40)
-	{
-		rotateDir_asteroid = -rotateDir_asteroid;
-	}
-	if (movement_asteroid1_z < -40 && rotateDir_asteroid < -40)
-	{
-		rotateDir_asteroid = -rotateDir_asteroid;
-	}
-
-    this->StateManInst.Update(dt, this->l_window);
+    this->StateManInst.Update(dt);
 }
 
 void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
@@ -409,31 +340,16 @@ void SceneWorld::RenderPlanets()
 
     //sun
     modelStack.PushMatrix();
-    modelStack.Translate(0, 0, 0);
+    modelStack.Translate(-60, 0, 0);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
     //modelStack.Scale(5.0f, 5.0f, 5.0f);
     RenderMesh(meshList[GEO_SUN], true);
     modelStack.PopMatrix();
 }
 
-void SceneWorld::RenderAsteroid()
-{
-	//for (int i = 0; i < random; i++)
-	//{
-		modelStack.PushMatrix();
-		modelStack.Translate(random, random, random);
-		modelStack.Translate(movement_asteroid1_z, 0, 0);
-		modelStack.Rotate(rotateAngle, 1, 0, 1);
-		RenderMesh(meshList[GEO_ASTEROID1], true);
-		modelStack.PopMatrix();
-	//}
-	
-}
-
 // Main Render loop
 void SceneWorld::Render()
 {
-	
     //Clear color & depth buffer every frame
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -471,39 +387,22 @@ void SceneWorld::Render()
         RenderMesh(meshList[GEO_AXES], false);
     modelStack.PopMatrix();
 
-     RenderSkybox();
+    // RenderSkybox();
 
-     //RenderPlanets();
+    // RenderPlanets();
 
-	 RenderAsteroid();
-
-	 //testcar
-	 modelStack.PushMatrix();
-	 modelStack.Translate(-10, 0, 0);
-	 RenderMesh(meshList[GEO_CAR], true);
-	 modelStack.PopMatrix();
-
-    // first push to testCube
-    modelStack.PushMatrix();
-    modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-    modelStack.Rotate(testCube1.yawY, 0, 1, 0);
-
-    // second push to testcube
-    modelStack.PushMatrix();
-    modelStack.Rotate(testCube1.pitchX, 1, 0, 0);
-    modelStack.Scale(5.0f, 5.0f, 5.0f);
-    RenderMesh(meshList[GEO_TESTCUBE], true);
-
-    modelStack.PopMatrix();
-    modelStack.PopMatrix();
+	// Test Environment
+	modelStack.PushMatrix();
+	modelStack.Scale(10.f, 10.f, 10.f);
+	RenderMesh(meshList[GEO_TESTENV], true);
+	modelStack.PopMatrix();
 
     modelStack.PushMatrix();
     modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
     RenderMesh(meshList[GEO_LIGHTBALL], false);
     modelStack.PopMatrix();
-    
-    RenderTextScreen(meshList[GEO_TEXT], this->dtimestring , Color(255, 255, 0), 2, 1.f, 24.f);
-    this->StateManInst.Render();
+
+	this->StateManInst.Render();
 }
 
 /*-------------

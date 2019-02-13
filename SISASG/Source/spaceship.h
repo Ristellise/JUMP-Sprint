@@ -15,9 +15,6 @@ public:
 	Vector3 defaultTarget;
 	Vector3 defaultUp;
 
-	float pitchX;
-	float yawY;
-
 	spaceship();
 	~spaceship();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
