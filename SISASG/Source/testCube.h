@@ -6,11 +6,6 @@
 class testCube : public spaceship
 {	
 public:
-	float topSpeed;
-	float fwdaccl;
-	float bwdaccl;
-	float accl;
-
 	testCube();
 	~testCube();
 };

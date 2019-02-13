@@ -108,11 +108,11 @@ void SceneWorld::Init()
 
     meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 200, 200, 200);
 
+    FLInstance.Loadfnt("Font/fnt.fnt");
     Stateinit* initInstance = new Stateinit();
     this->StateManInst.addAvailable(initInstance);
-    this->StateManInst.Init(this->m_parameters);
-    //** FontLoader Instance **//
-    FLInstance.Loadfnt("Font/fnt.fnt");
+    this->StateManInst.setCam(&camera);
+    this->StateManInst.Init(this->m_parameters, &this->FLInstance,&this->Mouse);
 
     //// The fontsheet on a big mesh
     meshList[GEO_TEXT] = MeshBuilder::GenerateText("saofontsheet", this->FLInstance);
@@ -182,7 +182,6 @@ void SceneWorld::Update(double dt)
     }
     if (Application::IsKeyPressed(VK_SPACE))
     {
-        ;
     }
     if (Application::IsKeyPressed('I'))
         lights[this->selector].position.z -= (float)(LSPEED * dt);
@@ -203,10 +202,19 @@ void SceneWorld::Update(double dt)
         dt, 
         testCube1.position.x, 
         testCube1.position.y, 
-        testCube1.position.z
+        testCube1.position.z,
+		testCube1.topSpeed, 
+		testCube1.fwdaccl, 
+		testCube1.bwdaccl,
+		camera.accl,
+		testCube1.view
     );
 
-    testCube1.Update(dt, testCube1.topSpeed, testCube1.fwdaccl, testCube1.bwdaccl, testCube1.accl);
+    testCube1.Update(dt, 
+		testCube1.topSpeed,
+		testCube1.fwdaccl,
+		testCube1.bwdaccl,
+		testCube1.accl);
 
     this->dtimestring = "FPS:";
     this->dtimestring += std::to_string(1.0f / dt);
@@ -228,11 +236,16 @@ void SceneWorld::Update(double dt)
     this->dtimestring += "\nYaw :";
     this->dtimestring += std::to_string(testCube1.yawY);
 
+	this->dtimestring += "\nCamVel :";
+	this->dtimestring += std::to_string(camera.velocity);
+	this->dtimestring += "\nCamAcl :";
+	this->dtimestring += std::to_string(camera.accl);
+
     static int rotateDir = 1;
     static const float ROTATE_SPEED = 10.f;
     rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
 
-    this->StateManInst.Update(dt);
+    this->StateManInst.Update(dt, this->l_window);
 }
 
 void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
