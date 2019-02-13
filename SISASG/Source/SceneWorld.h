@@ -58,6 +58,10 @@ class SceneWorld : public Scene
 		// Test Cube
 		GEO_TESTCUBE,
 
+		// Bullet
+		GEO_BULLETHEAD,
+		GEO_BULLETBODY,
+
         NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
     };
 
@@ -99,6 +103,9 @@ private:
     float bluelightpow = 0.0f;
 
     unsigned int selector = 0;
+
+	//RenderBullet
+	void RenderBullet();
 };
 
 #endif

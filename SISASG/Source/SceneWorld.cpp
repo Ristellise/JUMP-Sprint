@@ -111,6 +111,10 @@ void SceneWorld::Init()
 
 	// Lightball
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
+
+	//Bullet
+	meshList[GEO_BULLETHEAD] = MeshBuilder::GenerateCone("bullethead", Color(1, 1, 1), 36, 3, 3);
+	meshList[GEO_BULLETBODY] = MeshBuilder::GenerateCylinder("bulletbody", Color(1, 1, 1), 18, 36, 1.f, 3);
 }
 
 void SceneWorld::Update(double dt)
@@ -212,6 +216,27 @@ void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+}
+
+void SceneWorld::RenderBullet()
+{
+	Mtx44 MVP;
+
+	modelStack.PushMatrix();
+	//Transform here
+
+	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
+	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
+	meshList[GEO_BULLETHEAD]->Render();
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	//Transform here
+
+	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
+	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
+	meshList[GEO_BULLETBODY]->Render();
+	modelStack.PopMatrix();
 }
 
 static const float SKYBOXSIZE = 200.0f;
