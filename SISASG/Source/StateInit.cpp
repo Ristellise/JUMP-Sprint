@@ -22,7 +22,7 @@ void Stateinit::OnEnter()
 
     // Spawn Entities.
     entity* current = new entity();
-    current->Init(Vector3(1.0f, 1.0f, 5.0f), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
+    current->Init(Vector3(26.f, 24.f, 2.0f), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
     current->text = &this->Teststring;
     current->type = entityType::eT_TextUI;
     current->meshptr = this->meshGetFast("saofontsheet");
@@ -58,7 +58,7 @@ void Stateinit::OnRender()
 
 void Stateinit::OnCam(int X, int Y, float XChange, float YChange)
 {
-    this->Teststring = std::to_string(X) + "|" + std::to_string(XChange) + "|" + std::to_string(Y) + "|" + std::to_string(YChange) + "|";
+    this->Teststring = std::to_string(X) + " | " + std::to_string(XChange) + " | " + std::to_string(Y) + " | " + std::to_string(YChange);
 }
 
 void Stateinit::OnExit()

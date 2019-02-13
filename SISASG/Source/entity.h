@@ -20,6 +20,10 @@ public:
 	float fwdaccl;
 	float bwdaccl;
 	float accl;
+	float yaw;
+	float pitch;
+	float yawTotal;
+	float pitchTotal;
 
 	Vector3 position;
 	Vector3 target;
@@ -28,6 +32,7 @@ public:
 
 	Vector3 view;
 	Vector3 right;
+
     std::string *text;
     std::string name = "";
 	Mesh *meshptr = nullptr;

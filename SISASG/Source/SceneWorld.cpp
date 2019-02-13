@@ -29,7 +29,7 @@ SceneWorld::~SceneWorld()
 
 void SceneWorld::Init()
 {
-	srand(time(0));
+	srand(unsigned int(time(0)));
 
 	random = rand() % 10 + 1;
 
@@ -127,16 +127,11 @@ void SceneWorld::Init()
     meshList[GEO_TEXT]->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
 
     //skybox
-    meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
-
+	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
     meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
-
     meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
-
-    meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
-
+	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
     meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
-
     meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
 
     //planets
@@ -162,6 +157,9 @@ void SceneWorld::Init()
     // Test Cube
     meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
     meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+
+	// Test Environment
+	meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
 
 	//test car
 	meshList[GEO_CAR] = MeshBuilder::GenerateOBJ("testcar", "OBJ//Car.obj")[0];
@@ -249,10 +247,9 @@ void SceneWorld::Update(double dt)
     this->dtimestring += "\nAcl :";
     this->dtimestring += std::to_string(testCube1.accl);
     this->dtimestring += "\nPit :";
-    this->dtimestring += std::to_string(testCube1.pitchX);
+    this->dtimestring += std::to_string(testCube1.pitchTotal);
     this->dtimestring += "\nYaw :";
-    this->dtimestring += std::to_string(testCube1.yawY);
-
+    this->dtimestring += std::to_string(testCube1.yawTotal);
 	this->dtimestring += "\nCamVel :";
 	this->dtimestring += std::to_string(camera.velocity);
 	this->dtimestring += "\nCamAcl :";
@@ -421,7 +418,7 @@ void SceneWorld::RenderAsteroid()
 	//for (int i = 0; i < random; i++)
 	//{
 		modelStack.PushMatrix();
-		modelStack.Translate(random, random, random);
+		modelStack.Translate((float)random, (float)random, (float)random);
 		modelStack.Translate(movement_asteroid1_z, 0, 0);
 		modelStack.Rotate(rotateAngle, 1, 0, 1);
 		RenderMesh(meshList[GEO_ASTEROID1], true);
@@ -471,31 +468,30 @@ void SceneWorld::Render()
         RenderMesh(meshList[GEO_AXES], false);
     modelStack.PopMatrix();
 
-     RenderSkybox();
+    // RenderSkybox();
 
-     //RenderPlanets();
+    // RenderPlanets();
 
-	 RenderAsteroid();
+	// RenderAsteroid();
 
-	 //testcar
-	 modelStack.PushMatrix();
-	 modelStack.Translate(-10, 0, 0);
-	 RenderMesh(meshList[GEO_CAR], true);
-	 modelStack.PopMatrix();
+	// testcar
+	// modelStack.PushMatrix();
+	// modelStack.Translate(-10, 0, 0);
+	// RenderMesh(meshList[GEO_CAR], true);
+	// modelStack.PopMatrix();
 
-    // first push to testCube
     modelStack.PushMatrix();
     modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-    modelStack.Rotate(testCube1.yawY, 0, 1, 0);
-
-    // second push to testcube
-    modelStack.PushMatrix();
-    modelStack.Rotate(testCube1.pitchX, 1, 0, 0);
+    modelStack.Rotate(testCube1.yawTotal, 0, 1, 0);
+    modelStack.Rotate(testCube1.pitchTotal, 1, 0, 0);
     modelStack.Scale(5.0f, 5.0f, 5.0f);
     RenderMesh(meshList[GEO_TESTCUBE], true);
+    modelStack.PopMatrix();
 
-    modelStack.PopMatrix();
-    modelStack.PopMatrix();
+	modelStack.PushMatrix();
+	modelStack.Scale(10.0f, 10.0f, 10.0f);
+	RenderMesh(meshList[GEO_TESTENV], true);
+	modelStack.PopMatrix();
 
     modelStack.PushMatrix();
     modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);

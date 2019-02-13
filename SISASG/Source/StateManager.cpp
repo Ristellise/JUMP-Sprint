@@ -20,7 +20,7 @@ void StateManager::Update(double dt, GLFWwindow *window)
 
     for (size_t i = 0; i < this->activeStates.size(); i++)
     {
-        this->activeStates[i]->OnCam(this->SM_Mouse->X, this->SM_Mouse->Y, this->SM_Mouse->XChange, this->SM_Mouse->YChange);
+        this->activeStates[i]->OnCam(this->SM_Mouse->X, this->SM_Mouse->Y, (float)this->SM_Mouse->XChange, (float)this->SM_Mouse->YChange);
         this->activeStates[i]->OnUpdate(dt);
         if (this->activeStates[i]->getspawnState() != nullptr)
         {
