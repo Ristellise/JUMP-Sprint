@@ -36,11 +36,12 @@ entity* GState::entityGetFast(std::string meshname)
     return *attr_iter;
 }
 
-void GState::OnCreate(unsigned *parameters,FontLoader *St_FLInstance, Camera3* cam)
+void GState::OnCreate(unsigned *parameters,FontLoader *St_FLInstance, Camera3* cam,MouseHandler* mouse)
 {
     this->state_params = parameters;
     this->St_FLInstance = St_FLInstance;
     this->state_cam = cam;
+    this->mouse = mouse;
 }
 void GState::RenderTextScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {

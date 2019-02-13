@@ -20,7 +20,7 @@ public:
 	Vector3 up;
     entityType type;
 
-    std::string text = "";
+    std::string *text;
     std::string name = "";
 	Mesh *meshptr = nullptr;
 
