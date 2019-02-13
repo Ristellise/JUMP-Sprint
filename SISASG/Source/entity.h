@@ -29,7 +29,6 @@ public:
 	Vector3 view;
 	Vector3 right;
 
-	Mesh *meshptr = NULL;
     std::string text = "";
     std::string name = "";
 	Mesh *meshptr = nullptr;
