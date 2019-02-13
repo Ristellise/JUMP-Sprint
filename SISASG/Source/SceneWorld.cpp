@@ -108,11 +108,18 @@ void SceneWorld::Init()
 
     meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 200, 200, 200);
 
+    FLInstance.Loadfnt("Font/fnt.fnt");
     Stateinit* initInstance = new Stateinit();
     this->StateManInst.addAvailable(initInstance);
-    this->StateManInst.Init(this->m_parameters);
+    this->StateManInst.setCam(&camera);
+    this->StateManInst.Init(this->m_parameters, &this->FLInstance);
+    
+
+    
+    
+    
     //** FontLoader Instance **//
-    FLInstance.Loadfnt("Font/fnt.fnt");
+    
 
     //// The fontsheet on a big mesh
     meshList[GEO_TEXT] = MeshBuilder::GenerateText("saofontsheet", this->FLInstance);
@@ -182,7 +189,6 @@ void SceneWorld::Update(double dt)
     }
     if (Application::IsKeyPressed(VK_SPACE))
     {
-        ;
     }
     if (Application::IsKeyPressed('I'))
         lights[this->selector].position.z -= (float)(LSPEED * dt);
