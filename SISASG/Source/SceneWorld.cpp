@@ -120,14 +120,7 @@ void SceneWorld::Init()
     Stateinit* initInstance = new Stateinit();
     this->StateManInst.addAvailable(initInstance);
     this->StateManInst.setCam(&camera);
-    this->StateManInst.Init(this->m_parameters, &this->FLInstance);
-    
-
-    
-    
-    
-    //** FontLoader Instance **//
-    
+    this->StateManInst.Init(this->m_parameters, &this->FLInstance,&this->Mouse);
 
     //// The fontsheet on a big mesh
     meshList[GEO_TEXT] = MeshBuilder::GenerateText("saofontsheet", this->FLInstance);
@@ -283,7 +276,7 @@ void SceneWorld::Update(double dt)
 		rotateDir_asteroid = -rotateDir_asteroid;
 	}
 
-    this->StateManInst.Update(dt);
+    this->StateManInst.Update(dt, this->l_window);
 }
 
 void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)

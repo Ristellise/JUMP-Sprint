@@ -1,4 +1,3 @@
-
 #include "Application.h"
 
 //Include the standard C++ headers
@@ -6,8 +5,9 @@
 #include <stdlib.h>
 
 #include "SceneWorld.h"
-// Please dont even change to SceneHangar =_=
-// #include "SceneHangar.h" // For Selecting Ships
+// Please dont even change to SceneHangar =_= 
+// It was temporary >.>
+#include "SceneHangar.h" // For Selecting Ships 
 
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
@@ -98,7 +98,7 @@ void Application::Run()
 {
     //Main Loop
     Scene *scene = new SceneWorld(this->m_window);
-    //new SceneWorld(this->m_window)
+//new SceneHangar;
     scene->Init();
 
     m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame

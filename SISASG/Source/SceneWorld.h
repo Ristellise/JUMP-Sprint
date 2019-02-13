@@ -65,8 +65,6 @@ private:
     bool leg = false;
     float legdance = 0.0f;
     StateManager StateManInst;
-    float redlightpow = 0.0f;
-    float bluelightpow = 0.0f;
     Mesh* meshList[NUM_GEOMETRY];
 
     unsigned int selector = 0;
