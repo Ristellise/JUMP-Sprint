@@ -26,6 +26,7 @@ public:
     virtual void Render();
     void RenderSkybox();
     void RenderPlanets();
+	void RenderAsteroid();
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void Exit();

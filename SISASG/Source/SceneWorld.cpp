@@ -147,6 +147,10 @@ void SceneWorld::Init()
     meshList[GEO_SUN] = MeshBuilder::GenerateOBJ("sun", "OBJ//Sun.obj")[0];
     meshList[GEO_SUN]->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
 
+	//asteroids
+	meshList[GEO_ASTEROID1] = MeshBuilder::GenerateOBJ("asteroid1", "OBJ//asteroid1.obj")[0];
+	meshList[GEO_ASTEROID1]->textureID = LoadTGA("TGA//asteroid1 texture.tga", GL_LINEAR, GL_CLAMP);
+
     // Test Cube
     meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
     meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
@@ -365,11 +369,19 @@ void SceneWorld::RenderPlanets()
 
     //sun
     modelStack.PushMatrix();
-    modelStack.Translate(-60, 0, 0);
+    modelStack.Translate(0, 0, 0);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
     //modelStack.Scale(5.0f, 5.0f, 5.0f);
     RenderMesh(meshList[GEO_SUN], true);
     modelStack.PopMatrix();
+}
+
+void SceneWorld::RenderAsteroid()
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(10, 0, 0);
+	RenderMesh(meshList[GEO_ASTEROID1], true);
+	modelStack.PopMatrix();
 }
 
 // Main Render loop
@@ -415,6 +427,8 @@ void SceneWorld::Render()
     // RenderSkybox();
 
     // RenderPlanets();
+
+	RenderAsteroid();
 
     // first push to testCube
     modelStack.PushMatrix();

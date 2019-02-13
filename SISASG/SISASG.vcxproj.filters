@@ -108,6 +108,9 @@
     <ClCompile Include="Source\Utility.cpp">
       <Filter>Source Files\General</Filter>
     </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\StateInit.h">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="Source\testCube.h">
       <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="collision.h">
+      <Filter>Header Files\General</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
