@@ -3,6 +3,11 @@
 #define APPLICATION_H
 
 #include "timer.h"
+//Include GLEW
+#include <GL/glew.h>
+
+//Include GLFW
+#include <GLFW/glfw3.h>
 
 class Application
 {
@@ -13,7 +18,7 @@ public:
 	void Run();
 	void Exit();
 	static bool IsKeyPressed(unsigned short key);
-
+    GLFWwindow* m_window;
 private:
 
 	//Declare a window object

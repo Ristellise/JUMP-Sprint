@@ -1,19 +1,14 @@
 
 #include "Application.h"
 
-//Include GLEW
-#include <GL/glew.h>
-
-//Include GLFW
-#include <GLFW/glfw3.h>
-
 //Include the standard C++ headers
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "SceneWorld.h"
+// Please dont even change to SceneHangar =_=
+// #include "SceneHangar.h" // For Selecting Ships
 
-GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
@@ -70,7 +65,7 @@ void Application::Init()
 
 
     //Create a window and create its OpenGL context
-    m_window = glfwCreateWindow(1024, 768, "Computer Graphics", NULL, NULL);
+    m_window = glfwCreateWindow(1024, 768, "SISASG Is Seriously not A Space Game", NULL, NULL);
     glfwSetWindowSizeCallback(m_window, resize_callback);
     //If the window couldn't be created
     if (!m_window)
@@ -102,7 +97,8 @@ void Application::Init()
 void Application::Run()
 {
     //Main Loop
-    Scene *scene = new SceneWorld();
+    Scene *scene = new SceneWorld(this->m_window);
+    //new SceneWorld(this->m_window)
     scene->Init();
 
     m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
