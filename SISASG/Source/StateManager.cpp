@@ -2,6 +2,12 @@
 #include "State.h"
 
 
+bool StateManager::setCam(Camera3 * cam)
+{
+    this->manager_cam = cam;
+    return true;
+}
+
 StateManager::StateManager()
 {
 }
@@ -31,9 +37,10 @@ void StateManager::Render()
         this->activeStates[i]->OnRender();
     }
 }
-bool StateManager::Init(unsigned *m_parameters)
+bool StateManager::Init(unsigned *m_parameters, FontLoader* FLInstance)
 {
     this->StateMan_parameters = m_parameters;
+    this->SM_FLInstance = FLInstance;
     this->addState("init");
     return true;
 }
@@ -55,7 +62,7 @@ bool StateManager::addState(std::string Statename)
     {
         if ((*this->availableStates[i]).StateName == Statename)
         {
-            (this->availableStates[i])->OnCreate(StateMan_parameters,this->SM_FLInstance);
+            (this->availableStates[i])->OnCreate(StateMan_parameters,this->SM_FLInstance,this->manager_cam);
             (this->availableStates[i])->OnEnter();
             this->activeStates.push_back(this->availableStates[i]);
             return true;

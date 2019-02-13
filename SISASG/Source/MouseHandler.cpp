@@ -23,8 +23,6 @@ void MouseHandler::Update(GLFWwindow* window, double dt, bool reset)
 
 void MouseHandler::Center(GLFWwindow* window)
 {
-    int X;
-    int Y;
     glfwGetWindowSize(window, &X, &Y);
     glfwSetCursorPos(window, (double)X / 2, (double)Y / 2);
 }
