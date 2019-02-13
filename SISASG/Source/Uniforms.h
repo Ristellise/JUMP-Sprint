@@ -59,6 +59,12 @@ enum GEOMETRY_TYPE
     GEO_PLANET_JUPITER,
     GEO_SUN,
 
+	//Asteroids
+	GEO_ASTEROID1,
+
+	//test car
+	GEO_CAR,
+
     NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
 };
 
