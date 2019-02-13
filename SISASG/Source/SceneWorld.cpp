@@ -203,10 +203,19 @@ void SceneWorld::Update(double dt)
         dt, 
         testCube1.position.x, 
         testCube1.position.y, 
-        testCube1.position.z
+        testCube1.position.z,
+		testCube1.topSpeed, 
+		testCube1.fwdaccl, 
+		testCube1.bwdaccl,
+		camera.accl,
+		testCube1.view
     );
 
-    testCube1.Update(dt, testCube1.topSpeed, testCube1.fwdaccl, testCube1.bwdaccl, testCube1.accl);
+    testCube1.Update(dt, 
+		testCube1.topSpeed,
+		testCube1.fwdaccl,
+		testCube1.bwdaccl,
+		testCube1.accl);
 
     this->dtimestring = "FPS:";
     this->dtimestring += std::to_string(1.0f / dt);
@@ -227,6 +236,11 @@ void SceneWorld::Update(double dt)
     this->dtimestring += std::to_string(testCube1.pitchX);
     this->dtimestring += "\nYaw :";
     this->dtimestring += std::to_string(testCube1.yawY);
+
+	this->dtimestring += "\nCamVel :";
+	this->dtimestring += std::to_string(camera.velocity);
+	this->dtimestring += "\nCamAcl :";
+	this->dtimestring += std::to_string(camera.accl);
 
     static int rotateDir = 1;
     static const float ROTATE_SPEED = 10.f;
