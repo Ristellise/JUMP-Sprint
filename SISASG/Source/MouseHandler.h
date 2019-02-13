@@ -4,12 +4,11 @@ class MouseHandler
 {
 private:
     double sensitivity = 10.0f;
-    int X = 0;
-    int Y = 0;
-    
 public:
     double XChange = 0.0;
     double YChange = 0.0;
+    int X = 0;
+    int Y = 0;
     MouseHandler(double sensitvity = 10.0f);
     ~MouseHandler();
     void Update(GLFWwindow * window, double dt, bool reset = false);

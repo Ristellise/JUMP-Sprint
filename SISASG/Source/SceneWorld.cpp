@@ -108,10 +108,16 @@ void SceneWorld::Init()
 
     meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 200, 200, 200);
 
+    FLInstance.Loadfnt("Font/fnt.fnt");
     Stateinit* initInstance = new Stateinit();
     this->StateManInst.addAvailable(initInstance);
-    FLInstance.Loadfnt("Font/fnt.fnt");
-    this->StateManInst.Init(this->m_parameters,&this->FLInstance);
+    this->StateManInst.setCam(&camera);
+    this->StateManInst.Init(this->m_parameters, &this->FLInstance);
+    
+
+    
+    
+    
     //** FontLoader Instance **//
     
 

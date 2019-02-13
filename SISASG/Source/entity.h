@@ -21,6 +21,7 @@ public:
     entityType type;
 
     std::string text = "";
+    std::string name = "";
 	Mesh *meshptr = nullptr;
 
 	entity();

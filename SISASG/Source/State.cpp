@@ -25,10 +25,22 @@ Mesh* GState::meshGetFast(std::string meshname)
     return *attr_iter;
 }
 
-void GState::OnCreate(unsigned *parameters,FontLoader *St_FLInstance)
+entity* GState::entityGetFast(std::string meshname)
+{
+    auto attributeFinder =
+        [](const entity* attr, const std::string& name) -> bool
+    { return attr->name == name; };
+
+    auto attr_iter = std::find_if(std::begin(this->entitylists), std::end(this->entitylists),
+        std::bind(attributeFinder, std::placeholders::_1, meshname));
+    return *attr_iter;
+}
+
+void GState::OnCreate(unsigned *parameters,FontLoader *St_FLInstance, Camera3* cam)
 {
     this->state_params = parameters;
     this->St_FLInstance = St_FLInstance;
+    this->state_cam = cam;
 }
 void GState::RenderTextScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
