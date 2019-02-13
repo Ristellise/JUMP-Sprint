@@ -46,6 +46,16 @@ void spaceship::Update(double dt, float topspeed, float fwdaccl, float bwdaccl, 
 	view = (target - position).Normalized();
 	target = target + view;
 
+	// keeps pitch and yaw within -360 to 360
+	if (pitchX > 360)
+		pitchX -= 360;
+	else if (pitchX < -360)
+		pitchX += 360;
+	if (yawY > 360)
+		yawY -= 360;
+	else if (yawY < -360)
+		yawY += 360;
+
 	if ((Application::IsKeyPressed('W')) && (velocity < topspeed))
 	{
 		velocity += (float)(fwdaccl * dt);

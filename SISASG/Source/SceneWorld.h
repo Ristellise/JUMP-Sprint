@@ -46,18 +46,9 @@ private:
     MouseHandler Mouse;
     std::string dtimestring = "";
     void RenderMesh(Mesh *mesh, bool enableLight);
-    float doormovement = 0.0f;
-    float lidmovement = 0.0f;
-    bool opendoor = false;
-    bool openlid = false;
-    bool renable = false;
     double lastkeypress = 0.0;
     float rotateAngle;
-    bool leg = false;
-    float legdance = 0.0f;
     StateManager StateManInst;
-    float redlightpow = 0.0f;
-    float bluelightpow = 0.0f;
     Mesh* meshList[NUM_GEOMETRY];
 
     unsigned int selector = 0;
