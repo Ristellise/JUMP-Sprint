@@ -16,7 +16,7 @@ void StateManager::Update(double dt, GLFWwindow *window)
 {
     bool last_lock = this->currentlock;
     this->SM_Mouse->Update(window, dt);
-    this->needslocking = true;
+    this->lockswitch = true;
 
     for (size_t i = 0; i < this->activeStates.size(); i++)
     {
@@ -34,34 +34,39 @@ void StateManager::Update(double dt, GLFWwindow *window)
         }
         if (!this->activeStates[i]->mouseLocked())
         {
-            this->needslocking = false;
+            this->lockswitch = false;
         }
     }
-    if (Application::IsKeyPressed('P'))
+    if (Application::IsKeyPressed('P') && fdelay == 0)
     {
-        this->needslocking = true;
+        this->lockswitch = true;
+		fdelay += 10;
     }
-    if (this->currentlock != this->needslocking && this->lockbounce > 1.0)
+	if (fdelay > 0)
+	{
+		fdelay--;
+	}
+    if (this->currentlock != this->lockswitch && this->lockbounce > 1.0)
     {
         this->lockbounce = 0.0;
-        this->currentlock = this->needslocking;
+        this->currentlock = this->lockswitch;
     }
     else
     {
         this->lockbounce += dt;
     }
-    if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL && this->needslocking)
+    if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL && this->lockswitch) // if cursor is on and needs locking
     {
         std::cout << "Mouse Off" << std::endl;
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        this->needslocking = true;
+        this->lockswitch = true;
         this->currentlock = false;
     }
-    else if (this->currentlock)
+    else if (this->currentlock && this->lockswitch) // if cursor is currently locked
     {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         std::cout << "Mouse On" << std::endl;
-        this->needslocking = false;
+        this->lockswitch = false;
     }
 }
 void StateManager::Render()

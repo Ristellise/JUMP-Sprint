@@ -31,7 +31,7 @@ class SceneHangar : public Scene
 		GEO_BOTTOM,
 		// Test Cube
 		GEO_TESTCUBE,
-
+		GEO_SHIP1,
 		NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
 	};
 

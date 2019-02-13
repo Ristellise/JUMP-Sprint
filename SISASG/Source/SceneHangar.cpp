@@ -102,8 +102,11 @@ void SceneHangar::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
 
 	// Test Cube
-	meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
-	meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+	//meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
+	//meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+
+	meshList[GEO_SHIP1] = MeshBuilder::GenerateOBJ("Ship1", "OBJ//Ship1.obj")[0];
+	meshList[GEO_SHIP1]->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
 
 	// Lightball
 	meshList[GEO_LIGHT] = MeshBuilder::GenerateOBJ("Ceilinglight", "OBJ//Hangar_Ceilinglight.obj")[0];
@@ -174,9 +177,16 @@ void SceneHangar::Update(double dt)
 	if (Application::IsKeyPressed(VK_SPACE) && Delay == 0)
 	{
 		if (lit == true)
+		{
 			lit = false;
+			lights[0].power = 0;
+		}
 		else
+		{
 			lit = true;
+			lights[0].power = 50.f;
+		}
+		glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
 		Delay += 10;
 	}
 	if (Application::IsKeyPressed('I'))
@@ -298,8 +308,9 @@ void SceneHangar::Render()
 	//modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Scale(5.0f, 5.0f, 5.0f);
-	RenderMesh(meshList[GEO_TESTCUBE], true);
+	modelStack.Scale(15.0f, 15.0f, 15.0f);
+	modelStack.Rotate(75, 1, 0, 0);
+	RenderMesh(meshList[GEO_SHIP1], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
