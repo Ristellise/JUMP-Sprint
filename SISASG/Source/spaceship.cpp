@@ -24,10 +24,16 @@ void spaceship::Init(const Vector3& pos, const Vector3& target, const Vector3& u
 	this->up = defaultUp = right.Cross(view).Normalized();
 }
 
-void spaceship::Update(double dt, float topspeed, float fwdaccl, float bwdaccl, float &accl)
+void spaceship::Update(
+	double dt,  
+	float topSpeed,
+	float fwdaccl,
+	float bwdaccl, 
+	float &accl
+)
 {
-	Vector3 view = (target - position).Normalized();
-	Vector3 right = view.Cross(up);
+	view = (target - position).Normalized();
+	right = view.Cross(up);
 
 	/*
 	if (Application::IsKeyPressed('A'))
@@ -46,13 +52,15 @@ void spaceship::Update(double dt, float topspeed, float fwdaccl, float bwdaccl, 
 	view = (target - position).Normalized();
 	target = target + view;
 
-	if ((Application::IsKeyPressed('W')) && (velocity < topspeed))
+	accl = 0;
+
+	if ((Application::IsKeyPressed('W')) && (velocity < topSpeed))
 	{
 		velocity += (float)(fwdaccl * dt);
 		accl = fwdaccl;
 	}
 
-	if ((Application::IsKeyPressed('S')) && (velocity > -topspeed))
+	if ((Application::IsKeyPressed('S')) && (velocity > -topSpeed))
 	{
 		velocity += (float)(bwdaccl * dt);
 		accl = bwdaccl;

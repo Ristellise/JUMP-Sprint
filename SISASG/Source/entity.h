@@ -15,11 +15,19 @@ enum entityType
 class entity
 {
 public:
+	float velocity;
+	float topSpeed;
+	float fwdaccl;
+	float bwdaccl;
+	float accl;
+
 	Vector3 position;
 	Vector3 target;
 	Vector3 up;
     entityType type;
 
+	Vector3 view;
+	Vector3 right;
     std::string *text;
     std::string name = "";
 	Mesh *meshptr = nullptr;
