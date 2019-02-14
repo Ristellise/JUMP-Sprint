@@ -155,8 +155,7 @@ void SceneWorld::Init()
     meshList[GEO_SUN] = MeshBuilder::GenerateOBJ("sun", "OBJ//Sun.obj")[0];
     meshList[GEO_SUN]->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
 
-	meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("Ship1", "OBJ//Ship1.obj")[0];
-	meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
+
 	//asteroids
 	meshList[GEO_ASTEROID1] = MeshBuilder::GenerateOBJ("asteroid1", "OBJ//asteroid1.obj")[0];
 	meshList[GEO_ASTEROID1]->textureID = LoadTGA("TGA//asteroid1 texture.tga", GL_LINEAR, GL_CLAMP);
@@ -165,6 +164,8 @@ void SceneWorld::Init()
     meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
     meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
 
+	meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("Ship1", "OBJ//Ship1.obj")[0];
+	meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
 	//test car
 	meshList[GEO_CAR] = MeshBuilder::GenerateOBJ("testcar", "OBJ//Car.obj")[0];
 	meshList[GEO_CAR]->textureID = LoadTGA("TGA//car.tga", GL_LINEAR, GL_CLAMP);

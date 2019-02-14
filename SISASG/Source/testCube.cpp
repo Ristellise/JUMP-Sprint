@@ -2,7 +2,7 @@
 
 testCube::testCube()
 {
-	topSpeed = 15.f;
+	topSpeed = 50.f;
 	fwdaccl = 10.f;
 	bwdaccl = -5.f;
 	accl = 0.f;
