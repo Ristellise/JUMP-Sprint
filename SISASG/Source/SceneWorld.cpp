@@ -51,6 +51,7 @@ void SceneWorld::Init()
 
     camera.Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
     testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
+	bullet.Init(Vector3(testCube1.position.x, testCube1.position.y, testCube1.position.z),Vector3(0,0,-1),Vector3(0,1,0));
 
     this->Mouse = MouseHandler(20.0f);
     Mtx44 projection;
@@ -162,7 +163,7 @@ void SceneWorld::Init()
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
 
 	//Bullet
-	meshList[GEO_BULLETBODY] = MeshBuilder::GenerateCylinder("bulletbody", Color(255, 255, 255), 18, 36, 0.5, 1);
+	meshList[GEO_BULLETBODY] = MeshBuilder::GenerateSphere("bulletbody", Color(255, 255, 255), 18, 36, 0.5);
 	// Test Environment
 	meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
 
@@ -378,7 +379,11 @@ void SceneWorld::RenderSkybox()
 void SceneWorld::RenderBullet()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 3, 0);
+
+	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
+	modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+	modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
+
 	RenderMesh(meshList[GEO_BULLETBODY], true);
 	modelStack.PopMatrix();
 }
@@ -494,9 +499,9 @@ void SceneWorld::Render()
 	// modelStack.PopMatrix();
 
     modelStack.PushMatrix();
-	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);;
+	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
     modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
-	modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
+	modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z); // Try to use test cube coordinates for spawning bullet. **
 	// modelStack.Rotate(testCube1.rollTotal, 0, 1, 0);
 
     modelStack.Scale(5.0f, 5.0f, 5.0f);
@@ -515,6 +520,13 @@ void SceneWorld::Render()
     
     RenderTextScreen(meshList[GEO_TEXT], this->dtimestring , Color(255, 255, 0), 2, 1.f, 24.f);
     this->StateManInst.Render();
+
+	if (Application::IsKeyPressed('F'))
+	{
+		RenderBullet();
+		//Make it shoot?
+
+	}
 }
 
 /*-------------

@@ -27,6 +27,7 @@ Bullet * Bullet::CreateBullet(float x, float y, float xDir, float yDir, float sp
 	bullet->xDir = xDir;
 	bullet->yDir = yDir;
 	bullet->speed = speed;
+
 	return bullet;
 }
 
@@ -51,6 +52,9 @@ bool Bullet::Shoot(float x, float y, float xDir, float yDir, float speed)
 
 void Bullet::UpdateBullets(float dt)
 {
+	g_dElapsedTime += dt;
+	g_dDeltaTime = dt;
+
 	for (int i = 0; i < MAX_BULLETS; i++)
 	{
 		if (BulletArray[i] == 0)

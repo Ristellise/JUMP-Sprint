@@ -63,7 +63,6 @@ enum GEOMETRY_TYPE
     GEO_SUN,
 
 	// Bullet
-	GEO_BULLETHEAD,
 	GEO_BULLETBODY,
 
 	//Asteroids

@@ -18,6 +18,8 @@ public:
 	void UpdateBullets(float dt);
 	void DrawBullets();
 	const int MAX_BULLETS = 30;
+	double  g_dElapsedTime = 0.0;
+	double  g_dDeltaTime = 0.0;
 };
 
 #endif
