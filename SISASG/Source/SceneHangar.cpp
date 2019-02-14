@@ -108,6 +108,9 @@ void SceneHangar::Init()
 	meshList[GEO_SHIP1] = MeshBuilder::GenerateOBJ("Ship1", "OBJ//Ship1.obj")[0];
 	meshList[GEO_SHIP1]->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
 
+	meshList[GEO_SHIP1] = MeshBuilder::GenerateOBJ("Ship2", "OBJ//Ship1.obj")[0];
+	meshList[GEO_SHIP1]->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
+
 	// Lightball
 	meshList[GEO_LIGHT] = MeshBuilder::GenerateOBJ("Ceilinglight", "OBJ//Hangar_Ceilinglight.obj")[0];
 	meshList[GEO_LIGHT]->textureID = LoadTGA("TGA//Hangar_Ceilinglight.tga", GL_LINEAR, GL_CLAMP);
