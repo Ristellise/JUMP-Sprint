@@ -27,11 +27,11 @@ public:
 
 	Vector3 position;
 	Vector3 target;
-	Vector3 up;
     entityType type;
 
-	Vector3 view;
-	Vector3 right;
+	Vector3 right;	// relative x
+	Vector3 up;		// relative y
+	Vector3 view;	// relative z
 
     std::string *text;
     std::string name = "";

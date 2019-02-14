@@ -35,9 +35,10 @@ void spaceship::Update(
 )
 {
 	position = position + view * (float)(velocity * dt);
+	target += view;
 	view = (target - position).Normalized();
-	right = view.Cross(up);
-	target = target + view;
+	right = view.Cross(up).Normalized();
+	up = right.Cross(view).Normalized();
 	accl = 0;
 
 	if ((Application::IsKeyPressed('W')) && (velocity < topSpeed))
@@ -55,8 +56,12 @@ void spaceship::Update(
 	if (Application::IsKeyPressed(VK_LEFT))
 	{
         yaw = (float)(80.f * dt);
+		view = (target - position).Normalized();
+		right = view.Cross(up);
+		// right.y = 0;
+		
 		Mtx44 rotation;
-		rotation.SetToRotation(yaw, 0, 1, 0);
+		rotation.SetToRotation(yaw, up.x, up.y, up.z);
 		view = rotation * view;
 		target = position + view;
 		up = rotation * up;
@@ -66,21 +71,17 @@ void spaceship::Update(
 	if (Application::IsKeyPressed(VK_RIGHT))
 	{
 		yaw = (float)(-80.f * dt);
+		view = (target - position).Normalized();
+		right = view.Cross(up);
+		// right.y = 0;
+		right.Normalize();
+		up = right.Cross(view).Normalized();
 		Mtx44 rotation;
-		rotation.SetToRotation(yaw, 0, 1, 0);
+		rotation.SetToRotation(yaw, up.x, up.y, up.z);
 		view = rotation * view;
 		target = position + view;
 		up = rotation * up;
 		this->yawTotal += yaw;
-
-        if (this->yawTotal + yaw >= 360.0f)
-        {
-            this->yawTotal = 360.0f - (this->yawTotal + yaw);
-        }
-        else if (this->yawTotal + yaw <= -360.0f)
-        {
-            this->yawTotal = 360.0f + (this->yawTotal + yaw);
-        }
 	}
 
 	if (Application::IsKeyPressed(VK_DOWN))
@@ -88,7 +89,7 @@ void spaceship::Update(
 		pitch = (float)(80.f * dt);
 		view = (target - position).Normalized();
 		right = view.Cross(up);
-		right.y = 0;
+		// right.y = 0;
 		right.Normalize();
 		up = right.Cross(view).Normalized();
 		Mtx44 rotation;
@@ -97,15 +98,6 @@ void spaceship::Update(
 		target = position + view;
 		up = rotation * up;
 		this->pitchTotal += pitch;
-
-        if (this->pitchTotal + pitch >= 360.0f)
-        {
-            this->pitchTotal = 360.0f - (this->pitchTotal + pitch);
-        }
-        else if (this->pitchTotal + pitch <= -360.0f)
-        {
-            this->pitchTotal = 360.0f + (this->pitchTotal + pitch);
-        }
 	}
 
 	if (Application::IsKeyPressed(VK_UP))
@@ -113,7 +105,7 @@ void spaceship::Update(
 		pitch = (float)(-80.f * dt);
 		view = (target - position).Normalized();
 		right = view.Cross(up);
-		right.y = 0;
+		// right.y = 0;
 		right.Normalize();
 		up = right.Cross(view).Normalized();
 		Mtx44 rotation;

@@ -481,9 +481,11 @@ void SceneWorld::Render()
 	// modelStack.PopMatrix();
 
     modelStack.PushMatrix();
-    modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-    modelStack.Rotate(testCube1.yawTotal, 0, 1, 0);
-    modelStack.Rotate(testCube1.pitchTotal, 1, 0, 0);
+	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);;
+    modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+	modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
+	// modelStack.Rotate(testCube1.rollTotal, 0, 1, 0);
+
     modelStack.Scale(5.0f, 5.0f, 5.0f);
     RenderMesh(meshList[GEO_TESTCUBE], true);
     modelStack.PopMatrix();
