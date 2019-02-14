@@ -8,9 +8,6 @@
 void Stateinit::OnEnter()
 {
     // Init Stacks
-    this->modelStack = new MS();
-    this->viewStack = new MS();
-    this->projectionStack = new MS();
 
     std::cout << "Entering: " << this->StateName<< " Albion Prelude."<< std::endl;
 
@@ -54,11 +51,6 @@ void Stateinit::OnEnter()
 
 void Stateinit::OnRender()
 {
-	(*this->modelStack).LoadIdentity();
-	(*this->viewStack).LoadIdentity();
-	//(*this->viewStack).LookAt(this->state_cam->position.x, this->state_cam->position.y, this->state_cam->position.z, this->state_cam->target.x, this->state_cam->target.y, this->state_cam->target.z, this->state_cam->up.x, this->state_cam->up.y, this->state_cam->up.z);
-
-	(*this->viewStack).LoadIdentity();
     for (size_t i = 0; i < this->entitylists.size(); i++)
     {
         

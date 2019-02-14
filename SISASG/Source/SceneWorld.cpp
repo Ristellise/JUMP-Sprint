@@ -109,14 +109,11 @@ void SceneWorld::Init()
 
     FLInstance.Loadfnt("Font/fnt.fnt");
     Stateinit* initInstance = new Stateinit();
+    this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
     this->StateManInst.addAvailable(initInstance);
     this->StateManInst.setCam(&camera);
-    this->StateManInst.Init(this->m_parameters, &this->FLInstance);
-	this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
-
-    
-    
-    
+    this->StateManInst.Init(this->m_parameters, &this->FLInstance,&this->Mouse);
+	
     //** FontLoader Instance **//
     
 
@@ -188,18 +185,18 @@ void SceneWorld::Update(double dt)
     if (Application::IsKeyPressed(VK_SPACE))
     {
     }
-    if (Application::IsKeyPressed('I'))
-        lights[this->selector].position.z -= (float)(LSPEED * dt);
-    if (Application::IsKeyPressed('K'))
-        lights[this->selector].position.z += (float)(LSPEED * dt);
-    if (Application::IsKeyPressed('J'))
-        lights[this->selector].position.x -= (float)(LSPEED * dt);
-    if (Application::IsKeyPressed('L'))
-        lights[this->selector].position.x += (float)(LSPEED * dt);
-    if (Application::IsKeyPressed('O'))
-        lights[this->selector].position.y -= (float)(LSPEED * dt);
-    if (Application::IsKeyPressed('P'))
-        lights[this->selector].position.y += (float)(LSPEED * dt);
+    //if (Application::IsKeyPressed('I'))
+    //    lights[this->selector].position.z -= (float)(LSPEED * dt);
+    //if (Application::IsKeyPressed('K'))
+    //    lights[this->selector].position.z += (float)(LSPEED * dt);
+    //if (Application::IsKeyPressed('J'))
+    //    lights[this->selector].position.x -= (float)(LSPEED * dt);
+    //if (Application::IsKeyPressed('L'))
+    //    lights[this->selector].position.x += (float)(LSPEED * dt);
+    //if (Application::IsKeyPressed('O'))
+    //    lights[this->selector].position.y -= (float)(LSPEED * dt);
+    //if (Application::IsKeyPressed('P'))
+    //    lights[this->selector].position.y += (float)(LSPEED * dt);
 
     this->lastkeypress += dt;
 
@@ -207,7 +204,7 @@ void SceneWorld::Update(double dt)
     static const float ROTATE_SPEED = 10.f;
     rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
 
-    this->StateManInst.Update(dt);
+    this->StateManInst.Update(dt,this->l_window);
 }
 
 void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)

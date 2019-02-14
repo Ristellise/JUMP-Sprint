@@ -1,7 +1,6 @@
 #include "StateManager.h"
 #include "State.h"
 
-
 bool StateManager::setCam(Camera3 * cam)
 {
     this->manager_cam = cam;
@@ -12,7 +11,7 @@ StateManager::StateManager()
 {
 }
 
-void StateManager::Update(double dt)
+void StateManager::Update(double dt, GLFWwindow* window)
 {
     for (size_t i = 0; i < this->activeStates.size(); i++)
     {
@@ -37,7 +36,7 @@ void StateManager::Render()
         this->activeStates[i]->OnRender();
     }
 }
-bool StateManager::Init(unsigned *m_parameters, FontLoader* FLInstance)
+bool StateManager::Init(unsigned * m_parameters, FontLoader * FLInstance, MouseHandler * SM_Mouse)
 {
     this->StateMan_parameters = m_parameters;
     this->SM_FLInstance = FLInstance;
