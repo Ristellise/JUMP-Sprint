@@ -52,6 +52,9 @@ enum GEOMETRY_TYPE
     // Test Cube
     GEO_TESTCUBE,
 
+	// Test Environment
+	GEO_TESTENV,
+
     //Planets
     GEO_PLANET_VENUS,
     GEO_PLANET_EARTH,
@@ -62,6 +65,12 @@ enum GEOMETRY_TYPE
 	// Bullet
 	GEO_BULLETHEAD,
 	GEO_BULLETBODY,
+
+	//Asteroids
+	GEO_ASTEROID1,
+
+	//test car
+	GEO_CAR,
 
     NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
 };

@@ -11,6 +11,8 @@
 #include "State.h"
 #include <stdexcept>
 
+
+
 SceneWorld::SceneWorld()
 {
     throw std::runtime_error("Did not define window correctly!");
@@ -27,8 +29,14 @@ SceneWorld::~SceneWorld()
 
 void SceneWorld::Init()
 {
+	srand(unsigned int(time(0)));
+
+	random = rand() % 10 + 1;
+
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     rotateAngle = 0;
+	movement_asteroid1_z = 0;
+
     // Generate a default VAO for now
     glGenVertexArrays(1, &m_vertexArrayID);
     glBindVertexArray(m_vertexArrayID);
@@ -108,27 +116,22 @@ void SceneWorld::Init()
 
     meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 200, 200, 200);
 
+    FLInstance.Loadfnt("Font/fnt.fnt");
     Stateinit* initInstance = new Stateinit();
     this->StateManInst.addAvailable(initInstance);
-    this->StateManInst.Init(this->m_parameters);
-    //** FontLoader Instance **//
-    FLInstance.Loadfnt("Font/fnt.fnt");
+    this->StateManInst.setCam(&camera);
+    this->StateManInst.Init(this->m_parameters, &this->FLInstance,&this->Mouse);
 
     //// The fontsheet on a big mesh
     meshList[GEO_TEXT] = MeshBuilder::GenerateText("saofontsheet", this->FLInstance);
     meshList[GEO_TEXT]->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
 
     //skybox
-    meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
-
+	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
     meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
-
     meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
-
-    meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
-
+	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
     meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
-
     meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
 
     //planets
@@ -147,6 +150,10 @@ void SceneWorld::Init()
     meshList[GEO_SUN] = MeshBuilder::GenerateOBJ("sun", "OBJ//Sun.obj")[0];
     meshList[GEO_SUN]->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
 
+	//asteroids
+	meshList[GEO_ASTEROID1] = MeshBuilder::GenerateOBJ("asteroid1", "OBJ//asteroid1.obj")[0];
+	meshList[GEO_ASTEROID1]->textureID = LoadTGA("TGA//asteroid1 texture.tga", GL_LINEAR, GL_CLAMP);
+
     // Test Cube
     meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
     meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
@@ -156,6 +163,16 @@ void SceneWorld::Init()
 
 	//Bullet
 	meshList[GEO_BULLETBODY] = MeshBuilder::GenerateCylinder("bulletbody", Color(255, 255, 255), 18, 36, 0.5, 1);
+	// Test Environment
+	meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
+
+	//test car
+	meshList[GEO_CAR] = MeshBuilder::GenerateOBJ("testcar", "OBJ//Car.obj")[0];
+	meshList[GEO_CAR]->textureID = LoadTGA("TGA//car.tga", GL_LINEAR, GL_CLAMP);
+
+    // Lightball
+    meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
+
 }
 
 void SceneWorld::Update(double dt)
@@ -183,7 +200,9 @@ void SceneWorld::Update(double dt)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
-
+    if (Application::IsKeyPressed(VK_SPACE))
+    {
+    }
     if (Application::IsKeyPressed('I'))
         lights[this->selector].position.z -= (float)(LSPEED * dt);
     if (Application::IsKeyPressed('K'))
@@ -203,10 +222,19 @@ void SceneWorld::Update(double dt)
         dt, 
         testCube1.position.x, 
         testCube1.position.y, 
-        testCube1.position.z
+        testCube1.position.z,
+		testCube1.topSpeed, 
+		testCube1.fwdaccl, 
+		testCube1.bwdaccl,
+		camera.accl,
+		testCube1.view
     );
 
-    testCube1.Update(dt, testCube1.topSpeed, testCube1.fwdaccl, testCube1.bwdaccl, testCube1.accl);
+    testCube1.Update(dt, 
+		testCube1.topSpeed,
+		testCube1.fwdaccl,
+		testCube1.bwdaccl,
+		testCube1.accl);
 
     this->dtimestring = "FPS:";
     this->dtimestring += std::to_string(1.0f / dt);
@@ -224,15 +252,33 @@ void SceneWorld::Update(double dt)
     this->dtimestring += "\nAcl :";
     this->dtimestring += std::to_string(testCube1.accl);
     this->dtimestring += "\nPit :";
-    this->dtimestring += std::to_string(testCube1.pitchX);
+    this->dtimestring += std::to_string(testCube1.pitchTotal);
     this->dtimestring += "\nYaw :";
-    this->dtimestring += std::to_string(testCube1.yawY);
+    this->dtimestring += std::to_string(testCube1.yawTotal);
+	this->dtimestring += "\nCamVel :";
+	this->dtimestring += std::to_string(camera.velocity);
+	this->dtimestring += "\nCamAcl :";
+	this->dtimestring += std::to_string(camera.accl);
 
     static int rotateDir = 1;
+	static int rotateDir_asteroid = 1;
     static const float ROTATE_SPEED = 10.f;
     rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
+	
 
-    this->StateManInst.Update(dt);
+	
+	movement_asteroid1_z += (float)(rotateDir_asteroid * ROTATE_SPEED * dt);
+
+	if (movement_asteroid1_z * rotateDir_asteroid > 40)
+	{
+		rotateDir_asteroid = -rotateDir_asteroid;
+	}
+	if (movement_asteroid1_z < -40 && rotateDir_asteroid < -40)
+	{
+		rotateDir_asteroid = -rotateDir_asteroid;
+	}
+
+    this->StateManInst.Update(dt, this->l_window);
 }
 
 void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
@@ -373,16 +419,31 @@ void SceneWorld::RenderPlanets()
 
     //sun
     modelStack.PushMatrix();
-    modelStack.Translate(-60, 0, 0);
+    modelStack.Translate(0, 0, 0);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
     //modelStack.Scale(5.0f, 5.0f, 5.0f);
     RenderMesh(meshList[GEO_SUN], true);
     modelStack.PopMatrix();
 }
 
+void SceneWorld::RenderAsteroid()
+{
+	//for (int i = 0; i < random; i++)
+	//{
+		modelStack.PushMatrix();
+		modelStack.Translate((float)random, (float)random, (float)random);
+		modelStack.Translate(movement_asteroid1_z, 0, 0);
+		modelStack.Rotate(rotateAngle, 1, 0, 1);
+		RenderMesh(meshList[GEO_ASTEROID1], true);
+		modelStack.PopMatrix();
+	//}
+	
+}
+
 // Main Render loop
 void SceneWorld::Render()
 {
+	
     //Clear color & depth buffer every frame
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -424,19 +485,28 @@ void SceneWorld::Render()
 
     // RenderPlanets();
 
-    // first push to testCube
-    modelStack.PushMatrix();
-    modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-    modelStack.Rotate(testCube1.yawY, 0, 1, 0);
+	// RenderAsteroid();
 
-    // second push to testcube
+	// testcar
+	// modelStack.PushMatrix();
+	// modelStack.Translate(-10, 0, 0);
+	// RenderMesh(meshList[GEO_CAR], true);
+	// modelStack.PopMatrix();
+
     modelStack.PushMatrix();
-    modelStack.Rotate(testCube1.pitchX, 1, 0, 0);
+	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);;
+    modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+	modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
+	// modelStack.Rotate(testCube1.rollTotal, 0, 1, 0);
+
     modelStack.Scale(5.0f, 5.0f, 5.0f);
     RenderMesh(meshList[GEO_TESTCUBE], true);
+    modelStack.PopMatrix();
 
-    modelStack.PopMatrix();
-    modelStack.PopMatrix();
+	modelStack.PushMatrix();
+	modelStack.Scale(10.0f, 10.0f, 10.0f);
+	RenderMesh(meshList[GEO_TESTENV], true);
+	modelStack.PopMatrix();
 
     modelStack.PushMatrix();
     modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);

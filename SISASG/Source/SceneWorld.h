@@ -14,6 +14,10 @@
 #include "Uniforms.h"
 #include "StateManager.h"
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+
 class SceneWorld : public Scene
 {
 
@@ -27,6 +31,7 @@ public:
     virtual void Render();
     void RenderSkybox();
     void RenderPlanets();
+	void RenderAsteroid();
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void Exit();
@@ -53,13 +58,15 @@ private:
     bool opendoor = false;
     bool openlid = false;
     bool renable = false;
+	//bool checkerAsteroid = false;
+	int random;
+	int asteroidSpawn = 0;
     double lastkeypress = 0.0;
     float rotateAngle;
+	float movement_asteroid1_z;
     bool leg = false;
     float legdance = 0.0f;
     StateManager StateManInst;
-    float redlightpow = 0.0f;
-    float bluelightpow = 0.0f;
     Mesh* meshList[NUM_GEOMETRY];
 
     unsigned int selector = 0;

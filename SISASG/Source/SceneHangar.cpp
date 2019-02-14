@@ -36,7 +36,7 @@ void SceneHangar::Init()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	camera.Init(Vector3(0, 10, 70), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 10, 120), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -54,7 +54,6 @@ void SceneHangar::Init()
 	m_parameters[U_MATERIAL_SHININESS] = glGetUniformLocation(m_programID, "material.kShininess");
 	m_parameters[U_LIGHTENABLED] = glGetUniformLocation(m_programID, "lightEnabled");
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
-
 	m_parameters[U_LIGHT0_TYPE] = glGetUniformLocation(m_programID, "lights[0].type");
 	m_parameters[U_LIGHT0_POSITION] = glGetUniformLocation(m_programID, "lights[0].position_cameraspace");
 	m_parameters[U_LIGHT0_COLOR] = glGetUniformLocation(m_programID, "lights[0].color");
@@ -75,8 +74,10 @@ void SceneHangar::Init()
 	glUseProgram(m_programID);
 
 #pragma endregion
-
-	lights[0].power = 10.f;
+	lights[0].position.Set(camera.position.x, 45, 0);
+	lights[0].power = 50.f;
+	lights[0].type = lights->LIGHT_SPOT;
+	lights[0].spotDirection.Set(0, 1, 0);
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], 8);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
@@ -101,46 +102,60 @@ void SceneHangar::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
 
 	// Test Cube
-	meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
-	meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+	//meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
+	//meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+
+	meshList[GEO_SHIP1] = MeshBuilder::GenerateOBJ("Ship1", "OBJ//Ship1.obj")[0];
+	meshList[GEO_SHIP1]->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
 
 	// Lightball
-	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
+	meshList[GEO_LIGHT] = MeshBuilder::GenerateOBJ("Ceilinglight", "OBJ//Hangar_Ceilinglight.obj")[0];
+	meshList[GEO_LIGHT]->textureID = LoadTGA("TGA//Hangar_Ceilinglight.tga", GL_LINEAR, GL_CLAMP);
 
-	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("Floor", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
-	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("Floor", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
-	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("Floor", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
+	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("Left_Wall", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
+	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("Right_Wall", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
+	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("Back", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("Floor", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
-	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("Floor", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
+	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("Roof", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
+
 
 }
 
-static const float SKYBOXSIZE = 200.0f;
+static const float SKYBOXSIZE = 150.0f;
 
 void SceneHangar::Update(double dt)
 {
 	static const float LSPEED = 10.0f;
 	
 	 //For movement
-
-
-
 	if (Application::IsKeyPressed('A') && (camera.position.x > 0) && Delay == 0)
 	{
-		camera.position.x -= SKYBOXSIZE;
-		camera.target.x -= SKYBOXSIZE;
 		Delay += 10;
+		Shift = -SKYBOXSIZE / Delay;
+		shiftmovement = true;
 	}
 
 	if (Application::IsKeyPressed('D') && (camera.position.x < SKYBOXSIZE*(NumberOfShips-1)) && Delay == 0)
 	{
-		camera.position.x += SKYBOXSIZE;
-		camera.target.x += SKYBOXSIZE;
 		Delay += 10;
+		Shift = SKYBOXSIZE / Delay;
+		shiftmovement = true;
 	}
 
-	if (Delay > 0)
+	if (Delay > 0) // Handles movement
+	{
+		if (shiftmovement)
+		{
+			camera.position.x += Shift;
+			camera.target.x += Shift;
+			lights[0].position.x = camera.position.x;
+		}
 		Delay--;
+	}
+	else
+	{
+		shiftmovement = false;
+	}
 
 	// For culling and line / fill modes
 	if (Application::IsKeyPressed('1'))
@@ -159,9 +174,20 @@ void SceneHangar::Update(double dt)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
-	if (Application::IsKeyPressed(VK_SPACE))
+	if (Application::IsKeyPressed(VK_SPACE) && Delay == 0)
 	{
-		;
+		if (lit == true)
+		{
+			lit = false;
+			lights[0].power = 0;
+		}
+		else
+		{
+			lit = true;
+			lights[0].power = 50.f;
+		}
+		glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
+		Delay += 10;
 	}
 	if (Application::IsKeyPressed('I'))
 		lights[this->selector].position.z -= (float)(LSPEED * dt);
@@ -276,24 +302,26 @@ void SceneHangar::Render()
 
 	RenderSkybox();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 0);
-	RenderMesh(meshList[GEO_AXES], false);
-	modelStack.PopMatrix();
+	//modelStack.PushMatrix();
+	//modelStack.Translate(0, 0, 0);
+	//RenderMesh(meshList[GEO_AXES], false);
+	//modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Scale(5.0f, 5.0f, 5.0f);
-	RenderMesh(meshList[GEO_TESTCUBE], true);
+	modelStack.Scale(15.0f, 15.0f, 15.0f);
+	modelStack.Rotate(75, 1, 0, 0);
+	RenderMesh(meshList[GEO_SHIP1], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
+	modelStack.Scale(3, 3, 3);
+	RenderMesh(meshList[GEO_LIGHT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(5.0f, 10.0f, 2.0f);
-	RenderText(meshList[GEO_TEXT], this->dtimestring, Color(255, 255, 0));
+	RenderTextOnScreen(meshList[GEO_TEXT], this->dtimestring, Color(255, 255, 0), 1.5,1,1);
 	modelStack.PopMatrix();
 
 }
@@ -345,52 +373,116 @@ void SceneHangar::RenderText(Mesh* mesh, std::string text, Color color)
 	//glEnable(GL_DEPTH_TEST);
 }
 
+// Based on RenderText
+void SceneHangar::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+{
+	if (!mesh || mesh->textureID <= 0) //Proper error check
+		return;
+
+	glDisable(GL_DEPTH_TEST);
+	Mtx44 ortho;
+
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //No need camera for ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity(); //Reset modelStack
+	modelStack.Scale(size, size, size);
+	modelStack.Translate(x, y, 0);
+
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
+	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
+	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
+
+	float txt_vertical = 0;
+	float txt_horizontal = 0;
+
+	charData buffer;
+	FontResult res;
+
+	for (unsigned i = 0; i < text.length(); ++i)
+	{
+
+		Mtx44 characterSpacing;
+		res = this->FLInstance.getFontData((unsigned int)text[i]);
+		buffer = res.font;
+		characterSpacing.SetToTranslation(txt_horizontal * 0.75f, txt_vertical, 0); //1.0f is the spacing of each character, you may change this value
+		txt_horizontal += 1;
+		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
+		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
+		mesh->Render(res.index * 6, 6); // count is the index Size
+		if (text[i] == '\n')
+		{
+			txt_vertical -= 1.f;
+			txt_horizontal = 0;
+		}
+	}
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
+	glEnable(GL_DEPTH_TEST);
+	projectionStack.PopMatrix();
+	viewStack.PopMatrix();
+	modelStack.PopMatrix();
+
+}
+
 void SceneHangar::RenderSkybox()
 {
-	//left
-	modelStack.PushMatrix();
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Translate(0, 0, -SKYBOXSIZE / 2 + 2.f);
-	modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
-	RenderMesh(meshList[GEO_LEFT], true);
-	modelStack.PopMatrix();
 
-	//right
-	modelStack.PushMatrix();
-	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Translate(0, 0, (NumberOfShips *-SKYBOXSIZE) + (SKYBOXSIZE / 2 + 2.f));
-	modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
-	RenderMesh(meshList[GEO_RIGHT], true);
-	modelStack.PopMatrix();
-
-	// Adjusts for Vertical and back skyboxing
-	for (int i = 0; NumberOfShips > i; i++)
+	for (int j = 0; 2 > j; j++)
 	{
-		// Back
+		//left
 		modelStack.PushMatrix();
-		modelStack.Rotate(180, 0, 1, 0);
-		modelStack.Translate(-i*SKYBOXSIZE, 0, -SKYBOXSIZE / 2 + 2.f);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Translate(j*-SKYBOXSIZE, 0, -SKYBOXSIZE / 2 + 2.f);
 		modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
-		RenderMesh(meshList[GEO_BACK], true);
+		RenderMesh(meshList[GEO_LEFT], true);
 		modelStack.PopMatrix();
 
-		// Top
+		//right
 		modelStack.PushMatrix();
-		modelStack.Rotate(90, 1, 0, 0);
-		modelStack.Translate(i*SKYBOXSIZE, 0, -SKYBOXSIZE / 2 + 2.f);
-		modelStack.Rotate(90, 0, 0, 1);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Translate(j*SKYBOXSIZE, 0, (NumberOfShips *-SKYBOXSIZE) + (SKYBOXSIZE / 2 + 2.f));
 		modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
-		RenderMesh(meshList[GEO_TOP], true);
+		RenderMesh(meshList[GEO_RIGHT], true);
 		modelStack.PopMatrix();
 
-		// Bottom
-		modelStack.PushMatrix();
-		modelStack.Rotate(-90, 1, 0, 0);
-		modelStack.Translate(i*SKYBOXSIZE, 0, -SKYBOXSIZE / 2 + 2.f);
-		modelStack.Rotate(-90, 0, 0, 1);
-		modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
-		RenderMesh(meshList[GEO_BOTTOM], true);
-		modelStack.PopMatrix();
+		// Adjusts for Vertical and back skyboxing
+		for (int i = 0; NumberOfShips > i; i++)
+		{
+			// Back
+			modelStack.PushMatrix();
+			modelStack.Rotate(180, 0, 1, 0);
+			modelStack.Translate(-i * SKYBOXSIZE, 0, 3*(-SKYBOXSIZE / 3 + 2.f));
+			modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+			RenderMesh(meshList[GEO_BACK], true);
+			modelStack.PopMatrix();
+
+			// Top
+			modelStack.PushMatrix();
+			modelStack.Rotate(90, 1, 0, 0);
+			modelStack.Translate(i*SKYBOXSIZE, (j - 1)*-SKYBOXSIZE, -SKYBOXSIZE / 3 + 2.f);
+			modelStack.Rotate(90, 0, 0, 1);
+			modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+			RenderMesh(meshList[GEO_TOP], true);
+			modelStack.PopMatrix();
+
+			// Bottom
+			modelStack.PushMatrix();
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Translate(i*SKYBOXSIZE, (j-1)*SKYBOXSIZE, (-SKYBOXSIZE / 3 + 2.f));
+			modelStack.Rotate(-90, 0, 0, 1);
+			modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+			RenderMesh(meshList[GEO_BOTTOM], true);
+			modelStack.PopMatrix();
+		}
 	}
 
 }

@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="collision.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\entity.cpp" />
@@ -177,11 +178,13 @@
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="collision.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera3.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\FontLoader.h" />
+    <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
     <ClInclude Include="Source\Mesh.h" />

@@ -1,4 +1,7 @@
 #include "State.h"
+#include <algorithm>
+#include <iterator>
+#include <functional>
 
 GState::GState()
 {
@@ -9,10 +12,93 @@ GState::~GState()
 {
 }
 
-void GState::OnCreate(unsigned *parameters,FontLoader *St_FLInstance)
+class E1 : public std::exception {};
+
+Mesh* GState::meshGetFast(std::string meshname)
+{
+    auto attributeFinder =
+        [](const Mesh* attr, const std::string& name) -> bool
+    { return attr->name == name; };
+
+    auto attr_iter = std::find_if(std::begin(this->meshList), std::end(this->meshList),
+        std::bind(attributeFinder, std::placeholders::_1, meshname));
+    return *attr_iter;
+}
+
+entity* GState::entityGetFast(std::string meshname)
+{
+    auto attributeFinder =
+        [](const entity* attr, const std::string& name) -> bool
+    { return attr->name == name; };
+
+    auto attr_iter = std::find_if(std::begin(this->entitylists), std::end(this->entitylists),
+        std::bind(attributeFinder, std::placeholders::_1, meshname));
+    return *attr_iter;
+}
+
+void GState::OnCreate(unsigned *parameters,FontLoader *St_FLInstance, Camera3* cam,MouseHandler* mouse)
 {
     this->state_params = parameters;
     this->St_FLInstance = St_FLInstance;
+    this->state_cam = cam;
+    this->mouse = mouse;
+}
+void GState::RenderTextScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+{
+    if (!mesh || mesh->textureID <= 0) //Proper error check
+        return;
+    //glDisable(GL_DEPTH_TEST);
+    glUniform1i(state_params[U_TEXT_ENABLED], 1);
+    glUniform3fv(state_params[U_TEXT_COLOR], 1, &color.r);
+    glUniform1i(state_params[U_LIGHTENABLED], 0);
+    glUniform1i(state_params[U_COLOR_TEXTURE_ENABLED], 1);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+    glUniform1i(state_params[U_COLOR_TEXTURE], 0);
+
+    Mtx44 ortho;
+    ortho.SetToOrtho(0, 80, 0, 60, -10, 10); // size of screen UI
+    (*this->projectionStack).PushMatrix();
+    (*this->projectionStack).LoadMatrix(ortho);
+    (*this->viewStack).PushMatrix();
+    (*this->viewStack).LoadIdentity(); // No need for camera ortho mode
+    (*this->modelStack).PushMatrix();
+    (*this->modelStack).LoadIdentity(); // Reset modelStack
+    (*this->modelStack).Scale(size, size, size);
+    (*this->modelStack).Translate(x, y, 0);
+
+    float advance = 0;
+    float yadvance = 0.0f;
+    // 
+    charData buffer;
+    FontResult res;
+    for (unsigned i = 0; i < text.length(); ++i)
+    {
+        if (text[i] != '\n')
+        {
+            Mtx44 characterSpacing;
+            res = (*this->St_FLInstance).getFontData((unsigned int)text[i]);
+            buffer = res.font;
+            characterSpacing.SetToTranslation(advance, yadvance, 0);
+            Mtx44 MVP = (*this->projectionStack).Top() * (*this->viewStack).Top() * (*this->modelStack).Top() * characterSpacing;
+            glUniformMatrix4fv(state_params[U_MVP], 1, GL_FALSE, &MVP.a[0]);
+            advance += 1.0f / (float)buffer.advance + 0.3f; // advance the text
+            mesh->Render(res.index * 6, 6); // count is the index Size
+        }
+        else
+        {
+            yadvance -= 1.0f;
+            advance = 0.0f;
+        }
+
+    }
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glUniform1i(state_params[U_TEXT_ENABLED], 0);
+
+    (*this->projectionStack).PopMatrix();
+    (*this->viewStack).PopMatrix();
+    (*this->modelStack).PopMatrix();
+    //glEnable(GL_DEPTH_TEST);
 }
 
 void GState::RenderText(Mesh* mesh, std::string text, Color color)
