@@ -45,3 +45,7 @@ void entity::Update(double dt)
 		position.y -= (float)(ENTITY_SPEED * 0.2 * dt);
 	}
 }
+
+void entity::Update(double dt, float topSpeed, float fwdaccl, float bwdaccl, float & accl)
+{
+}
