@@ -517,7 +517,7 @@ void SceneWorld::Render()
 
     // RenderPlanets();
 
-        // RenderAsteroid();
+    // RenderAsteroid();
 
     // testcar
     // modelStack.PushMatrix();

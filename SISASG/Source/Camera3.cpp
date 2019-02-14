@@ -40,7 +40,6 @@ void Camera3::Update(
 	right = view.Cross(up);
 	this->target.Set(targetx, targety, targetz);
 	position = position + shipView * (float)(velocity * dt);
-
 	accl = 0;
 
 	if ((Application::IsKeyPressed('W')) && (velocity < topSpeed))
