@@ -34,7 +34,7 @@ void Stateinit::OnEnter()
 	this->state_cam->Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
 	// Init: Only the first Vector3 matters. Format: (translateX, translateY, scale) This is for TextUI
-    current->Init(Vector3(1, 1, 2), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
+    current->Init(Vector3(1, 15.0f, 3), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
     current->text = &dtimestring;
     current->type = entityType::eT_TextUI;
     current->meshptr = this->meshGetFast("saofontsheet");
@@ -139,4 +139,9 @@ void Stateinit::OnUpdate(double dt)
 	this->dtimestring += std::to_string(state_cam->velocity);
 	this->dtimestring += "\nCamAcl :";
 	this->dtimestring += std::to_string(state_cam->accl);
+
+    this->dtimestring += "\nMouse:" + std::to_string(this->mouse->X) +
+        " | " + std::to_string(this->mouse->Y) +
+        " | Change: " + std::to_string(this->mouse->XChange) +
+        " | " + std::to_string(this->mouse->YChange);
 }

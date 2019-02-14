@@ -181,7 +181,7 @@ void SceneWorld::Init()
 void SceneWorld::Update(double dt)
 {
     // Temporarily commented out from Josh mouse handler
-    // this->Mouse.Update(this->l_window,dt);
+    this->Mouse.Update(this->l_window,dt);
     // this->Mouse.Center(this->l_window);
 
     static const float LSPEED = 10.0f;

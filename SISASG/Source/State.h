@@ -36,7 +36,7 @@ public:
     virtual void OnUpdate(double dt) = 0; // Logic Calls goes first
     virtual void OnExit() = 0; // Exit Calls after
     virtual void OnRender() = 0; // Rendering Calls=
-    void OnCreate(unsigned * parameters, FontLoader * St_FLInstance, Camera3 * cam);
+    void OnCreate(unsigned * parameters, FontLoader * St_FLInstance, Camera3 * cam, MouseHandler* mouse);
 	void SetMatrixes(MS * model, MS * view, MS * projection);
     // GState Actually becomes active. does all the setup for the Uniforms and stuff.
     void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
