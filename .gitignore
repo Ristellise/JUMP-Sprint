@@ -7,7 +7,6 @@
 *.o
 *.ko
 *.obj
-!SISASG/OBJ/*.obj
 *.elf
 
 # Linker output
@@ -118,7 +117,7 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
-!SISASG/OBJ/
+!SISASG/OBJ
 [Ll]og/
 
 # Visual Studio 2015/2017 cache/options directory
@@ -431,3 +430,4 @@ ASALocalRun/
 healthchecksdb
 
 # End of https://www.gitignore.io/api/c,c++,cmake,visualstudio
+/SISASG/TGA/.mayaSwatches

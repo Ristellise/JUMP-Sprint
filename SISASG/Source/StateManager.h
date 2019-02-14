@@ -15,9 +15,10 @@ class StateManager
     MouseHandler* SM_Mouse;
 
     // Mouselatch
-    bool needslocking = true;
+    bool lockswitch = true;
     bool currentlock = false;
     double lockbounce = 0.0;
+	int fdelay;
 public:
     bool setCam(Camera3* cam);
     StateManager();

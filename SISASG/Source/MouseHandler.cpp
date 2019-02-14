@@ -20,8 +20,8 @@ void MouseHandler::Update(GLFWwindow* window, double dt, bool reset)
     this->XChange = dt * float(this->X / 2 - this->XChange);
     this->YChange = dt * float(this->Y / 2 - this->YChange);
 
-    this->X = oldposX;
-    this->Y = oldposY;
+    this->X = (int)oldposX;
+    this->Y = (int)oldposY;
 }
 
 void MouseHandler::Center(GLFWwindow* window)
