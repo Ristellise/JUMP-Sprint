@@ -1,4 +1,3 @@
-
 ### C ###
 # Prerequisites
 *.d
@@ -430,3 +429,12 @@ ASALocalRun/
 healthchecksdb
 
 # End of https://www.gitignore.io/api/c,c++,cmake,visualstudio
+
+/SISASG/TGA/.mayaSwatches
+
+# Don't ignore these...
+!SoLoud/*
+!SoLoud/include/*
+!SoLoud/lib/*
+!glew/*
+!glfw/*
