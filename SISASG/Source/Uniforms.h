@@ -52,6 +52,9 @@ enum GEOMETRY_TYPE
     // Test Cube
     GEO_TESTCUBE,
 
+	// Test Environment
+	GEO_TESTENV,
+
     //Planets
     GEO_PLANET_VENUS,
     GEO_PLANET_EARTH,

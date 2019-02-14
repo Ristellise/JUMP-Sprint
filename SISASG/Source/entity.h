@@ -9,6 +9,7 @@ enum entityType
     eT_Object,
     eT_Text,
     eT_TextUI,
+    eT_Space,
     eT_Count
 };
 
@@ -20,14 +21,19 @@ public:
 	float fwdaccl;
 	float bwdaccl;
 	float accl;
+	float yaw;
+	float pitch;
+	float yawTotal;
+	float pitchTotal;
 
 	Vector3 position;
 	Vector3 target;
-	Vector3 up;
     entityType type;
 
-	Vector3 view;
-	Vector3 right;
+	Vector3 right;	// relative x
+	Vector3 up;		// relative y
+	Vector3 view;	// relative z
+
     std::string *text;
     std::string name = "";
 	Mesh *meshptr = nullptr;
@@ -37,6 +43,13 @@ public:
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
 	virtual void Reset();
 	virtual void Update(double dt);
+    virtual void Update(
+        double dt,
+        float topSpeed,
+        float fwdaccl,
+        float bwdaccl,
+        float &accl
+    );
 };
 
 #endif
