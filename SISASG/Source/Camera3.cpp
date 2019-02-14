@@ -33,7 +33,6 @@ void Camera3::Update(
 	float topSpeed, 
 	float fwdaccl, 
 	float bwdaccl,
-	float &accl,
 	Vector3 shipView
 )
 {
