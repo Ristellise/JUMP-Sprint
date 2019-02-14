@@ -577,7 +577,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         v.pos.Set(scale * ((float)(buff.offset.a) / (float)(ft.scaleH)),
             scale - ((scale * (float)(buff.characterSize.b) / (float)(ft.scaleH)) + scale * ((float)(buff.offset.b) / (float)(ft.scaleH))),
                   0.0f);
-        //v.normal.Set(1, 0, 0);
+        v.normal.Set(1, 0, 0);
         pixel2UV((float)buff.Coordinate.a,
                  (float)(buff.Coordinate.b + buff.characterSize.b),
                  (float)ft.scaleW,v.texCoord);
@@ -590,7 +590,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         pixel2UV((float)buff.Coordinate.a,
                  (float)(buff.Coordinate.b),
                  (float)ft.scaleW, v.texCoord);
-        //v.normal.Set(1, 0, 0);
+        v.normal.Set(1, 1, 0);
         vertex_buffer_data.push_back(v);
 
         v.pos.Set(((float)(buff.characterSize.a) / (float)(ft.scaleW)) * scale + scale * ((float)(buff.offset.a) / (float)(ft.scaleH)),
@@ -598,7 +598,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         pixel2UV((float)buff.Coordinate.a + buff.characterSize.a,
                  (float)(buff.Coordinate.b),
                  (float)ft.scaleW, v.texCoord);
-        //v.normal.Set(1, 0, 0);
+        v.normal.Set(1, 0, 0);
         vertex_buffer_data.push_back(v);
 
 
@@ -607,7 +607,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         pixel2UV((float)(buff.Coordinate.a + buff.characterSize.a),
                  (float)(buff.Coordinate.b + buff.characterSize.b),
                  (float)ft.scaleW, v.texCoord);
-        //v.normal.Set(1, 0, 0);
+        v.normal.Set(0, 1, 0);
         vertex_buffer_data.push_back(v);
 
 

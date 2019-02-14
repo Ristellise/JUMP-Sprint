@@ -135,12 +135,12 @@ void spaceship::Update(
     }
 
 	if (
-		(position.x < -200) ||
-		(position.x > 200) ||
-		(position.y < -200) ||
-		(position.y > 200) ||
-		(position.z < -200) ||
-		(position.z > 200)
+		(position.x < -5000) ||
+		(position.x > 5000) ||
+		(position.y < -5000) ||
+		(position.y > 5000) ||
+		(position.z < -5000) ||
+		(position.z > 5000)
 		)
 	{
 		Reset();
