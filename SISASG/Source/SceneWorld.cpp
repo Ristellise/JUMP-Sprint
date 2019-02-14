@@ -155,10 +155,7 @@ void SceneWorld::Init()
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
 
 	//Bullet
-	meshList[GEO_BULLETHEAD] = MeshBuilder::GenerateCone("bullethead", Color(1, 1, 1), 36, 3, 3);
-	meshList[GEO_BULLETBODY] = MeshBuilder::GenerateCylinder("bulletbody", Color(1, 1, 1), 18, 36, 1.f, 3);
-    // Lightball
-    meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
+	meshList[GEO_BULLETBODY] = MeshBuilder::GenerateCylinder("bulletbody", Color(255, 255, 255), 18, 36, 0.5, 1);
 }
 
 void SceneWorld::Update(double dt)
@@ -186,10 +183,7 @@ void SceneWorld::Update(double dt)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
-    if (Application::IsKeyPressed(VK_SPACE))
-    {
-        ;
-    }
+
     if (Application::IsKeyPressed('I'))
         lights[this->selector].position.z -= (float)(LSPEED * dt);
     if (Application::IsKeyPressed('K'))
@@ -337,26 +331,12 @@ void SceneWorld::RenderSkybox()
 
 void SceneWorld::RenderBullet()
 {
-	Mtx44 MVP;
-
 	modelStack.PushMatrix();
-	//Transform here
-
-	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
-	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-	meshList[GEO_BULLETHEAD]->Render();
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	//Transform here
-
-	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
-	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-	meshList[GEO_BULLETBODY]->Render();
+	modelStack.Translate(0, 3, 0);
+	RenderMesh(meshList[GEO_BULLETBODY], true);
 	modelStack.PopMatrix();
 }
 
-static const float SKYBOXSIZE = 200.0f;
 void SceneWorld::RenderPlanets()
 {
     //venus

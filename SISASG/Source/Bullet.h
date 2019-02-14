@@ -1,8 +1,9 @@
-/*#pragma once
+#pragma once
 #ifndef BULLET_H
 #define BULLET_H
+#include "entity.h"
 
-class Bullet
+class Bullet : public entity
 {
 	Bullet *BulletArray[100];
 	float xPos, yPos, xDir, yDir, speed;
@@ -14,8 +15,9 @@ public:
 	Bullet *CreateBullet(float x, float y, float xDir, float yDir, float speed);
 	void DestroyBullet(Bullet *pBullet);
 	bool Shoot(float x, float y, float xDir, float yDir, float speed);
-	void UpdateBullets();
+	void UpdateBullets(float dt);
+	void DrawBullets();
 	const int MAX_BULLETS = 30;
 };
 
-#endif*/
+#endif

@@ -59,6 +59,10 @@ enum GEOMETRY_TYPE
     GEO_PLANET_JUPITER,
     GEO_SUN,
 
+	// Bullet
+	GEO_BULLETHEAD,
+	GEO_BULLETBODY,
+
     NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
 };
 

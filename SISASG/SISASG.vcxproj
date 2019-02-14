@@ -153,8 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\FontLoader.cpp" />
@@ -177,8 +177,8 @@
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera3.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\FontLoader.h" />

@@ -1,4 +1,6 @@
-/*#include "Bullet.h"
+#include "Bullet.h"
+#include "Mtx44.h"
+#include "Application.h"
 
 Bullet::Bullet()
 {
@@ -43,9 +45,11 @@ bool Bullet::Shoot(float x, float y, float xDir, float yDir, float speed)
 			return true;
 		}
 	}
+
+	return false;
 }
 
-void Bullet::UpdateBullets()
+void Bullet::UpdateBullets(float dt)
 {
 	for (int i = 0; i < MAX_BULLETS; i++)
 	{
@@ -54,9 +58,29 @@ void Bullet::UpdateBullets()
 			continue;
 		}
 
-		BulletArray[i]->xPos += BulletArray[i]->xDir * BulletArray[i]->speed;
-		BulletArray[i]->yPos += BulletArray[i]->yDir * BulletArray[i]->speed;
+		BulletArray[i]->xPos += BulletArray[i]->xDir * BulletArray[i]->speed * dt;
+		BulletArray[i]->yPos += BulletArray[i]->yDir * BulletArray[i]->speed * dt;
+
+		BulletArray[i]->timeAlive += dt;
+		
+		if (BulletArray[i]->timeAlive > 2.0f)
+		{
+			DestroyBullet(BulletArray[i]);
+			BulletArray[i] = 0;
+		}
 	}
-}*/
+}
+
+void Bullet::DrawBullets()
+{
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		if (BulletArray[i] == 0)
+		{
+			continue;
+		}
+	}
+	//Draw Bullets & Move Bullets
+}
 
 // Create a OpenGL model of bullet, set it to a fixed coordinate, try to animate it using coords.**

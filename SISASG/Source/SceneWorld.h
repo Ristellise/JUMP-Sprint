@@ -8,6 +8,7 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include "testCube.h"
+#include "Bullet.h"
 
 #include "MouseHandler.h"
 #include "Uniforms.h"
@@ -44,6 +45,7 @@ private:
     Light lights[8];
     FontLoader FLInstance;
     MouseHandler Mouse;
+	Bullet bullet;
     std::string dtimestring = "";
     void RenderMesh(Mesh *mesh, bool enableLight);
     float doormovement = 0.0f;
