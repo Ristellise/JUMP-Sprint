@@ -517,6 +517,45 @@ void pixel2UV(float pointX, float pointY,
     texCoord.Set(UVx, UVy);
 }
 
+Mesh* MeshBuilder::GenerateCone(const std::string &meshName, Color color, unsigned numSlice, float radius, float height)
+{
+	std::vector<Vertex> vertex_buffer_data;
+	std::vector<GLuint> index_buffer_data;
+
+	Vertex v;
+	float degreePerSlice = 360.f / numSlice;
+
+	for (unsigned slice = 0; slice < numSlice + 1; ++slice) //slice
+	{
+		float theta = slice * degreePerSlice;
+
+		v.pos.Set(radius * cos(Math::DegreeToRadian(theta)), 0, radius * sin(Math::DegreeToRadian(theta)));
+		v.color = color;
+		vertex_buffer_data.push_back(v);
+
+		v.pos.Set(0, height, 0);
+		v.color = color;
+		vertex_buffer_data.push_back(v);
+	}
+	for (unsigned slice = 0; slice < numSlice + 1; ++slice)
+	{
+		index_buffer_data.push_back(slice * 2 + 0);
+		index_buffer_data.push_back(slice * 2 + 1);
+	}
+
+	Mesh *mesh = new Mesh(meshName);
+
+	mesh->mode = Mesh::DRAW_TRIANGLE_STRIP;
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+
+	mesh->indexSize = index_buffer_data.size();
+
+	return mesh;
+}
 
 Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderInstance, float scale)
 {
@@ -538,7 +577,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         v.pos.Set(scale * ((float)(buff.offset.a) / (float)(ft.scaleH)),
             scale - ((scale * (float)(buff.characterSize.b) / (float)(ft.scaleH)) + scale * ((float)(buff.offset.b) / (float)(ft.scaleH))),
                   0.0f);
-        //v.normal.Set(1, 0, 0);
+        v.normal.Set(1, 0, 0);
         pixel2UV((float)buff.Coordinate.a,
                  (float)(buff.Coordinate.b + buff.characterSize.b),
                  (float)ft.scaleW,v.texCoord);
@@ -551,7 +590,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         pixel2UV((float)buff.Coordinate.a,
                  (float)(buff.Coordinate.b),
                  (float)ft.scaleW, v.texCoord);
-        //v.normal.Set(1, 0, 0);
+        v.normal.Set(1, 1, 0);
         vertex_buffer_data.push_back(v);
 
         v.pos.Set(((float)(buff.characterSize.a) / (float)(ft.scaleW)) * scale + scale * ((float)(buff.offset.a) / (float)(ft.scaleH)),
@@ -559,7 +598,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         pixel2UV((float)buff.Coordinate.a + buff.characterSize.a,
                  (float)(buff.Coordinate.b),
                  (float)ft.scaleW, v.texCoord);
-        //v.normal.Set(1, 0, 0);
+        v.normal.Set(1, 0, 0);
         vertex_buffer_data.push_back(v);
 
 
@@ -568,7 +607,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         pixel2UV((float)(buff.Coordinate.a + buff.characterSize.a),
                  (float)(buff.Coordinate.b + buff.characterSize.b),
                  (float)ft.scaleW, v.texCoord);
-        //v.normal.Set(1, 0, 0);
+        v.normal.Set(0, 1, 0);
         vertex_buffer_data.push_back(v);
 
 
