@@ -62,6 +62,9 @@ enum GEOMETRY_TYPE
     GEO_PLANET_JUPITER,
     GEO_SUN,
 
+	// Bullet
+	GEO_BULLETBODY,
+
 	//Asteroids
 	GEO_ASTEROID1,
 

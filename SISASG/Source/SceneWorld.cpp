@@ -50,6 +50,8 @@ void SceneWorld::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     camera.Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
+    testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
+	bullet.Init(Vector3(testCube1.position.x, testCube1.position.y, testCube1.position.z),Vector3(0,0,-1),Vector3(0,1,0));
 
     this->Mouse = MouseHandler(20.0f);
     Mtx44 projection;
@@ -166,8 +168,13 @@ void SceneWorld::Init()
     meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
     meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
 
-    // Test Environment
-    meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
+	// Lightball
+	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
+
+	//Bullet
+	meshList[GEO_BULLETBODY] = MeshBuilder::GenerateSphere("bulletbody", Color(255, 255, 255), 18, 36, 0.5);
+	// Test Environment
+	meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
 
     //test car
     meshList[GEO_CAR] = MeshBuilder::GenerateOBJ("testcar", "OBJ//Car.obj")[0];
@@ -335,6 +342,18 @@ void SceneWorld::RenderSkybox()
 
 }
 
+void SceneWorld::RenderBullet()
+{
+	modelStack.PushMatrix();
+
+	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
+	modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+	modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
+
+	RenderMesh(meshList[GEO_BULLETBODY], true);
+	modelStack.PopMatrix();
+}
+
 void SceneWorld::RenderPlanets()
 {
     //venus
@@ -430,11 +449,20 @@ void SceneWorld::Render()
     // RenderMesh(meshList[GEO_CAR], true);
     // modelStack.PopMatrix();
 
-    // Test Environment
     modelStack.PushMatrix();
-    modelStack.Scale(10.0f, 10.0f, 10.0f);
-    RenderMesh(meshList[GEO_TESTENV], true);
+	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
+    modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+	modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z); // Try to use test cube coordinates for spawning bullet. **
+	// modelStack.Rotate(testCube1.rollTotal, 0, 1, 0);
+
+    modelStack.Scale(5.0f, 5.0f, 5.0f);
+    RenderMesh(meshList[GEO_TESTCUBE], true);
     modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Scale(10.0f, 10.0f, 10.0f);
+	RenderMesh(meshList[GEO_TESTENV], true);
+	modelStack.PopMatrix();
 
     modelStack.PushMatrix();
     modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
@@ -443,6 +471,13 @@ void SceneWorld::Render()
 
     RenderTextScreen(meshList[GEO_TEXT], this->dtimestring, Color(255, 255, 0), 2, 1.f, 24.f);
     this->StateManInst.Render();
+
+	if (Application::IsKeyPressed('F'))
+	{
+		RenderBullet();
+		//Make it shoot?
+
+	}
 }
 
 /*-------------

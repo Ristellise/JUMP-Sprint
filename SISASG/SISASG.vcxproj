@@ -156,6 +156,7 @@
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\AudioHandler.cpp" />
+    <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\FontLoader.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="collision.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\AudioHandler.h" />
+    <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera3.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\FontLoader.h" />
