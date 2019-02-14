@@ -108,7 +108,7 @@
     <ClCompile Include="Source\Utility.cpp">
       <Filter>Source Files\General</Filter>
     </ClCompile>
-    <ClCompile Include="collision.cpp">
+    <ClCompile Include="Source\collision.cpp">
       <Filter>Source Files\General</Filter>
     </ClCompile>
   </ItemGroup>
@@ -182,7 +182,7 @@
     <ClInclude Include="Source\Light.h">
       <Filter>Header Files\General</Filter>
     </ClInclude>
-    <ClInclude Include="collision.h">
+    <ClInclude Include="Source\collision.h">
       <Filter>Header Files\General</Filter>
     </ClInclude>
   </ItemGroup>

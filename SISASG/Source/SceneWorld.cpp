@@ -135,19 +135,19 @@ void SceneWorld::Init()
     meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
 
     //planets
-    meshList[GEO_PLANET_VENUS] = MeshBuilder::GenerateOBJ("venus", "OBJ//Venus.obj")[0];
+    meshList[GEO_PLANET_VENUS] = MeshBuilder::GenerateOBJ("venus", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_PLANET_VENUS]->textureID = LoadTGA("TGA//venus texture.tga", GL_LINEAR, GL_CLAMP);
 
-    meshList[GEO_PLANET_EARTH] = MeshBuilder::GenerateOBJ("earth", "OBJ//Earth.obj")[0];
+    meshList[GEO_PLANET_EARTH] = MeshBuilder::GenerateOBJ("earth", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_PLANET_EARTH]->textureID = LoadTGA("TGA//earth texture.tga", GL_LINEAR, GL_CLAMP);
 
-    meshList[GEO_PLANET_MARS] = MeshBuilder::GenerateOBJ("mars", "OBJ//Mars.obj")[0];
+    meshList[GEO_PLANET_MARS] = MeshBuilder::GenerateOBJ("mars", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_PLANET_MARS]->textureID = LoadTGA("TGA//mars texture.tga", GL_LINEAR, GL_CLAMP);
 
-    meshList[GEO_PLANET_JUPITER] = MeshBuilder::GenerateOBJ("jupiter", "OBJ//Jupiter.obj")[0];
+    meshList[GEO_PLANET_JUPITER] = MeshBuilder::GenerateOBJ("jupiter", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_PLANET_JUPITER]->textureID = LoadTGA("TGA//jupiter texture.tga", GL_LINEAR, GL_CLAMP);
 
-    meshList[GEO_SUN] = MeshBuilder::GenerateOBJ("sun", "OBJ//Sun.obj")[0];
+    meshList[GEO_SUN] = MeshBuilder::GenerateOBJ("sun", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_SUN]->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
 
 	//asteroids
@@ -318,7 +318,7 @@ void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
     }
 }
 
-static const int SKYBOXSIZE = 5000;
+static const int SKYBOXSIZE = 2000;
 
 void SceneWorld::RenderSkybox()
 {
@@ -374,33 +374,33 @@ void SceneWorld::RenderPlanets()
 {
     //venus
     modelStack.PushMatrix();
-    modelStack.Translate(10, 0, 0);
+    modelStack.Translate(300, 0, -300);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
-    //modelStack.Scale(5.0f, 5.0f, 5.0f);
+    modelStack.Scale(20.0f, 20.0f, 20.0f);
     RenderMesh(meshList[GEO_PLANET_VENUS], true);
     modelStack.PopMatrix();
 
     //earth
     modelStack.PushMatrix();
-    modelStack.Translate(20, 0, 0);
+    modelStack.Translate(-400, 0, -400);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
-    //modelStack.Scale(5.0f, 5.0f, 5.0f);
+    modelStack.Scale(21.0f, 21.0f, 21.0f);
     RenderMesh(meshList[GEO_PLANET_EARTH], true);
     modelStack.PopMatrix();
 
     //mars
     modelStack.PushMatrix();
-    modelStack.Translate(30, 0, 0);
+    modelStack.Translate(-550, 0, 550);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
-    //modelStack.Scale(5.0f, 5.0f, 5.0f);
+    modelStack.Scale(15.0f, 15.0f, 15.0f);
     RenderMesh(meshList[GEO_PLANET_MARS], true);
     modelStack.PopMatrix();
 
     //jupiter
     modelStack.PushMatrix();
-    modelStack.Translate(50, 0, 0);
+    modelStack.Translate(800, 0, 800);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
-    //modelStack.Scale(5.0f, 5.0f, 5.0f);
+    modelStack.Scale(75.0f, 75.0f, 75.0f);
     RenderMesh(meshList[GEO_PLANET_JUPITER], true);
     modelStack.PopMatrix();
 
@@ -408,23 +408,20 @@ void SceneWorld::RenderPlanets()
     modelStack.PushMatrix();
     modelStack.Translate(0, 0, 0);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
-    //modelStack.Scale(5.0f, 5.0f, 5.0f);
+    modelStack.Scale(170.0f, 170.0f, 170.0f);
     RenderMesh(meshList[GEO_SUN], true);
     modelStack.PopMatrix();
 }
 
 void SceneWorld::RenderAsteroid()
 {
-	//for (int i = 0; i < random; i++)
-	//{
 		modelStack.PushMatrix();
 		modelStack.Translate((float)random, (float)random, (float)random);
 		modelStack.Translate(movement_asteroid1_z, 0, 0);
-		modelStack.Rotate(rotateAngle, 1, 0, 1);
+		modelStack.Rotate(rotateAngle * 5, 1, 0, 1);
+		modelStack.Scale(0.8f, 0.8f, 0.8f);
 		RenderMesh(meshList[GEO_ASTEROID1], true);
-		modelStack.PopMatrix();
-	//}
-	
+		modelStack.PopMatrix();	
 }
 
 // Main Render loop
@@ -468,11 +465,11 @@ void SceneWorld::Render()
         RenderMesh(meshList[GEO_AXES], false);
     modelStack.PopMatrix();
 
-    // RenderSkybox();
+     RenderSkybox();
 
-    // RenderPlanets();
+     RenderPlanets();
 
-	// RenderAsteroid();
+	 RenderAsteroid();
 
 	// testcar
 	// modelStack.PushMatrix();
@@ -485,15 +482,14 @@ void SceneWorld::Render()
     modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
 	modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
 	// modelStack.Rotate(testCube1.rollTotal, 0, 1, 0);
-
     modelStack.Scale(5.0f, 5.0f, 5.0f);
     RenderMesh(meshList[GEO_TESTCUBE], true);
     modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Scale(10.0f, 10.0f, 10.0f);
 	RenderMesh(meshList[GEO_TESTENV], true);
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
 
     modelStack.PushMatrix();
     modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
