@@ -188,6 +188,7 @@
     <ClInclude Include="Source\AudioHandler.h" />
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera3.h" />
+    <ClInclude Include="Source\collision.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\FontLoader.h" />
     <ClInclude Include="Source\Light.h" />

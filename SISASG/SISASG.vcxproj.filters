@@ -70,6 +70,9 @@
     <ClCompile Include="Source\Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\collision.cpp">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
     <ClCompile Include="SaveFiles.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
   </ItemGroup>
@@ -147,6 +150,19 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vertex.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\spaceship.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\testCube.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Light.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\collision.h">
+      <Filter>Header Files\General</Filter>
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SaveFiles.h" />

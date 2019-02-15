@@ -26,13 +26,7 @@ void spaceship::Init(const Vector3& pos, const Vector3& target, const Vector3& u
 	yawTotal = 0.f;
 }
 
-void spaceship::Update(
-	double dt,  
-	float topSpeed,
-	float fwdaccl,
-	float bwdaccl, 
-	float &accl
-)
+void spaceship::Update(double dt)
 {
 	position = position + view * (float)(velocity * dt);
 	target += view;
@@ -58,8 +52,6 @@ void spaceship::Update(
         yaw = (float)(80.f * dt);
 		view = (target - position).Normalized();
 		right = view.Cross(up);
-		// right.y = 0;
-		
 		Mtx44 rotation;
 		rotation.SetToRotation(yaw, up.x, up.y, up.z);
 		view = rotation * view;
@@ -73,7 +65,6 @@ void spaceship::Update(
 		yaw = (float)(-80.f * dt);
 		view = (target - position).Normalized();
 		right = view.Cross(up);
-		// right.y = 0;
 		right.Normalize();
 		up = right.Cross(view).Normalized();
 		Mtx44 rotation;
@@ -89,7 +80,6 @@ void spaceship::Update(
 		pitch = (float)(80.f * dt);
 		view = (target - position).Normalized();
 		right = view.Cross(up);
-		// right.y = 0;
 		right.Normalize();
 		up = right.Cross(view).Normalized();
 		Mtx44 rotation;
@@ -105,7 +95,6 @@ void spaceship::Update(
 		pitch = (float)(-80.f * dt);
 		view = (target - position).Normalized();
 		right = view.Cross(up);
-		// right.y = 0;
 		right.Normalize();
 		up = right.Cross(view).Normalized();
 		Mtx44 rotation;
@@ -114,6 +103,36 @@ void spaceship::Update(
 		target = position + view;
 		up = rotation * up;
 		this->pitchTotal += pitch;
+	}
+
+	if (Application::IsKeyPressed('Q'))
+	{
+		roll = (float)(-80.f * dt);
+		view = (target - position).Normalized();
+		right = view.Cross(up);
+		right.Normalize();
+		up = right.Cross(view).Normalized();
+		Mtx44 rotation;
+		rotation.SetToRotation(roll, view.x, view.y, view.z);
+		view = rotation * view;
+		target = position + view;
+		up = rotation * up;
+		this->rollTotal += roll;
+	}
+
+	if (Application::IsKeyPressed('E'))
+	{
+		roll = (float)(80.f * dt);
+		view = (target - position).Normalized();
+		right = view.Cross(up);
+		right.Normalize();
+		up = right.Cross(view).Normalized();
+		Mtx44 rotation;
+		rotation.SetToRotation(roll, view.x, view.y, view.z);
+		view = rotation * view;
+		target = position + view;
+		up = rotation * up;
+		this->rollTotal += roll;
 	}
 
     if (this->yawTotal + yaw >= 360.0f)
@@ -135,12 +154,12 @@ void spaceship::Update(
     }
 
 	if (
-		(position.x < -5000) ||
-		(position.x > 5000) ||
-		(position.y < -5000) ||
-		(position.y > 5000) ||
-		(position.z < -5000) ||
-		(position.z > 5000)
+		(position.x < -1000) ||
+		(position.x > 1000) ||
+		(position.y < -1000) ||
+		(position.y > 1000) ||
+		(position.z < -1000) ||
+		(position.z > 1000)
 		)
 	{
 		Reset();
@@ -160,4 +179,5 @@ void spaceship::Reset()
 	velocity = 0;
 	yawTotal = 0;
 	pitchTotal = 0;
+	rollTotal = 0;
 }

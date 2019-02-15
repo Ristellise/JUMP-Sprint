@@ -26,6 +26,8 @@ public:
     SceneWorld(GLFWwindow * l_window);
     ~SceneWorld();
 
+	int cubeRotate;
+
     virtual void Init();
     virtual void Update(double dt);
     virtual void Render();
