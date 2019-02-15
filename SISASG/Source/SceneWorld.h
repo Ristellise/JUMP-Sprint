@@ -9,6 +9,7 @@
 #include "Light.h"
 #include "testCube.h"
 #include "Bullet.h"
+#include "SaveFiles.h"
 
 #include "MouseHandler.h"
 #include "Uniforms.h"
@@ -55,6 +56,7 @@ private:
     Light lights[8];
     FontLoader FLInstance;
     MouseHandler Mouse;
+    SaveFiles sf;
 	Bullet bullet;
     std::string dtimestring = "";
     void RenderMesh(Mesh *mesh, bool enableLight);

@@ -23,7 +23,7 @@ bool LoadOBJ(
         printf("Can\'t Open %s. Check if your using the currect path.\n",std::string(file_path).c_str());
         return false;
     }
-    printf("Loading %s. Please Have patience... ", std::string(file_path).c_str());
+    printf("Loading OBJ %s: ", std::string(file_path).c_str());
     std::vector<unsigned> vertexIndices, uvIndices, normalIndices;
     std::vector<Position> temp_vertices;
     std::vector<TexCoord> temp_uvs;
@@ -96,7 +96,7 @@ bool LoadOBJ(
             }
             else
             {
-                printf("Unrecognised Line Found: \"%s\"\nFailed to Parse line. Aborting...", buf);
+                printf("ERROR: Unrecognised Line Found: \"%s\"\nFailed to Parse line. Aborting...", buf);
                 return false;
             }
         }
@@ -119,7 +119,7 @@ bool LoadOBJ(
     vertexIndices.clear();
     uvIndices.clear();
     normalIndices.clear();
-    printf("Crunching Attributes...\n");
+    printf("Deswizzling...");
     for (size_t i = 0; i < group.size(); i++)
     {
         vertexIndices = group[i].a; // vertexIndex
@@ -153,7 +153,7 @@ bool LoadOBJ(
         pair.normal.clear();
         pair.texCoord.clear();
     }
-    printf("Finished Reading \"%s\".\n", std::string(file_path).c_str());
+    printf(" DONE.\n", std::string(file_path).c_str());
     // For each vertex of each triangle
     
     

@@ -154,12 +154,12 @@ void spaceship::Update(double dt)
     }
 
 	if (
-		(position.x < -5000) ||
-		(position.x > 5000) ||
-		(position.y < -5000) ||
-		(position.y > 5000) ||
-		(position.z < -5000) ||
-		(position.z > 5000)
+		(position.x < -1000) ||
+		(position.x > 1000) ||
+		(position.y < -1000) ||
+		(position.y > 1000) ||
+		(position.z < -1000) ||
+		(position.z > 1000)
 		)
 	{
 		Reset();

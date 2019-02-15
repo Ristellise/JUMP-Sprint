@@ -70,7 +70,8 @@
     <ClCompile Include="Source\Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SaveFiles.cpp" />
+    <ClCompile Include="Source\Bullet.cpp" />
+    <ClCompile Include="Source\SaveFiles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -145,10 +146,22 @@
     <ClInclude Include="Source\Utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Vertex.h">
+    <ClInclude Include="Source\spaceship.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\testCube.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Light.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\collision.h">
+      <Filter>Header Files\General</Filter>
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SaveFiles.h" />
+    <ClInclude Include="Source\Bullet.h" />
+    <ClInclude Include="Source\Vertex.h" />
+    <ClInclude Include="Source\SaveFiles.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

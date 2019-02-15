@@ -13,6 +13,19 @@ enum entityType
     eT_Count
 };
 
+struct hitbox
+{
+	Vector3 frontLeftUp;
+	Vector3 frontLeftDown;
+	Vector3 frontRightDown;
+	Vector3 frontRightUp;
+	Vector3 backLeftUp;
+	Vector3 backLeftDown;
+	Vector3 backRightDown;
+	Vector3 backRightUp;
+
+};
+
 class entity
 {
 public:
@@ -33,7 +46,8 @@ public:
 
 	Vector3 position;
 	Vector3 target;
-	entityType type;
+    entityType type;
+	hitbox hBox;
 
 	Vector3 right;	// relative x
 	Vector3 up;		// relative y
