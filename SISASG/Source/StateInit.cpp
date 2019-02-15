@@ -11,8 +11,7 @@ void Stateinit::OnEnter()
 
     std::cout << "Entering: " << this->StateName<< " Albion Prelude."<< std::endl;
 
-	this->state_cam->Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
-	
+	// this->state_cam->Init(Vector3(0, 10, -30), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 10000.f);
@@ -31,7 +30,7 @@ void Stateinit::OnEnter()
     // Spawn Entities.
     entity* current = new entity();
 
-	this->state_cam->Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	this->state_cam->Init(Vector3(0, 10, -30), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
 	// Init: Only the first Vector3 matters. Format: (translateX, translateY, scale) This is for TextUI
     current->Init(Vector3(1, 15.0f, 3), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
@@ -42,7 +41,7 @@ void Stateinit::OnEnter()
 
 	// Test Cube
 	testCube* testCube1 = new testCube();
-	testCube1->Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
+	testCube1->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 	testCube1->type = entityType::eT_Space;
 	testCube1->name = "testcube";
 	testCube1->meshptr = this->meshGetFast("testcube");
@@ -51,6 +50,7 @@ void Stateinit::OnEnter()
 
 void Stateinit::OnRender()
 {
+/*
     for (size_t i = 0; i < this->entitylists.size(); i++)
     {
         
@@ -84,7 +84,7 @@ void Stateinit::OnRender()
     }
 
 	// Test Cube
-	
+*/
 }
 
 void Stateinit::OnExit()
@@ -99,6 +99,7 @@ Stateinit::Stateinit()
 
 void Stateinit::OnUpdate(double dt)
 {
+/*
 	entity* testCube1 = this->entityGetFast("testcube");
 	this->state_cam->Update(
 		dt,
@@ -108,15 +109,10 @@ void Stateinit::OnUpdate(double dt)
 		testCube1->topSpeed,
 		testCube1->fwdaccl,
 		testCube1->bwdaccl,
-		state_cam->accl,
 		testCube1->view
 	);
 
-	testCube1->Update(dt,
-		testCube1->topSpeed,
-		testCube1->fwdaccl,
-		testCube1->bwdaccl,
-		testCube1->accl);
+	testCube1->Update(dt);
 
 	this->dtimestring = "FPS:";
 	this->dtimestring += std::to_string(1.0f / dt);
@@ -144,4 +140,5 @@ void Stateinit::OnUpdate(double dt)
         " | " + std::to_string(this->mouse->Y) +
         " | Change: " + std::to_string(this->mouse->XChange) +
         " | " + std::to_string(this->mouse->YChange);
+*/
 }

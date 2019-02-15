@@ -29,7 +29,9 @@ SceneWorld::~SceneWorld()
 
 void SceneWorld::Init()
 {
-    srand(unsigned int(time(0)));
+	cubeRotate = 0;
+
+	srand(unsigned int(time(0)));
 
     random = rand() % 10 + 1;
 
@@ -49,9 +51,10 @@ void SceneWorld::Init()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    camera.Init(Vector3(0, 10, 30), Vector3(0, 0, 0), Vector3(0, 1, 0));
-    testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 1, 0));
+    
 	bullet.Init(Vector3(testCube1.position.x, testCube1.position.y, testCube1.position.z),Vector3(0,0,-1),Vector3(0,1,0));
+    camera.Init(Vector3(0, 10, -30), Vector3(0, 0, 0), Vector3(0, 1, 0));
+    testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 
     this->Mouse = MouseHandler(20.0f);
     Mtx44 projection;
@@ -226,7 +229,78 @@ void SceneWorld::Update(double dt)
     if (Application::IsKeyPressed('P'))
         lights[this->selector].position.y += (float)(LSPEED * dt);
 
+	if ((Application::IsKeyPressed(VK_LEFT)) || (Application::IsKeyPressed(VK_RIGHT)))
+	{
+		cubeRotate = 0;
+	}
+	if ((Application::IsKeyPressed(VK_UP)) || (Application::IsKeyPressed(VK_DOWN)))
+	{
+		cubeRotate = 1;
+	}
+	if ((Application::IsKeyPressed('Q')) || (Application::IsKeyPressed('E')))
+	{
+		cubeRotate = 2;
+	}
+
     this->lastkeypress += dt;
+
+    camera.Update(
+        dt, 
+        testCube1.position.x, 
+        testCube1.position.y, 
+        testCube1.position.z,
+		testCube1.topSpeed, 
+		testCube1.fwdaccl, 
+		testCube1.bwdaccl,
+		testCube1.view
+    );
+
+    testCube1.Update(dt);
+
+    this->dtimestring = "FPS:";
+    this->dtimestring += std::to_string(1.0f / dt);
+    this->dtimestring += "\nCam X:";
+    this->dtimestring += std::to_string(this->camera.position.x);
+    this->dtimestring += "\nCam Y:";
+    this->dtimestring += std::to_string(this->camera.position.y);
+    this->dtimestring += "\nCam Z:";
+    this->dtimestring += std::to_string(this->camera.position.z);
+    this->dtimestring += "\n"	+ std::to_string(this->lights[this->selector].position.x) + " |" 
+                                + std::to_string(this->lights[this->selector].position.y) + " |"
+                                + std::to_string(this->lights[this->selector].position.z);
+    this->dtimestring += "\nVel :";
+    this->dtimestring += std::to_string(testCube1.velocity);
+    this->dtimestring += "\nAcl :";
+    this->dtimestring += std::to_string(testCube1.accl);
+    this->dtimestring += "\nPit :";
+    this->dtimestring += std::to_string(testCube1.pitchTotal);
+    this->dtimestring += "\nYaw :";
+    this->dtimestring += std::to_string(testCube1.yawTotal);
+	this->dtimestring += "\nCamVel :";
+	this->dtimestring += std::to_string(camera.velocity);
+	this->dtimestring += "\nCamAcl :";
+	this->dtimestring += std::to_string(camera.accl);
+
+	this->dtimestring += "\nCubeUpX:";
+	this->dtimestring += std::to_string(testCube1.up.x);
+	this->dtimestring += "\nCubeUpY:";
+	this->dtimestring += std::to_string(testCube1.up.y);
+	this->dtimestring += "\nCubeUpZ:";
+	this->dtimestring += std::to_string(testCube1.up.z);
+
+	this->dtimestring += "\nCubeRightX:";
+	this->dtimestring += std::to_string(testCube1.right.x);
+	this->dtimestring += "\nCubeRightY:";
+	this->dtimestring += std::to_string(testCube1.right.y);
+	this->dtimestring += "\nCubeRightZ:";
+	this->dtimestring += std::to_string(testCube1.right.z);
+
+	this->dtimestring += "\nCubeViewX:";
+	this->dtimestring += std::to_string(testCube1.view.x);
+	this->dtimestring += "\nCubeViewY:";
+	this->dtimestring += std::to_string(testCube1.view.y);
+	this->dtimestring += "\nCubeViewZ:";
+	this->dtimestring += std::to_string(testCube1.view.z);
 
     static int rotateDir = 1;
     static int rotateDir_asteroid = 1;
@@ -464,9 +538,18 @@ void SceneWorld::Render()
 
     modelStack.PushMatrix();
 	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-    modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
-	modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z); // Try to use test cube coordinates for spawning bullet. **
-	// modelStack.Rotate(testCube1.rollTotal, 0, 1, 0);
+	switch (cubeRotate)
+	{
+	case 0:
+		modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+		break;
+	case 1:
+		modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
+		break;
+	case 2:
+		modelStack.Rotate(testCube1.rollTotal, testCube1.view.x, testCube1.view.y, testCube1.view.z);
+		break;
+	}
     modelStack.Scale(5.0f, 5.0f, 5.0f);
     RenderMesh(meshList[GEO_TESTCUBE], true);
     modelStack.PopMatrix();
