@@ -25,6 +25,9 @@ void Stateinit::OnEnter()
 
 	meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
 	meshbuffer->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+	this->meshList.push_back(meshbuffer); // Creates a Mesh to generate OBJ, loads a texture, pushes it into the mesh list.
+
+	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 0.5);
 	this->meshList.push_back(meshbuffer);
 
     // Spawn Entities.
@@ -45,12 +48,19 @@ void Stateinit::OnEnter()
 	testCube1->type = entityType::eT_Space;
 	testCube1->name = "testcube";
 	testCube1->meshptr = this->meshGetFast("testcube");
-	this->entitylists.push_back(testCube1);
+	this->entitylists.push_back(testCube1); //Create an entity, initialises it at Vector ( Position, Target , up )
+
+	// Bullet
+	Bullet* bullet = new Bullet();
+	bullet->Init(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
+	bullet->type = entityType::eT_Bullet;
+	bullet->name = "bullet";
+	bullet->meshptr = this->meshGetFast("bullet");
+	this->entitylists.push_back(bullet);
 }
 
 void Stateinit::OnRender()
 {
-/*
     for (size_t i = 0; i < this->entitylists.size(); i++)
     {
         
@@ -80,11 +90,15 @@ void Stateinit::OnRender()
 			(*this->modelStack).Scale(1.0f, 1.0f, 1.0f);
 			RenderMesh(this->entitylists[i]->meshptr, true);
 		}
+		else if (this->entitylists[i]->type == entityType::eT_Bullet)
+		{
+			(*this->modelStack).Translate(this->entitylists[i]->position.x, this->entitylists[i]->position.y, this->entitylists[i]->position.z);
+			RenderMesh(this->entitylists[i]->meshptr, true);
+		}
         (*this->modelStack).PopMatrix();
     }
 
 	// Test Cube
-*/
 }
 
 void Stateinit::OnExit()
@@ -99,7 +113,7 @@ Stateinit::Stateinit()
 
 void Stateinit::OnUpdate(double dt)
 {
-/*
+
 	entity* testCube1 = this->entityGetFast("testcube");
 	this->state_cam->Update(
 		dt,
@@ -113,6 +127,8 @@ void Stateinit::OnUpdate(double dt)
 	);
 
 	testCube1->Update(dt);
+
+	//entity* bullet = this->entityGetFast("testcube");
 
 	this->dtimestring = "FPS:";
 	this->dtimestring += std::to_string(1.0f / dt);
@@ -140,5 +156,4 @@ void Stateinit::OnUpdate(double dt)
         " | " + std::to_string(this->mouse->Y) +
         " | Change: " + std::to_string(this->mouse->XChange) +
         " | " + std::to_string(this->mouse->YChange);
-*/
 }

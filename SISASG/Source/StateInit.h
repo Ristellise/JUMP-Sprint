@@ -1,5 +1,6 @@
 #include "State.h"
 #include "testCube.h"
+#include "Bullet.h"
 
 class Stateinit : public GState
 {

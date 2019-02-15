@@ -10,6 +10,7 @@ enum entityType
     eT_Text,
     eT_TextUI,
     eT_Space,
+	eT_Bullet,
     eT_Count
 };
 
@@ -52,6 +53,8 @@ public:
 	Vector3 right;	// relative x
 	Vector3 up;		// relative y
 	Vector3 view;	// relative z
+
+	bool doDestroy = false;
 
     std::string *text;
     std::string name = "";

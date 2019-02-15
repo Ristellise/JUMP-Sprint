@@ -164,8 +164,8 @@ void SceneWorld::Init()
     meshList[GEO_SUN]->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
 
     //asteroids
-    meshList[GEO_ASTEROID1] = MeshBuilder::GenerateOBJ("asteroid1", "OBJ//asteroid1.obj")[0];
-    meshList[GEO_ASTEROID1]->textureID = LoadTGA("TGA//asteroid1 texture.tga", GL_LINEAR, GL_CLAMP);
+    //meshList[GEO_ASTEROID1] = MeshBuilder::GenerateOBJ("asteroid1", "OBJ//asteroid1.obj")[0];
+    //meshList[GEO_ASTEROID1]->textureID = LoadTGA("TGA//asteroid1 texture.tga", GL_LINEAR, GL_CLAMP);
 
     // Test Cube
     meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
@@ -175,7 +175,7 @@ void SceneWorld::Init()
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
 
 	//Bullet
-	meshList[GEO_BULLETBODY] = MeshBuilder::GenerateSphere("bulletbody", Color(255, 255, 255), 18, 36, 0.5);
+	meshList[GEO_BULLETBODY] = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 0.5);
 	// Test Environment
 	meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
 
@@ -417,18 +417,6 @@ void SceneWorld::RenderSkybox()
 
 }
 
-void SceneWorld::RenderBullet()
-{
-	modelStack.PushMatrix();
-
-	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-	modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
-	modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
-
-	RenderMesh(meshList[GEO_BULLETBODY], true);
-	modelStack.PopMatrix();
-}
-
 void SceneWorld::RenderPlanets()
 {
     //venus
@@ -528,7 +516,7 @@ void SceneWorld::Render()
 
      RenderPlanets();
 
-	 RenderAsteroid();
+	 //RenderAsteroid();
 
     // testcar
     // modelStack.PushMatrix();
@@ -566,13 +554,6 @@ void SceneWorld::Render()
 
     RenderTextScreen(meshList[GEO_TEXT], this->dtimestring, Color(255, 255, 0), 2, 1.f, 24.f);
     this->StateManInst.Render();
-
-	if (Application::IsKeyPressed('F'))
-	{
-		RenderBullet();
-		//Make it shoot?
-
-	}
 }
 
 /*-------------

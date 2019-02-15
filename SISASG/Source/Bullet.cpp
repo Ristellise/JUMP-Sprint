@@ -6,85 +6,28 @@ Bullet::Bullet()
 {
 }
 
-
 Bullet::~Bullet()
 {
 }
 
-void Bullet::InitialiseBullets()
+void Bullet::Init(const Vector3 & pos, const Vector3 & target, const Vector3 & up)
 {
-	for (int i = 0; i < MAX_BULLETS; i++)
+	this->position = pos;
+	this->target = target;
+	this->up = up;
+	//this->view = (target - position).Normalized();
+}
+
+void Bullet::Update(double dt)
+{
+	//if (Application::IsKeyPressed('F'))
 	{
-		BulletArray[i] = 0;
+		this->position += view * dt * this->bbSpeed;
+			this->timeAlive += dt;
+			if (this->timeAlive > 5)
+			{
+				// TODO: Call destructor.
+				this->doDestroy = true;
+			}
 	}
 }
-
-Bullet * Bullet::CreateBullet(float x, float y, float xDir, float yDir, float speed)
-{
-	Bullet *bullet = new Bullet();
-	bullet->xPos = x;
-	bullet->yPos = y;
-	bullet->xDir = xDir;
-	bullet->yDir = yDir;
-	bullet->speed = speed;
-
-	return bullet;
-}
-
-void Bullet::DestroyBullet(Bullet * pBullet)
-{
-	delete pBullet;
-}
-
-bool Bullet::Shoot(float x, float y, float xDir, float yDir, float speed)
-{
-	for (int i = 0; i < MAX_BULLETS; i++)
-	{
-		if (BulletArray[i] == 0)
-		{
-			BulletArray[i] = CreateBullet(x, y, xDir, yDir, speed);
-			return true;
-		}
-	}
-
-	return false;
-}
-
-void Bullet::UpdateBullets(float dt)
-{
-	g_dElapsedTime += dt;
-	g_dDeltaTime = dt;
-
-	for (int i = 0; i < MAX_BULLETS; i++)
-	{
-		if (BulletArray[i] == 0)
-		{
-			continue;
-		}
-
-		BulletArray[i]->xPos += BulletArray[i]->xDir * BulletArray[i]->speed * dt;
-		BulletArray[i]->yPos += BulletArray[i]->yDir * BulletArray[i]->speed * dt;
-
-		BulletArray[i]->timeAlive += dt;
-		
-		if (BulletArray[i]->timeAlive > 2.0f)
-		{
-			DestroyBullet(BulletArray[i]);
-			BulletArray[i] = 0;
-		}
-	}
-}
-
-void Bullet::DrawBullets()
-{
-	for (int i = 0; i < MAX_BULLETS; i++)
-	{
-		if (BulletArray[i] == 0)
-		{
-			continue;
-		}
-	}
-	//Draw Bullets & Move Bullets
-}
-
-// Create a OpenGL model of bullet, set it to a fixed coordinate, try to animate it using coords.**
