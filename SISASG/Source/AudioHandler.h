@@ -6,7 +6,9 @@
 enum AudioType
 {
     AT_2D,
-    AT_3D
+    AT_2DCLOCK,
+    AT_3D,
+    AT_3DCLOCK,
 };
 
 class AudioSource

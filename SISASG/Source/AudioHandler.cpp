@@ -19,7 +19,7 @@ bool AudioSource::playTrack()
     }
     else if (this->audiotype == AudioType::AT_3D)
     {
-
+        this->Sourcehandle = instance->play3d(this->track)
     }
     return true;
 }

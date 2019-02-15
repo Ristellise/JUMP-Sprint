@@ -143,9 +143,6 @@ bool LoadOBJ(
             pair.normal.push_back(normal);
             pair.texCoord.push_back(uv);
             // Put the attributes in buffers
-            /*out_vertices.push_back(vertex);
-            out_uvs.push_back(uv);
-            out_normals.push_back(normal);*/
             
         }
         out.push_back(pair);

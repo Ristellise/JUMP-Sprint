@@ -155,10 +155,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="collision.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\AudioHandler.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
+    <ClCompile Include="Source\collision.cpp" />
     <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\FontLoader.cpp" />
@@ -182,7 +182,6 @@
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="collision.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\AudioHandler.h" />
     <ClInclude Include="Source\Bullet.h" />

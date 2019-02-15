@@ -10,9 +10,6 @@
     <ClCompile Include="Source\Camera3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,6 +69,9 @@
     </ClCompile>
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\SaveFiles.cpp" />
+    <ClCompile Include="Source\collision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -81,9 +81,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="collision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\entity.h">
