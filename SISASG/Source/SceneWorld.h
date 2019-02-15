@@ -29,6 +29,12 @@ public:
     SceneWorld(GLFWwindow * l_window);
     ~SceneWorld();
 
+	Mtx44 cubeMatrix;
+	Mtx44 cubeMultR;
+	Mtx44 cubeMult1;
+	Mtx44 cubeMult2;
+	Mtx44 cubeMult3;
+
 	int prevRotate;
 	int currRotate;
 

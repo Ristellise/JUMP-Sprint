@@ -28,6 +28,14 @@ SceneWorld::~SceneWorld()
 
 void SceneWorld::Init()
 {
+	// Matrix method
+	cubeMatrix.SetToIdentity();
+	cubeMultR.SetToIdentity();
+	cubeMult1.SetToIdentity();
+	cubeMult2.SetToIdentity();
+	cubeMult3.SetToIdentity();
+
+	// Vector method
 	currRotate = 3;
 	prevRotate = 3;
 
@@ -231,6 +239,14 @@ void SceneWorld::Update(double dt)
 
 	if (Application::IsKeyPressed('R'))
 	{
+		// Matrix method
+		cubeMatrix.SetToIdentity();
+		cubeMultR.SetToIdentity();
+		cubeMult1.SetToIdentity();
+		cubeMult2.SetToIdentity();
+		cubeMult3.SetToIdentity();
+
+		// Vector method
 		cubeRotateVector.clear();
 		currRotate = 3;
 		prevRotate = 3;
@@ -270,11 +286,7 @@ void SceneWorld::Update(double dt)
         dt, 
         testCube1.position.x, 
         testCube1.position.y, 
-        testCube1.position.z,
-		testCube1.topSpeed, 
-		testCube1.fwdaccl, 
-		testCube1.bwdaccl,
-		testCube1.view
+        testCube1.position.z
     );
 
     testCube1.Update(dt);
@@ -549,11 +561,11 @@ void SceneWorld::Render()
     RenderMesh(meshList[GEO_AXES], false);
     modelStack.PopMatrix();
 
-     RenderSkybox();
+    // RenderSkybox();
 
-     RenderPlanets();
+    // RenderPlanets();
 
-	 RenderAsteroid();
+	// RenderAsteroid();
 
     // testcar
     // modelStack.PushMatrix();
@@ -561,9 +573,40 @@ void SceneWorld::Render()
     // RenderMesh(meshList[GEO_CAR], true);
     // modelStack.PopMatrix();
 
+	// Matrix method
+	modelStack.PushMatrix();
+	cubeMult1.SetToTranslation(testCube1.position.x, testCube1.position.y, testCube1.position.z);
+	
+	if ((Application::IsKeyPressed(VK_LEFT)) || (Application::IsKeyPressed(VK_RIGHT)))
+	{
+		cubeMultR.SetToRotation(testCube1.yaw, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+		cubeMult2 = cubeMultR * cubeMult2;
+	}
+		
+	if ((Application::IsKeyPressed(VK_UP)) || (Application::IsKeyPressed(VK_DOWN)))
+	{
+		cubeMultR.SetToRotation(testCube1.pitch, testCube1.right.x, testCube1.right.y, testCube1.right.z);
+		cubeMult2 = cubeMultR * cubeMult2;
+	}
+		
+	if ((Application::IsKeyPressed('Q')) || (Application::IsKeyPressed('E')))
+	{
+		cubeMultR.SetToRotation(testCube1.roll, testCube1.view.x, testCube1.view.y, testCube1.view.z);
+		cubeMult2 = cubeMultR * cubeMult2;
+	}
+
+	cubeMult3.SetToScale(5.0f, 5.0f, 5.0f);
+	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
+
+	modelStack.LoadMatrix(cubeMatrix);
+	RenderMesh(meshList[GEO_TESTCUBE], true);
+	modelStack.PopMatrix();
+
+	// Vector method
+	/*
     modelStack.PushMatrix();
 	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-	
+
 	for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
 	{
 		switch (cubeRotateVector[i])
@@ -585,11 +628,12 @@ void SceneWorld::Render()
     modelStack.Scale(5.0f, 5.0f, 5.0f);
     RenderMesh(meshList[GEO_TESTCUBE], true);
     modelStack.PopMatrix();
+	*/
 
-	/*modelStack.PushMatrix();
+	modelStack.PushMatrix();
 	modelStack.Scale(10.0f, 10.0f, 10.0f);
 	RenderMesh(meshList[GEO_TESTENV], true);
-	modelStack.PopMatrix();*/
+	modelStack.PopMatrix();
 
     modelStack.PushMatrix();
     modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
@@ -603,7 +647,6 @@ void SceneWorld::Render()
 	{
 		RenderBullet();
 		//Make it shoot?
-
 	}
 }
 

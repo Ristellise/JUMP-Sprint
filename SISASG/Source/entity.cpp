@@ -5,6 +5,7 @@
 entity::entity()
 {
 	Reset();
+	accl = 0.f;
 }
 
 entity::~entity()

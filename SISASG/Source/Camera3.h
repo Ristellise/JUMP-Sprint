@@ -25,11 +25,7 @@ public:
 		double dt, 
 		float targetx, 
 		float targety, 
-		float targetz, 
-		float topspeed, 
-		float fwdaccl, 
-		float bwdaccl,
-		Vector3 view
+		float targetz
 	);
 	virtual void Updatealt(double dt);
 	virtual void Reset();

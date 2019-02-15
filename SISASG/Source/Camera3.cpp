@@ -29,65 +29,14 @@ void Camera3::Update(
 	double dt, 
 	float targetx, 
 	float targety, 
-	float targetz,
-	float topSpeed, 
-	float fwdaccl, 
-	float bwdaccl,
-	Vector3 shipView
+	float targetz
 )
 {
-	view = (target - position).Normalized();
-	right = view.Cross(up);
+	view = target - position;
+	right = view.Cross(up).Normalized();
+	up = right.Cross(view).Normalized();
 	this->target.Set(targetx, targety, targetz);
-	position = position + shipView * (float)(velocity * dt);
-	accl = 0;
-
-	if ((Application::IsKeyPressed('W')) && (velocity < topSpeed))
-	{
-		velocity += (float)(fwdaccl * dt);
-		accl = fwdaccl;
-	}
-
-	if ((Application::IsKeyPressed('S')) && (velocity > -topSpeed))
-	{
-		velocity += (float)(bwdaccl * dt);
-		accl = bwdaccl;
-	}
-
-	if (Application::IsKeyPressed(VK_LEFT))
-	{
-		float yaw = (float)(80.f * dt);
-		Mtx44 rotation;
-		rotation.SetToRotation(yaw, 0, 1, 0);
-	}
-	if (Application::IsKeyPressed(VK_RIGHT))
-	{
-		float yaw = (float)(-80.f * dt);
-		Mtx44 rotation;
-		rotation.SetToRotation(yaw, 0, 1, 0);
-	}
-	if (Application::IsKeyPressed(VK_UP))
-	{
-		float pitch = (float)(-80.f * dt);
-		view = (target - position).Normalized();
-		right = view.Cross(up);
-		right.y = 0;
-		right.Normalize();
-		up = right.Cross(view).Normalized();
-		Mtx44 rotation;
-		rotation.SetToRotation(pitch, right.x, right.y, right.z);
-	}
-	if (Application::IsKeyPressed(VK_DOWN))
-	{
-		float pitch = (float)(80.f * dt);
-		view = (target - position).Normalized();
-		right = view.Cross(up);
-		right.y = 0;
-		right.Normalize();
-		up = right.Cross(view).Normalized();
-		Mtx44 rotation;
-		rotation.SetToRotation(pitch, right.x, right.y, right.z);
-	}
+	position = target - view;
 
 	if (Application::IsKeyPressed('R'))
 	{
