@@ -45,10 +45,15 @@ public:
     void RenderSkybox();
     void RenderPlanets();
 	void RenderAsteroid();
+	int planetRangeCheck(int cx, int cy, int cz, int x, int y, int z); //these two can be used for teleportation to other planets (rename if necessary)
+	int planetExecuteUI(); //these two can be used for teleportation to other planets (rename if necessary)
+	int hoopsCheckXY(int circle_x, int circle_y, int x, int y, int rad); // for hoops detection (not fully working)
+	int hoopsExecuteUI(); // for hoops detection (not fully working)
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void Exit();
     void SetWindow(GLFWwindow* window);
+
 private:
     GLFWwindow* l_window;
     unsigned m_vertexArrayID;

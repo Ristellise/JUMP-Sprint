@@ -528,6 +528,79 @@ void SceneWorld::RenderAsteroid()
 		modelStack.PopMatrix();	
 }
 
+int SceneWorld::planetRangeCheck(int cx, int cy, int cz, int x, int y, int z)
+{
+	int x1 = pow((x - cx), 2);
+	int y1 = pow((y - cy), 2);
+	int z1 = pow((z - cz), 2);
+
+	// distance between the centre  
+	// and given point 
+	return (x1 + y1 + z1);
+}
+
+int SceneWorld::planetExecuteUI()
+{
+	//test range coords (center sphere coords)
+	int cx = 0, cy = 0, cz = 0;
+
+	//radius sphere
+	int r = 50;
+
+	//coords of test cube (spaceship)
+	int x = testCube1.position.x, y = testCube1.position.y, z = testCube1.position.z;
+
+	//use check function
+	int ans = planetRangeCheck(cx, cy, cz, x, y, z);
+
+	if (ans < (r * r) || ans == (r * r))
+	{
+
+		RenderTextScreen(meshList[GEO_TEXT], "You are in range for a teleport! ", Color(255, 255, 0), 2, 15.f, 24.f);
+
+		if (Application::IsKeyPressed(VK_RETURN))
+		{
+			testCube1.position.x = 100, testCube1.position.y = 0, testCube1.position.z = 100;
+		}
+
+	}
+
+	return 0;
+
+}
+
+int SceneWorld::hoopsCheckXY(int circle_x, int circle_y, int x, int y, int rad) // almost works just need to add z axis somehow so renamed to XY for now
+{
+	// Compare radius of circle with distance of its center from given point
+	if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+int SceneWorld::hoopsExecuteUI()
+{
+	//set spaceship position (testcube for now)
+	int x = testCube1.position.x, y = testCube1.position.y; 
+
+	//set position of circle and radius size
+	int circle_x = 50, circle_y = 0, rad = 10; 
+
+	bool ans = hoopsCheckXY(circle_x, circle_y, x, y, rad);
+
+	if (ans == true)
+	{
+		RenderTextScreen(meshList[GEO_TEXT], "Passed through circle ", Color(255, 255, 0), 2, 15.f, 15.f);
+	}
+
+	return 0;
+
+}
+
 // Main Render loop
 void SceneWorld::Render()
 {
@@ -573,6 +646,10 @@ void SceneWorld::Render()
     // RenderPlanets();
 
 	// RenderAsteroid();
+
+	 planetExecuteUI();
+
+	 hoopsExecuteUI();
 
     // testcar
     // modelStack.PushMatrix();
