@@ -34,6 +34,7 @@ void SceneWorld::Init()
 	cubeMult1.SetToIdentity();
 	cubeMult2.SetToIdentity();
 	cubeMult3.SetToIdentity();
+	shipDirDetected = false;
 
 	// Vector method
 	currRotate = 3;
@@ -61,7 +62,7 @@ void SceneWorld::Init()
 
     
 	bullet.Init(Vector3(testCube1.position.x, testCube1.position.y, testCube1.position.z),Vector3(0,0,-1),Vector3(0,1,0));
-    camera.Init(Vector3(0, 10, -30), Vector3(0, 0, 0), Vector3(0, 1, 0));
+    camera.Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
     testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 
     this->Mouse = MouseHandler(20.0f);
@@ -286,7 +287,13 @@ void SceneWorld::Update(double dt)
         dt, 
         testCube1.position.x, 
         testCube1.position.y, 
-        testCube1.position.z
+        testCube1.position.z,
+		testCube1.yaw,
+		testCube1.pitch,
+		testCube1.roll,
+		testCube1.right,
+		testCube1.up,
+		testCube1.view
     );
 
     testCube1.Update(dt);

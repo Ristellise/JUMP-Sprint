@@ -14,6 +14,8 @@ public:
 	Vector3 defaultTarget;
 	Vector3 defaultUp;
 
+	float camUpOffset;
+
 	float camX;
 	float camY;
 	float camZ;
@@ -25,7 +27,13 @@ public:
 		double dt, 
 		float targetx, 
 		float targety, 
-		float targetz
+		float targetz,
+		float targetYaw,
+		float targetPitch,
+		float targetRoll,
+		Vector3 targetRight,
+		Vector3 targetUp,
+		Vector3 targetView
 	);
 	virtual void Updatealt(double dt);
 	virtual void Reset();

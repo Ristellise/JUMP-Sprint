@@ -23,20 +23,57 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	right.Normalize();
 	this->up = defaultUp = right.Cross(view).Normalized();
 	velocity = 0.f;
+	camUpOffset = 4;
 }
 
 void Camera3::Update(
 	double dt, 
 	float targetx, 
 	float targety, 
-	float targetz
+	float targetz,
+	float targetYaw,
+	float targetPitch,
+	float targetRoll,
+	Vector3 targetRight,
+	Vector3 targetUp,
+	Vector3 targetView
 )
 {
-	view = target - position;
-	right = view.Cross(up).Normalized();
-	up = right.Cross(view).Normalized();
-	this->target.Set(targetx, targety, targetz);
-	position = target - view;
+	right = targetRight;
+	up = targetUp;
+	view = targetView;
+	// right = view.Cross(up).Normalized();
+	// up = right.Cross(view).Normalized();
+	// view = position - target;
+
+	if ((Application::IsKeyPressed(VK_LEFT)) || (Application::IsKeyPressed(VK_RIGHT)))
+	{
+		Mtx44 rotation1;
+		rotation1.SetToRotation(targetYaw, up.x, up.y, up.z);
+		view = rotation1 * view;
+	}
+
+	if ((Application::IsKeyPressed(VK_UP)) || (Application::IsKeyPressed(VK_DOWN)))
+	{
+		Mtx44 rotation2;
+		rotation2.SetToRotation(-targetPitch, right.x, right.y, right.z);
+		view = rotation2 * view;
+	}
+
+	if ((Application::IsKeyPressed('Q')) || (Application::IsKeyPressed('E')))
+	{
+		Mtx44 rotation3;
+		rotation3.SetToRotation(-targetRoll, view.x, view.y, view.z);
+		view = rotation3 * view;
+	}
+
+	position = (-view * 30) + target;
+
+	target.Set(
+		targetx + (up.x * camUpOffset), 
+		targety + (up.y * camUpOffset), 
+		targetz + (up.z * camUpOffset)
+	);
 
 	if (Application::IsKeyPressed('R'))
 	{
