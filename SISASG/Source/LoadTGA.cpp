@@ -7,7 +7,7 @@
 
 GLuint LoadTGA(const char *file_path,GLint MagMinFilter,GLint Clamping) // load TGA file to memory
 {
-    std::cout << "Loading TGA...";
+    std::cout << "Loading " << file_path << "... ";
     std::ifstream fileStream(file_path, std::ios::binary);
     if(!fileStream.is_open()) {
         std::cout << "Impossible to open " << file_path << ". Are you in the right directory ?]\n";
@@ -66,7 +66,7 @@ GLuint LoadTGA(const char *file_path,GLint MagMinFilter,GLint Clamping) // load 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT,
         (GLint)maxAnisotropy);
     //end of modifiable code
-    std::cout << "TGA Loaded.\n";
+    std::cout << "Loaded TGA.\n";
     delete []data;
 
     return texture;						
