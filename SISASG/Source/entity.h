@@ -21,14 +21,19 @@ public:
 	float fwdaccl;
 	float bwdaccl;
 	float accl;
+
 	float yaw;
-	float pitch;
 	float yawTotal;
+
+	float pitch;
 	float pitchTotal;
+
+	float roll;
+	float rollTotal;
 
 	Vector3 position;
 	Vector3 target;
-    entityType type;
+	entityType type;
 
 	Vector3 right;	// relative x
 	Vector3 up;		// relative y

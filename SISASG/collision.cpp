@@ -12,13 +12,3 @@ collision::~collision()
 {
 
 }
-
-int collision::checkCollision()
-{
-	return 0;
-}
-
-void collision::doCollision()
-{
-
-}

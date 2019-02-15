@@ -29,7 +29,6 @@ public:
 		float topspeed, 
 		float fwdaccl, 
 		float bwdaccl,
-		float &accl,
 		Vector3 view
 	);
 	virtual void Updatealt(double dt);
