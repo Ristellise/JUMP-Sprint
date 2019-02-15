@@ -74,7 +74,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)common\source;$(SolutionDir)glfw\include;$(SolutionDir)glew\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)soloud\include;$(SolutionDir)common\source;$(SolutionDir)glfw\include;$(SolutionDir)glew\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)soloud\lib;$(SolutionDir)glfw\lib-vc2015;$(SolutionDir)glew\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -111,6 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>soloud_static.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

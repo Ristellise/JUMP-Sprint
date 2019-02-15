@@ -16,6 +16,7 @@ void MouseHandler::Update(GLFWwindow* window, double dt, bool reset)
     glfwGetCursorPos(window,&this->XChange, &this->YChange);
     double oldposX = this->XChange;
     double oldposY = this->YChange;
+    //
     this->XChange = (this->XChange - this->X) * dt * this->sensitivity;
     this->YChange = (this->YChange - this->Y) * dt * this->sensitivity;
 

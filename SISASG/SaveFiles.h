@@ -8,11 +8,15 @@ class SaveFiles
     bool loaded;
     std::map<std::string, std::string>data;
 public:
-    bool saveFile();
+    bool saveFile(const std::string filename);
     bool loadFile(const std::string filename);
-    bool getValue(const std::string value);
-    bool setValue(const std::string value);
+    std::string getValueString(const std::string value);
+    bool getValueBool(const std::string value);
+    double getValueDouble(const std::string value);
+    int getValueint(const std::string value);
+    bool setValue(const std::string key, const std::string value);
     SaveFiles();
+    void parseBuffer(std::string line);
     SaveFiles(const std::string filename);
     ~SaveFiles();
 };

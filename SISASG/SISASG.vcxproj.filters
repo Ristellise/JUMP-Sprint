@@ -71,6 +71,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SaveFiles.cpp" />
+    <ClCompile Include="Source\Bullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -149,6 +150,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SaveFiles.h" />
+    <ClInclude Include="Source\Bullet.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
