@@ -18,6 +18,8 @@
 #include <stdio.h>
 #include <time.h>
 
+#include <vector>
+
 class SceneWorld : public Scene
 {
 
@@ -26,7 +28,8 @@ public:
     SceneWorld(GLFWwindow * l_window);
     ~SceneWorld();
 
-	int cubeRotate;
+	int prevRotate;
+	int currRotate;
 
     virtual void Init();
     virtual void Update(double dt);
@@ -48,7 +51,7 @@ private:
 
     Camera3 camera;
     testCube testCube1;
-    MS modelStack, viewStack, projectionStack;
+	MS modelStack, viewStack, projectionStack;
     Light lights[8];
     FontLoader FLInstance;
     MouseHandler Mouse;
@@ -75,6 +78,8 @@ private:
 
 	//RenderBullet
 	void RenderBullet();
+
+	std::vector <int> cubeRotateVector;
 };
 
 #endif

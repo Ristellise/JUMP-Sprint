@@ -29,7 +29,8 @@ SceneWorld::~SceneWorld()
 
 void SceneWorld::Init()
 {
-	cubeRotate = 0;
+	currRotate = 3;
+	prevRotate = 3;
 
 	srand(unsigned int(time(0)));
 
@@ -229,19 +230,41 @@ void SceneWorld::Update(double dt)
     if (Application::IsKeyPressed('P'))
         lights[this->selector].position.y += (float)(LSPEED * dt);
 
+	if (Application::IsKeyPressed('R'))
+	{
+		cubeRotateVector.clear();
+		currRotate = 3;
+		prevRotate = 3;
+	}
+
 	if ((Application::IsKeyPressed(VK_LEFT)) || (Application::IsKeyPressed(VK_RIGHT)))
 	{
-		cubeRotate = 0;
+		currRotate = 0;
 	}
 	if ((Application::IsKeyPressed(VK_UP)) || (Application::IsKeyPressed(VK_DOWN)))
 	{
-		cubeRotate = 1;
+		currRotate = 1;
 	}
 	if ((Application::IsKeyPressed('Q')) || (Application::IsKeyPressed('E')))
 	{
-		cubeRotate = 2;
+		currRotate = 2;
 	}
-
+	if (currRotate != prevRotate)
+	{
+		cubeRotateVector.push_back(currRotate);
+		prevRotate = currRotate;
+	}
+	for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
+	{
+		for (unsigned int j = (i + 1); j < cubeRotateVector.size(); j++)
+		{
+			if (cubeRotateVector[i] == cubeRotateVector[j])
+			{
+				cubeRotateVector.erase(cubeRotateVector.begin() + i);
+			}
+		}
+	}
+	
     this->lastkeypress += dt;
 
     camera.Update(
@@ -302,12 +325,16 @@ void SceneWorld::Update(double dt)
 	this->dtimestring += "\nCubeViewZ:";
 	this->dtimestring += std::to_string(testCube1.view.z);
 
+	this->dtimestring += "\nCubeVector:";
+	for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
+	{
+		this->dtimestring += std::to_string(cubeRotateVector[i]);
+	}
+
     static int rotateDir = 1;
     static int rotateDir_asteroid = 1;
     static const float ROTATE_SPEED = 10.f;
     rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
-
-
 
     movement_asteroid1_z += (float)(rotateDir_asteroid * ROTATE_SPEED * dt);
 
@@ -475,7 +502,6 @@ void SceneWorld::RenderPlanets()
 // Main Render loop
 void SceneWorld::Render()
 {
-
     //Clear color & depth buffer every frame
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -527,18 +553,25 @@ void SceneWorld::Render()
 
     modelStack.PushMatrix();
 	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-	switch (cubeRotate)
+	
+	for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
 	{
-	case 0:
-		modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
-		break;
-	case 1:
-		modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
-		break;
-	case 2:
-		modelStack.Rotate(testCube1.rollTotal, testCube1.view.x, testCube1.view.y, testCube1.view.z);
-		break;
+		switch (cubeRotateVector[i])
+		{
+		case 0:
+			modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+			break;
+		case 1:
+			modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
+			break;
+		case 2:
+			modelStack.Rotate(testCube1.rollTotal, testCube1.view.x, testCube1.view.y, testCube1.view.z);
+			break;
+		case 3:
+			break;
+		}
 	}
+
     modelStack.Scale(5.0f, 5.0f, 5.0f);
     RenderMesh(meshList[GEO_TESTCUBE], true);
     modelStack.PopMatrix();
