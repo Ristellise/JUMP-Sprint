@@ -108,8 +108,8 @@ void SceneHangar::Init()
 	meshList[GEO_SHIP1] = MeshBuilder::GenerateOBJ("Ship1", "OBJ//Ship1.obj")[0];
 	meshList[GEO_SHIP1]->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
 
-	meshList[GEO_SHIP1] = MeshBuilder::GenerateOBJ("Ship2", "OBJ//Ship1.obj")[0];
-	meshList[GEO_SHIP1]->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
+	meshList[GEO_SHIP2] = MeshBuilder::GenerateOBJ("Ship2", "OBJ//Ship2.obj")[0];
+	meshList[GEO_SHIP2]->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
 
 	// Lightball
 	meshList[GEO_LIGHT] = MeshBuilder::GenerateOBJ("Ceilinglight", "OBJ//Hangar_Ceilinglight.obj")[0];
@@ -311,9 +311,18 @@ void SceneHangar::Render()
 	//modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
+	modelStack.Translate(0,0,0);
 	modelStack.Scale(15.0f, 15.0f, 15.0f);
 	modelStack.Rotate(75, 1, 0, 0);
 	RenderMesh(meshList[GEO_SHIP1], true);
+	modelStack.PopMatrix();
+
+
+	modelStack.PushMatrix();
+	modelStack.Translate(150,0,0);
+	modelStack.Scale(5.0f, 5.0f, 5.0f);
+	//modelStack.Rotate(75, 1, 0, 0);
+	RenderMesh(meshList[GEO_SHIP2], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();

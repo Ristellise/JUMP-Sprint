@@ -32,6 +32,7 @@ class SceneHangar : public Scene
 		// Test Cube
 		GEO_TESTCUBE,
 		GEO_SHIP1,
+		GEO_SHIP2,
 		NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
 	};
 
