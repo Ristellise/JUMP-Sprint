@@ -156,7 +156,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="collision.cpp" />
-    <ClCompile Include="SaveFiles.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\AudioHandler.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
@@ -171,6 +170,7 @@
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\money.cpp" />
     <ClCompile Include="Source\MouseHandler.cpp" />
+    <ClCompile Include="Source\SaveFiles.cpp" />
     <ClCompile Include="Source\SceneHangar.cpp" />
     <ClCompile Include="Source\SceneWorld.cpp" />
     <ClCompile Include="Source\shader.cpp" />
@@ -183,7 +183,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collision.h" />
-    <ClInclude Include="SaveFiles.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\AudioHandler.h" />
     <ClInclude Include="Source\Bullet.h" />
@@ -198,6 +197,7 @@
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\MouseHandler.h" />
     <ClInclude Include="Source\money.h" />
+    <ClInclude Include="Source\SaveFiles.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneHangar.h" />
     <ClInclude Include="Source\SceneWorld.h" />

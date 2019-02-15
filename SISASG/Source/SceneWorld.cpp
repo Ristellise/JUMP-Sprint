@@ -6,7 +6,6 @@
 #include "Application.h"
 #include "Utility.h"
 #include "LoadTGA.h"
-
 #include "StateInit.h"
 #include "State.h"
 #include <stdexcept>
@@ -63,7 +62,7 @@ void SceneWorld::Init()
 
     //Load vertex and fragment shaders
     m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
-
+    sf.loadFile("test.ini");
     m_parameters[U_MVP] = glGetUniformLocation(m_programID, "MVP");
     m_parameters[U_MODELVIEW] = glGetUniformLocation(m_programID, "MV");
     m_parameters[U_MODELVIEW_INVERSE_TRANSPOSE] = glGetUniformLocation(m_programID, "MV_inverse_transpose");
