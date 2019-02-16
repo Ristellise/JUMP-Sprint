@@ -28,9 +28,7 @@ public:
 		float targetx, 
 		float targety, 
 		float targetz,
-		float targetYaw,
-		float targetPitch,
-		float targetRoll,
+		float targetAngle,
 		Vector3 targetRight,
 		Vector3 targetUp,
 		Vector3 targetView

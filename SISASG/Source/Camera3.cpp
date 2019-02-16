@@ -31,9 +31,7 @@ void Camera3::Update(
 	float targetx, 
 	float targety, 
 	float targetz,
-	float targetYaw,
-	float targetPitch,
-	float targetRoll,
+	float targetAngle,
 	Vector3 targetRight,
 	Vector3 targetUp,
 	Vector3 targetView
@@ -49,21 +47,21 @@ void Camera3::Update(
 	if ((Application::IsKeyPressed(VK_LEFT)) || (Application::IsKeyPressed(VK_RIGHT)))
 	{
 		Mtx44 rotation1;
-		rotation1.SetToRotation(targetYaw, up.x, up.y, up.z);
+		rotation1.SetToRotation(targetAngle, up.x, up.y, up.z);
 		view = rotation1 * view;
 	}
 
 	if ((Application::IsKeyPressed(VK_UP)) || (Application::IsKeyPressed(VK_DOWN)))
 	{
 		Mtx44 rotation2;
-		rotation2.SetToRotation(-targetPitch, right.x, right.y, right.z);
+		rotation2.SetToRotation(-targetAngle, right.x, right.y, right.z);
 		view = rotation2 * view;
 	}
 
 	if ((Application::IsKeyPressed('Q')) || (Application::IsKeyPressed('E')))
 	{
 		Mtx44 rotation3;
-		rotation3.SetToRotation(-targetRoll, view.x, view.y, view.z);
+		rotation3.SetToRotation(-targetAngle, view.x, view.y, view.z);
 		view = rotation3 * view;
 	}
 
