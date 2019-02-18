@@ -206,14 +206,14 @@ void SceneWorld::Update(double dt)
     static const float LSPEED = 10.0f;
 
     // For culling and line / fill modes
-    if (Application::IsKeyPressed('1'))
-    {
-        glEnable(GL_CULL_FACE);
-    }
-    if (Application::IsKeyPressed('2'))
-    {
-        glDisable(GL_CULL_FACE);
-    }
+    //if (Application::IsKeyPressed('1'))
+    //{
+    //    glEnable(GL_CULL_FACE);
+    //}
+    //if (Application::IsKeyPressed('2'))
+    //{
+    //    glDisable(GL_CULL_FACE);
+    //}
     if (Application::IsKeyPressed('3'))
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -282,60 +282,6 @@ void SceneWorld::Update(double dt)
 	}
 	
     this->lastkeypress += dt;
-
-    camera.Update(dt, testCube1);
-    testCube1.Update(dt);
-
-    this->dtimestring = "FPS:";
-    this->dtimestring += std::to_string(1.0f / dt);
-    this->dtimestring += "\nCam X:";
-    this->dtimestring += std::to_string(this->camera.position.x);
-    this->dtimestring += "\nCam Y:";
-    this->dtimestring += std::to_string(this->camera.position.y);
-    this->dtimestring += "\nCam Z:";
-    this->dtimestring += std::to_string(this->camera.position.z);
-    this->dtimestring += "\n"	+ std::to_string(this->lights[this->selector].position.x) + " |" 
-                                + std::to_string(this->lights[this->selector].position.y) + " |"
-                                + std::to_string(this->lights[this->selector].position.z);
-    this->dtimestring += "\nVel :";
-    this->dtimestring += std::to_string(testCube1.velocity);
-    this->dtimestring += "\nAcl :";
-    this->dtimestring += std::to_string(testCube1.accl);
-    this->dtimestring += "\nPit :";
-    this->dtimestring += std::to_string(testCube1.pitchTotal);
-    this->dtimestring += "\nYaw :";
-    this->dtimestring += std::to_string(testCube1.yawTotal);
-	this->dtimestring += "\nCamVel :";
-	this->dtimestring += std::to_string(camera.velocity);
-	this->dtimestring += "\nCamAcl :";
-	this->dtimestring += std::to_string(camera.accl);
-
-	this->dtimestring += "\nCubeUpX:";
-	this->dtimestring += std::to_string(testCube1.up.x);
-	this->dtimestring += "\nCubeUpY:";
-	this->dtimestring += std::to_string(testCube1.up.y);
-	this->dtimestring += "\nCubeUpZ:";
-	this->dtimestring += std::to_string(testCube1.up.z);
-
-	this->dtimestring += "\nCubeRightX:";
-	this->dtimestring += std::to_string(testCube1.right.x);
-	this->dtimestring += "\nCubeRightY:";
-	this->dtimestring += std::to_string(testCube1.right.y);
-	this->dtimestring += "\nCubeRightZ:";
-	this->dtimestring += std::to_string(testCube1.right.z);
-
-	this->dtimestring += "\nCubeViewX:";
-	this->dtimestring += std::to_string(testCube1.view.x);
-	this->dtimestring += "\nCubeViewY:";
-	this->dtimestring += std::to_string(testCube1.view.y);
-	this->dtimestring += "\nCubeViewZ:";
-	this->dtimestring += std::to_string(testCube1.view.z);
-
-	this->dtimestring += "\nCubeVector:";
-	for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
-	{
-		this->dtimestring += std::to_string(cubeRotateVector[i]);
-	}
 
     static int rotateDir = 1;
     static int rotateDir_asteroid = 1;

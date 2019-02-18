@@ -1,19 +1,18 @@
+#pragma once
 #include "State.h"
-#include "testCube.h"
-
-class Stateinit : public GState
+class StateDebug :
+    public GState
 {
 public:
-    Stateinit();
-    ~Stateinit();
+    StateDebug();
+    ~StateDebug();
     std::string dtimestring;
-    std::string StateName = "init";
+    std::string StateName = "debugger";
 
     void OnEnter();
     void OnExit();
     void OnUpdate(double dt);
     void OnRender();
     void OnCam(int X, int Y, float XChange, float YChange);
-
-    std::string Teststring = "";
 };
+

@@ -28,27 +28,7 @@ void entity::Reset()
 
 void entity::Update(double dt)
 {
-	static const float ENTITY_SPEED = 20.f;
-	if (Application::IsKeyPressed(VK_LEFT) || Application::IsKeyPressed('A'))
-	{
-		position.x -= (float)(ENTITY_SPEED * 0.2 * dt);
-	}
-	if (Application::IsKeyPressed(VK_RIGHT) || Application::IsKeyPressed('D'))
-	{
-		position.x += (float)(ENTITY_SPEED * 0.2 * dt);
-	}
-	if (Application::IsKeyPressed(VK_UP) || Application::IsKeyPressed('W'))
-	{
-		position.y += (float)(ENTITY_SPEED * 0.2 * dt);
-	}
-	if (Application::IsKeyPressed(VK_DOWN) || Application::IsKeyPressed('S'))
-	{
-		position.y -= (float)(ENTITY_SPEED * 0.2 * dt);
-	}
-}
 
-void entity::Update(double dt, float topSpeed, float fwdaccl, float bwdaccl, float & accl)
-{
 }
 
 void entity::UpdateBBox()

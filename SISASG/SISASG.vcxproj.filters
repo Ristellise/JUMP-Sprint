@@ -52,15 +52,6 @@
     <ClCompile Include="Source\spaceship.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\State.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StateInit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\testCube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,6 +62,21 @@
     <ClCompile Include="Source\SaveFiles.cpp" />
     <ClCompile Include="Source\collision.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\State.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateDebug.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateInit.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateManager.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateWorld.cpp">
+      <Filter>States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,22 +122,10 @@
     <ClInclude Include="Source\SceneHangar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneWorld.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\spaceship.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\State.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\StateInit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\StateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\testCube.h">
@@ -159,6 +153,24 @@
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Vertex.h" />
     <ClInclude Include="Source\SaveFiles.h" />
+    <ClInclude Include="Source\StateManager.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateInit.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateDebug.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\State.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateWorld.h">
+      <Filter>States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -166,6 +178,9 @@
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{c3ec7fe9-c783-42c3-9935-b83459bb16a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States">
+      <UniqueIdentifier>{892dc049-778e-4fbd-9dd5-f7712f23fbaa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
