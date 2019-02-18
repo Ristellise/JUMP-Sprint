@@ -9,6 +9,12 @@ public:
     std::string dtimestring;
     std::string StateName = "init";
 
+	Mtx44 cubeMatrix;
+	Mtx44 cubeMultR;
+	Mtx44 cubeMult1;
+	Mtx44 cubeMult2;
+	Mtx44 cubeMult3;
+
     void OnEnter();
     void OnExit();
     void OnUpdate(double dt);

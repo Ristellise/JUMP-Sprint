@@ -50,3 +50,6 @@ void entity::UpdateBBox()
     this->HBox.backRightUp = pos - hotFront + hotRight + hotTop;
     this->HBox.backLeftDown = pos - hotFront + hotRight - hotTop;
 }
+// void entity::Update(double dt, float topSpeed, float fwdaccl, float bwdaccl, float & accl)
+// {
+// }

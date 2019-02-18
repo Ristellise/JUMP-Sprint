@@ -28,14 +28,6 @@ SceneWorld::~SceneWorld()
 
 void SceneWorld::Init()
 {
-	// Matrix method
-	cubeMatrix.SetToIdentity();
-	cubeMultR.SetToIdentity();
-	cubeMult1.SetToIdentity();
-	cubeMult2.SetToIdentity();
-	cubeMult3.SetToIdentity();
-	shipDirDetected = false;
-
 	// Vector method
 	currRotate = 3;
 	prevRotate = 3;
@@ -61,9 +53,9 @@ void SceneWorld::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     
-	bullet.Init(Vector3(testCube1.position.x, testCube1.position.y, testCube1.position.z),Vector3(0,0,-1),Vector3(0,1,0));
-    camera.Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
-    testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
+	// bullet.Init(Vector3(testCube1.position.x, testCube1.position.y, testCube1.position.z),Vector3(0,0,-1),Vector3(0,1,0));
+    // camera.Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
+    // testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 
     this->Mouse = MouseHandler(20.0f);
     Mtx44 projection;
@@ -206,14 +198,14 @@ void SceneWorld::Update(double dt)
     static const float LSPEED = 10.0f;
 
     // For culling and line / fill modes
-    //if (Application::IsKeyPressed('1'))
-    //{
-    //    glEnable(GL_CULL_FACE);
-    //}
-    //if (Application::IsKeyPressed('2'))
-    //{
-    //    glDisable(GL_CULL_FACE);
-    //}
+    if (Application::IsKeyPressed('1'))
+    {
+        glEnable(GL_CULL_FACE);
+    }
+    if (Application::IsKeyPressed('2'))
+    {
+        glDisable(GL_CULL_FACE);
+    }
     if (Application::IsKeyPressed('3'))
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -240,13 +232,6 @@ void SceneWorld::Update(double dt)
 
 	if (Application::IsKeyPressed('R'))
 	{
-		// Matrix method
-		cubeMatrix.SetToIdentity();
-		cubeMultR.SetToIdentity();
-		cubeMult1.SetToIdentity();
-		cubeMult2.SetToIdentity();
-		cubeMult3.SetToIdentity();
-
 		// Vector method
 		cubeRotateVector.clear();
 		currRotate = 3;
@@ -282,6 +267,33 @@ void SceneWorld::Update(double dt)
 	}
 	
     this->lastkeypress += dt;
+
+    // testCube1.Update(dt);
+	// camera.Update(dt, testCube1);
+
+	/*
+    this->dtimestring = "FPS:";
+    this->dtimestring += std::to_string(1.0f / dt);
+    this->dtimestring += "\nCam X:";
+    this->dtimestring += std::to_string(this->camera.position.x);
+    this->dtimestring += "\nCam Y:";
+    this->dtimestring += std::to_string(this->camera.position.y);
+    this->dtimestring += "\nCam Z:";
+    this->dtimestring += std::to_string(this->camera.position.z);
+    this->dtimestring += "\n"	+ std::to_string(this->lights[this->selector].position.x) + " |" 
+                                + std::to_string(this->lights[this->selector].position.y) + " |"
+                                + std::to_string(this->lights[this->selector].position.z);
+    this->dtimestring += "\nVel :";
+    this->dtimestring += std::to_string(testCube1.velocity);
+    this->dtimestring += "\nAcl :";
+    this->dtimestring += std::to_string(testCube1.accl);
+    this->dtimestring += "\nPit :";
+    this->dtimestring += std::to_string(testCube1.pitchTotal);
+    this->dtimestring += "\nYaw :";
+    this->dtimestring += std::to_string(testCube1.yawTotal);
+	this->dtimestring += "\nRol :";
+	this->dtimestring += std::to_string(testCube1.rollTotal);
+	*/
 
     static int rotateDir = 1;
     static int rotateDir_asteroid = 1;
@@ -396,6 +408,7 @@ void SceneWorld::RenderSkybox()
 
 }
 
+/*
 void SceneWorld::RenderBullet()
 {
 	modelStack.PushMatrix();
@@ -407,6 +420,7 @@ void SceneWorld::RenderBullet()
 	RenderMesh(meshList[GEO_BULLETBODY], true);
 	modelStack.PopMatrix();
 }
+*/
 
 void SceneWorld::RenderPlanets()
 {
@@ -473,6 +487,7 @@ int SceneWorld::planetRangeCheck(int cx, int cy, int cz, int x, int y, int z)
 	return (x1 + y1 + z1);
 }
 
+/*
 int SceneWorld::planetExecuteUI()
 {
 	//test range coords (center sphere coords)
@@ -501,55 +516,51 @@ int SceneWorld::planetExecuteUI()
 
 	return 0;
 }
+*/
 
+/*
 void SceneWorld::RenderSpaceship()
 {
-	// Matrix method
+	// Matrix method v2
 	modelStack.PushMatrix();
 	cubeMult1.SetToTranslation(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-
+	
 	if (Application::IsKeyPressed(VK_LEFT))
 	{
 		cubeMultR.SetToRotation(testCube1.angle, testCube1.up.x, testCube1.up.y, testCube1.up.z);
 		cubeMult2 = cubeMultR * cubeMult2;
 	}
-	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
-
+	
 	if (Application::IsKeyPressed(VK_RIGHT))
 	{
 		cubeMultR.SetToRotation(-(testCube1.angle), testCube1.up.x, testCube1.up.y, testCube1.up.z);
 		cubeMult2 = cubeMultR * cubeMult2;
 	}
-	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
 
 	if (Application::IsKeyPressed(VK_UP))
 	{
 		cubeMultR.SetToRotation(-(testCube1.angle), testCube1.right.x, testCube1.right.y, testCube1.right.z);
 		cubeMult2 = cubeMultR * cubeMult2;
 	}
-	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
-
+	
 	if (Application::IsKeyPressed(VK_DOWN))
 	{
 		cubeMultR.SetToRotation(testCube1.angle, testCube1.right.x, testCube1.right.y, testCube1.right.z);
 		cubeMult2 = cubeMultR * cubeMult2;
 	}
-	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
 
 	if (Application::IsKeyPressed('Q'))
 	{
 		cubeMultR.SetToRotation(-(testCube1.angle), testCube1.view.x, testCube1.view.y, testCube1.view.z);
 		cubeMult2 = cubeMultR * cubeMult2;
 	}
-	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
 
 	if (Application::IsKeyPressed('E'))
 	{
 		cubeMultR.SetToRotation(testCube1.angle, testCube1.view.x, testCube1.view.y, testCube1.view.z);
 		cubeMult2 = cubeMultR * cubeMult2;
 	}
-	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
-
+	
 	cubeMult3.SetToScale(5.0f, 5.0f, 5.0f);
 	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
 	
@@ -558,7 +569,6 @@ void SceneWorld::RenderSpaceship()
 	modelStack.PopMatrix();
 
 	// Vector method
-	/*
 	modelStack.PushMatrix();
 	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
 
@@ -583,8 +593,8 @@ void SceneWorld::RenderSpaceship()
 	modelStack.Scale(5.0f, 5.0f, 5.0f);
 	RenderMesh(meshList[GEO_TESTCUBE], true);
 	modelStack.PopMatrix();
-	*/
 }
+*/
 
 int SceneWorld::hoopsCheckXY(int circle_x, int circle_y, int x, int y, int rad) // almost works just need to add z axis somehow so renamed to XY for now
 {
@@ -599,6 +609,7 @@ int SceneWorld::hoopsCheckXY(int circle_x, int circle_y, int x, int y, int rad) 
 	}
 }
 
+/*
 int SceneWorld::hoopsExecuteUI()
 {
 	//set spaceship position (testcube for now)
@@ -617,6 +628,7 @@ int SceneWorld::hoopsExecuteUI()
 	return 0;
 
 }
+*/
 
 // Main Render loop
 void SceneWorld::Render()
@@ -664,11 +676,11 @@ void SceneWorld::Render()
 
 	// RenderAsteroid();
 
-	planetExecuteUI();
+	// planetExecuteUI();
 
-	hoopsExecuteUI();
+	// hoopsExecuteUI();
 
-	RenderSpaceship();
+	// RenderSpaceship();
 
     // testcar
     // modelStack.PushMatrix();
@@ -686,14 +698,17 @@ void SceneWorld::Render()
     RenderMesh(meshList[GEO_LIGHTBALL], false);
     modelStack.PopMatrix();
 
-    RenderTextScreen(meshList[GEO_TEXT], this->dtimestring, Color(255, 255, 0), 2, 1.f, 24.f);
+    // RenderTextScreen(meshList[GEO_TEXT], this->dtimestring, Color(255, 255, 0), 2, 1.f, 24.f);
+
     this->StateManInst.Render();
 
+	/*
 	if (Application::IsKeyPressed('F'))
 	{
 		RenderBullet();
 		//Make it shoot?
 	}
+	*/
 }
 
 /*-------------
