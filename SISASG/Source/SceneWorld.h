@@ -55,11 +55,6 @@ private:
 	Bullet bullet;
     std::string dtimestring = "";
     void RenderMesh(Mesh *mesh, bool enableLight);
-    float doormovement = 0.0f;
-    float lidmovement = 0.0f;
-    bool opendoor = false;
-    bool openlid = false;
-    bool renable = false;
 	//bool checkerAsteroid = false;
 	int random;
 	int asteroidSpawn = 0;
