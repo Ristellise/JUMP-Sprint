@@ -14,6 +14,8 @@ public:
 	Vector3 defaultTarget;
 	Vector3 defaultUp;
 
+	float camUpOffset;
+
 	float camX;
 	float camY;
 	float camZ;
@@ -21,16 +23,7 @@ public:
 	Camera3();
 	~Camera3();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-	virtual void Update(
-		double dt, 
-		float targetx, 
-		float targety, 
-		float targetz, 
-		float topspeed, 
-		float fwdaccl, 
-		float bwdaccl,
-		Vector3 view
-	);
+	virtual void Update(double dt, entity targetShip);
 	virtual void Updatealt(double dt);
 	virtual void Reset();
 };

@@ -6,7 +6,6 @@
 #include "Application.h"
 #include "Utility.h"
 #include "LoadTGA.h"
-
 #include "StateInit.h"
 #include "State.h"
 #include <stdexcept>
@@ -29,7 +28,17 @@ SceneWorld::~SceneWorld()
 
 void SceneWorld::Init()
 {
-	cubeRotate = 0;
+	// Matrix method
+	cubeMatrix.SetToIdentity();
+	cubeMultR.SetToIdentity();
+	cubeMult1.SetToIdentity();
+	cubeMult2.SetToIdentity();
+	cubeMult3.SetToIdentity();
+	shipDirDetected = false;
+
+	// Vector method
+	currRotate = 3;
+	prevRotate = 3;
 
 	srand(unsigned int(time(0)));
 
@@ -53,7 +62,7 @@ void SceneWorld::Init()
 
     
 	bullet.Init(Vector3(testCube1.position.x, testCube1.position.y, testCube1.position.z),Vector3(0,0,-1),Vector3(0,1,0));
-    camera.Init(Vector3(0, 10, -30), Vector3(0, 0, 0), Vector3(0, 1, 0));
+    camera.Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
     testCube1.Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 
     this->Mouse = MouseHandler(20.0f);
@@ -63,7 +72,7 @@ void SceneWorld::Init()
 
     //Load vertex and fragment shaders
     m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
-
+    sf.loadFile("test.ini");
     m_parameters[U_MVP] = glGetUniformLocation(m_programID, "MVP");
     m_parameters[U_MODELVIEW] = glGetUniformLocation(m_programID, "MV");
     m_parameters[U_MODELVIEW_INVERSE_TRANSPOSE] = glGetUniformLocation(m_programID, "MV_inverse_transpose");
@@ -148,19 +157,19 @@ void SceneWorld::Init()
     meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
 
     //planets
-    meshList[GEO_PLANET_VENUS] = MeshBuilder::GenerateOBJ("venus", "OBJ//Venus.obj")[0];
+    meshList[GEO_PLANET_VENUS] = MeshBuilder::GenerateOBJ("venus", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_PLANET_VENUS]->textureID = LoadTGA("TGA//venus texture.tga", GL_LINEAR, GL_CLAMP);
 
-    meshList[GEO_PLANET_EARTH] = MeshBuilder::GenerateOBJ("earth", "OBJ//Earth.obj")[0];
+    meshList[GEO_PLANET_EARTH] = MeshBuilder::GenerateOBJ("earth", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_PLANET_EARTH]->textureID = LoadTGA("TGA//earth texture.tga", GL_LINEAR, GL_CLAMP);
 
-    meshList[GEO_PLANET_MARS] = MeshBuilder::GenerateOBJ("mars", "OBJ//Mars.obj")[0];
+    meshList[GEO_PLANET_MARS] = MeshBuilder::GenerateOBJ("mars", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_PLANET_MARS]->textureID = LoadTGA("TGA//mars texture.tga", GL_LINEAR, GL_CLAMP);
 
-    meshList[GEO_PLANET_JUPITER] = MeshBuilder::GenerateOBJ("jupiter", "OBJ//Jupiter.obj")[0];
+    meshList[GEO_PLANET_JUPITER] = MeshBuilder::GenerateOBJ("jupiter", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_PLANET_JUPITER]->textureID = LoadTGA("TGA//jupiter texture.tga", GL_LINEAR, GL_CLAMP);
 
-    meshList[GEO_SUN] = MeshBuilder::GenerateOBJ("sun", "OBJ//Sun.obj")[0];
+    meshList[GEO_SUN] = MeshBuilder::GenerateOBJ("sun", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_SUN]->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
 
     //asteroids
@@ -228,32 +237,52 @@ void SceneWorld::Update(double dt)
     if (Application::IsKeyPressed('P'))
         lights[this->selector].position.y += (float)(LSPEED * dt);
 
+	if (Application::IsKeyPressed('R'))
+	{
+		// Matrix method
+		cubeMatrix.SetToIdentity();
+		cubeMultR.SetToIdentity();
+		cubeMult1.SetToIdentity();
+		cubeMult2.SetToIdentity();
+		cubeMult3.SetToIdentity();
+
+		// Vector method
+		cubeRotateVector.clear();
+		currRotate = 3;
+		prevRotate = 3;
+	}
+
 	if ((Application::IsKeyPressed(VK_LEFT)) || (Application::IsKeyPressed(VK_RIGHT)))
 	{
-		cubeRotate = 0;
+		currRotate = 0;
 	}
 	if ((Application::IsKeyPressed(VK_UP)) || (Application::IsKeyPressed(VK_DOWN)))
 	{
-		cubeRotate = 1;
+		currRotate = 1;
 	}
 	if ((Application::IsKeyPressed('Q')) || (Application::IsKeyPressed('E')))
 	{
-		cubeRotate = 2;
+		currRotate = 2;
 	}
-
+	if (currRotate != prevRotate)
+	{
+		cubeRotateVector.push_back(currRotate);
+		prevRotate = currRotate;
+	}
+	for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
+	{
+		for (unsigned int j = (i + 1); j < cubeRotateVector.size(); j++)
+		{
+			if (cubeRotateVector[i] == cubeRotateVector[j])
+			{
+				cubeRotateVector.erase(cubeRotateVector.begin() + i);
+			}
+		}
+	}
+	
     this->lastkeypress += dt;
 
-    camera.Update(
-        dt, 
-        testCube1.position.x, 
-        testCube1.position.y, 
-        testCube1.position.z,
-		testCube1.topSpeed, 
-		testCube1.fwdaccl, 
-		testCube1.bwdaccl,
-		testCube1.view
-    );
-
+    camera.Update(dt, testCube1);
     testCube1.Update(dt);
 
     this->dtimestring = "FPS:";
@@ -301,12 +330,16 @@ void SceneWorld::Update(double dt)
 	this->dtimestring += "\nCubeViewZ:";
 	this->dtimestring += std::to_string(testCube1.view.z);
 
+	this->dtimestring += "\nCubeVector:";
+	for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
+	{
+		this->dtimestring += std::to_string(cubeRotateVector[i]);
+	}
+
     static int rotateDir = 1;
     static int rotateDir_asteroid = 1;
     static const float ROTATE_SPEED = 10.f;
     rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
-
-
 
     movement_asteroid1_z += (float)(rotateDir_asteroid * ROTATE_SPEED * dt);
 
@@ -364,7 +397,7 @@ void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
     }
 }
 
-static const int SKYBOXSIZE = 5000;
+static const int SKYBOXSIZE = 2000;
 
 void SceneWorld::RenderSkybox()
 {
@@ -432,43 +465,210 @@ void SceneWorld::RenderPlanets()
 {
     //venus
     modelStack.PushMatrix();
-    modelStack.Translate(10, 0, 0);
+    modelStack.Translate(300, 0, -300);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
-    //modelStack.Scale(5.0f, 5.0f, 5.0f);
+    modelStack.Scale(20.0f, 20.0f, 20.0f);
     RenderMesh(meshList[GEO_PLANET_VENUS], true);
     modelStack.PopMatrix();
 
     //earth
     modelStack.PushMatrix();
-    modelStack.Translate(20, 0, 0);
+    modelStack.Translate(-400, 0, -400);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
-    //modelStack.Scale(5.0f, 5.0f, 5.0f);
+    modelStack.Scale(21.0f, 21.0f, 21.0f);
     RenderMesh(meshList[GEO_PLANET_EARTH], true);
     modelStack.PopMatrix();
 
     //mars
     modelStack.PushMatrix();
-    modelStack.Translate(30, 0, 0);
+    modelStack.Translate(-550, 0, 550);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
-    //modelStack.Scale(5.0f, 5.0f, 5.0f);
+    modelStack.Scale(15.0f, 15.0f, 15.0f);
     RenderMesh(meshList[GEO_PLANET_MARS], true);
     modelStack.PopMatrix();
 
     //jupiter
     modelStack.PushMatrix();
-    modelStack.Translate(50, 0, 0);
+    modelStack.Translate(800, 0, 800);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
-    //modelStack.Scale(5.0f, 5.0f, 5.0f);
+    modelStack.Scale(75.0f, 75.0f, 75.0f);
     RenderMesh(meshList[GEO_PLANET_JUPITER], true);
     modelStack.PopMatrix();
 
     //sun
     modelStack.PushMatrix();
-    modelStack.Translate(-60, 0, 0);
+    modelStack.Translate(0, 0, 0);
     modelStack.Rotate(rotateAngle, 0, 1, 0);
-    //modelStack.Scale(5.0f, 5.0f, 5.0f);
+    modelStack.Scale(170.0f, 170.0f, 170.0f);
     RenderMesh(meshList[GEO_SUN], true);
     modelStack.PopMatrix();
+}
+
+void SceneWorld::RenderAsteroid()
+{
+		modelStack.PushMatrix();
+		modelStack.Translate((float)random, (float)random, (float)random);
+		modelStack.Translate(movement_asteroid1_z, 0, 0);
+		modelStack.Rotate(rotateAngle * 5, 1, 0, 1);
+		modelStack.Scale(0.8f, 0.8f, 0.8f);
+		RenderMesh(meshList[GEO_ASTEROID1], true);
+		modelStack.PopMatrix();	
+}
+
+int SceneWorld::planetRangeCheck(int cx, int cy, int cz, int x, int y, int z)
+{
+	int x1 = (int)pow((x - cx), 2);
+	int y1 = (int)pow((y - cy), 2);
+	int z1 = (int)pow((z - cz), 2);
+
+	// distance between the centre  
+	// and given point 
+	return (x1 + y1 + z1);
+}
+
+int SceneWorld::planetExecuteUI()
+{
+	//test range coords (center sphere coords)
+	int cx = 0, cy = 0, cz = 0;
+
+	//radius sphere
+	int r = 50;
+
+	//coords of test cube (spaceship)
+	int x = (int)testCube1.position.x, y = (int)testCube1.position.y, z = (int)testCube1.position.z;
+
+	//use check function
+	int ans = planetRangeCheck(cx, cy, cz, x, y, z);
+
+	if (ans < (r * r) || ans == (r * r))
+	{
+
+		RenderTextScreen(meshList[GEO_TEXT], "You are in range for a teleport! ", Color(255, 255, 0), 2, 15.f, 24.f);
+
+		if (Application::IsKeyPressed(VK_RETURN))
+		{
+			testCube1.position.x = 100, testCube1.position.y = 0, testCube1.position.z = 100;
+		}
+
+	}
+
+	return 0;
+}
+
+void SceneWorld::RenderSpaceship()
+{
+	// Matrix method
+	modelStack.PushMatrix();
+	cubeMult1.SetToTranslation(testCube1.position.x, testCube1.position.y, testCube1.position.z);
+
+	if (Application::IsKeyPressed(VK_LEFT))
+	{
+		cubeMultR.SetToRotation(testCube1.angle, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+		cubeMult2 = cubeMultR * cubeMult2;
+	}
+	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
+
+	if (Application::IsKeyPressed(VK_RIGHT))
+	{
+		cubeMultR.SetToRotation(-(testCube1.angle), testCube1.up.x, testCube1.up.y, testCube1.up.z);
+		cubeMult2 = cubeMultR * cubeMult2;
+	}
+	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
+
+	if (Application::IsKeyPressed(VK_UP))
+	{
+		cubeMultR.SetToRotation(-(testCube1.angle), testCube1.right.x, testCube1.right.y, testCube1.right.z);
+		cubeMult2 = cubeMultR * cubeMult2;
+	}
+	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
+
+	if (Application::IsKeyPressed(VK_DOWN))
+	{
+		cubeMultR.SetToRotation(testCube1.angle, testCube1.right.x, testCube1.right.y, testCube1.right.z);
+		cubeMult2 = cubeMultR * cubeMult2;
+	}
+	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
+
+	if (Application::IsKeyPressed('Q'))
+	{
+		cubeMultR.SetToRotation(-(testCube1.angle), testCube1.view.x, testCube1.view.y, testCube1.view.z);
+		cubeMult2 = cubeMultR * cubeMult2;
+	}
+	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
+
+	if (Application::IsKeyPressed('E'))
+	{
+		cubeMultR.SetToRotation(testCube1.angle, testCube1.view.x, testCube1.view.y, testCube1.view.z);
+		cubeMult2 = cubeMultR * cubeMult2;
+	}
+	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
+
+	cubeMult3.SetToScale(5.0f, 5.0f, 5.0f);
+	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
+	
+	modelStack.LoadMatrix(cubeMatrix);
+	RenderMesh(meshList[GEO_TESTCUBE], true);
+	modelStack.PopMatrix();
+
+	// Vector method
+	/*
+	modelStack.PushMatrix();
+	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
+
+	for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
+	{
+		switch (cubeRotateVector[i])
+		{
+		case 0:
+			modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
+			break;
+		case 1:
+			modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
+			break;
+		case 2:
+			modelStack.Rotate(testCube1.rollTotal, testCube1.view.x, testCube1.view.y, testCube1.view.z);
+			break;
+		case 3:
+			break;
+		}
+	}
+
+	modelStack.Scale(5.0f, 5.0f, 5.0f);
+	RenderMesh(meshList[GEO_TESTCUBE], true);
+	modelStack.PopMatrix();
+	*/
+}
+
+int SceneWorld::hoopsCheckXY(int circle_x, int circle_y, int x, int y, int rad) // almost works just need to add z axis somehow so renamed to XY for now
+{
+	// Compare radius of circle with distance of its center from given point
+	if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+int SceneWorld::hoopsExecuteUI()
+{
+	//set spaceship position (testcube for now)
+	int x = (int)testCube1.position.x, y = (int)testCube1.position.y; 
+
+	//set position of circle and radius size
+	int circle_x = 50, circle_y = 0, rad = 10; 
+
+	bool ans = hoopsCheckXY(circle_x, circle_y, x, y, rad);
+
+	if (ans == true)
+	{
+		RenderTextScreen(meshList[GEO_TEXT], "Passed through circle ", Color(255, 255, 0), 2, 15.f, 15.f);
+	}
+
+	return 0;
+
 }
 
 // Main Render loop
@@ -515,31 +715,19 @@ void SceneWorld::Render()
 
     // RenderPlanets();
 
-    // RenderAsteroid();
+	// RenderAsteroid();
+
+	planetExecuteUI();
+
+	hoopsExecuteUI();
+
+	RenderSpaceship();
 
     // testcar
     // modelStack.PushMatrix();
     // modelStack.Translate(-10, 0, 0);
     // RenderMesh(meshList[GEO_CAR], true);
     // modelStack.PopMatrix();
-
-    modelStack.PushMatrix();
-	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-	switch (cubeRotate)
-	{
-	case 0:
-		modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
-		break;
-	case 1:
-		modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
-		break;
-	case 2:
-		modelStack.Rotate(testCube1.rollTotal, testCube1.view.x, testCube1.view.y, testCube1.view.z);
-		break;
-	}
-    modelStack.Scale(5.0f, 5.0f, 5.0f);
-    RenderMesh(meshList[GEO_TESTCUBE], true);
-    modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Scale(10.0f, 10.0f, 10.0f);
@@ -558,7 +746,6 @@ void SceneWorld::Render()
 	{
 		RenderBullet();
 		//Make it shoot?
-
 	}
 }
 

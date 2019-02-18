@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "Common\Common.vcxproj", "{AFFEA0A2-137D-4036-B327-A9ED5D55B040}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SISASG", "SISASG\SISASG.vcxproj", "{CA352589-4470-4810-BFBD-95CB54AE0EB0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{AFFEA0A2-137D-4036-B327-A9ED5D55B040} = {AFFEA0A2-137D-4036-B327-A9ED5D55B040}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
