@@ -67,7 +67,7 @@ bool StateManager::addState(std::string Statename)
     {
         if ((*this->availableStates[i]).StateName == Statename)
         {
-            (this->availableStates[i])->OnCreate(StateMan_parameters,this->SM_FLInstance,this->manager_cam,this->SM_Mouse);
+            (this->availableStates[i])->OnCreate(StateMan_parameters,this->SM_FLInstance,this->manager_cam,this->SM_Mouse,&this->collideInstance);
             (this->availableStates[i])->SetMatrixes(this->modelStack,this->viewStack,this->projectionStack);
             (this->availableStates[i])->OnEnter();
             this->activeStates.push_back(this->availableStates[i]);

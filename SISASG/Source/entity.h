@@ -26,11 +26,16 @@ struct hitbox
 
 };
 
-struct BBoxDimensions
+class BBoxDimensions
 {
+public:
+    BBoxDimensions();
+    ~BBoxDimensions();
     unsigned int BBForward;
     unsigned int BBSide;
     unsigned int BBTop;
+    BBoxDimensions(unsigned int forward, unsigned int side, unsigned int top) { Set(forward, side, top); };
+    void Set(unsigned int forward, unsigned int side, unsigned int top);
 };
 
 class entity
@@ -47,11 +52,15 @@ public:
 	float pitchTotal;
 	float rollTotal;
 
+    bool physics = false;
+
 	Vector3 position;
 	Vector3 target;
     entityType type;
     BBoxDimensions Boxsize;
 	hitbox HBox;
+
+    Vector3 size;
 
 	Vector3 right;	// relative x
 	Vector3 up;		// relative y

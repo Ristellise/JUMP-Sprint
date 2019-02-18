@@ -1,6 +1,8 @@
 #include "collision.h"
 #include <cmath>
 #include <limits>
+#include <unordered_set>
+#include <algorithm>
 struct ChunkPos
 {
     int Chnkx;
@@ -64,45 +66,17 @@ ChunkPos getChunk(Vector3 pos)
     return chnk;
 }
 
-collision::collision()
+void collision::doCollisions(std::vector<entity*> &entityList)
 {
-    
-}
-
-collision::collision(std::vector<entity*>* entityList)
-{
-    for (size_t i = 0; i < this->entityList[i].size(); i++)
+    for (size_t i = 0; i < (entityList).size(); i++)
     {
-        entity* Ent = (*this->entityList)[i];
-        // if its almost not moving, it's not moving *Dabs*
-        // Save some time with simulation
-        if (roundf(Ent->velocity*1000)/1000 != 0.0f) 
+        entity* Ent = (entityList)[i];
+        if (Ent->physics)
         {
-            // we update the BBox.
             Ent->UpdateBBox();
-            this->findChunkFast(Ent);
+            this->updatingEnts += 1;
         }
     }
-}
-
-Chunk* collision::findChunkFast(entity* ent)
-{
-    ChunkPos pos = getChunk(ent->position);
-    int long CHash = getChunkHash(pos.Chnkx, pos.Chnky);
-    if (this->chunks->find(getChunkHash(pos.Chnkx, pos.Chnky)) == this->chunks->end())
-    {
-        return &this->chunks->find(CHash)->second;
-    }
-    else
-    {
-        Chunk nchunk;
-        nchunk = Chunk(pos.Chnkx, pos.Chnky);
-        nchunk.addEnt(ent);
-        std::pair<long int, Chunk> v(CHash, nchunk);
-        this->chunks->insert(v);
-        return &v.second;
-    }
-    
 }
 
 bool Intersects(entity *Ent1, entity *Ent2)
@@ -143,7 +117,13 @@ bool Intersects(entity *Ent1, entity *Ent2)
         return false;
 }
 
-collision::~collision()
+void Chunk::popEnt(entity * ent)
 {
-
+    for (size_t i = 0; i < this->ChunkEntities.size(); i++)
+    {
+        if (this->ChunkEntities[i] == ent)
+        {
+            this->ChunkEntities.erase(this->ChunkEntities.begin() + i);
+        }
+    }
 }
