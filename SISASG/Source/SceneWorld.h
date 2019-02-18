@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include <time.h>
 
+#include <vector>
+
 class SceneWorld : public Scene
 {
 
@@ -27,7 +29,15 @@ public:
     SceneWorld(GLFWwindow * l_window);
     ~SceneWorld();
 
-	int cubeRotate;
+	Mtx44 cubeMatrix;
+	Mtx44 cubeMultR;
+	Mtx44 cubeMult1;
+	Mtx44 cubeMult2;
+	Mtx44 cubeMult3;
+	bool shipDirDetected;
+
+	int prevRotate;
+	int currRotate;
 
     virtual void Init();
     virtual void Update(double dt);
@@ -35,10 +45,16 @@ public:
     void RenderSkybox();
     void RenderPlanets();
 	void RenderAsteroid();
+	void RenderSpaceship();
+	int planetRangeCheck(int cx, int cy, int cz, int x, int y, int z); //these two can be used for teleportation to other planets (rename if necessary)
+	int planetExecuteUI(); //these two can be used for teleportation to other planets (rename if necessary)
+	int hoopsCheckXY(int circle_x, int circle_y, int x, int y, int rad); // for hoops detection (not fully working)
+	int hoopsExecuteUI(); // for hoops detection (not fully working)
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void Exit();
     void SetWindow(GLFWwindow* window);
+
 private:
     GLFWwindow* l_window;
     unsigned m_vertexArrayID;
@@ -49,7 +65,7 @@ private:
 
     Camera3 camera;
     testCube testCube1;
-    MS modelStack, viewStack, projectionStack;
+	MS modelStack, viewStack, projectionStack;
     Light lights[8];
     FontLoader FLInstance;
     MouseHandler Mouse;
@@ -77,6 +93,8 @@ private:
 
 	//RenderBullet
 	void RenderBullet();
+
+	std::vector <int> cubeRotateVector;
 };
 
 #endif

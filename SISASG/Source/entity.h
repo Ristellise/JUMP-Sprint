@@ -42,13 +42,9 @@ public:
 	float bwdaccl;
 	float accl;
 
-	float yaw;
+	float angle;
 	float yawTotal;
-
-	float pitch;
 	float pitchTotal;
-
-	float roll;
 	float rollTotal;
 
     // Physics
