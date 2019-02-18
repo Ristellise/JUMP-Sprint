@@ -35,25 +35,46 @@ void Camera3::Update(double dt, entity targetShip)
 	// up = right.Cross(view).Normalized();
 	// view = position - target;
 
-	if ((Application::IsKeyPressed(VK_LEFT)) || (Application::IsKeyPressed(VK_RIGHT)))
+	if (Application::IsKeyPressed(VK_LEFT))
 	{
-		Mtx44 rotation1;
-		rotation1.SetToRotation(targetShip.angle, up.x, up.y, up.z);
-		view = rotation1 * view;
+		Mtx44 rotation;
+		rotation.SetToRotation(targetShip.angle, up.x, up.y, up.z);
+		view = rotation * view;
 	}
 
-	if ((Application::IsKeyPressed(VK_UP)) || (Application::IsKeyPressed(VK_DOWN)))
+	if (Application::IsKeyPressed(VK_RIGHT))
 	{
-		Mtx44 rotation2;
-		rotation2.SetToRotation(-targetShip.angle, right.x, right.y, right.z);
-		view = rotation2 * view;
+		Mtx44 rotation;
+		rotation.SetToRotation(targetShip.angle, up.x, up.y, up.z);
+		view = rotation * view;
 	}
 
-	if ((Application::IsKeyPressed('Q')) || (Application::IsKeyPressed('E')))
+	if (Application::IsKeyPressed(VK_UP))
 	{
-		Mtx44 rotation3;
-		rotation3.SetToRotation(-targetShip.angle, view.x, view.y, view.z);
-		view = rotation3 * view;
+		Mtx44 rotation;
+		rotation.SetToRotation(-targetShip.angle, right.x, right.y, right.z);
+		view = rotation * view;
+	}
+
+	if (Application::IsKeyPressed(VK_DOWN))
+	{
+		Mtx44 rotation;
+		rotation.SetToRotation(-targetShip.angle, right.x, right.y, right.z);
+		view = rotation * view;
+	}
+
+	if (Application::IsKeyPressed('Q'))
+	{
+		Mtx44 rotation;
+		rotation.SetToRotation(-targetShip.angle, view.x, view.y, view.z);
+		view = rotation * view;
+	}
+
+	if (Application::IsKeyPressed('E'))
+	{
+		Mtx44 rotation;
+		rotation.SetToRotation(-targetShip.angle, view.x, view.y, view.z);
+		view = rotation * view;
 	}
 
 	position = (-view * 30) + target;

@@ -47,6 +47,6 @@ void entity::Update(double dt)
 	}
 }
 
-void entity::Update(double dt, float topSpeed, float fwdaccl, float bwdaccl, float & accl)
-{
-}
+// void entity::Update(double dt, float topSpeed, float fwdaccl, float bwdaccl, float & accl)
+// {
+// }

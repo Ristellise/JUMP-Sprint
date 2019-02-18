@@ -149,6 +149,15 @@ void spaceship::Update(double dt)
         this->pitchTotal = 360.0f + (this->pitchTotal + angle);
     }
 
+	if (this->rollTotal + angle >= 360.0f)
+	{
+		this->rollTotal = 360.0f - (this->rollTotal + angle);
+	}
+	else if (this->rollTotal + angle <= -360.0f)
+	{
+		this->rollTotal = 360.0f + (this->rollTotal + angle);
+	}
+
 	if (
 		(position.x < -1000) ||
 		(position.x > 1000) ||
