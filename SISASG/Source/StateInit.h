@@ -7,7 +7,6 @@ public:
     Stateinit();
     ~Stateinit();
     std::string dtimestring;
-    std::string StateName = "init";
 
 	Mtx44 cubeMatrix;
 	Mtx44 cubeMultR;

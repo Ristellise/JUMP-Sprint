@@ -3,10 +3,7 @@
 #include <iostream>
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
-/*-----------------
-- StateInit:
--- First code to actually run. Everything starts from here.
-*/
+
 
 void Stateinit::OnEnter()
 {
@@ -41,20 +38,12 @@ void Stateinit::OnEnter()
     current->meshptr = this->meshGetFast("saofontsheet");
     this->entitylists.push_back(current);
 
-    current = new entity();
-
-    current->Init(Vector3(1, 2.0f, 5.0f), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
-    *current->text = "Hit me Senpai~";
-    current->type = entityType::eT_Text;
-    current->meshptr = this->meshGetFast("saofontsheet");
-    this->entitylists.push_back(current);
-
 	// Test Cube
 	testCube* testCube1 = new testCube();
 	testCube1->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 	testCube1->type = entityType::eT_Space;
 	testCube1->name = "testcube";
-	testCube1->meshptr = this->meshGetFast("spaceship");
+	testCube1->meshptr = this->meshGetFast("testcube");
 	this->entitylists.push_back(testCube1);
 
 	// Matrix method

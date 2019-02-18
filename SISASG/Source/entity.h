@@ -4,7 +4,6 @@
 #include "Vector3.h"
 #include "Mesh.h"
 
-
 enum entityType
 {
     eT_Object,
@@ -14,24 +13,25 @@ enum entityType
     eT_Count
 };
 
+struct hitbox
+{
+	Vector3 frontLeftUp;
+	Vector3 frontLeftDown;
+	Vector3 frontRightDown;
+	Vector3 frontRightUp;
+	Vector3 backLeftUp;
+	Vector3 backLeftDown;
+	Vector3 backRightDown;
+	Vector3 backRightUp;
+
+};
+
 struct BBoxDimensions
 {
     unsigned int BBForward;
     unsigned int BBSide;
     unsigned int BBTop;
 };
-struct hitbox
-{
-    Vector3 frontLeftUp;
-    Vector3 frontLeftDown;
-    Vector3 frontRightDown;
-    Vector3 frontRightUp;
-    Vector3 backLeftUp;
-    Vector3 backLeftDown;
-    Vector3 backRightDown;
-    Vector3 backRightUp;
-};
-
 
 class entity
 {
@@ -47,15 +47,12 @@ public:
 	float pitchTotal;
 	float rollTotal;
 
-    // Physics
-    bool enablePhysics = false;
-    BBoxDimensions Boxsize;
-    hitbox HBox;
-
-    // View shit
 	Vector3 position;
 	Vector3 target;
     entityType type;
+    BBoxDimensions Boxsize;
+	hitbox HBox;
+
 	Vector3 right;	// relative x
 	Vector3 up;		// relative y
 	Vector3 view;	// relative z
@@ -70,6 +67,8 @@ public:
 	virtual void Reset();
 	virtual void Update(double dt);
 
+    void UpdateBBox();
+
     /*
 	virtual void Update(
         double dt,
@@ -79,8 +78,6 @@ public:
         float &accl
     );
 	*/
-	void Update(double dt);
-    void UpdateBBox();
 };
 
 #endif
