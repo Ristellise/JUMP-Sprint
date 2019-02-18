@@ -29,7 +29,6 @@ void spaceship::Init(const Vector3& pos, const Vector3& target, const Vector3& u
 void spaceship::Update(double dt)
 {
 	angle = (float)(80.f * dt);
-
 	position = position + view * (float)(velocity * dt);
 	target += view;
 	view = (target - position).Normalized();

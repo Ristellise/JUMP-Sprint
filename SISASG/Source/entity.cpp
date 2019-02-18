@@ -53,9 +53,9 @@ void entity::Update(double dt)
 void entity::UpdateBBox()
 {
 
-    Vector3 hotFront = view * this->Boxsize.BBForward;
-    Vector3 hotRight = right * this->Boxsize.BBSide;
-    Vector3 hotTop = up * this->Boxsize.BBTop;
+    Vector3 hotFront = view * (float)this->Boxsize.BBForward;
+    Vector3 hotRight = right * (float)this->Boxsize.BBSide;
+    Vector3 hotTop = up * (float)this->Boxsize.BBTop;
     Vector3 pos = this->position;
 
     //get front positions
