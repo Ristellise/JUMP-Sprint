@@ -33,7 +33,7 @@ void Stateinit::OnEnter()
     // Spawn Entities.
     entity* current = new entity();
 
-	this->state_cam->Init(Vector3(0, 10, -30), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	this->state_cam->Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
 
 	// Init: Only the first Vector3 matters. Format: (translateX, translateY, scale) This is for TextUI
     current->Init(Vector3(1, 15.0f, 3), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));

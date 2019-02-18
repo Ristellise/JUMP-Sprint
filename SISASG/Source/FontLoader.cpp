@@ -111,21 +111,20 @@ bool FontLoader::Loadfnt(std::string file_path)
             LineType LTType = getLineType(buff);
             if (LTType == LineType::LT_CHAR)
             {
-                
-                std::cout << "Ch";
                 this->characters.push_back(ReadChar(buff));
             }
             else if (LTType == LineType::LT_INFO)
             {
                 &(this->fntInfo).fntsize;
-                
-                #pragma warning(suppress : 4996)
+                char charbuff[256] = "";
+                char charsetbuff[256] = "";
+                #pragma warning(suppress : 4996) // Yeahh shutup VS...
                 sscanf(buff.c_str(), "info face=\"%[^\"]\" size=%u bold=%u italic=%u charset=\"%[^\"]\" unicode=%i stretchH=%i smooth=%i aa=%i padding=%i,%i,%i,%i spacing=%i,%i outline=%i",
-                       & (this->fntInfo.name),
+                        charbuff,
                        & (this->fntInfo.fntsize),
                        & (this->fntInfo.bold),
                        & (this->fntInfo.italic),
-                       & (this->fntInfo.charset),
+                    charsetbuff,
                        & (this->fntInfo.unicode),
                        & (this->fntInfo.stretchH),
                        & (this->fntInfo.Smooth),
@@ -137,10 +136,13 @@ bool FontLoader::Loadfnt(std::string file_path)
                        & (this->fntInfo.spacingHorizontal),
                        & (this->fntInfo.spacingVertical),
                        & (this->fntInfo.outline));
+                this->fntInfo.name = charbuff;
+                this->fntInfo.charset = charsetbuff;
+
             }
             else if (LTType == LineType::LT_COMMON)
             {
-                std::cout << "CO" << buff;
+                std::cout << "Common";
                 #pragma warning(suppress : 4996)
                 sscanf(buff.c_str(), "common lineHeight=%u base=%u scaleW=%u scaleH=%u pages=%u packed=%u alphaChnl=%u redChnl=%u greenChnl=%u blueChnl=%u",
                     & (this->fntInfo.lineHeight),
@@ -168,6 +170,7 @@ bool FontLoader::Loadfnt(std::string file_path)
                  file_path.c_str(),CurrentDirectory().c_str());
         return false;
     }
+    std::cout << "Glyphs Loaded:" << this->characters.size();
     std::cout << "]" << std::endl;
     return true;
 }
