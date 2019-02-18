@@ -283,17 +283,7 @@ void SceneWorld::Update(double dt)
 	
     this->lastkeypress += dt;
 
-    camera.Update(
-        dt, 
-        testCube1.position.x, 
-        testCube1.position.y, 
-        testCube1.position.z,
-		testCube1.angle,
-		testCube1.right,
-		testCube1.up,
-		testCube1.view
-    );
-
+    camera.Update(dt, testCube1);
     testCube1.Update(dt);
 
     this->dtimestring = "FPS:";
@@ -599,7 +589,7 @@ void SceneWorld::RenderSpaceship()
 		cubeMult2 = cubeMultR * cubeMult2;
 	}
 	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
-		
+
 	if (Application::IsKeyPressed('Q'))
 	{
 		cubeMultR.SetToRotation(-(testCube1.angle), testCube1.view.x, testCube1.view.y, testCube1.view.z);
