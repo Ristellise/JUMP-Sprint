@@ -50,7 +50,7 @@ void Stateinit::OnEnter()
 
 void Stateinit::OnRender()
 {
-/*
+
     for (size_t i = 0; i < this->entitylists.size(); i++)
     {
         
@@ -84,7 +84,7 @@ void Stateinit::OnRender()
     }
 
 	// Test Cube
-*/
+
 }
 
 void Stateinit::OnExit()
@@ -99,7 +99,7 @@ Stateinit::Stateinit()
 
 void Stateinit::OnUpdate(double dt)
 {
-/*
+
 	entity* testCube1 = this->entityGetFast("testcube");
 	this->state_cam->Update(
 		dt,
@@ -140,5 +140,5 @@ void Stateinit::OnUpdate(double dt)
         " | " + std::to_string(this->mouse->Y) +
         " | Change: " + std::to_string(this->mouse->XChange) +
         " | " + std::to_string(this->mouse->YChange);
-*/
+
 }

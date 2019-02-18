@@ -15,6 +15,7 @@ class AudioSource
 {
 private:
     SoLoud::Soloud* instance;
+    Vector3 *pos;
 public:
 
     AudioType audiotype;

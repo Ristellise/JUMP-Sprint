@@ -11,7 +11,6 @@ class Chunk
 public:
     Chunk(int x, int y) { this->x = x; this->y = y; };
     Chunk() { this->x = 0; this->y = 0; };
-    Chunk();
     void addEnt(entity* ent) { this->ChunkEntities.push_back(ent); }
     void popEnt(entity* ent);
 };
@@ -25,6 +24,6 @@ public:
 	collision();
 	collision(std::vector<entity*> *entityList);
     ~collision();
-    Chunk findChunkFast(entity* entity);
+    Chunk* findChunkFast(entity* entity);
 };
 
