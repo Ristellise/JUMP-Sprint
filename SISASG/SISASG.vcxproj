@@ -158,6 +158,7 @@
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\AudioHandler.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
+    <ClCompile Include="Source\collision.cpp" />
     <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\FontLoader.cpp" />
@@ -174,9 +175,11 @@
     <ClCompile Include="Source\SceneWorld.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\State.cpp" />
+    <ClCompile Include="Source\StateDebug.cpp" />
     <ClCompile Include="Source\StateInit.cpp" />
     <ClCompile Include="Source\StateManager.cpp" />
     <ClCompile Include="Source\spaceship.cpp" />
+    <ClCompile Include="Source\StateWorld.cpp" />
     <ClCompile Include="Source\testCube.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
@@ -200,8 +203,10 @@
     <ClInclude Include="Source\SceneWorld.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\State.h" />
+    <ClInclude Include="Source\StateDebug.h" />
     <ClInclude Include="Source\StateInit.h" />
     <ClInclude Include="Source\StateManager.h" />
+    <ClInclude Include="Source\StateWorld.h" />
     <ClInclude Include="Source\Uniforms.h" />
     <ClInclude Include="Source\spaceship.h" />
     <ClInclude Include="Source\testCube.h" />

@@ -26,6 +26,13 @@ struct hitbox
 
 };
 
+struct BBoxDimensions
+{
+    unsigned int BBForward;
+    unsigned int BBSide;
+    unsigned int BBTop;
+};
+
 class entity
 {
 public:
@@ -43,7 +50,8 @@ public:
 	Vector3 position;
 	Vector3 target;
     entityType type;
-	hitbox hBox;
+    BBoxDimensions Boxsize;
+	hitbox HBox;
 
 	Vector3 right;	// relative x
 	Vector3 up;		// relative y
@@ -58,13 +66,18 @@ public:
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
 	virtual void Reset();
 	virtual void Update(double dt);
-    virtual void Update(
+
+    void UpdateBBox();
+
+    /*
+	virtual void Update(
         double dt,
         float topSpeed,
         float fwdaccl,
         float bwdaccl,
         float &accl
     );
+	*/
 };
 
 #endif

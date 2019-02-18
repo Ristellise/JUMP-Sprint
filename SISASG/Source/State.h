@@ -15,7 +15,7 @@ class GState
 protected:
     bool mouseLock = false;
     bool readyExitlocal = false;
-    std::string* spawnState = nullptr;
+    std::string spawnState = "";
     FontLoader* St_FLInstance;
     unsigned *state_params;
     std::vector<entity*> entitylists;
@@ -32,7 +32,7 @@ public:
     void RenderText(Mesh * mesh, std::string text, Color color);
     void RenderMesh(Mesh * mesh, bool enableLight);
     std::string StateName = "NULL!!";
-    std::string* getspawnState() { return this->spawnState; };
+    std::string getspawnState() { return this->spawnState; };
     virtual void OnUpdate(double dt) = 0; // Logic Calls goes first
     virtual void OnExit() = 0; // Exit Calls after
     virtual void OnRender() = 0; // Rendering Calls=

@@ -40,20 +40,31 @@
     <ClCompile Include="Source\spaceship.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\State.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StateInit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\testCube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utility.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bullet.cpp" />
+    <ClCompile Include="Source\SaveFiles.cpp" />
+    <ClCompile Include="Source\collision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\State.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateDebug.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateInit.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateManager.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateWorld.cpp">
+      <Filter>States</Filter>
     </ClCompile>
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\Bullet.cpp">
@@ -106,6 +117,9 @@
     <ClInclude Include="Source\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\SceneHangar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Source\shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -116,6 +130,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\StateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\spaceship.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\testCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Uniforms.h">
@@ -148,20 +168,26 @@
     <ClInclude Include="Source\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Bullet.h" />
+    <ClInclude Include="Source\Vertex.h" />
+    <ClInclude Include="Source\SaveFiles.h" />
+    <ClInclude Include="Source\StateManager.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateInit.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateDebug.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\State.h">
+      <Filter>States</Filter>
+    </ClInclude>
     <ClInclude Include="Source\SceneWorld.h">
-      <Filter>Header Files\Scenes</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneHangar.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\LoadOBJ.h">
-      <Filter>Header Files\Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\LoadTGA.h">
-      <Filter>Header Files\Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SaveFiles.h">
-      <Filter>Header Files\Files</Filter>
+    <ClInclude Include="Source\StateWorld.h">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +208,9 @@
     </Filter>
     <Filter Include="Source Files\Files">
       <UniqueIdentifier>{49d0ce3d-ed6a-4d48-807d-786a58442f72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States">
+      <UniqueIdentifier>{892dc049-778e-4fbd-9dd5-f7712f23fbaa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

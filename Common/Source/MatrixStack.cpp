@@ -229,3 +229,8 @@ void MS::LookAt(double eyeX, double eyeY, double eyeZ,
 	mat.SetToLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 	ms.top() = ms.top() * mat;
 }
+
+std::stack<Mtx44> MS::getMatrixStack()
+{
+    return this->ms;
+}

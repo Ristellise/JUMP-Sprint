@@ -29,13 +29,6 @@ public:
     SceneWorld(GLFWwindow * l_window);
     ~SceneWorld();
 
-	Mtx44 cubeMatrix;
-	Mtx44 cubeMultR;
-	Mtx44 cubeMult1;
-	Mtx44 cubeMult2;
-	Mtx44 cubeMult3;
-	bool shipDirDetected;
-
 	int prevRotate;
 	int currRotate;
 
@@ -45,15 +38,15 @@ public:
     void RenderSkybox();
     void RenderPlanets();
 	void RenderAsteroid();
-	void RenderSpaceship();
+	// void RenderSpaceship();
 	int planetRangeCheck(int cx, int cy, int cz, int x, int y, int z); //these two can be used for teleportation to other planets (rename if necessary)
-	int planetExecuteUI(); //these two can be used for teleportation to other planets (rename if necessary)
+	// int planetExecuteUI(); //these two can be used for teleportation to other planets (rename if necessary)
 	int hoopsCheckXY(int circle_x, int circle_y, int x, int y, int rad); // for hoops detection (not fully working)
-	int hoopsExecuteUI(); // for hoops detection (not fully working)
+	// int hoopsExecuteUI(); // for hoops detection (not fully working)
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void Exit();
-    void SetWindow(GLFWwindow* window);
+    // void SetWindow(GLFWwindow* window);
 
 private:
     GLFWwindow* l_window;
@@ -64,7 +57,7 @@ private:
     unsigned m_parameters[U_TOTAL];
 
     Camera3 camera;
-    testCube testCube1;
+    // testCube testCube1;
 	MS modelStack, viewStack, projectionStack;
     Light lights[8];
     FontLoader FLInstance;
@@ -87,7 +80,7 @@ private:
     unsigned int selector = 0;
 
 	//RenderBullet
-	void RenderBullet();
+	// void RenderBullet();
 
 	std::vector <int> cubeRotateVector;
 };

@@ -17,9 +17,9 @@ void StateManager::Update(double dt, GLFWwindow* window)
     {
         this->activeStates[i]->OnUpdate(dt);
         
-        if (this->activeStates[i]->getspawnState() != nullptr)
+        if (this->activeStates[i]->getspawnState() != "")
         {
-            this->addState(*(this->activeStates[i]->getspawnState()));
+            this->addState((this->activeStates[i]->getspawnState()));
         }
         if (this->activeStates[i]->readyExit())
         {
