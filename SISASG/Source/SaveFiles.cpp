@@ -97,7 +97,7 @@ bool SaveFiles::getValueBool(const std::string value)
     {
         return false;
     }
-    
+	return 0;
 }
 
 double SaveFiles::getValueDouble(const std::string value)

@@ -150,7 +150,7 @@ bool LoadOBJ(
         pair.normal.clear();
         pair.texCoord.clear();
     }
-    printf(" DONE.\n", std::string(file_path).c_str());
+    printf(" DONE.\n");
     // For each vertex of each triangle
     
     

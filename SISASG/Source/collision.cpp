@@ -59,8 +59,8 @@ long int getChunkHash(int x, int y)
 ChunkPos getChunk(Vector3 pos)
 {
     ChunkPos chnk;
-    chnk.Chnkx = ceil(pos.x / 10);
-    chnk.Chnky = ceil(pos.y / 10);
+    chnk.Chnkx = (int)ceil(pos.x / 10);
+    chnk.Chnky = (int)ceil(pos.y / 10);
     return chnk;
 }
 
@@ -141,6 +141,8 @@ bool Intersects(entity *Ent1, entity *Ent2)
         return false;
     if (Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->view)))
         return false;
+
+	return true;
 }
 
 collision::~collision()
