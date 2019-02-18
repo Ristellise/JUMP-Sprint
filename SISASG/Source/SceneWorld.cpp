@@ -104,15 +104,6 @@ void SceneWorld::Init()
 
     lights[0].type = Light::LIGHT_DIRECTIONAL;
     lights[0].position.Set(100.0f, 100.0f, 100.0f);
-    lights[0].color.Set(1, 1, 1);
-    lights[0].power = 1.f;
-    lights[0].kC = 1.f;
-    lights[0].kL = 0.01f;
-    lights[0].kQ = 0.001f;
-    lights[0].cosCutoff = cos(Math::DegreeToRadian(45));
-    lights[0].cosInner = cos(Math::DegreeToRadian(30));
-    lights[0].exponent = 3.f;
-    lights[0].spotDirection.Set(0.f, 1.f, 0.f);
 
     glUniform1i(m_parameters[U_NUMLIGHTS], 8);
     glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
@@ -138,12 +129,11 @@ void SceneWorld::Init()
 
     //** FontLoader Instance **//
 
-
     //// The fontsheet on a big mesh
     meshList[GEO_TEXT] = MeshBuilder::GenerateText("saofontsheet", this->FLInstance);
     meshList[GEO_TEXT]->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
 
-    //skybox
+#pragma region Skybox 
     meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
 
     meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
@@ -155,8 +145,10 @@ void SceneWorld::Init()
     meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
 
     meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
+#pragma endregion
 
-    //planets
+#pragma region Planets
+
     meshList[GEO_PLANET_VENUS] = MeshBuilder::GenerateOBJ("venus", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_PLANET_VENUS]->textureID = LoadTGA("TGA//venus texture.tga", GL_LINEAR, GL_CLAMP);
 
@@ -172,13 +164,18 @@ void SceneWorld::Init()
     meshList[GEO_SUN] = MeshBuilder::GenerateOBJ("sun", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_SUN]->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
 
+#pragma endregion
+
     //asteroids
     meshList[GEO_ASTEROID1] = MeshBuilder::GenerateOBJ("asteroid1", "OBJ//asteroid1.obj")[0];
     meshList[GEO_ASTEROID1]->textureID = LoadTGA("TGA//asteroid1 texture.tga", GL_LINEAR, GL_CLAMP);
 
     // Test Cube
-    meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
-    meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+    //meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
+    //meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+
+	meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship2.obj")[0];
+	meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
 
 	// Lightball
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
