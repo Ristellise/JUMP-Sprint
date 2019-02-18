@@ -26,20 +26,11 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	camUpOffset = 4;
 }
 
-void Camera3::Update(
-	double dt, 
-	float targetx, 
-	float targety, 
-	float targetz,
-	float targetAngle,
-	Vector3 targetRight,
-	Vector3 targetUp,
-	Vector3 targetView
-)
+void Camera3::Update(double dt, entity targetShip)
 {
-	right = targetRight;
-	up = targetUp;
-	view = targetView;
+	right = targetShip.right;
+	up = targetShip.up;
+	view = targetShip.view;
 	// right = view.Cross(up).Normalized();
 	// up = right.Cross(view).Normalized();
 	// view = position - target;
@@ -47,30 +38,30 @@ void Camera3::Update(
 	if ((Application::IsKeyPressed(VK_LEFT)) || (Application::IsKeyPressed(VK_RIGHT)))
 	{
 		Mtx44 rotation1;
-		rotation1.SetToRotation(targetAngle, up.x, up.y, up.z);
+		rotation1.SetToRotation(targetShip.angle, up.x, up.y, up.z);
 		view = rotation1 * view;
 	}
 
 	if ((Application::IsKeyPressed(VK_UP)) || (Application::IsKeyPressed(VK_DOWN)))
 	{
 		Mtx44 rotation2;
-		rotation2.SetToRotation(-targetAngle, right.x, right.y, right.z);
+		rotation2.SetToRotation(-targetShip.angle, right.x, right.y, right.z);
 		view = rotation2 * view;
 	}
 
 	if ((Application::IsKeyPressed('Q')) || (Application::IsKeyPressed('E')))
 	{
 		Mtx44 rotation3;
-		rotation3.SetToRotation(-targetAngle, view.x, view.y, view.z);
+		rotation3.SetToRotation(-targetShip.angle, view.x, view.y, view.z);
 		view = rotation3 * view;
 	}
 
 	position = (-view * 30) + target;
 
 	target.Set(
-		targetx + (up.x * camUpOffset), 
-		targety + (up.y * camUpOffset), 
-		targetz + (up.z * camUpOffset)
+		targetShip.position.x + (up.x * camUpOffset),
+		targetShip.position.y + (up.y * camUpOffset),
+		targetShip.position.z + (up.z * camUpOffset)
 	);
 
 	if (Application::IsKeyPressed('R'))
