@@ -3,7 +3,7 @@
 #include <iostream>
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
-
+#include "collision.h"
 
 void Stateinit::OnEnter()
 {
@@ -24,11 +24,13 @@ void Stateinit::OnEnter()
 	meshbuffer->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList.push_back(meshbuffer);
 
+    meshbuffer = MeshBuilder::GenerateSphere("debugballs",Color(1,1,1),10,10,0.5f);
+    this->meshList.push_back(meshbuffer);
+
+    // Camera
+    this->state_cam->Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
     // Spawn Entities.
     entity* current = new entity();
-
-	// Camera
-	this->state_cam->Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
 
 	// Debugging string
 	// Init: Only the first Vector3 matters. Format: (translateX, translateY, scale) This is for TextUI
@@ -38,11 +40,23 @@ void Stateinit::OnEnter()
     current->meshptr = this->meshGetFast("saofontsheet");
     this->entitylists.push_back(current);
 
+    // Collision tester
+    current = new entity();
+
+    current->Init(Vector3(1.f, 24.f, 2.f), Vector3(0, 0, 1), Vector3(0, 1, 0) );
+    current->type = entityType::eT_Object;
+    current->meshptr = this->meshGetFast("testcube");
+    current->physics = true;
+    current->Boxsize = BBoxDimensions(3.0f, 3.0f, 3.0f);
+    this->entitylists.push_back(current);
+
 	// Test Cube
 	testCube* testCube1 = new testCube();
 	testCube1->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 	testCube1->type = entityType::eT_Space;
 	testCube1->name = "testcube";
+    testCube1->physics = true;
+    testCube1->Boxsize = BBoxDimensions(2.5f, 2.5f, 2.5f);
 	testCube1->meshptr = this->meshGetFast("testcube");
 	this->entitylists.push_back(testCube1);
 
@@ -60,32 +74,35 @@ void Stateinit::OnRender()
     {
         
         (*this->modelStack).PushMatrix();
-        
-        if (this->entitylists[i]->type == entityType::eT_Text)
+        entity *buff = this->entitylists[i];
+        if (buff->type == entityType::eT_Text)
         {
-            this->entitylists[i]->position;
-            (*this->modelStack).Translate(this->entitylists[i]->position.x,
-                                          this->entitylists[i]->position.y,
-                                          this->entitylists[i]->position.z);
+            buff->position;
+            (*this->modelStack).Translate(buff->position.x,
+                                          buff->position.y,
+                                          buff->position.z);
             // rotation coords
-            this->RenderText(this->entitylists[i]->meshptr, *this->entitylists[i]->text, Color(0, 0, 0));
+            this->RenderText(buff->meshptr, *buff->text, Color(0, 0, 0));
         }
-        else if (this->entitylists[i]->type == entityType::eT_TextUI)
+        else if (buff->type == entityType::eT_Object)
         {
-            this->RenderTextScreen(this->entitylists[i]->meshptr, *this->entitylists[i]->text, Color(0, 0, 0), 
-                                   this->entitylists[i]->position.z,	// Used for Text SCaling. only applies to 2d UI 
-                                   this->entitylists[i]->position.x,	// Same as before
-                                   this->entitylists[i]->position.y);	// Same as before
+            
+            (*this->modelStack).Translate(buff->position.x, buff->position.y, buff->position.z);
+            (*this->modelStack).Rotate(buff->yawTotal, 0, 1, 0);
+            (*this->modelStack).Rotate(buff->pitchTotal, 1, 0, 0);
+            (*this->modelStack).Scale(buff->size.x, buff->size.y, buff->size.z);
+            RenderMesh(buff->meshptr, true);
+            
         }
-		else if (this->entitylists[i]->type == entityType::eT_Space)
+        else if (buff->type == entityType::eT_TextUI)
+        {
+            this->RenderTextScreen(buff->meshptr, *buff->text, Color(0, 0, 0), 
+                                   buff->position.z,	// Used for Text SCaling. only applies to 2d UI 
+                                   buff->position.x,	// Same as before
+                                   buff->position.y);	// Same as before
+        }
+		else if (buff->type == entityType::eT_Space)
 		{
-			/*
-			(*this->modelStack).Translate(this->entitylists[i]->position.x, this->entitylists[i]->position.y, this->entitylists[i]->position.z);
-			(*this->modelStack).Rotate(this->entitylists[i]->yawTotal, 0, 1, 0);
-			(*this->modelStack).Rotate(this->entitylists[i]->pitchTotal, 1, 0, 0);
-			(*this->modelStack).Scale(1.0f, 1.0f, 1.0f);
-			RenderMesh(this->entitylists[i]->meshptr, true);
-			*/
 
 			entity *testCube1 = this->entityGetFast("testcube");
 
@@ -137,6 +154,24 @@ void Stateinit::OnRender()
 			(*this->modelStack).PopMatrix();
 		}
         (*this->modelStack).PopMatrix();
+        Vector3 Ent2V[] = { buff->HBox.frontLeftUp,
+                            buff->HBox.frontLeftDown,
+                            buff->HBox.frontRightUp,
+                            buff->HBox.frontRightDown,
+                            buff->HBox.backLeftUp,
+                            buff->HBox.backLeftDown,
+                            buff->HBox.backRightUp,
+                            buff->HBox.backRightDown };
+        for (size_t i = 0; i < 8; i++)
+        {
+            (*this->modelStack).PushMatrix();
+            (*this->modelStack).Translate(Ent2V[i].x, Ent2V[i].y, Ent2V[i].z);
+
+            RenderMesh(this->meshGetFast("debugballs"), true);
+            (*this->modelStack).PopMatrix();
+        }
+        
+        
     }
 }
 
@@ -157,6 +192,8 @@ void Stateinit::OnUpdate(double dt)
 	testCube1->Update(dt);
 
 	this->state_cam->Update(dt, *testCube1);
+
+    this->collideInstance->doCollisions(this->entitylists);
 
 	this->dtimestring = "FPS:";
 	this->dtimestring += std::to_string(1.0f / dt);
@@ -181,6 +218,9 @@ void Stateinit::OnUpdate(double dt)
         " | " + std::to_string(this->mouse->Y) +
         " | Change: " + std::to_string(this->mouse->XChange) +
         " | " + std::to_string(this->mouse->YChange);
+
+    this->dtimestring += "\nEntities With physics: " + std::to_string(this->collideInstance->updatingEnts);
+    this->collideInstance->updatingEnts = 0;
 
 	if (Application::IsKeyPressed('R'))
 	{

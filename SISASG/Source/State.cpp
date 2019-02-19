@@ -36,12 +36,13 @@ entity* GState::entityGetFast(std::string meshname)
     return *attr_iter;
 }
 
-void GState::OnCreate(unsigned * parameters, FontLoader * St_FLInstance, Camera3 * cam, MouseHandler* mouse)
+void GState::OnCreate(unsigned * parameters, FontLoader * St_FLInstance, Camera3 * cam, MouseHandler* mouse, collision* collideInstance)
 {
     this->state_params = parameters;
     this->St_FLInstance = St_FLInstance;
     this->state_cam = cam;
     this->mouse = mouse;
+    this->collideInstance = collideInstance;
 }
 void GState::SetMatrixes(MS* model, MS* view, MS* projection)
 {

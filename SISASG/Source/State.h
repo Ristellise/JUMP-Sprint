@@ -8,6 +8,7 @@
 #include "entity.h"
 #include "Camera3.h"
 #include "MouseHandler.h"
+#include "collision.h"
 // Contains a base template of game states Active.
 // They may be added or removed.
 class GState
@@ -23,7 +24,8 @@ protected:
 	MS *modelStack, *viewStack, *projectionStack;
     Camera3* state_cam;
     MouseHandler* mouse;
-    // TODO: Vector of entities
+
+    collision* collideInstance;
 public:
     GState();
     ~GState();
@@ -36,7 +38,7 @@ public:
     virtual void OnUpdate(double dt) = 0; // Logic Calls goes first
     virtual void OnExit() = 0; // Exit Calls after
     virtual void OnRender() = 0; // Rendering Calls=
-    void OnCreate(unsigned * parameters, FontLoader * St_FLInstance, Camera3 * cam, MouseHandler* mouse);
+    void OnCreate(unsigned * parameters, FontLoader * St_FLInstance, Camera3 * cam, MouseHandler* mouse, collision* collideInstance);
 	void SetMatrixes(MS * model, MS * view, MS * projection);
     // GState Actually becomes active. does all the setup for the Uniforms and stuff.
     void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
