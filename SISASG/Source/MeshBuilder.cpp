@@ -684,8 +684,8 @@ Mesh* MeshBuilder::GenerateTorus(const std::string &meshName, Color color, unsig
     std::vector<Vertex> vertex_buffer_data;
     std::vector<GLuint> index_buffer_data;
 
-    float degreePerStack = 180.f / numStack;  // 180
-    float degreePerSlice = 180.f / numSlice;  // 180 both for 1/2
+    float degreePerStack = 360.f / numStack;  // 180
+    float degreePerSlice = 360.f / numSlice;  // 180 both for 1/2
     float x1, z1;
     float x2, y2, z2;
 

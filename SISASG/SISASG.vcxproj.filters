@@ -75,6 +75,12 @@
     <ClCompile Include="Source\StateManager.cpp">
       <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Hoops.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlanetRange.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -163,6 +169,12 @@
       <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hoops.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlanetRange.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

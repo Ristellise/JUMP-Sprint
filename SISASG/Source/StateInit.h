@@ -1,5 +1,7 @@
 #include "State.h"
 #include "testCube.h"
+#include "PlanetRange.h"
+#include "Hoops.h"
 
 class Stateinit : public GState
 {
@@ -14,7 +16,8 @@ public:
 	Mtx44 cubeMult2;
 	Mtx44 cubeMult3;
 
-    
+	PlanetRange planetrange1;
+	Hoops hoop;
 
     void OnEnter();
     void OnExit();
