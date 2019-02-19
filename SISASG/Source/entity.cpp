@@ -56,6 +56,7 @@ void entity::Update(double dt)
 	{
 		position.y -= (float)(ENTITY_SPEED * 0.2 * dt);
 	}
+    position = position + view * (float)(velocity * dt);
 }
 
 void entity::UpdateBBox()

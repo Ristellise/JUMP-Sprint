@@ -13,6 +13,13 @@ enum entityType
     eT_Count
 };
 
+enum collisionType
+{
+    cT_Solid,
+    cT_Slow,
+    cT_Bounce,
+};
+
 struct hitbox
 {
 	Vector3 frontLeftUp;

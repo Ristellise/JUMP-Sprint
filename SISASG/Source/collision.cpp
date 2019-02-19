@@ -120,20 +120,27 @@ void Chunk::popEnt(entity * ent)
 
 void collision::doCollisions(std::vector<entity*> &entityList, double dt)
 {
+    entity* Ent2;
     for (size_t i = 0; i < (entityList).size(); i++)
     {
         entity* Ent = (entityList)[i];
-        if (Ent->physics)
+        for (size_t v = i+1; v < (entityList).size(); v++)
         {
-            Ent->UpdateBBox();
-            this->updatingEnts += 1;
-            if (Intersects(Ent, (entityList)[i - 1]))
+            
+            Ent2 = entityList[v];
+            if (Ent->physics && Ent2->physics)
             {
-                Ent->velocity = -1.0f;
-            }
-            if (i + 1 == entityList.size())
-            {
-                break;
+
+                Ent->UpdateBBox();
+                Ent2->UpdateBBox();
+                this->updatingEnts += 1;
+                if (Intersects(Ent, (entityList)[v]))
+                {
+                    float velocity = Ent->velocity + Ent2->velocity;
+                    Ent->velocity = velocity;
+                    Ent2->velocity = -velocity;
+                    Ent->view = Ent2->view;
+                }
             }
         }
     }
