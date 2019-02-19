@@ -12,6 +12,7 @@
 #include "MouseHandler.h"
 #include "Uniforms.h"
 #include "StateManager.h"
+#include <math.h>
 
 class SceneHangar : public Scene
 {
@@ -21,6 +22,7 @@ class SceneHangar : public Scene
 		GEO_AXES,
 		GEO_LIGHT,
 		GEO_TEXT, // To move to vector solution
+		GEO_STAR,
 
 		// Skybox
 		GEO_LEFT,
@@ -32,7 +34,17 @@ class SceneHangar : public Scene
 		// Test Cube
 		GEO_TESTCUBE,
 		GEO_SHIP1,
+		GEO_SHIP2,
 		NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
+	};
+
+	struct STARS
+	{
+		float x = 0;
+		float y = 0;
+		float z = 0;
+		float scale = 0;
+		int stime = 0;
 	};
 
 public:
@@ -45,7 +57,9 @@ public:
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
 	void RenderSkybox();
+	void RenderShips();
 	virtual void Exit();
+	void Stars();
 
 private:
 	GLFWwindow* l_window;
@@ -57,7 +71,9 @@ private:
 
 	Camera3 camera;
 	MS modelStack, viewStack, projectionStack;
-	Light lights[8];
+	Light light;
+	std::vector<Light> lights;
+	std::vector<STARS> stars;
 	FontLoader FLInstance;
 
 	std::string dtimestring = "";
@@ -65,10 +81,14 @@ private:
 	double lastkeypress = 0.0;
 	unsigned int selector = 0;
 	int NumberOfShips = 3;
+	int starsnumber;
+	int starscale = 0; // For star sizing
 	float Delay = 0;
 	float Shift = 0;
+	float ViewRange = 1000.f;
 	bool lit = true;
 	bool shiftmovement = false;
+	STARS coord;
 	testCube testCube1;
 };
 

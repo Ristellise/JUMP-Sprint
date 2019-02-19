@@ -19,12 +19,6 @@
     <ClCompile Include="Source\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\LoadOBJ.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\LoadTGA.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -38,12 +32,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\MouseHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneHangar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\shader.cpp">
@@ -75,11 +63,30 @@
     <ClCompile Include="Source\StateManager.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hoops.cpp">
+    <ClCompile Include="Source\Bullet.cpp" />
+    <ClCompile Include="Source\Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PlanetRange.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\SceneHangar.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneWorld.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SaveFiles.cpp">
+      <Filter>Source Files\Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LoadOBJ.cpp">
+      <Filter>Source Files\Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LoadTGA.cpp">
+      <Filter>Source Files\Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateTitle.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateGame.cpp">
+      <Filter>States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,15 +105,6 @@
     <ClInclude Include="Source\FontLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Light.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\LoadOBJ.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\LoadTGA.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -122,10 +120,16 @@
     <ClInclude Include="Source\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneHangar.h">
+    <ClInclude Include="Source\shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\shader.hpp">
+    <ClInclude Include="Source\State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateInit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\spaceship.h">
@@ -147,15 +151,16 @@
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Light.h">
-      <Filter>Header Files\General</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\collision.h">
-      <Filter>Header Files\General</Filter>
+    <ClInclude Include="Source\spaceship.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\testCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Vertex.h" />
-    <ClInclude Include="Source\SaveFiles.h" />
     <ClInclude Include="Source\StateManager.h">
       <Filter>States</Filter>
     </ClInclude>
@@ -168,14 +173,33 @@
     <ClInclude Include="Source\State.h">
       <Filter>States</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Light.h" />
+    <ClInclude Include="Source\LoadOBJ.h">
+      <Filter>Header Files\Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LoadTGA.h">
+      <Filter>Header Files\Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SaveFiles.h">
+      <Filter>Header Files\Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneHangar.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
     <ClInclude Include="Source\SceneWorld.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hoops.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\StateTitle.h">
+      <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PlanetRange.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\StateGame.h">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +208,18 @@
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{c3ec7fe9-c783-42c3-9935-b83459bb16a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scenes">
+      <UniqueIdentifier>{caa1d748-2b8f-4a76-ad85-01689b5452d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Files">
+      <UniqueIdentifier>{92a6abee-2f21-46e4-936c-0ecb2949bd30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scenes">
+      <UniqueIdentifier>{a615756a-4269-4917-8320-9bc58641c11e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Files">
+      <UniqueIdentifier>{49d0ce3d-ed6a-4d48-807d-786a58442f72}</UniqueIdentifier>
     </Filter>
     <Filter Include="States">
       <UniqueIdentifier>{892dc049-778e-4fbd-9dd5-f7712f23fbaa}</UniqueIdentifier>

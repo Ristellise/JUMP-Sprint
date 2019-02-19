@@ -7,7 +7,6 @@ public:
     StateDebug();
     ~StateDebug();
     std::string dtimestring;
-    std::string StateName = "debugger";
 
     void OnEnter();
     void OnExit();

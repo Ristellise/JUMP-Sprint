@@ -7,6 +7,8 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 
+#include "spaceship.h"
+
 
 
 SceneHangar::SceneHangar()
@@ -21,7 +23,7 @@ void SceneHangar::Init()
 {
 
 #pragma region StartupLoads // Just Compressing Space for scrolling //
-
+	srand((unsigned int)time(NULL));
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	// Generate a default VAO for now
@@ -39,7 +41,7 @@ void SceneHangar::Init()
 	camera.Init(Vector3(0, 10, 120), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
 	Mtx44 projection;
-	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
+	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, ViewRange);
 	projectionStack.LoadMatrix(projection);
 
 	//Load vertex and fragment shaders
@@ -74,9 +76,12 @@ void SceneHangar::Init()
 	glUseProgram(m_programID);
 
 #pragma endregion
+	lights.push_back(light);
 	lights[0].position.Set(camera.position.x, 45, 0);
-	lights[0].power = 50.f;
-	lights[0].type = lights->LIGHT_SPOT;
+	lights[0].power = 5.f;
+	lights[0].setType("Spot");
+	lights[0].cosCutoff = cos(Math::DegreeToRadian(60));
+	lights[0].cosInner = cos(Math::DegreeToRadian(60));
 	lights[0].spotDirection.Set(0, 1, 0);
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], 8);
@@ -108,6 +113,9 @@ void SceneHangar::Init()
 	meshList[GEO_SHIP1] = MeshBuilder::GenerateOBJ("Ship1", "OBJ//Ship1.obj")[0];
 	meshList[GEO_SHIP1]->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
 
+	meshList[GEO_SHIP2] = MeshBuilder::GenerateOBJ("Ship2", "OBJ//Ship2.obj")[0];
+	meshList[GEO_SHIP2]->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
+
 	// Lightball
 	meshList[GEO_LIGHT] = MeshBuilder::GenerateOBJ("Ceilinglight", "OBJ//Hangar_Ceilinglight.obj")[0];
 	meshList[GEO_LIGHT]->textureID = LoadTGA("TGA//Hangar_Ceilinglight.tga", GL_LINEAR, GL_CLAMP);
@@ -118,7 +126,9 @@ void SceneHangar::Init()
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("Floor", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
 	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("Roof", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
 
+	meshList[GEO_STAR] = MeshBuilder::GenerateSphere("Star", Color(1, 1, 1), 2, 4, 1);
 
+	Stars();
 }
 
 static const float SKYBOXSIZE = 150.0f;
@@ -176,6 +186,7 @@ void SceneHangar::Update(double dt)
 	}
 	if (Application::IsKeyPressed(VK_SPACE) && Delay == 0)
 	{
+		shiftmovement = false;
 		if (lit == true)
 		{
 			lit = false;
@@ -184,7 +195,7 @@ void SceneHangar::Update(double dt)
 		else
 		{
 			lit = true;
-			lights[0].power = 50.f;
+			lights[0].power = 5.f;
 		}
 		glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
 		Delay += 10;
@@ -273,50 +284,43 @@ void SceneHangar::Render()
 
 	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
 	modelStack.LoadIdentity();
+	for (unsigned int i = 0; lights.size() > i; i++) // Updates light for the number there are
+	{
+		if (lights[i].type == Light::LIGHT_DIRECTIONAL)
+		{
+			Vector3 lightDir(lights[i].position.x, lights[i].position.y, lights[i].position.z);
+			Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
+			glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1,
+				&lightDirection_cameraspace.x);
+		}
+		else if (lights[i].type == Light::LIGHT_SPOT)
+		{
+			Position lightPosition_cameraspace = viewStack.Top() * lights[i].position;
+			glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1,
+				&lightPosition_cameraspace.x);
+			Vector3 spotDirection_cameraspace = viewStack.Top() *
+				lights[i].spotDirection;
+			glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1,
+				&spotDirection_cameraspace.x);
+		}
+		else
+		{
+			Position lightPosition_cameraspace = viewStack.Top() * lights[i].position;
+			glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1,
+				&lightPosition_cameraspace.x);
 
-	if (lights[0].type == Light::LIGHT_DIRECTIONAL)
-	{
-		Vector3 lightDir(lights[0].position.x, lights[0].position.y, lights[0].position.z);
-		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1,
-			&lightDirection_cameraspace.x);
-	}
-	else if (lights[0].type == Light::LIGHT_SPOT)
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * lights[0].position;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1,
-			&lightPosition_cameraspace.x);
-		Vector3 spotDirection_cameraspace = viewStack.Top() *
-			lights[0].spotDirection;
-		glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1,
-			&spotDirection_cameraspace.x);
-	}
-	else
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * lights[0].position;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1,
-			&lightPosition_cameraspace.x);
+		}
 	}
 
 #pragma endregion
 
 	RenderSkybox();
-
-	//modelStack.PushMatrix();
-	//modelStack.Translate(0, 0, 0);
-	//RenderMesh(meshList[GEO_AXES], false);
-	//modelStack.PopMatrix();
+	RenderShips();
 
 	modelStack.PushMatrix();
-	modelStack.Scale(15.0f, 15.0f, 15.0f);
-	modelStack.Rotate(75, 1, 0, 0);
-	RenderMesh(meshList[GEO_SHIP1], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
+	modelStack.Translate(lights[0].position.x, lights[0].position.y-0.5, lights[0].position.z);
 	modelStack.Scale(3, 3, 3);
-	RenderMesh(meshList[GEO_LIGHT], false);
+	RenderMesh(meshList[GEO_LIGHT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
@@ -324,6 +328,20 @@ void SceneHangar::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], this->dtimestring, Color(255, 255, 0), 1.5,1,1);
 	modelStack.PopMatrix();
 
+	for (int i = 0; starsnumber > i; i++)
+	{
+	modelStack.PushMatrix();
+	modelStack.Translate(stars[i].x, stars[i].y, stars[i].z);
+	if (stars[i].stime == 0)
+	{
+		stars[i].scale = (abs(stars[i].x) + abs(stars[i].y) + abs(stars[i].z)) / ((rand() % 250) + 250); // Scale (Rand adds twinkles)
+		stars[i].stime = rand() % 10 + 10;
+	}
+	modelStack.Scale(stars[i].scale, stars[i].scale, stars[i].scale);
+	stars[i].stime--;
+	RenderMesh(meshList[GEO_STAR], false);
+	modelStack.PopMatrix();
+	}
 }
 
 /*-------------
@@ -487,6 +505,22 @@ void SceneHangar::RenderSkybox()
 
 }
 
+void SceneHangar::RenderShips()
+{
+	for (int i = 0; NumberOfShips > i; i++)
+	{
+
+		modelStack.PushMatrix();
+		modelStack.Translate(SKYBOXSIZE*i-1, -20, 10);
+		modelStack.Scale(15.0f, 15.0f, 15.0f);
+		modelStack.Rotate(180, 1, 0, 0);
+		modelStack.Rotate(180, 0, 0, 1);
+		RenderMesh(meshList[GEO_SHIP1+i], true);
+		modelStack.PopMatrix();
+
+	}
+}
+
 
 
 void SceneHangar::Exit()
@@ -494,4 +528,20 @@ void SceneHangar::Exit()
 	// Cleanup VBO here
 	glDeleteProgram(m_programID);
 
+}
+
+void SceneHangar::Stars()
+{
+	starsnumber = 1250; // Generated number of stars
+	for (int i = 0; starsnumber > i; i++)
+	{
+		stars.push_back(coord);
+		float u = ((double)rand() / (RAND_MAX)) + 0.0;
+		float v = ((double)rand() / (RAND_MAX)) + 0.0;
+		float theta = 2 * Math::PI * u;
+		float phi = acos(2 * v - 1);
+		stars[i].x = 100 + ((ViewRange*0.9) * sin(phi) * cos(theta));
+		stars[i].y = 100 + ((ViewRange*0.9) * sin(phi) * sin(theta));
+		stars[i].z = 100 + ((ViewRange*0.9) * cos(phi));
+	}
 }

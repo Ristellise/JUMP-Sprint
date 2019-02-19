@@ -10,6 +10,7 @@ enum entityType
     eT_Text,
     eT_TextUI,
     eT_Space,
+	eT_Environment,
     eT_Count
 };
 
@@ -41,10 +42,11 @@ public:
 class entity
 {
 public:
-	float velocity;
 	float topSpeed;
 	float fwdaccl;
 	float bwdaccl;
+
+	float velocity;
 	float accl;
 
 	float angle;

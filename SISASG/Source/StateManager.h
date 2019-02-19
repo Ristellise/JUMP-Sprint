@@ -17,10 +17,16 @@ class StateManager
     bool lockswitch = true;
     bool currentlock = false;
     double lockbounce = 0.0;
+    double bounceTime = 0.0;
+	bool debugToggle = false;
+	bool gameToggle = false;
 	int fdelay;
 
     collision collideInstance;
 public:
+	std::vector<entity*> entitylists;
+	std::vector<Mesh*> meshList;
+
     bool setCam(Camera3* cam);
     StateManager();
     void Update(double dt, GLFWwindow * window);
