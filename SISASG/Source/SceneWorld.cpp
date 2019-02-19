@@ -9,6 +9,8 @@
 #include "StateInit.h"
 #include "State.h"
 #include "StateDebug.h"
+#include "StateTitle.h"
+#include "StateGame.h"
 #include <stdexcept>
 
 
@@ -111,14 +113,18 @@ void SceneWorld::Init()
     glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
     glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
 
-    meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 200, 200, 200);
+    // meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 200, 200, 200);
 
     FLInstance.Loadfnt("Font/fnt.fnt");
     Stateinit* initInstance = new Stateinit();
 	StateDebug* debugstate = new StateDebug();
+	StateTitle* titlestate = new StateTitle();
+	StateGame* gamestate = new StateGame();
     this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
     this->StateManInst.addAvailable(initInstance);
     this->StateManInst.addAvailable(debugstate);
+    this->StateManInst.addAvailable(titlestate);
+    this->StateManInst.addAvailable(gamestate);
     this->StateManInst.setCam(&camera);
     this->StateManInst.Init(this->m_parameters, &this->FLInstance, &this->Mouse);
 
@@ -167,18 +173,18 @@ void SceneWorld::Init()
 
     // Test Cube
     //meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
-    //meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
-
-	meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship2.obj")[0];
-	meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
+	//meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+	//meshList[GEO_TESTCUBE] = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship2.obj")[0];
+	//meshList[GEO_TESTCUBE]->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
 
 	// Lightball
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
 
 	//Bullet
 	meshList[GEO_BULLETBODY] = MeshBuilder::GenerateSphere("bulletbody", Color(255, 255, 255), 18, 36, 0.5);
+	
 	// Test Environment
-	meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
+	// meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
 
     // Lightball
     meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
@@ -225,6 +231,8 @@ void SceneWorld::Update(double dt)
     if (Application::IsKeyPressed('P'))
         lights[this->selector].position.y += (float)(LSPEED * dt);
 
+	// Outdated vector modelstack method - Do not open!
+	/*
 	if (Application::IsKeyPressed('R'))
 	{
 		// Vector method
@@ -260,13 +268,15 @@ void SceneWorld::Update(double dt)
 			}
 		}
 	}
-	
+	*/
+
     this->lastkeypress += dt;
 
-    // testCube1.Update(dt);
-	// camera.Update(dt, testCube1);
-
+	// Outdated SceneWorld renders - Do not open!
 	/*
+    testCube1.Update(dt);
+	camera.Update(dt, testCube1);
+
     this->dtimestring = "FPS:";
     this->dtimestring += std::to_string(1.0f / dt);
     this->dtimestring += "\nCam X:";
@@ -660,11 +670,6 @@ void SceneWorld::Render()
             &lightPosition_cameraspace.x);
     }
 
-    modelStack.PushMatrix();
-    modelStack.Translate(0, 0, 0);
-    RenderMesh(meshList[GEO_AXES], false);
-    modelStack.PopMatrix();
-
     // RenderSkybox();
 
     // RenderPlanets();
@@ -676,11 +681,6 @@ void SceneWorld::Render()
 	// hoopsExecuteUI();
 
 	// RenderSpaceship();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(10.0f, 10.0f, 10.0f);
-	RenderMesh(meshList[GEO_TESTENV], true);
-	modelStack.PopMatrix();
 
     modelStack.PushMatrix();
     modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);

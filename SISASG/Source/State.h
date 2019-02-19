@@ -29,6 +29,7 @@ protected:
     collision* collideInstance;
 public:
 	bool *debugToggle = false;
+	bool *gameToggle = false;
 	double *bounceTime;
 
     GState();
