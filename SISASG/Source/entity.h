@@ -41,10 +41,11 @@ public:
 class entity
 {
 public:
-	float velocity;
 	float topSpeed;
 	float fwdaccl;
 	float bwdaccl;
+
+	float velocity;
 	float accl;
 
 	float angle;

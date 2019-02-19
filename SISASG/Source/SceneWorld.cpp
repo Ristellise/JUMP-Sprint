@@ -8,6 +8,7 @@
 #include "LoadTGA.h"
 #include "StateInit.h"
 #include "State.h"
+#include "StateDebug.h"
 #include <stdexcept>
 
 
@@ -123,8 +124,10 @@ void SceneWorld::Init()
 
     FLInstance.Loadfnt("Font/fnt.fnt");
     Stateinit* initInstance = new Stateinit();
+	StateDebug* debugstate = new StateDebug();
     this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
     this->StateManInst.addAvailable(initInstance);
+    this->StateManInst.addAvailable(debugstate);
     this->StateManInst.setCam(&camera);
     this->StateManInst.Init(this->m_parameters, &this->FLInstance, &this->Mouse);
 

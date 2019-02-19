@@ -18,14 +18,14 @@ void Stateinit::OnEnter()
     Mesh* meshbuffer;
     meshbuffer = MeshBuilder::GenerateText("saofontsheet", *this->St_FLInstance);
     meshbuffer->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
-    this->meshList.push_back(meshbuffer);
+    this->meshList->push_back(meshbuffer);
 
 	meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
 	meshbuffer->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
-	this->meshList.push_back(meshbuffer);
+	this->meshList->push_back(meshbuffer);
 
     meshbuffer = MeshBuilder::GenerateSphere("debugballs",Color(1,1,1),10,10,0.5f);
-    this->meshList.push_back(meshbuffer);
+    this->meshList->push_back(meshbuffer);
 
     // Camera
     this->state_cam->Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
@@ -38,7 +38,7 @@ void Stateinit::OnEnter()
     current->text = &dtimestring;
     current->type = entityType::eT_TextUI;
     current->meshptr = this->meshGetFast("saofontsheet");
-    this->entitylists.push_back(current);
+    this->entitylists->push_back(current);
 
     // Collision tester
     current = new entity();
@@ -48,7 +48,7 @@ void Stateinit::OnEnter()
     current->meshptr = this->meshGetFast("testcube");
     current->physics = true;
     current->Boxsize = BBoxDimensions(3.0f, 3.0f, 3.0f);
-    this->entitylists.push_back(current);
+    this->entitylists->push_back(current);
 
 	// Test Cube
 	testCube* testCube1 = new testCube();
@@ -58,7 +58,7 @@ void Stateinit::OnEnter()
     testCube1->physics = true;
     testCube1->Boxsize = BBoxDimensions(2.5f, 2.5f, 2.5f);
 	testCube1->meshptr = this->meshGetFast("testcube");
-	this->entitylists.push_back(testCube1);
+	this->entitylists->push_back(testCube1);
 
 	// Matrix method
 	cubeMatrix.SetToIdentity();
@@ -70,11 +70,11 @@ void Stateinit::OnEnter()
 
 void Stateinit::OnRender()
 {
-    for (size_t i = 0; i < this->entitylists.size(); i++)
+    for (size_t i = 0; i < this->entitylists->size(); i++)
     {
         
         (*this->modelStack).PushMatrix();
-        entity *buff = this->entitylists[i];
+        entity *buff = (*this->entitylists)[i];
         if (buff->type == entityType::eT_Text)
         {
             buff->position;
@@ -187,40 +187,30 @@ Stateinit::Stateinit()
 
 void Stateinit::OnUpdate(double dt)
 {
+	if (*bounceTime >= 0.0)
+	{
+		*bounceTime -= dt;
+	}
+
+	if ((Application::IsKeyPressed('5')) && *debugToggle == false && *bounceTime <= 0.0)
+	{
+		*debugToggle = true;
+		*bounceTime = 0.3;
+		this->spawnState = "debugger";
+	}
+
 	entity* testCube1 = this->entityGetFast("testcube");
 
 	testCube1->Update(dt);
 
 	this->state_cam->Update(dt, *testCube1);
 
-    this->collideInstance->doCollisions(this->entitylists);
+	this->collideInstance->updatingEnts = 0;
 
-	this->dtimestring = "FPS:";
-	this->dtimestring += std::to_string(1.0f / dt);
-	this->dtimestring += "\nCam X:";
-	this->dtimestring += std::to_string(this->state_cam->position.x);
-	this->dtimestring += "\nCam Y:";
-	this->dtimestring += std::to_string(this->state_cam->position.y);
-	this->dtimestring += "\nCam Z:";
-	this->dtimestring += std::to_string(this->state_cam->position.z);
-	this->dtimestring += "\nVel :";
-	this->dtimestring += std::to_string(testCube1->velocity);
-	this->dtimestring += "\nAcl :";
-	this->dtimestring += std::to_string(testCube1->accl);
-	this->dtimestring += "\nPit :";
-	this->dtimestring += std::to_string(testCube1->pitchTotal);
-	this->dtimestring += "\nYaw :";
-	this->dtimestring += std::to_string(testCube1->yawTotal);
-	this->dtimestring += "\nRol :";
-	this->dtimestring += std::to_string(testCube1->rollTotal);
+    this->collideInstance->doCollisions(*this->entitylists);
 
-    this->dtimestring += "\nMouse:" + std::to_string(this->mouse->X) +
-        " | " + std::to_string(this->mouse->Y) +
-        " | Change: " + std::to_string(this->mouse->XChange) +
-        " | " + std::to_string(this->mouse->YChange);
-
-    this->dtimestring += "\nEntities With physics: " + std::to_string(this->collideInstance->updatingEnts);
-    this->collideInstance->updatingEnts = 0;
+    
+    
 
 	if (Application::IsKeyPressed('R'))
 	{

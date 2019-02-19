@@ -19,14 +19,18 @@ protected:
     std::string spawnState = "";
     FontLoader* St_FLInstance;
     unsigned *state_params;
-    std::vector<entity*> entitylists;
-    std::vector<Mesh*> meshList;
 	MS *modelStack, *viewStack, *projectionStack;
     Camera3* state_cam;
     MouseHandler* mouse;
 
+	std::vector<entity*> *entitylists;
+	std::vector<Mesh*> *meshList;
+
     collision* collideInstance;
 public:
+	bool *debugToggle = false;
+	double *bounceTime;
+
     GState();
     ~GState();
     Mesh * meshGetFast(std::string meshname);
@@ -35,14 +39,24 @@ public:
     void RenderMesh(Mesh * mesh, bool enableLight);
     std::string StateName = "NULL!!";
     std::string getspawnState() { return this->spawnState; };
+    void resetspawnState() { this->spawnState = ""; };
     virtual void OnUpdate(double dt) = 0; // Logic Calls goes first
     virtual void OnExit() = 0; // Exit Calls after
     virtual void OnRender() = 0; // Rendering Calls=
-    void OnCreate(unsigned * parameters, FontLoader * St_FLInstance, Camera3 * cam, MouseHandler* mouse, collision* collideInstance);
+    void OnCreate(
+		unsigned * parameters, 
+		FontLoader * St_FLInstance, 
+		Camera3 * cam, 
+		MouseHandler* mouse, 
+		collision* collideInstance,
+		std::vector<entity*> *entitylists,
+		std::vector<Mesh*> *meshList
+	);
 	void SetMatrixes(MS * model, MS * view, MS * projection);
     // GState Actually becomes active. does all the setup for the Uniforms and stuff.
     void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void OnEnter() = 0; // GState initalisation
     bool readyExit() {return this->readyExitlocal; };
+    void resetExit() {this->readyExitlocal = false; };
     bool toggleMouseLock() { if (this->mouseLock) { this->mouseLock = true; } else { this->mouseLock = false; }; };
 };
