@@ -11,6 +11,7 @@ enum entityType
     eT_TextUI,
     eT_Space,
 	eT_Bullet,
+	eT_Environment,
     eT_Count
 };
 
@@ -27,13 +28,26 @@ struct hitbox
 
 };
 
+class BBoxDimensions
+{
+public:
+    BBoxDimensions();
+    ~BBoxDimensions();
+    unsigned int BBForward;
+    unsigned int BBSide;
+    unsigned int BBTop;
+    BBoxDimensions(unsigned int forward, unsigned int side, unsigned int top) { Set(forward, side, top); };
+    void Set(unsigned int forward, unsigned int side, unsigned int top);
+};
+
 class entity
 {
 public:
-	float velocity;
 	float topSpeed;
 	float fwdaccl;
 	float bwdaccl;
+
+	float velocity;
 	float accl;
 
 	float angle;
@@ -41,10 +55,15 @@ public:
 	float pitchTotal;
 	float rollTotal;
 
+    bool physics = false;
+
 	Vector3 position;
 	Vector3 target;
     entityType type;
-	hitbox hBox;
+    BBoxDimensions Boxsize;
+	hitbox HBox;
+
+    Vector3 size;
 
 	Vector3 right;	// relative x
 	Vector3 up;		// relative y
@@ -61,13 +80,18 @@ public:
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
 	virtual void Reset();
 	virtual void Update(double dt);
-    virtual void Update(
+
+    void UpdateBBox();
+
+    /*
+	virtual void Update(
         double dt,
         float topSpeed,
         float fwdaccl,
         float bwdaccl,
         float &accl
     );
+	*/
 };
 
 #endif

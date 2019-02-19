@@ -3,15 +3,14 @@
 #include <iostream>
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
-
+#include "collision.h"
 
 void Stateinit::OnEnter()
 {
-    // Init Stacks
+	this->spawnState = "title";
 
+	// Init Stacks
     std::cout << "Entering: " << this->StateName<< " Albion Prelude."<< std::endl;
-
-	// this->state_cam->Init(Vector3(0, 10, -30), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 10000.f);
@@ -21,8 +20,10 @@ void Stateinit::OnEnter()
     Mesh* meshbuffer;
     meshbuffer = MeshBuilder::GenerateText("saofontsheet", *this->St_FLInstance);
     meshbuffer->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
-    this->meshList.push_back(meshbuffer);
+    this->meshList->push_back(meshbuffer);
 
+    meshbuffer = MeshBuilder::GenerateSphere("debugballs",Color(1,1,1),10,10,0.5f);
+    this->meshList->push_back(meshbuffer);
 	meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
 	meshbuffer->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList.push_back(meshbuffer); // Creates a Mesh to generate OBJ, loads a texture, pushes it into the mesh list.
@@ -30,17 +31,18 @@ void Stateinit::OnEnter()
 	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 0.5);
 	this->meshList.push_back(meshbuffer);
 
+    // Camera
+    this->state_cam->Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
     // Spawn Entities.
     entity* current = new entity();
 
-	this->state_cam->Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
-
+	// Debugging string
 	// Init: Only the first Vector3 matters. Format: (translateX, translateY, scale) This is for TextUI
-    current->Init(Vector3(1, 15.0f, 3), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
+    current->Init(Vector3(1.f, 24.f, 2.f), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
     current->text = &dtimestring;
     current->type = entityType::eT_TextUI;
     current->meshptr = this->meshGetFast("saofontsheet");
-    this->entitylists.push_back(current);
+    this->entitylists->push_back(current);
 
 	// Test Cube
 	testCube* testCube1 = new testCube();
@@ -62,6 +64,17 @@ void Stateinit::OnEnter()
 	bullet->name = "bullet";
 	bullet->meshptr = this->meshGetFast("bullet");
 	this->entitylists.push_back(bullet);
+    // Collision tester
+	/*
+    current = new entity();
+
+    current->Init(Vector3(1.f, 24.f, 2.f), Vector3(0, 0, 1), Vector3(0, 1, 0) );
+    current->type = entityType::eT_Object;
+    current->meshptr = this->meshGetFast("testcube");
+    current->physics = true;
+    current->Boxsize = BBoxDimensions(3.0f, 3.0f, 3.0f);
+    this->entitylists->push_back(current);
+	*/
 }
 
 void Stateinit::OnRender()

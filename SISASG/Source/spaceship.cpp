@@ -29,7 +29,6 @@ void spaceship::Init(const Vector3& pos, const Vector3& target, const Vector3& u
 void spaceship::Update(double dt)
 {
 	angle = (float)(80.f * dt);
-
 	position = position + view * (float)(velocity * dt);
 	target += view;
 	view = (target - position).Normalized();
@@ -148,6 +147,15 @@ void spaceship::Update(double dt)
     {
         this->pitchTotal = 360.0f + (this->pitchTotal + angle);
     }
+
+	if (this->rollTotal + angle >= 360.0f)
+	{
+		this->rollTotal = 360.0f - (this->rollTotal + angle);
+	}
+	else if (this->rollTotal + angle <= -360.0f)
+	{
+		this->rollTotal = 360.0f + (this->rollTotal + angle);
+	}
 
 	if (
 		(position.x < -1000) ||

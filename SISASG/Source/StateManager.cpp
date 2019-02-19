@@ -17,14 +17,15 @@ void StateManager::Update(double dt, GLFWwindow* window)
     {
         this->activeStates[i]->OnUpdate(dt);
         
-        if (this->activeStates[i]->getspawnState() != nullptr)
+        if (this->activeStates[i]->getspawnState() != "")
         {
-            this->addState(*(this->activeStates[i]->getspawnState()));
+            this->addState((this->activeStates[i]->getspawnState()));
+			this->activeStates[i]->resetspawnState();
         }
         if (this->activeStates[i]->readyExit())
         {
             this->activeStates[i]->OnExit();
-            delete this->activeStates[i];
+			this->activeStates[i]->resetExit();
             this->activeStates.erase(this->activeStates.begin() + i);
         }
     }
@@ -67,7 +68,18 @@ bool StateManager::addState(std::string Statename)
     {
         if ((*this->availableStates[i]).StateName == Statename)
         {
-            (this->availableStates[i])->OnCreate(StateMan_parameters,this->SM_FLInstance,this->manager_cam,this->SM_Mouse);
+            (this->availableStates[i])->OnCreate(
+				StateMan_parameters, 
+				this->SM_FLInstance, 
+				this->manager_cam,
+				this->SM_Mouse, 
+				&this->collideInstance, 
+				&this->entitylists, 
+				&this->meshList
+			);
+			(this->availableStates[i])->debugToggle = &this->debugToggle;
+			(this->availableStates[i])->gameToggle = &this->gameToggle;
+			(this->availableStates[i])->bounceTime = &this->bounceTime;
             (this->availableStates[i])->SetMatrixes(this->modelStack,this->viewStack,this->projectionStack);
             (this->availableStates[i])->OnEnter();
             this->activeStates.push_back(this->availableStates[i]);

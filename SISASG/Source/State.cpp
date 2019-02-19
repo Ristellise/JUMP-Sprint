@@ -20,7 +20,7 @@ Mesh* GState::meshGetFast(std::string meshname)
         [](const Mesh* attr, const std::string& name) -> bool
     { return attr->name == name; };
 
-    auto attr_iter = std::find_if(std::begin(this->meshList), std::end(this->meshList),
+    auto attr_iter = std::find_if(std::begin(*this->meshList), std::end(*this->meshList),
         std::bind(attributeFinder, std::placeholders::_1, meshname));
     return *attr_iter;
 }
@@ -31,17 +31,28 @@ entity* GState::entityGetFast(std::string meshname)
         [](const entity* attr, const std::string& name) -> bool
     { return attr->name == name; };
 
-    auto attr_iter = std::find_if(std::begin(this->entitylists), std::end(this->entitylists),
+    auto attr_iter = std::find_if(std::begin(*this->entitylists), std::end(*this->entitylists),
         std::bind(attributeFinder, std::placeholders::_1, meshname));
     return *attr_iter;
 }
 
-void GState::OnCreate(unsigned * parameters, FontLoader * St_FLInstance, Camera3 * cam, MouseHandler* mouse)
+void GState::OnCreate(
+	unsigned * parameters, 
+	FontLoader * St_FLInstance, 
+	Camera3 * cam,
+	MouseHandler* mouse, 
+	collision* collideInstance, 
+	std::vector<entity*> *entitylists,
+	std::vector<Mesh*> *meshList
+)
 {
     this->state_params = parameters;
     this->St_FLInstance = St_FLInstance;
     this->state_cam = cam;
     this->mouse = mouse;
+    this->collideInstance = collideInstance;
+	this->entitylists = entitylists;
+	this->meshList = meshList;
 }
 void GState::SetMatrixes(MS* model, MS* view, MS* projection)
 {
