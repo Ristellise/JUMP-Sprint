@@ -10,6 +10,7 @@ enum entityType
     eT_Text,
     eT_TextUI,
     eT_Space,
+	eT_Environment,
     eT_Count
 };
 

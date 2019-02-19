@@ -19,6 +19,7 @@ class StateManager
     double lockbounce = 0.0;
     double bounceTime = 0.0;
 	bool debugToggle = false;
+	bool gameToggle = false;
 	int fdelay;
 
     collision collideInstance;

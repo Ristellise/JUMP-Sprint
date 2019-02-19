@@ -48,7 +48,7 @@ void StateDebug::OnUpdate(double dt)
 		" | Change: " + std::to_string(this->mouse->XChange) +
 		" | " + std::to_string(this->mouse->YChange);
 
-	if ((Application::IsKeyPressed('5')) && *debugToggle == true && *bounceTime <= 0.0)
+	if ((Application::IsKeyPressed('6')) && *debugToggle == true && *bounceTime <= 0.0)
 	{
 		*debugToggle = false;
 		*bounceTime = 0.3;

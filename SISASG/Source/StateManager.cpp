@@ -78,6 +78,7 @@ bool StateManager::addState(std::string Statename)
 				&this->meshList
 			);
 			(this->availableStates[i])->debugToggle = &this->debugToggle;
+			(this->availableStates[i])->gameToggle = &this->gameToggle;
 			(this->availableStates[i])->bounceTime = &this->bounceTime;
             (this->availableStates[i])->SetMatrixes(this->modelStack,this->viewStack,this->projectionStack);
             (this->availableStates[i])->OnEnter();
