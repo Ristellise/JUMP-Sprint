@@ -6,12 +6,14 @@
 class Bullet : public entity
 {
 	float timeAlive;
-	double bbSpeed = 5.0;
+	double bbSpeed = 30.0;
+	int BulletLeft[10];
 public:
 	Bullet();
 	~Bullet();
 	void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
 	void Update(double dt);
+	bool isFiring = false;
 };
 
 #endif

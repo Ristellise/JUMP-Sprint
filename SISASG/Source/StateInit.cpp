@@ -51,8 +51,13 @@ void Stateinit::OnEnter()
 	this->entitylists.push_back(testCube1); //Create an entity, initialises it at Vector ( Position, Target , up )
 
 	// Bullet
-	Bullet* bullet = new Bullet();
-	bullet->Init(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
+	this->bullet = new Bullet();
+	bullet->Init
+	(
+		Vector3(testCube1->position.x, testCube1->position.y, testCube1->position.z), 
+		Vector3(testCube1->target.x, testCube1->target.y, testCube1->target.z), 
+		Vector3(0, 1, 0)
+	);
 	bullet->type = entityType::eT_Bullet;
 	bullet->name = "bullet";
 	bullet->meshptr = this->meshGetFast("bullet");
@@ -115,7 +120,7 @@ void Stateinit::OnUpdate(double dt)
 {
 
 	entity* testCube1 = this->entityGetFast("testcube");
-	this->state_cam->Update(
+	/*this->state_cam->Update(
 		dt,
 		testCube1->position.x,
 		testCube1->position.y,
@@ -124,13 +129,14 @@ void Stateinit::OnUpdate(double dt)
 		testCube1->fwdaccl,
 		testCube1->bwdaccl,
 		testCube1->view
-	);
+	);*/
 
 	testCube1->Update(dt);
+	bullet->Update(dt);
 
 	//entity* bullet = this->entityGetFast("testcube");
 
-	this->dtimestring = "FPS:";
+	/*this->dtimestring = "FPS:";
 	this->dtimestring += std::to_string(1.0f / dt);
 	this->dtimestring += "\nCam X:";
 	this->dtimestring += std::to_string(this->state_cam->position.x);
@@ -155,5 +161,5 @@ void Stateinit::OnUpdate(double dt)
     this->dtimestring += "\nMouse:" + std::to_string(this->mouse->X) +
         " | " + std::to_string(this->mouse->Y) +
         " | Change: " + std::to_string(this->mouse->XChange) +
-        " | " + std::to_string(this->mouse->YChange);
+        " | " + std::to_string(this->mouse->YChange);*/
 }
