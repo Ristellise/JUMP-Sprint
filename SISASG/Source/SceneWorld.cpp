@@ -177,10 +177,6 @@ void SceneWorld::Init()
 	// Test Environment
 	meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
 
-    //test car
-    meshList[GEO_CAR] = MeshBuilder::GenerateOBJ("testcar", "OBJ//Car.obj")[0];
-    meshList[GEO_CAR]->textureID = LoadTGA("TGA//car.tga", GL_LINEAR, GL_CLAMP);
-
     // Lightball
     meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
 }
@@ -677,12 +673,6 @@ void SceneWorld::Render()
 	// hoopsExecuteUI();
 
 	// RenderSpaceship();
-
-    // testcar
-    // modelStack.PushMatrix();
-    // modelStack.Translate(-10, 0, 0);
-    // RenderMesh(meshList[GEO_CAR], true);
-    // modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Scale(10.0f, 10.0f, 10.0f);

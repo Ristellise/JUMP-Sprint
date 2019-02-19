@@ -38,11 +38,13 @@ class SceneHangar : public Scene
 		NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
 	};
 
-	struct COORDS3D
+	struct STARS
 	{
 		float x = 0;
 		float y = 0;
 		float z = 0;
+		float scale = 0;
+		int stime = 0;
 	};
 
 public:
@@ -55,6 +57,7 @@ public:
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
 	void RenderSkybox();
+	void RenderShips();
 	virtual void Exit();
 	void Stars();
 
@@ -70,7 +73,7 @@ private:
 	MS modelStack, viewStack, projectionStack;
 	Light light;
 	std::vector<Light> lights;
-	std::vector<COORDS3D> stars;
+	std::vector<STARS> stars;
 	FontLoader FLInstance;
 
 	std::string dtimestring = "";
@@ -85,7 +88,7 @@ private:
 	float ViewRange = 1000.f;
 	bool lit = true;
 	bool shiftmovement = false;
-	COORDS3D coord;
+	STARS coord;
 	testCube testCube1;
 };
 

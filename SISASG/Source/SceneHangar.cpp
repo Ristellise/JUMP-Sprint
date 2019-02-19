@@ -23,7 +23,7 @@ void SceneHangar::Init()
 {
 
 #pragma region StartupLoads // Just Compressing Space for scrolling //
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	// Generate a default VAO for now
@@ -186,6 +186,7 @@ void SceneHangar::Update(double dt)
 	}
 	if (Application::IsKeyPressed(VK_SPACE) && Delay == 0)
 	{
+		shiftmovement = false;
 		if (lit == true)
 		{
 			lit = false;
@@ -283,7 +284,7 @@ void SceneHangar::Render()
 
 	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
 	modelStack.LoadIdentity();
-	for (int i = 0; lights.size() > i; i++)
+	for (unsigned int i = 0; lights.size() > i; i++) // Updates light for the number there are
 	{
 		if (lights[i].type == Light::LIGHT_DIRECTIONAL)
 		{
@@ -314,27 +315,7 @@ void SceneHangar::Render()
 #pragma endregion
 
 	RenderSkybox();
-
-	//modelStack.PushMatrix();
-	//modelStack.Translate(0, 0, 0);
-	//RenderMesh(meshList[GEO_AXES], false);
-	//modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0,-20,0);
-	modelStack.Scale(15.0f, 15.0f, 15.0f);
-	modelStack.Rotate(15, 1, 0, 0);
-	RenderMesh(meshList[GEO_SHIP1], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(150,-20,0);
-	modelStack.Scale(5.0f, 5.0f, 5.0f);	
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Rotate(10,0,0,1);
-
-	RenderMesh(meshList[GEO_SHIP2], true);
-	modelStack.PopMatrix();
+	RenderShips();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(lights[0].position.x, lights[0].position.y-0.5, lights[0].position.z);
@@ -351,8 +332,13 @@ void SceneHangar::Render()
 	{
 	modelStack.PushMatrix();
 	modelStack.Translate(stars[i].x, stars[i].y, stars[i].z);
-	starscale = (abs(stars[i].x) + abs(stars[i].y) + abs(stars[i].z)) / ((rand() % 250) + 250); // Scale (Rand adds twinkles)
-	modelStack.Scale(starscale, starscale, starscale);
+	if (stars[i].stime == 0)
+	{
+		stars[i].scale = (abs(stars[i].x) + abs(stars[i].y) + abs(stars[i].z)) / ((rand() % 250) + 250); // Scale (Rand adds twinkles)
+		stars[i].stime = rand() % 10 + 10;
+	}
+	modelStack.Scale(stars[i].scale, stars[i].scale, stars[i].scale);
+	stars[i].stime--;
 	RenderMesh(meshList[GEO_STAR], false);
 	modelStack.PopMatrix();
 	}
@@ -517,6 +503,22 @@ void SceneHangar::RenderSkybox()
 		}
 	}
 
+}
+
+void SceneHangar::RenderShips()
+{
+	for (int i = 0; NumberOfShips > i; i++)
+	{
+
+		modelStack.PushMatrix();
+		modelStack.Translate(SKYBOXSIZE*i-1, -20, 10);
+		modelStack.Scale(15.0f, 15.0f, 15.0f);
+		modelStack.Rotate(180, 1, 0, 0);
+		modelStack.Rotate(180, 0, 0, 1);
+		RenderMesh(meshList[GEO_SHIP1+i], true);
+		modelStack.PopMatrix();
+
+	}
 }
 
 

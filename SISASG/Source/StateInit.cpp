@@ -20,8 +20,8 @@ void Stateinit::OnEnter()
     meshbuffer->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
     this->meshList.push_back(meshbuffer);
 
-	meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
-	meshbuffer->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+	meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship1.obj")[0];
+	meshbuffer->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList.push_back(meshbuffer);
 
     // Spawn Entities.
