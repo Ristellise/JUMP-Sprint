@@ -24,7 +24,7 @@ void Stateinit::OnEnter()
 	meshbuffer->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList->push_back(meshbuffer);
 
-    meshbuffer = MeshBuilder::GenerateSphere("debugballs",Color(1,1,1),10,10,0.5f);
+    meshbuffer = MeshBuilder::GenerateSphere("debugballs",Color(1,1,1),10,10,0.1f);
     this->meshList->push_back(meshbuffer);
 
     // Camera
@@ -47,7 +47,7 @@ void Stateinit::OnEnter()
     current->type = entityType::eT_Object;
     current->meshptr = this->meshGetFast("testcube");
     current->physics = true;
-    current->Boxsize = BBoxDimensions(3.0f, 3.0f, 3.0f);
+    current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
     this->entitylists->push_back(current);
 
 	// Test Cube
@@ -88,8 +88,8 @@ void Stateinit::OnRender()
         {
             
             (*this->modelStack).Translate(buff->position.x, buff->position.y, buff->position.z);
-            (*this->modelStack).Rotate(buff->yawTotal, 0, 1, 0);
-            (*this->modelStack).Rotate(buff->pitchTotal, 1, 0, 0);
+            //(*this->modelStack).Rotate(buff->yawTotal, 0, 1, 0);
+            //(*this->modelStack).Rotate(buff->pitchTotal, 1, 0, 0);
             (*this->modelStack).Scale(buff->size.x, buff->size.y, buff->size.z);
             RenderMesh(buff->meshptr, true);
             
@@ -207,7 +207,7 @@ void Stateinit::OnUpdate(double dt)
 
 	this->collideInstance->updatingEnts = 0;
 
-    this->collideInstance->doCollisions(*this->entitylists);
+    this->collideInstance->doCollisions(*this->entitylists, dt);
 
     
     
