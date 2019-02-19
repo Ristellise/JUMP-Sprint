@@ -99,7 +99,7 @@ void StateGame::OnUpdate(double dt)
 
 	this->collideInstance->updatingEnts = 0;
 
-	this->collideInstance->doCollisions(*this->entitylists);
+	this->collideInstance->doCollisions(*this->entitylists, dt);
 
 	if (Application::IsKeyPressed('R'))
 	{
