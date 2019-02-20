@@ -23,6 +23,7 @@ class SceneHangar : public Scene
 		GEO_LIGHT,
 		GEO_TEXT, // To move to vector solution
 		GEO_STAR,
+		GEO_SIDE,
 
 		// Skybox
 		GEO_LEFT,
@@ -49,6 +50,7 @@ class SceneHangar : public Scene
 
 public:
 	SceneHangar();
+	SceneHangar(GLFWwindow * l_window);
 	~SceneHangar();
 
 	virtual void Init();
@@ -58,6 +60,7 @@ public:
 	void RenderTextOnScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
 	void RenderSkybox();
 	void RenderShips();
+	void RenderUI();
 	virtual void Exit();
 	void Stars();
 
@@ -71,10 +74,12 @@ private:
 
 	Camera3 camera;
 	MS modelStack, viewStack, projectionStack;
+	MouseHandler mouse;
 	Light light;
 	std::vector<Light> lights;
 	std::vector<STARS> stars;
 	FontLoader FLInstance;
+	StateManager StateManInst;
 
 	std::string dtimestring = "";
 	void RenderMesh(Mesh *mesh, bool enableLight);
@@ -85,9 +90,10 @@ private:
 	int starscale = 0; // For star sizing
 	float Delay = 0;
 	float Shift = 0;
-	float ViewRange = 1000.f;
+	float ViewRange = 10000.f;
 	bool lit = true;
 	bool shiftmovement = false;
+	int Dir = 0;//Direction on ui
 	STARS coord;
 	testCube testCube1;
 };

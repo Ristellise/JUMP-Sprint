@@ -9,10 +9,13 @@
 
 #include "spaceship.h"
 
-
-
 SceneHangar::SceneHangar()
 {
+}
+
+SceneHangar::SceneHangar(GLFWwindow * l_window)
+{
+	this->l_window = l_window;
 }
 
 SceneHangar::~SceneHangar()
@@ -40,6 +43,7 @@ void SceneHangar::Init()
 
 	camera.Init(Vector3(0, 10, 120), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
+	this->mouse = MouseHandler(20.0f);
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, ViewRange);
 	projectionStack.LoadMatrix(projection);
@@ -127,6 +131,7 @@ void SceneHangar::Init()
 	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("Roof", Color((248/255.f), (248/255.f), (255/255.f)), 1.f);
 
 	meshList[GEO_STAR] = MeshBuilder::GenerateSphere("Star", Color(1, 1, 1), 2, 4, 1);
+	meshList[GEO_SIDE] = MeshBuilder::GenerateQuad("Sides", Color(1, 1, 1), 1);
 
 	Stars();
 }
@@ -138,14 +143,14 @@ void SceneHangar::Update(double dt)
 	static const float LSPEED = 10.0f;
 	
 	 //For movement
-	if (Application::IsKeyPressed('A') && (camera.position.x > 0) && Delay == 0)
+	if ((Application::IsKeyPressed('A') || ((Application::IsKeyPressed(MK_LBUTTON)) && Dir == -1)) && (camera.position.x > 0) && Delay == 0)
 	{
 		Delay += 10;
 		Shift = -SKYBOXSIZE / Delay;
 		shiftmovement = true;
 	}
 
-	if (Application::IsKeyPressed('D') && (camera.position.x < SKYBOXSIZE*(NumberOfShips-1)) && Delay == 0)
+	if ((Application::IsKeyPressed('D') || ((Application::IsKeyPressed(MK_LBUTTON)) && Dir == 1)) && (camera.position.x < SKYBOXSIZE*(NumberOfShips-1)) && Delay == 0)
 	{
 		Delay += 10;
 		Shift = SKYBOXSIZE / Delay;
@@ -214,6 +219,7 @@ void SceneHangar::Update(double dt)
 		lights[this->selector].position.y += (float)(LSPEED * dt);
 
 	this->lastkeypress += dt;
+	this->mouse.Update(l_window,dt);
 	camera.Updatealt(dt);
 	this->dtimestring = "FPS:";
 	this->dtimestring += std::to_string(1.0f / dt);
@@ -226,6 +232,11 @@ void SceneHangar::Update(double dt)
 	this->dtimestring += "\n" + std::to_string(this->lights[this->selector].position.x) + " | "
 		+ std::to_string(this->lights[this->selector].position.y) + " | "
 		+ std::to_string(this->lights[this->selector].position.z);
+	this->dtimestring += "\nMouse:" + std::to_string(mouse.X) +
+		" | " + std::to_string(mouse.Y) +
+		" | Change: " + std::to_string(mouse.XChange) +
+		" | " + std::to_string(mouse.YChange);
+
 }
 
 void SceneHangar::RenderMesh(Mesh *mesh, bool enableLight)
@@ -330,18 +341,19 @@ void SceneHangar::Render()
 
 	for (int i = 0; starsnumber > i; i++)
 	{
-	modelStack.PushMatrix();
-	modelStack.Translate(stars[i].x, stars[i].y, stars[i].z);
-	if (stars[i].stime == 0)
-	{
-		stars[i].scale = (abs(stars[i].x) + abs(stars[i].y) + abs(stars[i].z)) / ((rand() % 250) + 250); // Scale (Rand adds twinkles)
-		stars[i].stime = rand() % 10 + 10;
+		modelStack.PushMatrix();
+		modelStack.Translate(stars[i].x, stars[i].y, stars[i].z);
+		if (stars[i].stime == 0)
+		{
+			stars[i].scale = (abs(stars[i].x) + abs(stars[i].y) + abs(stars[i].z)) / ((rand() % 250) + 250); // Scale (Rand adds twinkles)
+			stars[i].stime = rand() % 10 + 10;
+		}
+		modelStack.Scale(stars[i].scale, stars[i].scale, stars[i].scale);
+		stars[i].stime--;
+		RenderMesh(meshList[GEO_STAR], false);
+		modelStack.PopMatrix();
 	}
-	modelStack.Scale(stars[i].scale, stars[i].scale, stars[i].scale);
-	stars[i].stime--;
-	RenderMesh(meshList[GEO_STAR], false);
-	modelStack.PopMatrix();
-	}
+	RenderUI();
 }
 
 /*-------------
@@ -519,6 +531,50 @@ void SceneHangar::RenderShips()
 		modelStack.PopMatrix();
 
 	}
+}
+
+void SceneHangar::RenderUI()
+{
+	modelStack.PushMatrix();
+	glDisable(GL_DEPTH_TEST);
+	Mtx44 ortho;
+	int WindowXpos = 0;
+	int WindowYpos = 0;
+	int sideDivision = 5;
+	Dir = 0;
+
+	glfwGetWindowSize(l_window, &WindowXpos, &WindowYpos); // gets the size of the window
+
+	if ((mouse.X < (WindowXpos / sideDivision)) || (mouse.X > (WindowXpos - (WindowXpos / sideDivision))))
+	{
+		ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI (left,right,bottom,top)
+		projectionStack.PushMatrix();
+		projectionStack.LoadMatrix(ortho);
+		viewStack.PushMatrix();
+		viewStack.LoadIdentity(); //No need camera for ortho mode
+		modelStack.PushMatrix();
+		modelStack.LoadIdentity(); //Reset modelStack
+		if (mouse.X < (WindowXpos / 5))
+		{
+			modelStack.Translate(0, 30, 0);
+			modelStack.Scale(80/sideDivision, 30, 1);
+			Dir = -1;
+		}
+		else if (mouse.X > (WindowXpos-(WindowXpos / sideDivision)) )
+		{
+			modelStack.Translate(80, 30, 0);
+			modelStack.Scale(80 / sideDivision, 30, 1);
+			Dir = 1;
+		}
+		RenderMesh(meshList[GEO_SIDE], false);
+		projectionStack.PopMatrix();
+		viewStack.PopMatrix();
+		modelStack.PopMatrix();
+	}
+		
+
+	glEnable(GL_DEPTH_TEST);
+	modelStack.PopMatrix();
 }
 
 
