@@ -22,7 +22,7 @@ void Stateinit::OnEnter()
     meshbuffer->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
     this->meshList->push_back(meshbuffer);
 
-    meshbuffer = MeshBuilder::GenerateSphere("debugballs",Color(1,1,1),10,10,0.5f);
+    meshbuffer = MeshBuilder::GenerateSphere("debugballs",Color(1,1,1),10,10,0.25f);
     this->meshList->push_back(meshbuffer);
 
     // Camera
@@ -37,23 +37,16 @@ void Stateinit::OnEnter()
     current->type = entityType::eT_TextUI;
     current->meshptr = this->meshGetFast("saofontsheet");
     this->entitylists->push_back(current);
-
-    // Collision tester
-	/*
-    current = new entity();
-
-    current->Init(Vector3(1.f, 24.f, 2.f), Vector3(0, 0, 1), Vector3(0, 1, 0) );
-    current->type = entityType::eT_Object;
-    current->meshptr = this->meshGetFast("testcube");
-    current->physics = true;
-    current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
-    this->entitylists->push_back(current);
-	*/
+	
 }
 
 void Stateinit::OnRender()
 {
-	;
+
+}
+
+void Stateinit::OnCam(int X, int Y, float XChange, float YChange)
+{
 }
 
 void Stateinit::OnExit()
@@ -68,8 +61,8 @@ Stateinit::Stateinit()
 
 void Stateinit::OnUpdate(double dt)
 {
-	if (*bounceTime >= 0.0)
+	if (this->STData->bounceTime >= 0.0)
 	{
-		*bounceTime -= dt;
+        this->STData->bounceTime -= dt;
 	}
 }

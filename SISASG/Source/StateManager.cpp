@@ -13,35 +13,38 @@ StateManager::StateManager()
 
 void StateManager::Update(double dt, GLFWwindow* window)
 {
-	for (size_t i = 0; i < this->activeStates.size(); i++)
-	{
-		this->activeStates[i]->OnUpdate(dt);
-
-		if (this->activeStates[i]->readyExit())
-		{
-			this->activeStates[i]->OnExit();
-			this->activeStates[i]->resetExit();
-
-
-			for (std::vector< entity* >::iterator it = this->entitylists.begin(); it != this->entitylists.end(); ++it)
-			{
-				delete (*it);
-			}
-			this->entitylists.clear();
-			this->entitylists.shrink_to_fit();
-			if (this->activeStates[i]->getspawnState() != "")
-			{
-				this->addState((this->activeStates[i]->getspawnState()));
-				this->activeStates[i]->resetspawnState();
-			}
-			this->activeStates.erase(this->activeStates.begin() + i);
-		}
-		else if (this->activeStates[i]->getspawnState() != "")
-		{
-			this->addState((this->activeStates[i]->getspawnState()));
+    this->SM_Mouse->Update(window,dt);
+    for (size_t i = 0; i < this->activeStates.size(); i++)
+    {
+        this->activeStates[i]->OnUpdate(dt);
+        this->activeStates[i]->OnCam(this->SM_Mouse->X, this->SM_Mouse->Y,
+                                     this->SM_Mouse->XChange, this->SM_Mouse->YChange);
+        if (this->activeStates[i]->readyExit())
+        {
+            this->activeStates[i]->OnExit();
+            this->activeStates[i]->resetExit();
+            
+            
+            for (std::vector< entity* >::iterator it = this->entitylists.begin(); it != this->entitylists.end(); ++it)
+            {
+                delete (*it);
+            }
+            this->entitylists.clear();
+            this->entitylists.shrink_to_fit();
+            if (this->activeStates[i]->getspawnState() != "")
+            {
+                this->addState((this->activeStates[i]->getspawnState()));
+                this->activeStates[i]->resetspawnState();
+            }
+            this->activeStates.erase(this->activeStates.begin() + i);
+        }
+        else if (this->activeStates[i]->getspawnState() != "")
+        {
+            this->addState((this->activeStates[i]->getspawnState()));
 			this->activeStates[i]->resetspawnState();
-		}
-	}
+        }
+        
+    }
 }
 
 void StateManager::Render()
@@ -92,11 +95,7 @@ bool StateManager::addState(std::string Statename)
 				&this->entitylists, 
 				&this->meshList
 			);
-			(this->availableStates[i])->debugToggle = &this->debugToggle;
-			(this->availableStates[i])->gameToggle = &this->gameToggle;
-			(this->availableStates[i])->bounceTime = &this->bounceTime;
-			(this->availableStates[i])->shipSelect = &this->shipSelect;
-			(this->availableStates[i])->planetSelect = &this->planetSelect;
+			(this->availableStates[i])->STData = &this->StateManagerData;
             (this->availableStates[i])->SetMatrixes(this->modelStack,this->viewStack,this->projectionStack);
             (this->availableStates[i])->OnEnter();
             this->activeStates.push_back(this->availableStates[i]);

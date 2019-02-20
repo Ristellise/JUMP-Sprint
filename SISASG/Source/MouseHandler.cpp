@@ -13,13 +13,13 @@ MouseHandler::~MouseHandler()
 
 void MouseHandler::Update(GLFWwindow* window, double dt, bool reset)
 {
-	glfwGetCursorPos(window, &this->XChange, &this->YChange);
-	glfwGetWindowSize(window, &this->winWidth, &this->winHeight);
-	double oldposX = this->XChange;
-	double oldposY = this->YChange;
-	//
-	this->XChange = (this->XChange - this->X) * dt * this->sensitivity;
-	this->YChange = (this->YChange - this->Y) * dt * this->sensitivity;
+    glfwGetCursorPos(window,&this->XChange, &this->YChange);
+    glfwGetWindowSize(window, &this->winWidth, &this->winHeight);
+    double oldposX = this->XChange;
+    double oldposY = this->YChange;
+    //
+    this->XChange = (this->XChange - this->X) * dt * this->sensitivity;
+    this->YChange = (this->YChange - this->Y) * dt * this->sensitivity;
 
 	this->X = (int)oldposX;
 	this->Y = (int)oldposY;

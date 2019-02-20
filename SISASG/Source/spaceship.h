@@ -2,7 +2,7 @@
 #define SPACESHIP_H
 
 #include "entity.h"
-
+#define NOMINMAX
 class spaceship : public entity
 {
 private:
