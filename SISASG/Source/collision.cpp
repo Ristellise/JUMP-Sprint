@@ -124,17 +124,19 @@ void collision::doCollisions(std::vector<entity*> &entityList, double dt)
     for (size_t i = 0; i < (entityList).size(); i++)
     {
         entity* Ent = (entityList)[i];
+        if (Ent->physics)
+        {
+            Ent->UpdateBBox();
+            this->updatingEnts += 1;
+        }
         for (size_t v = i+1; v < (entityList).size(); v++)
         {
-            
             Ent2 = entityList[v];
-            if (Ent->physics && Ent2->physics)
+            if (Ent2->physics)
             {
-
-                Ent->UpdateBBox();
                 Ent2->UpdateBBox();
                 this->updatingEnts += 1;
-                if (Intersects(Ent, (entityList)[v]))
+                if (Intersects(Ent, Ent2))
                 {
                     float velocity = Ent->velocity + Ent2->velocity;
                     Ent->velocity = velocity;
