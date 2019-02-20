@@ -168,7 +168,7 @@ void StateGame::OnUpdate(double dt)
 		cubeMult3.SetToIdentity();
 	}
 
-	if ((Application::IsKeyPressed('5')) && *gameToggle == true && *bounceTime <= 0.0)
+	if ((Application::IsKeyPressed('5')) && this->STData->gameToggle == true && this->STData->bounceTime <= 0.0)
 	{
 		// Matrix method
 		cubeMatrix.SetToIdentity();
@@ -177,16 +177,16 @@ void StateGame::OnUpdate(double dt)
 		cubeMult2.SetToIdentity();
 		cubeMult3.SetToIdentity();
 
-		*gameToggle = false;
-		*bounceTime = 0.3;
+        this->STData->gameToggle = false;
+        this->STData->bounceTime = 0.3;
 		this->spawnState = "title";
 		this->readyExitlocal = true;
 	}
 
-	if ((Application::IsKeyPressed('6')) && *debugToggle == false && *bounceTime <= 0.0)
+	if ((Application::IsKeyPressed('6')) && this->STData->debugToggle == false && this->STData->bounceTime <= 0.0)
 	{
-		*debugToggle = true;
-		*bounceTime = 0.3;
+        this->STData->debugToggle = true;
+        this->STData->bounceTime = 0.3;
 		this->spawnState = "debugger";
 	}
 }

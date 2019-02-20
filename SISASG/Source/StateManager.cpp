@@ -93,11 +93,7 @@ bool StateManager::addState(std::string Statename)
 				&this->entitylists, 
 				&this->meshList
 			);
-			(this->availableStates[i])->debugToggle = &this->debugToggle;
-			(this->availableStates[i])->gameToggle = &this->gameToggle;
-			(this->availableStates[i])->bounceTime = &this->bounceTime;
-			(this->availableStates[i])->shipSelect = &this->shipSelect;
-			(this->availableStates[i])->planetSelect = &this->planetSelect;
+			(this->availableStates[i])->STData = &this->StateManagerData;
             (this->availableStates[i])->SetMatrixes(this->modelStack,this->viewStack,this->projectionStack);
             (this->availableStates[i])->OnEnter();
             this->activeStates.push_back(this->availableStates[i]);

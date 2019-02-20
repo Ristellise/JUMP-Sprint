@@ -61,8 +61,8 @@ Stateinit::Stateinit()
 
 void Stateinit::OnUpdate(double dt)
 {
-	if (*bounceTime >= 0.0)
+	if (this->STData->bounceTime >= 0.0)
 	{
-		*bounceTime -= dt;
+        this->STData->bounceTime -= dt;
 	}
 }
