@@ -162,6 +162,7 @@
     <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\FontLoader.cpp" />
+    <ClCompile Include="Source\genericEntity.cpp" />
     <ClCompile Include="Source\Hoops.cpp" />
     <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Source\Camera3.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\FontLoader.h" />
+    <ClInclude Include="Source\genericEntity.h" />
     <ClInclude Include="Source\Hoops.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />

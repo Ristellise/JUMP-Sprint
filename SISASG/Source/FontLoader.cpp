@@ -1,6 +1,6 @@
 #include "FontLoader.h"
 #include "Utility.h"
-
+#include <unordered_map>
 FontLoader::FontLoader()
 {
 
@@ -16,7 +16,6 @@ enum LineType
     LT_UNKNOWN,
     LT_COUNT
 };
-
 charData ReadChar(std::string charLine)
 {
     std::string data = charLine.substr(4);
@@ -85,16 +84,18 @@ LineType getLineType(std::string line)
 FontResult FontLoader::getFontData(unsigned int index)
 {
     FontResult res;
-    for (size_t i = 0; i < this->characters.size(); i++)
+    // this->character
+    std::unordered_map<char, charData>::const_iterator iterator = this->characters.find(static_cast<char>(index));
+    if (iterator == this->characters.end())
     {
-        if (this->characters[i].id == index)
-        {
-            res.font = this->characters[i];
-            res.index = i;
-            return res;
-        }
+        return res;
     }
-    return res;
+    else
+    {
+        res.font = iterator->second;
+        res.index = index;
+        return res;
+    }
 }
 
 bool FontLoader::Loadfnt(std::string file_path)
@@ -111,7 +112,8 @@ bool FontLoader::Loadfnt(std::string file_path)
             LineType LTType = getLineType(buff);
             if (LTType == LineType::LT_CHAR)
             {
-                this->characters.push_back(ReadChar(buff));
+                charData v = ReadChar(buff);
+                this->characters.insert({ static_cast<char>(v.id),v }); // yeah I have to cast it... sorry!
             }
             else if (LTType == LineType::LT_INFO)
             {

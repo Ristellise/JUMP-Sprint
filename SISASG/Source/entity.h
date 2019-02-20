@@ -53,6 +53,7 @@ public:
 	float topSpeed;
 	float fwdaccl;
 	float bwdaccl;
+	float drift;
 
 	float velocity;
 	float accl;
@@ -61,6 +62,10 @@ public:
 	float yawTotal;
 	float pitchTotal;
 	float rollTotal;
+
+    float yawVelocity;
+    float pitchVelocity;
+    float rollVelocity;
 
     bool physics = false;
 
