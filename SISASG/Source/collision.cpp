@@ -9,6 +9,7 @@ struct ChunkPos
     int Chnky;
 };
 
+
 bool Separated(entity *Ent, entity *Ent2, Vector3 Axis)
 {
     Vector3 Ent1V[] = {
@@ -66,19 +67,6 @@ ChunkPos getChunk(Vector3 pos)
     return chnk;
 }
 
-void collision::doCollisions(std::vector<entity*> &entityList)
-{
-    for (size_t i = 0; i < (entityList).size(); i++)
-    {
-        entity* Ent = (entityList)[i];
-        if (Ent->physics)
-        {
-            Ent->UpdateBBox();
-            this->updatingEnts += 1;
-        }
-    }
-}
-
 bool Intersects(entity *Ent1, entity *Ent2)
 {
     if (Separated(Ent1, Ent2, Ent1->right))
@@ -126,6 +114,34 @@ void Chunk::popEnt(entity * ent)
         if (this->ChunkEntities[i] == ent)
         {
             this->ChunkEntities.erase(this->ChunkEntities.begin() + i);
+        }
+    }
+}
+
+void collision::doCollisions(std::vector<entity*> &entityList, double dt)
+{
+    entity* Ent2;
+    for (size_t i = 0; i < (entityList).size(); i++)
+    {
+        entity* Ent = (entityList)[i];
+        for (size_t v = i+1; v < (entityList).size(); v++)
+        {
+            
+            Ent2 = entityList[v];
+            if (Ent->physics && Ent2->physics)
+            {
+
+                Ent->UpdateBBox();
+                Ent2->UpdateBBox();
+                this->updatingEnts += 1;
+                if (Intersects(Ent, (entityList)[v]))
+                {
+                    float velocity = Ent->velocity + Ent2->velocity;
+                    Ent->velocity = velocity;
+                    Ent2->velocity = -velocity;
+                    Ent->view = Ent2->view;
+                }
+            }
         }
     }
 }

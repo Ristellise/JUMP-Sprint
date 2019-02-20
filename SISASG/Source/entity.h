@@ -15,6 +15,13 @@ enum entityType
     eT_Count
 };
 
+enum collisionType
+{
+    cT_Solid,
+    cT_Slow,
+    cT_Bounce,
+};
+
 struct hitbox
 {
 	Vector3 frontLeftUp;
@@ -33,11 +40,12 @@ class BBoxDimensions
 public:
     BBoxDimensions();
     ~BBoxDimensions();
-    unsigned int BBForward;
-    unsigned int BBSide;
-    unsigned int BBTop;
-    BBoxDimensions(unsigned int forward, unsigned int side, unsigned int top) { Set(forward, side, top); };
-    void Set(unsigned int forward, unsigned int side, unsigned int top);
+    float BBForward;
+    float BBSide;
+    float BBTop;
+    BBoxDimensions(float forward, float side, float top) { Set(forward, side, top); };
+    void Set(float forward, float side, float top);
+    static BBoxDimensions toBBox(const Vector3 vect);
 };
 
 class entity
@@ -78,6 +86,7 @@ public:
 	entity();
 	~entity();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
+    virtual void Init(const Vector3 & pos, const Vector3 & target, const Vector3 & up, const Vector3 & size);
 	virtual void Reset();
 	virtual void Update(double dt);
 

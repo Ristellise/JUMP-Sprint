@@ -37,13 +37,13 @@ entity* GState::entityGetFast(std::string meshname)
 }
 
 void GState::OnCreate(
-	unsigned * parameters, 
-	FontLoader * St_FLInstance, 
-	Camera3 * cam,
-	MouseHandler* mouse, 
-	collision* collideInstance, 
-	std::vector<entity*> *entitylists,
-	std::vector<Mesh*> *meshList
+    unsigned * parameters, 
+    FontLoader * St_FLInstance, 
+    Camera3 * cam,
+    MouseHandler* mouse, 
+    collision* collideInstance, 
+    std::vector<entity*> *entitylists,
+    std::vector<Mesh*> *meshList
 )
 {
     this->state_params = parameters;
@@ -51,14 +51,14 @@ void GState::OnCreate(
     this->state_cam = cam;
     this->mouse = mouse;
     this->collideInstance = collideInstance;
-	this->entitylists = entitylists;
-	this->meshList = meshList;
+    this->entitylists = entitylists;
+    this->meshList = meshList;
 }
 void GState::SetMatrixes(MS* model, MS* view, MS* projection)
 {
-	this->modelStack = model;
-	this->viewStack = view;
-	this->projectionStack = projection;
+    this->modelStack = model;
+    this->viewStack = view;
+    this->projectionStack = projection;
 }
 void GState::RenderTextScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
@@ -122,7 +122,7 @@ void GState::RenderText(Mesh* mesh, std::string text, Color color)
 {
     if (!mesh || mesh->textureID <= 0) //Proper error check
         return;
-    //glDisable(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
     glUniform1i(state_params[U_TEXT_ENABLED], 1);
     glUniform3fv(state_params[U_TEXT_COLOR], 1, &color.r);
     glUniform1i(state_params[U_LIGHTENABLED], 0);
@@ -160,7 +160,7 @@ void GState::RenderText(Mesh* mesh, std::string text, Color color)
     }
     glBindTexture(GL_TEXTURE_2D, 0);
     glUniform1i(state_params[U_TEXT_ENABLED], 0);
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
 }
 
 void GState::RenderMesh(Mesh *mesh, bool enableLight)

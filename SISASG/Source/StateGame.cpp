@@ -57,6 +57,10 @@ void StateGame::OnEnter()
 	testEnv->meshptr = this->meshGetFast("testenv");
 	this->entitylists->push_back(testEnv);
 
+	// Hoops
+	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(1, 1, 1), 36, 36, 10, 1);
+	this->meshList->push_back(meshbuffer);
+
 	// Axes
 	meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
 	this->meshList->push_back(meshbuffer);
@@ -70,13 +74,32 @@ void StateGame::OnUpdate(double dt)
 {
 	entity* testCube1 = this->entityGetFast("testcube");
 
+	/* start of planet and hoop stuff */
+
+	//test range coords (center sphere coords) (automate later)
+	int cx = 0, cy = 0, cz = 0;
+
+	//set position of circle and radius size (automate later)
+	int circle_x = 0, circle_y = 0, circle_z = 5, rad = 9;
+
+	if (planetrange1.planetExecuteUI(cx, cy, cz, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true) // checks whether planet and character is in range
+	{
+		this->dtimestring = "\nYou are in range for a teleport!";
+	}
+	if (hoop.hoopsExecuteUI(circle_x, circle_y, circle_z, (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z, rad) == true)
+	{
+		this->dtimestring = "\nPassed through circle";
+	}
+
+	/* end of planet and hoop stuff*/
+
 	testCube1->Update(dt);
 
 	this->state_cam->Update(dt, *testCube1);
 
 	this->collideInstance->updatingEnts = 0;
 
-	this->collideInstance->doCollisions(*this->entitylists);
+	this->collideInstance->doCollisions(*this->entitylists, dt);
 
 	if (Application::IsKeyPressed('R'))
 	{
@@ -113,6 +136,13 @@ void StateGame::OnUpdate(double dt)
 
 void StateGame::OnRender()
 {
+	(*this->modelStack).PushMatrix(); // rennder the hoops
+	(*this->modelStack).Translate(0, 0, 5); //change coords accordingly (automate later)
+	RenderMesh(this->meshGetFast("hoop"), true);
+	(*this->modelStack).PopMatrix();
+
+	this->RenderTextScreen(this->meshGetFast("saofontsheet"), this->dtimestring, Color(255, 255, 255), 2.f, 1.f, 24.f);
+
 	for (size_t i = 0; i < this->entitylists->size(); i++)
 	{
 		(*this->modelStack).PushMatrix();
