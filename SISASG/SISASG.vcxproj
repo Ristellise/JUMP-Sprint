@@ -173,7 +173,6 @@
     <ClCompile Include="Source\MouseHandler.cpp" />
     <ClCompile Include="Source\PlanetRange.cpp" />
     <ClCompile Include="Source\SaveFiles.cpp" />
-    <ClCompile Include="Source\SceneHangar.cpp" />
     <ClCompile Include="Source\SceneWorld.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\State.cpp" />
@@ -208,7 +207,6 @@
     <ClInclude Include="Source\PlanetRange.h" />
     <ClInclude Include="Source\SaveFiles.h" />
     <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\SceneHangar.h" />
     <ClInclude Include="Source\SceneWorld.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\State.h" />

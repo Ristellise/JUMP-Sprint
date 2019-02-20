@@ -39,15 +39,14 @@ void SceneWorld::Init()
 	currRotate = 3;
 	prevRotate = 3;
 
-	srand(unsigned int(time(0)));
+	srand(unsigned int(time(NULL)));
 
     random = rand() % 10 + 1;
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     rotateAngle = 0;
     movement_asteroid1_z = 0;
-
-    // Generate a default VAO for now
+	// Generate a default VAO for now
     glGenVertexArrays(1, &m_vertexArrayID);
     glBindVertexArray(m_vertexArrayID);
 
@@ -331,6 +330,11 @@ void SceneWorld::Update(double dt)
     }
 
     this->StateManInst.Update(dt, this->l_window);
+
+	glfwGetWindowSize(l_window, &WindowXpos, &WindowYpos); // gets the size of the window
+	Mtx44 projection;
+	projection.SetToPerspective(45.f, (float)WindowXpos / WindowYpos, 0.1f, ViewRange); // Window Scaling
+	projectionStack.LoadMatrix(projection);
 }
 
 void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
@@ -424,7 +428,6 @@ void SceneWorld::RenderSkybox()
     modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
     RenderMesh(meshList[GEO_BOTTOM], false);
     modelStack.PopMatrix();
-
 }
 
 /*
@@ -610,9 +613,9 @@ void SceneWorld::Render()
 
     // RenderSkybox();
 
-    RenderPlanets();
+    // RenderPlanets();
 
-	RenderAsteroid();
+	// RenderAsteroid();
 
 	// planetExecuteUI();
 

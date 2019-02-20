@@ -67,9 +67,6 @@
     <ClCompile Include="Source\Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneHangar.cpp">
-      <Filter>Source Files\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneWorld.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
@@ -202,9 +199,6 @@
     </ClInclude>
     <ClInclude Include="Source\Vertex.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneHangar.h">
-      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneWorld.h">
       <Filter>Header Files\Scenes</Filter>

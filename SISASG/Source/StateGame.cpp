@@ -27,9 +27,26 @@ void StateGame::OnEnter()
 
 	Mesh* meshbuffer;
 
-	// Test Cube
-	meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
-	meshbuffer->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+	// Ship loading
+	switch (*this->shipSelect)
+	{
+	case 0:
+		// Ship1 - Starter ship
+		meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship1.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	case 1:
+		// Ship2 - Heavy ship
+		meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship2.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	case 2:
+		// Ship3 - Speed ship
+		// meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship3.obj")[0];
+		// meshbuffer->textureID = LoadTGA("TGA//Ship3.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	}
+	
 	this->meshList->push_back(meshbuffer);
 
 	// Test Cube
