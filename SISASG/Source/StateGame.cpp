@@ -35,7 +35,7 @@ void StateGame::OnEnter()
 	// Test Cube
 	testCube* testCube1 = new testCube();
 	testCube1->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
-	testCube1->type = entityType::eT_Space;
+	testCube1->type = entityType::eT_Ship;
 	testCube1->name = "testcube";
 	testCube1->physics = true;
 	testCube1->Boxsize = BBoxDimensions(2.5f, 2.5f, 2.5f);
@@ -173,7 +173,7 @@ void StateGame::OnRender()
 				buff->position.x,	// Same as before
 				buff->position.y);	// Same as before
 		}
-		else if (buff->type == entityType::eT_Space)
+		else if (buff->type == entityType::eT_Ship)
 		{
 			entity *testCube1 = this->entityGetFast("testcube");
 

@@ -134,7 +134,8 @@ void SceneWorld::Init()
     meshList[GEO_TEXT] = MeshBuilder::GenerateText("saofontsheet", this->FLInstance);
     meshList[GEO_TEXT]->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
 
-#pragma region Skybox 
+#pragma region Skybox
+
     meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
 
     meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
@@ -146,6 +147,7 @@ void SceneWorld::Init()
     meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
 
     meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom skybox", Color(128 / 255.f, 128 / 255.f, 128 / 255.f), 1.f);
+
 #pragma endregion
 
 #pragma region Planets

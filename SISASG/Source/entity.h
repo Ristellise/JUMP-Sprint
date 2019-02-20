@@ -9,7 +9,7 @@ enum entityType
     eT_Object,
     eT_Text,
     eT_TextUI,
-    eT_Space,
+    eT_Ship,
 	eT_Environment,
     eT_Count
 };
