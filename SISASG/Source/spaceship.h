@@ -6,6 +6,7 @@
 class spaceship : public entity
 {
 private:
+
 public:
 	//Vector3 position;
 	//Vector3 target;

@@ -577,7 +577,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         v.pos.Set(scale * ((float)(buff.offset.a) / (float)(ft.scaleH)),
             scale - ((scale * (float)(buff.characterSize.b) / (float)(ft.scaleH)) + scale * ((float)(buff.offset.b) / (float)(ft.scaleH))),
                   0.0f);
-        v.normal.Set(1, 0, 0);
+        v.normal.Set(0, 0, -1);
         pixel2UV((float)buff.Coordinate.a,
                  (float)(buff.Coordinate.b + buff.characterSize.b),
                  (float)ft.scaleW,v.texCoord);
@@ -590,7 +590,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         pixel2UV((float)buff.Coordinate.a,
                  (float)(buff.Coordinate.b),
                  (float)ft.scaleW, v.texCoord);
-        v.normal.Set(1, 1, 0);
+        v.normal.Set(0, 0, -1);
         vertex_buffer_data.push_back(v);
 
         v.pos.Set(((float)(buff.characterSize.a) / (float)(ft.scaleW)) * scale + scale * ((float)(buff.offset.a) / (float)(ft.scaleH)),
@@ -598,7 +598,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         pixel2UV((float)buff.Coordinate.a + buff.characterSize.a,
                  (float)(buff.Coordinate.b),
                  (float)ft.scaleW, v.texCoord);
-        v.normal.Set(1, 0, 0);
+        v.normal.Set(0, 0, -1);
         vertex_buffer_data.push_back(v);
 
 
@@ -607,7 +607,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         pixel2UV((float)(buff.Coordinate.a + buff.characterSize.a),
                  (float)(buff.Coordinate.b + buff.characterSize.b),
                  (float)ft.scaleW, v.texCoord);
-        v.normal.Set(0, 1, 0);
+        v.normal.Set(0, 0, -1);
         vertex_buffer_data.push_back(v);
 
 
@@ -684,8 +684,8 @@ Mesh* MeshBuilder::GenerateTorus(const std::string &meshName, Color color, unsig
     std::vector<Vertex> vertex_buffer_data;
     std::vector<GLuint> index_buffer_data;
 
-    float degreePerStack = 180.f / numStack;  // 180
-    float degreePerSlice = 180.f / numSlice;  // 180 both for 1/2
+    float degreePerStack = 360.f / numStack;  // 180
+    float degreePerSlice = 360.f / numSlice;  // 180 both for 1/2
     float x1, z1;
     float x2, y2, z2;
 

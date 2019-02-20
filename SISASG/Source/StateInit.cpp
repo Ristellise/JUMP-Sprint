@@ -46,7 +46,7 @@ void Stateinit::OnEnter()
     current->type = entityType::eT_Object;
     current->meshptr = this->meshGetFast("testcube");
     current->physics = true;
-    current->Boxsize = BBoxDimensions(3.0f, 3.0f, 3.0f);
+    current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
     this->entitylists->push_back(current);
 	*/
 }

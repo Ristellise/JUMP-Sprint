@@ -3,6 +3,8 @@
 
 #include "State.h"
 #include "testCube.h"
+#include "PlanetRange.h"
+#include "Hoops.h"
 
 class StateGame : public GState
 {
@@ -15,6 +17,11 @@ public:
 	Mtx44 cubeMult1;
 	Mtx44 cubeMult2;
 	Mtx44 cubeMult3;
+
+	std::string dtimestring;
+
+	PlanetRange planetrange1;
+	Hoops hoop;
 
 	void OnEnter();
 	void OnExit();
