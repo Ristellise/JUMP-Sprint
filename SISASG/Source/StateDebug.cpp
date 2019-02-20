@@ -31,6 +31,7 @@ void StateDebug::OnUpdate(double dt)
 	this->dtimestring += std::to_string(this->state_cam->position.y);
 	this->dtimestring += "\nCam Z:";
 	this->dtimestring += std::to_string(this->state_cam->position.z);
+
 	this->dtimestring += "\nVel :";
 	this->dtimestring += std::to_string(testCube1.velocity);
 	this->dtimestring += "\nAcl :";

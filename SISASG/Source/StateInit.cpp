@@ -7,7 +7,7 @@
 
 void Stateinit::OnEnter()
 {
-	this->spawnState = "title";
+	this->spawnState = "Title";
 
 	// Init Stacks
     std::cout << "Entering: " << this->StateName<< " Albion Prelude."<< std::endl;

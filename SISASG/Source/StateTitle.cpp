@@ -4,7 +4,7 @@
 
 StateTitle::StateTitle()
 {
-	this->StateName = "title";
+	this->StateName = "Title";
 }
 
 
@@ -14,8 +14,6 @@ StateTitle::~StateTitle()
 
 void StateTitle::OnEnter()
 {
-	this->titleString1 = "             SISASG             ";
-	this->titleString2 = "\nIs Seriously not A Space Game!";
 }
 
 void StateTitle::OnExit()
@@ -33,7 +31,8 @@ void StateTitle::OnUpdate(double dt)
 		this->readyExitlocal = true;
 	}
 	*/
-	if (Application::IsKeyPressed(VK_RETURN))
+
+	if (Application::IsKeyPressed(VK_LBUTTON) && *bounceTime <= 0.0)
 	{
 		*bounceTime = 0.3;
 		this->spawnState = "Menus";
@@ -43,8 +42,8 @@ void StateTitle::OnUpdate(double dt)
 
 void StateTitle::OnRender()
 {
-	this->RenderTextScreen(this->meshGetFast("saofontsheet"), this->titleString1, Color(255, 255, 255), 6.f, -0.2f, 1.f);
-	this->RenderTextScreen(this->meshGetFast("saofontsheet"), this->titleString2, Color(255, 255, 255), 4.f, 4.5f, 3.f);
+	this->RenderTextScreen(this->meshGetFast("saofontsheet"), "SISASG", Color(255, 255, 255), 6.f, 5.5f, 1.f);
+	this->RenderTextScreen(this->meshGetFast("saofontsheet"), "Is Seriously not A Space Game!", Color(255, 255, 255), 4.f, 4.5f, 2.5f);
 }
 
 void StateTitle::OnCam(int X, int Y, float XChange, float YChange)

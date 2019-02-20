@@ -13,23 +13,37 @@ StateManager::StateManager()
 
 void StateManager::Update(double dt, GLFWwindow* window)
 {
-    for (size_t i = 0; i < this->activeStates.size(); i++)
-    {
-        this->activeStates[i]->OnUpdate(dt);
-        
-        if (this->activeStates[i]->getspawnState() != "")
-        {
-            this->addState((this->activeStates[i]->getspawnState()));
-			this->activeStates[i]->resetspawnState();
-        }
-        if (this->activeStates[i]->readyExit())
-        {
-            this->activeStates[i]->OnExit();
+	for (size_t i = 0; i < this->activeStates.size(); i++)
+	{
+		this->activeStates[i]->OnUpdate(dt);
+
+		if (this->activeStates[i]->readyExit())
+		{
+			this->activeStates[i]->OnExit();
 			this->activeStates[i]->resetExit();
-            this->activeStates.erase(this->activeStates.begin() + i);
-        }
-    }
+
+
+			for (std::vector< entity* >::iterator it = this->entitylists.begin(); it != this->entitylists.end(); ++it)
+			{
+				delete (*it);
+			}
+			this->entitylists.clear();
+			this->entitylists.shrink_to_fit();
+			if (this->activeStates[i]->getspawnState() != "")
+			{
+				this->addState((this->activeStates[i]->getspawnState()));
+				this->activeStates[i]->resetspawnState();
+			}
+			this->activeStates.erase(this->activeStates.begin() + i);
+		}
+		else if (this->activeStates[i]->getspawnState() != "")
+		{
+			this->addState((this->activeStates[i]->getspawnState()));
+			this->activeStates[i]->resetspawnState();
+		}
+	}
 }
+
 void StateManager::Render()
 {
     for (size_t i = 0; i < this->activeStates.size(); i++)
@@ -37,6 +51,7 @@ void StateManager::Render()
         this->activeStates[i]->OnRender();
     }
 }
+
 bool StateManager::Init(unsigned * m_parameters, FontLoader * FLInstance, MouseHandler * SM_Mouse)
 {
     this->StateMan_parameters = m_parameters;

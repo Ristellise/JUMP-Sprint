@@ -11,6 +11,10 @@
 #include "StateDebug.h"
 #include "StateTitle.h"
 #include "StateGame.h"
+#include "StateMenus.h"
+#include "StateHangar.h"
+#include "StateShop.h"
+#include "StatePlanet.h"
 #include <stdexcept>
 
 
@@ -120,11 +124,19 @@ void SceneWorld::Init()
 	StateDebug* debugstate = new StateDebug();
 	StateTitle* titlestate = new StateTitle();
 	StateGame* gamestate = new StateGame();
+	StateMenus* menustate = new StateMenus();
+	StateHangar* hangarstate = new StateHangar();
+	StateShop* shopstate = new StateShop();
+	StatePlanet* planetstate = new StatePlanet();
     this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
     this->StateManInst.addAvailable(initInstance);
     this->StateManInst.addAvailable(debugstate);
     this->StateManInst.addAvailable(titlestate);
     this->StateManInst.addAvailable(gamestate);
+    this->StateManInst.addAvailable(menustate);
+    this->StateManInst.addAvailable(hangarstate);
+    this->StateManInst.addAvailable(shopstate);
+    this->StateManInst.addAvailable(planetstate);
     this->StateManInst.setCam(&camera);
     this->StateManInst.Init(this->m_parameters, &this->FLInstance, &this->Mouse);
 

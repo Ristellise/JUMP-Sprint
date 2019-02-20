@@ -1,11 +1,11 @@
 #pragma once
 #include "State.h"
 
-class StateHangar : public GState
+class StatePlanet : public GState
 {
 public:
-	StateHangar();
-	~StateHangar();
+	StatePlanet();
+	~StatePlanet();
 
 	void OnEnter();
 	void OnExit();
