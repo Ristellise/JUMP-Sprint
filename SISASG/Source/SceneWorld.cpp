@@ -413,18 +413,6 @@ void SceneWorld::RenderSkybox()
 
 }
 
-void SceneWorld::RenderBullet()
-{
-	modelStack.PushMatrix();
-
-	modelStack.Translate(testCube1.position.x, testCube1.position.y, testCube1.position.z);
-	modelStack.Rotate(testCube1.yawTotal, testCube1.up.x, testCube1.up.y, testCube1.up.z);
-	modelStack.Rotate(testCube1.pitchTotal, testCube1.right.x, testCube1.right.y, testCube1.right.z);
-
-	RenderMesh(meshList[GEO_BULLETBODY], true);
-	modelStack.PopMatrix();
-}
-*/
 
 void SceneWorld::RenderPlanets()
 {
@@ -689,12 +677,6 @@ void SceneWorld::Render()
     // RenderTextScreen(meshList[GEO_TEXT], this->dtimestring, Color(255, 255, 0), 2, 1.f, 24.f);
 
     this->StateManInst.Render();
-
-	if (Application::IsKeyPressed('F'))
-	{
-		RenderBullet();
-		//Make it shoot?
-	}
 }
 
 /*-------------

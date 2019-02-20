@@ -24,9 +24,10 @@ void Bullet::Update(double dt)
 	Bullet* bullet = new Bullet();
 	this->position += view * dt * this->bbSpeed;
 	this->timeAlive += dt;
+
 	if (this->timeAlive > 5)
 	{
 		// TODO: Call destructor.
 		this->doDestroy = true;
 	}
-}
+} //Spawn after a set amount of time, can only spawn with your holding down a key

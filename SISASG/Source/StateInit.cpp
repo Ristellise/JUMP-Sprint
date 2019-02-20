@@ -26,10 +26,10 @@ void Stateinit::OnEnter()
     this->meshList->push_back(meshbuffer);
 	meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
 	meshbuffer->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
-	this->meshList.push_back(meshbuffer); // Creates a Mesh to generate OBJ, loads a texture, pushes it into the mesh list.
+	this->meshList->push_back(meshbuffer); // Creates a Mesh to generate OBJ, loads a texture, pushes it into the mesh list.
 
-	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 0.5);
-	this->meshList.push_back(meshbuffer);
+	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 0.5); // Creates a bullet
+	this->meshList->push_back(meshbuffer); // Pushes it into the mesh list
 
     // Camera
     this->state_cam->Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
@@ -50,7 +50,7 @@ void Stateinit::OnEnter()
 	testCube1->type = entityType::eT_Space;
 	testCube1->name = "testcube";
 	testCube1->meshptr = this->meshGetFast("testcube");
-	this->entitylists.push_back(testCube1); //Create an entity, initialises it at Vector ( Position, Target , up )
+	this->entitylists->push_back(testCube1); //Create an entity, initialises it at Vector ( Position, Target , up )
 
 	// Bullet
 	this->bullet = new Bullet();
@@ -63,7 +63,7 @@ void Stateinit::OnEnter()
 	bullet->type = entityType::eT_Bullet;
 	bullet->name = "bullet";
 	bullet->meshptr = this->meshGetFast("bullet");
-	this->entitylists.push_back(bullet);
+	this->entitylists->push_back(bullet);
     // Collision tester
 	/*
     current = new entity();
@@ -79,39 +79,39 @@ void Stateinit::OnEnter()
 
 void Stateinit::OnRender()
 {
-    for (size_t i = 0; i < this->entitylists.size(); i++)
+    for (size_t i = 0; i < this->entitylists->size(); i++)
     {
         
         (*this->modelStack).PushMatrix();
         
-        if (this->entitylists[i]->type == entityType::eT_Text)
+        if ((*this->entitylists)[i]->type == entityType::eT_Text)
         {
-            this->entitylists[i]->position;
-            (*this->modelStack).Translate(this->entitylists[i]->position.x,
-                                          this->entitylists[i]->position.y,
-                                          this->entitylists[i]->position.z);
+            (*this->entitylists)[i]->position;
+            (*this->modelStack).Translate((*this->entitylists)[i]->position.x,
+                                          (*this->entitylists)[i]->position.y,
+                                          (*this->entitylists)[i]->position.z);
             // rotation coords
-            this->RenderText(this->entitylists[i]->meshptr, *this->entitylists[i]->text, Color(0, 0, 0));
+            this->RenderText((*this->entitylists)[i]->meshptr, *(*this->entitylists)[i]->text, Color(0, 0, 0));
         }
-        else if (this->entitylists[i]->type == entityType::eT_TextUI)
+        else if ((*this->entitylists)[i]->type == entityType::eT_TextUI)
         {
-            this->RenderTextScreen(this->entitylists[i]->meshptr, *this->entitylists[i]->text, Color(0, 0, 0), 
-                                   this->entitylists[i]->position.z,	// Used for Text SCaling. only applies to 2d UI 
-                                   this->entitylists[i]->position.x,	// Same as before
-                                   this->entitylists[i]->position.y);	// Same as before
+            this->RenderTextScreen((*this->entitylists)[i]->meshptr, *(*this->entitylists)[i]->text, Color(0, 0, 0), 
+                                   (*this->entitylists)[i]->position.z,	// Used for Text Scaling. only applies to 2d UI 
+                                   (*this->entitylists)[i]->position.x,	// Same as before
+                                   (*this->entitylists)[i]->position.y);	// Same as before
         }
-		else if (this->entitylists[i]->type == entityType::eT_Space)
+		else if ((*this->entitylists)[i]->type == entityType::eT_Space)
 		{
-			(*this->modelStack).Translate(this->entitylists[i]->position.x, this->entitylists[i]->position.y, this->entitylists[i]->position.z);
-			(*this->modelStack).Rotate(this->entitylists[i]->yawTotal, 0, 1, 0);
-			(*this->modelStack).Rotate(this->entitylists[i]->pitchTotal, 1, 0, 0);
+			(*this->modelStack).Translate((*this->entitylists)[i]->position.x, (*this->entitylists)[i]->position.y, (*this->entitylists)[i]->position.z);
+			(*this->modelStack).Rotate((*this->entitylists)[i]->yawTotal, 0, 1, 0);
+			(*this->modelStack).Rotate((*this->entitylists)[i]->pitchTotal, 1, 0, 0);
 			(*this->modelStack).Scale(1.0f, 1.0f, 1.0f);
-			RenderMesh(this->entitylists[i]->meshptr, true);
+			RenderMesh((*this->entitylists)[i]->meshptr, true);
 		}
-		else if (this->entitylists[i]->type == entityType::eT_Bullet)
+		else if ((*this->entitylists)[i]->type == entityType::eT_Bullet)
 		{
-			(*this->modelStack).Translate(this->entitylists[i]->position.x, this->entitylists[i]->position.y, this->entitylists[i]->position.z);
-			RenderMesh(this->entitylists[i]->meshptr, true);
+			(*this->modelStack).Translate((*this->entitylists)[i]->position.x, (*this->entitylists)[i]->position.y, (*this->entitylists)[i]->position.z);
+			RenderMesh((*this->entitylists)[i]->meshptr, true);
 		}
         (*this->modelStack).PopMatrix();
     }
