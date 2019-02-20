@@ -34,10 +34,7 @@ public:
 	// 0 - Earth
 	// 1 - Venus
 	// 2 - Mars
-	// 3 - Jupiter
-
-	std::vector<entity*> entitylists;
-	std::vector<Mesh*> meshList;
+	// 3 - Jupite
 
     bool setCam(Camera3* cam);
     StateManager();

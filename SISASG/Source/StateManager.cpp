@@ -1,6 +1,7 @@
 #include "StateManager.h"
 #include "State.h"
-
+#include "MeshBuilder.h"
+#include "LoadTGA.h"
 bool StateManager::setCam(Camera3 * cam)
 {
     this->manager_cam = cam;
@@ -25,12 +26,12 @@ void StateManager::Update(double dt, GLFWwindow* window)
             this->activeStates[i]->resetExit();
             
             
-            for (std::vector< entity* >::iterator it = this->entitylists.begin(); it != this->entitylists.end(); ++it)
+            /*for (std::vector< entity* >::iterator it = this->entitylists.begin(); it != this->entitylists.end(); ++it)
             {
                 delete (*it);
             }
             this->entitylists.clear();
-            this->entitylists.shrink_to_fit();
+            this->entitylists.shrink_to_fit();*/
             if (this->activeStates[i]->getspawnState() != "")
             {
                 this->addState((this->activeStates[i]->getspawnState()));
@@ -60,6 +61,11 @@ bool StateManager::Init(unsigned * m_parameters, FontLoader * FLInstance, MouseH
     this->StateMan_parameters = m_parameters;
     this->SM_FLInstance = FLInstance;
     this->SM_Mouse = SM_Mouse;
+
+	Mesh* meshbuffer;
+	meshbuffer = MeshBuilder::GenerateText("saofontsheet", *FLInstance);
+	meshbuffer->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
+	this->StateManagerData.font = meshbuffer;
     this->addState("init");
     return true;
 }
@@ -91,9 +97,7 @@ bool StateManager::addState(std::string Statename)
 				this->SM_FLInstance, 
 				this->manager_cam,
 				this->SM_Mouse, 
-				&this->collideInstance, 
-				&this->entitylists, 
-				&this->meshList
+				&this->collideInstance
 			);
 			(this->availableStates[i])->STData = &this->StateManagerData;
             (this->availableStates[i])->SetMatrixes(this->modelStack,this->viewStack,this->projectionStack);

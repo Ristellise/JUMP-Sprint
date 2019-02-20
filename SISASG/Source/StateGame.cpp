@@ -29,7 +29,7 @@ void StateGame::OnEnter()
 	Mesh* meshbuffer;
 
 	// Ship loading
-	switch (*this->shipSelect)
+	switch (this->STData->shipSelect)
 	{
 	case 0:
 		// Ship1 - Starter ship
@@ -108,13 +108,13 @@ void StateGame::OnUpdate(double dt)
 
 	//test range coords for planet range (center sphere coords) (automate later)
 
-	int cx_venus = 300, cy_venus = 0, cz_venus = -300; // can manually set planet coords due to generate ones already
-	int cx_earth = -400, cy_earth = 0, cz_earth = -400;
-	int cx_mars = -550, cy_mars = 0, cz_mars = 550;
-	int cx_jupiter = 800, cy_jupiter = 0, cz_jupiter = 800;
+	float cx_venus = 300.f, cy_venus = 0.f, cz_venus = -300.f; // can manually set planet coords due to generate ones already
+	float cx_earth = -400.f, cy_earth = 0.f, cz_earth = -400.f;
+	float cx_mars = -550.f, cy_mars = 0.f, cz_mars = 550.f;
+	float cx_jupiter = 800.f, cy_jupiter = 0.f, cz_jupiter = 800.f;
 
 	// checks whether planet and character is in range (venus)
-
+	/*
 	this->dtimestring = "Points : ";
 	this->dtimestring += std::to_string(points);
 	this->dtimestring += "\nFPS:";
@@ -126,7 +126,7 @@ void StateGame::OnUpdate(double dt)
 	this->dtimestring += "\nCam Z:";
 	this->dtimestring += std::to_string(this->state_cam->position.z);
 
-	if (planetrange1.planetExecuteUI(cx_venus, cy_venus, cz_venus, (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_venus, cy_venus, cz_venus, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
 	{
 		if (Application::IsKeyPressed(VK_RETURN)) // testing keypress inside range checker
 		{
@@ -134,25 +134,26 @@ void StateGame::OnUpdate(double dt)
 		}
 		this->dtimestring += "\nYour range check should work for Venus";
 	}
-	if (planetrange1.planetExecuteUI(cx_earth, cy_earth, cz_earth, (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_earth, cy_earth, cz_earth, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
 	{
 		this->dtimestring += "\nYour range check should work for Earth";
 	}
-	if (planetrange1.planetExecuteUI(cx_mars, cy_mars, cz_mars, (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_mars, cy_mars, cz_mars, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
 	{
 		this->dtimestring += "\nYour range check should work for Mars";
 	}
-	if (planetrange1.planetExecuteUI(cx_jupiter, cy_jupiter, cz_jupiter, (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_jupiter, cy_jupiter, cz_jupiter, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
 	{
 		this->dtimestring += "\nYour range check should work for Jupiter";
 	}
+	*/
 
 	// generates the hoop checkers
 	for (int i = 0; i < 20; i++) // for loop follows array
 	{
 		// passes values into hoops for coords
 
-		if (hoop.hoopsExecuteUI(offset_x[i], offset_y[i], offset_z[i], (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z, rad) == true)
+		if (hoop.hoopsExecuteUI(offset_x[i], offset_y[i], offset_z[i], testCube1->position.x, testCube1->position.y, testCube1->position.z, rad) == true)
 		{
 			points++;
 		}
@@ -222,9 +223,9 @@ void StateGame::OnRender()
 	{
 		for (int i = 0; i < 5; i++) // for loop follows amount of rings wanted inside the "map" (e.g 0 to 4 for this case, thus 5 hoops)
 		{
-			offset_x[i] = x + the_addition * 2; // changes x coord (can multiply / divide all these to make it more spaced out)
-			offset_y[i] = y + the_addition / 2; // changes y coord
-			offset_z[i] = z + the_addition; // changes z coord
+			offset_x[i] = x + the_addition * 2;	// changes x coord (can multiply / divide all these to make it more spaced out)
+			offset_y[i] = y + the_addition / 2;	// changes y coord
+			offset_z[i] = z + the_addition;		// changes z coord
 
 			(*this->modelStack).PushMatrix(); // render the hoops
 			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); // sets the coords of each hoop (coord stored in an array for each hoop)
@@ -297,7 +298,7 @@ void StateGame::OnRender()
 
 	///////* end of hoops *///////
 
-	this->RenderTextScreen(this->meshGetFast("saofontsheet"), this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 24.f);
+	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 15.f);
 
 	for (size_t i = 0; i < this->entitylists->size(); i++)
 	{
@@ -404,7 +405,7 @@ void StateGame::OnRender()
                             buff->HBox.backLeftDown,
                             buff->HBox.backRightUp,
                             buff->HBox.backRightDown };
-
+		/*
         for (size_t i = 0; i < 8; i++)
         {
             (*this->modelStack).PushMatrix();
@@ -413,8 +414,7 @@ void StateGame::OnRender()
             RenderMesh(this->meshGetFast("debugballs"), true);
             (*this->modelStack).PopMatrix();
         }
-		
-		
+		*/
 	}
 }
 

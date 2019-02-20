@@ -41,9 +41,7 @@ void GState::OnCreate(
     FontLoader * St_FLInstance, 
     Camera3 * cam,
     MouseHandler* mouse, 
-    collision* collideInstance, 
-    std::vector<entity*> *entitylists,
-    std::vector<Mesh*> *meshList
+    collision* collideInstance
 )
 {
     this->state_params = parameters;
@@ -51,8 +49,8 @@ void GState::OnCreate(
     this->state_cam = cam;
     this->mouse = mouse;
     this->collideInstance = collideInstance;
-    this->entitylists = entitylists;
-    this->meshList = meshList;
+    this->entitylists = new std::vector<entity*>;
+    this->meshList = new std::vector<Mesh*>;
 }
 void GState::SetMatrixes(MS* model, MS* view, MS* projection)
 {

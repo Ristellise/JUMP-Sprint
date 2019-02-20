@@ -74,7 +74,7 @@ void StateHangar::OnUpdate(double dt)
 		((Application::IsKeyPressed(MK_LBUTTON)) && Dir == 1)) && 
 		(state_cam->position.x < 0) && Delay == 0)
 	{
-		*this->shipSelect -= 1;
+		this->STData->shipSelect -= 1;
 		Delay += 10;
 		Shift = CSHIFT / Delay;
 		shiftmovement = true;
@@ -84,7 +84,7 @@ void StateHangar::OnUpdate(double dt)
 		((Application::IsKeyPressed(MK_LBUTTON)) && Dir == -1)) && 
 		(state_cam->position.x > (-CSHIFT * (NumberOfShips - 1)) && Delay == 0))
 	{
-		*this->shipSelect += 1;
+		this->STData->shipSelect += 1;
 		Delay += 10;
 		Shift = -CSHIFT / Delay;
 		shiftmovement = true;
@@ -192,7 +192,7 @@ void StateHangar::RenderUI()
 	(*this->modelStack).PushMatrix();
 	glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
-	int sideDivision = 10;
+	float sideDivision = 10.f;
 	Dir = 0;
 
 	if ((this->mouse->X < (this->mouse->winWidth / sideDivision)) || (this->mouse->X > (this->mouse->winWidth - (this->mouse->winWidth / sideDivision))))
@@ -206,15 +206,15 @@ void StateHangar::RenderUI()
 		(*this->modelStack).LoadIdentity(); //Reset modelStack
 		if (this->mouse->X < (this->mouse->winWidth / sideDivision))
 		{
-			(*this->modelStack).Translate(80 / sideDivision / 2, 30, 0);
-			(*this->modelStack).Scale(80 / sideDivision, 30, 1);
+			(*this->modelStack).Translate(80.f / sideDivision / 2.f, 30.f, 0.f);
+			(*this->modelStack).Scale(80.f / sideDivision, 30.f, 1.f);
 			Dir = 1;
 		}
 		else if (this->mouse->X > (this->mouse->winWidth - (this->mouse->winWidth / sideDivision)))
 		{
-			(*this->modelStack).Translate(80 - (80 / sideDivision / 2), 30, 0);
-			(*this->modelStack).Scale(80 / sideDivision, 30, 1);
-			(*this->modelStack).Rotate(180, 0, 1, 0);
+			(*this->modelStack).Translate(80.f - (80.f / sideDivision / 2.f), 30.f, 0.f);
+			(*this->modelStack).Scale(80.f / sideDivision, 30.f, 1.f);
+			(*this->modelStack).Rotate(180.f, 0.f, 1.f, 0.f);
 			Dir = -1;
 		}
 		RenderMesh(this->meshGetFast("sides"), false);
@@ -222,9 +222,9 @@ void StateHangar::RenderUI()
 		(*this->viewStack).PopMatrix();
 		(*this->modelStack).PopMatrix();
 	}
-	else if (Application::IsKeyPressed(VK_LBUTTON) && *bounceTime <= 0.0)
+	else if (Application::IsKeyPressed(VK_LBUTTON) && this->STData->bounceTime <= 0.0)
 	{
-		*bounceTime = 0.3;
+		this->STData->bounceTime = 0.3;
 		this->readyExitlocal = true;
 		this->spawnState = "Game";
 	}
@@ -239,8 +239,8 @@ void StateHangar::Stars()
 	for (int i = 0; starsnumber > i; i++)
 	{
 		stars.push_back(coord);
-		float u = ((double)rand() / (RAND_MAX)) + 0.0;
-		float v = ((double)rand() / (RAND_MAX)) + 0.0;
+		float u = ((float)rand() / (RAND_MAX)) + 0.f;
+		float v = ((float)rand() / (RAND_MAX)) + 0.f;
 		float theta = 2 * Math::PI * u;
 		float phi = acos(2 * v - 1);
 		stars[i].x = 100 + ((10000.f * 0.9) * sin(phi) * cos(theta));
