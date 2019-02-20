@@ -1,6 +1,7 @@
 #include "spaceship.h"
 #include "Application.h"
 #include "Mtx44.h"
+#include <limits>
 
 spaceship::spaceship()
 {
@@ -30,7 +31,7 @@ void spaceship::Update(double dt)
 {
 	angle = (float)(80.f * dt);
 	position = position + view * (float)(velocity * dt);
-	target += view;
+	target += view * 10.0f; // we premultiply the view so that we dont fuck it up.
 	view = (target - position).Normalized();
 	right = view.Cross(up).Normalized();
 	up = right.Cross(view).Normalized();
@@ -129,7 +130,7 @@ void spaceship::Update(double dt)
 		up = rotation * up;
 		this->rollTotal += angle;
 	}
-
+    
     if (this->yawTotal + angle >= 360.0f)
     {
         this->yawTotal = 360.0f - (this->yawTotal + angle);
@@ -158,17 +159,18 @@ void spaceship::Update(double dt)
 	}
 
 	if (
-		(position.x < -1000) ||
-		(position.x > 1000) ||
-		(position.y < -1000) ||
-		(position.y > 1000) ||
-		(position.z < -1000) ||
-		(position.z > 1000)
+		(position.x < -std::numeric_limits<float>::max()) ||
+		(position.x > std::numeric_limits<float>::max()) ||
+		(position.y < -std::numeric_limits<float>::max()) ||
+		(position.y > std::numeric_limits<float>::max()) ||
+		(position.z < -std::numeric_limits<float>::max()) ||
+		(position.z > std::numeric_limits<float>::max())
 		)
 	{
 		Reset();
 	}
-
+    std::cout << this->position.x << "|" << this->position.y << "|" << this->position.z << "|" <<
+                 this->yawTotal   << "|" << this->rollTotal  << "|" << this->pitchTotal << std::endl;
 	if (Application::IsKeyPressed('R'))
 	{
 		Reset();

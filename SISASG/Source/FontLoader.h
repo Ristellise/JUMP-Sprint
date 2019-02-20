@@ -4,6 +4,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <unordered_map>
 #include "Mtx44.h"
 struct FontInfo
 {
@@ -70,5 +71,5 @@ public:
     FontResult getFontData(unsigned int index);
     bool Loadfnt(std::string path);
     FontInfo fntInfo;
-    std::vector<charData> characters;
+    std::unordered_map<char, charData> characters;
 };
