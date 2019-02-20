@@ -24,7 +24,7 @@ void StateTitle::OnExit()
 
 void StateTitle::OnUpdate(double dt)
 {
-	/*
+	
 	if ((Application::IsKeyPressed('5')) && *gameToggle == false && *bounceTime <= 0.0)
 	{
 		*gameToggle = true;
@@ -32,13 +32,13 @@ void StateTitle::OnUpdate(double dt)
 		this->spawnState = "Game";
 		this->readyExitlocal = true;
 	}
-	*/
-	if (Application::IsKeyPressed(VK_RETURN))
+	
+	/*if (Application::IsKeyPressed(VK_RETURN))
 	{
 		*bounceTime = 0.3;
 		this->spawnState = "Menus";
 		this->readyExitlocal = true;
-	}
+	}*/
 }
 
 void StateTitle::OnRender()
