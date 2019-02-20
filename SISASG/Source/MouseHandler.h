@@ -7,6 +7,8 @@ private:
 public:
     double XChange = 0.0;
     double YChange = 0.0;
+    int winWidth = 0;
+    int winHeight = 0;
     int X = 0;
     int Y = 0;
     MouseHandler(double sensitvity = 10.0f);

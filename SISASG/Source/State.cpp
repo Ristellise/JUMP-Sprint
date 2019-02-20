@@ -99,7 +99,7 @@ void GState::RenderTextScreen(Mesh* mesh, std::string text, Color color, float s
             characterSpacing.SetToTranslation(advance, yadvance, 0);
             Mtx44 MVP = (*this->projectionStack).Top() * (*this->viewStack).Top() * (*this->modelStack).Top() * characterSpacing;
             glUniformMatrix4fv(state_params[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-            advance += 1.0f / (float)buffer.advance + 0.3f; // advance the text
+            advance += ((float)buffer.advance / (float)(*this->St_FLInstance).fntInfo.scaleW) * 5.0f; // advance the text
             mesh->Render(res.index * 6, 6); // count is the index Size
         }
         else

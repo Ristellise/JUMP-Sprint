@@ -13,21 +13,37 @@ StateManager::StateManager()
 
 void StateManager::Update(double dt, GLFWwindow* window)
 {
+    this->SM_Mouse->Update(window,dt);
     for (size_t i = 0; i < this->activeStates.size(); i++)
     {
         this->activeStates[i]->OnUpdate(dt);
-        
-        if (this->activeStates[i]->getspawnState() != "")
+        this->activeStates[i]->OnCam(this->SM_Mouse->X, this->SM_Mouse->Y,
+                                     this->SM_Mouse->XChange, this->SM_Mouse->YChange);
+        if (this->activeStates[i]->readyExit())
+        {
+            this->activeStates[i]->OnExit();
+            this->activeStates[i]->resetExit();
+            
+            
+            for (std::vector< entity* >::iterator it = this->entitylists.begin(); it != this->entitylists.end(); ++it)
+            {
+                delete (*it);
+            }
+            this->entitylists.clear();
+            this->entitylists.shrink_to_fit();
+            if (this->activeStates[i]->getspawnState() != "")
+            {
+                this->addState((this->activeStates[i]->getspawnState()));
+                this->activeStates[i]->resetspawnState();
+            }
+            this->activeStates.erase(this->activeStates.begin() + i);
+        }
+        else if (this->activeStates[i]->getspawnState() != "")
         {
             this->addState((this->activeStates[i]->getspawnState()));
 			this->activeStates[i]->resetspawnState();
         }
-        if (this->activeStates[i]->readyExit())
-        {
-            this->activeStates[i]->OnExit();
-			this->activeStates[i]->resetExit();
-            this->activeStates.erase(this->activeStates.begin() + i);
-        }
+        
     }
 }
 void StateManager::Render()

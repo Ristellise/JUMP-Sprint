@@ -14,6 +14,7 @@ class StateManager
     Camera3* manager_cam;
     MouseHandler* SM_Mouse;
     // Mouselatch
+    StateData StateManagerData;
     bool lockswitch = true;
     bool currentlock = false;
     double lockbounce = 0.0;

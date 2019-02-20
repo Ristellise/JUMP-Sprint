@@ -9,8 +9,22 @@
 #include "Camera3.h"
 #include "MouseHandler.h"
 #include "collision.h"
+#include <soloud.h>
+#include <soloud_wavstream.h>
+#include <soloud_wav.h>
 // Contains a base template of game states Active.
 // They may be added or removed.
+
+struct StateData
+{
+    bool debugToggle = false;
+    bool gameToggle = false;
+    double bounceTime = 0.0;
+    int shipSelect = 0;
+    int planetSelect = 0;
+    SoLoud::Soloud VERYLOUD;
+};
+
 class GState
 {
 protected:
@@ -28,11 +42,7 @@ protected:
 
     collision* collideInstance;
 public:
-	bool *debugToggle = false;
-	bool *gameToggle = false;
-	double *bounceTime;
-	int *shipSelect;
-	int *planetSelect;
+    StateData* STData;
 
     GState();
     ~GState();
@@ -46,6 +56,7 @@ public:
     virtual void OnUpdate(double dt) = 0; // Logic Calls goes first
     virtual void OnExit() = 0; // Exit Calls after
     virtual void OnRender() = 0; // Rendering Calls=
+    virtual void OnCam(int X, int Y, float XChange, float YChange) = 0;
     void OnCreate(
 		unsigned * parameters, 
 		FontLoader * St_FLInstance, 

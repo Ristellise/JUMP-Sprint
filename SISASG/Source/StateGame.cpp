@@ -4,6 +4,7 @@
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
 #include "collision.h"
+#include "genericEntity.h"
 
 
 StateGame::StateGame()
@@ -64,6 +65,18 @@ void StateGame::OnEnter()
 	// Axes
 	meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
 	this->meshList->push_back(meshbuffer);
+
+
+    // Collision tester
+
+    entity* current = new genericEntity();
+
+    current->Init(Vector3(1.f, 24.f, 2.f), Vector3(0, 0, 1), Vector3(0, 1, 0));
+    current->type = entityType::eT_Object;
+    current->meshptr = this->meshGetFast("testcube");
+    current->physics = true;
+    current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
+    this->entitylists->push_back(current);
 }
 
 void StateGame::OnExit()
@@ -93,7 +106,12 @@ void StateGame::OnUpdate(double dt)
 
 	/* end of planet and hoop stuff*/
 
-	testCube1->Update(dt);
+    for (size_t i = 0; i < this->entitylists->size(); i++)
+    {
+        (*this->entitylists)[i]->Update(dt);
+    }
+
+	//testCube1->Update(dt);
 
 	this->state_cam->Update(dt, *testCube1);
 
@@ -224,23 +242,7 @@ void StateGame::OnRender()
 			RenderMesh(testCube1->meshptr, true);
 			(*this->modelStack).PopMatrix();
 
-            Vector3 Ent2V[] = { buff->HBox.frontLeftUp,
-                            buff->HBox.frontLeftDown,
-                            buff->HBox.frontRightUp,
-                            buff->HBox.frontRightDown,
-                            buff->HBox.backLeftUp,
-                            buff->HBox.backLeftDown,
-                            buff->HBox.backRightUp,
-                            buff->HBox.backRightDown };
-
-            for (size_t i = 0; i < 8; i++)
-            {
-                (*this->modelStack).PushMatrix();
-                (*this->modelStack).Translate(Ent2V[i].x, Ent2V[i].y, Ent2V[i].z);
-
-                RenderMesh(this->meshGetFast("debugballs"), true);
-                (*this->modelStack).PopMatrix();
-            }
+            
 		}
 		else if (buff->type == entityType::eT_Environment)
 		{
@@ -256,6 +258,23 @@ void StateGame::OnRender()
 		}
 		(*this->modelStack).PopMatrix();
 
+        Vector3 Ent2V[] = { buff->HBox.frontLeftUp,
+                            buff->HBox.frontLeftDown,
+                            buff->HBox.frontRightUp,
+                            buff->HBox.frontRightDown,
+                            buff->HBox.backLeftUp,
+                            buff->HBox.backLeftDown,
+                            buff->HBox.backRightUp,
+                            buff->HBox.backRightDown };
+
+        for (size_t i = 0; i < 8; i++)
+        {
+            (*this->modelStack).PushMatrix();
+            (*this->modelStack).Translate(Ent2V[i].x, Ent2V[i].y, Ent2V[i].z);
+
+            RenderMesh(this->meshGetFast("debugballs"), true);
+            (*this->modelStack).PopMatrix();
+        }
 		
 		
 	}
