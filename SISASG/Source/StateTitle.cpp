@@ -38,7 +38,7 @@ void StateTitle::OnUpdate(double dt)
 		*bounceTime = 0.3;
 		this->spawnState = "Menus";
 		this->readyExitlocal = true;
-	}
+	}*/
 }
 
 void StateTitle::OnRender()

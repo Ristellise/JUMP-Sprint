@@ -25,7 +25,7 @@ int PlanetRange::planetExecuteUI(int cx, int cy, int cz, int x, int y, int z)
 	int ans = planetRangeCheck(cx, cy, cz, x, y, z);
 
 	//radius sphere
-	int r = 50;
+	int r = 150;
 
 	if (ans < (r * r) || ans == (r * r))
 	{

@@ -596,7 +596,7 @@ void SceneWorld::Render()
             &lightPosition_cameraspace.x);
     }
 
-    // RenderSkybox();
+    RenderSkybox();
 
     RenderPlanets();
 
