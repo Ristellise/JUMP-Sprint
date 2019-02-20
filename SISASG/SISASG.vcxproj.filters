@@ -88,6 +88,17 @@
     <ClCompile Include="Source\StateGame.cpp">
       <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Hoops.cpp" />
+    <ClCompile Include="Source\PlanetRange.cpp" />
+    <ClCompile Include="Source\StateMenus.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateHangar.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateShop.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -199,6 +210,17 @@
       <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="Source\StateGame.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hoops.h" />
+    <ClInclude Include="Source\PlanetRange.h" />
+    <ClInclude Include="Source\StateMenus.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateHangar.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateShop.h">
       <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>

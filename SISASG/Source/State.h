@@ -31,6 +31,8 @@ public:
 	bool *debugToggle = false;
 	bool *gameToggle = false;
 	double *bounceTime;
+	int *shipSelect;
+	int *planetSelect;
 
     GState();
     ~GState();
