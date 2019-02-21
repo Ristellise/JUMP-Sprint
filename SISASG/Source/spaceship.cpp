@@ -25,10 +25,24 @@ void spaceship::Init(const Vector3& pos, const Vector3& target, const Vector3& u
 	pitchTotal = 0.f;
 	yawTotal = 0.f;
 	rollTotal = 0.f;
+
+	lKey = false;
+	rKey = false;
+	uKey = false;
+	dKey = false;
+	qKey = false;
+	eKey = false;
 }
 
 void spaceship::Update(double dt)
 {
+	lKey = false;
+	rKey = false;
+	uKey = false;
+	dKey = false;
+	qKey = false;
+	eKey = false;
+
 	angle = (float)(80.f * dt);
 	position = position + view * (float)(velocity * dt);
 	target += view * 10.0f; // we premultiply the view so that we dont fuck it up.
@@ -64,6 +78,8 @@ void spaceship::Update(double dt)
     
 	if (Application::IsKeyPressed(VK_LEFT))
 	{
+		lKey = true;
+
 		view = (target - position).Normalized();
 		right = view.Cross(up);
 		Mtx44 rotation;
@@ -76,6 +92,8 @@ void spaceship::Update(double dt)
 
 	if (Application::IsKeyPressed(VK_RIGHT))
 	{
+		rKey = true;
+
 		view = (target - position).Normalized();
 		right = view.Cross(up);
 		right.Normalize();
@@ -90,6 +108,8 @@ void spaceship::Update(double dt)
 
 	if (Application::IsKeyPressed(VK_DOWN))
 	{
+		dKey = true;
+
 		view = (target - position).Normalized();
 		right = view.Cross(up);
 		right.Normalize();
@@ -104,6 +124,8 @@ void spaceship::Update(double dt)
 
 	if (Application::IsKeyPressed(VK_UP))
 	{
+		uKey = true;
+
 		view = (target - position).Normalized();
 		right = view.Cross(up);
 		right.Normalize();
@@ -118,6 +140,8 @@ void spaceship::Update(double dt)
 
 	if (Application::IsKeyPressed('Q'))
 	{
+		qKey = true;
+
 		view = (target - position).Normalized();
 		right = view.Cross(up);
 		right.Normalize();
@@ -132,6 +156,8 @@ void spaceship::Update(double dt)
 
 	if (Application::IsKeyPressed('E'))
 	{
+		eKey = true;
+
 		view = (target - position).Normalized();
 		right = view.Cross(up);
 		right.Normalize();

@@ -186,7 +186,6 @@
     <ClCompile Include="Source\StatePlanet.cpp" />
     <ClCompile Include="Source\StateShop.cpp" />
     <ClCompile Include="Source\StateStat.cpp" />
-    <ClCompile Include="Source\StateTitle.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -220,7 +219,6 @@
     <ClInclude Include="Source\StatePlanet.h" />
     <ClInclude Include="Source\StateShop.h" />
     <ClInclude Include="Source\StateStat.h" />
-    <ClInclude Include="Source\StateTitle.h" />
     <ClInclude Include="Source\Uniforms.h" />
     <ClInclude Include="Source\spaceship.h" />
     <ClInclude Include="Source\Utility.h" />

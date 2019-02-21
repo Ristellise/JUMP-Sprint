@@ -46,8 +46,32 @@ void StateGame::OnEnter()
 		// meshbuffer = MeshBuilder::GenerateOBJ("spaceship", "OBJ//Ship3.obj")[0];
 		// meshbuffer->textureID = LoadTGA("TGA//Ship3.tga", GL_LINEAR, GL_CLAMP);
 		break;
+	}	
+	this->meshList->push_back(meshbuffer);
+
+	switch (this->STData->planetSelect)
+	{
+	case 0:
+		// Venus
+		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//venus texture.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	case 1:
+		// Earth
+		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//earth texture.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	case 2:
+		// Mars
+		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//mars texture.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	case 3:
+		// Jupiter
+		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//jupiter texture.tga", GL_LINEAR, GL_CLAMP);
+		break;
 	}
-	
 	this->meshList->push_back(meshbuffer);
 
 	// Spaceship
@@ -58,18 +82,22 @@ void StateGame::OnEnter()
 	spaceship1->physics = true;
 	spaceship1->Boxsize = BBoxDimensions(2.5f, 2.5f, 2.5f);
 	spaceship1->meshptr = this->meshGetFast("spaceship");
-	spaceship1->topSpeed = 20.0f;
+	// WIP: Switch case here
+	spaceship1->topSpeed = 40.0f;
 	spaceship1->fwdaccl = 10.f;
-	spaceship1->bwdaccl = -5.f;
+	spaceship1->bwdaccl = -10.f;
 	spaceship1->drift = 10.0f;
-	this->entitylists->push_back(spaceship1);
+	this->entitylists->insert_or_assign("spaceship", spaceship1);
 
 	// Test Env
 	meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
 	meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList->push_back(meshbuffer);
 
-    this->audiosrc.Load("Audio/testtrack.flac");
+	// Audio src
+    // this->audiosrc.Load("Audio/testtrack.flac");
+
+	/*
 	// Test Env
 	entity* testEnv = new entity();
 	testEnv->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
@@ -78,7 +106,8 @@ void StateGame::OnEnter()
 	// testEnv->physics = true;
 	// testEnv->Boxsize = BBoxDimensions(0.f, 0.f, 0.f);
 	testEnv->meshptr = this->meshGetFast("testenv");
-	this->entitylists->push_back(testEnv);
+	this->entitylists->insert_or_assign("testenv",testEnv);
+	*/
 
 	// Hoops
 	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(255 / 255.f, 255 / 255.f, 255 / 255.f), 36, 36, 15, 1);
@@ -90,15 +119,16 @@ void StateGame::OnEnter()
 
 
     // Collision tester
-
+	/*
     entity* current = new genericEntity();
-
     current->Init(Vector3(1.f, 24.f, 2.f), Vector3(0, 0, 1), Vector3(0, 1, 0));
     current->type = entityType::eT_Object;
     current->meshptr = this->meshGetFast("spaceship");
     current->physics = true;
     current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
-    this->entitylists->push_back(current);
+    this->entitylists->insert_or_assign("testcube",current);
+	*/
+
     //this->STData->VERYLOUD.play();
 }
 
@@ -108,7 +138,31 @@ void StateGame::OnExit()
 
 void StateGame::OnUpdate(double dt)
 {
+	static int rotateDir = 1;
+	static const float ROTATE_SPEED = 10.f;
+	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
+
 	entity* spaceship = this->entityGetFast("spaceship");
+
+	this->dtimestring = "FPS: ";
+	this->dtimestring += std::to_string(1.0f / dt);
+	this->dtimestring += "\nCAM X: ";
+	this->dtimestring += std::to_string(this->state_cam->position.x);
+	this->dtimestring += "\nCAM Y: ";
+	this->dtimestring += std::to_string(this->state_cam->position.y);
+	this->dtimestring += "\nCAM Z: ";
+	this->dtimestring += std::to_string(this->state_cam->position.z);
+
+	this->dtimestring += "\nVEL :";
+	this->dtimestring += std::to_string(spaceship->velocity);
+	this->dtimestring += "\nACL :";
+	this->dtimestring += std::to_string(spaceship->accl);
+	this->dtimestring += "\nPIT :";				 
+	this->dtimestring += std::to_string(spaceship->pitchTotal);
+	this->dtimestring += "\nYAW :";				 
+	this->dtimestring += std::to_string(spaceship->yawTotal);
+	this->dtimestring += "\nROL :";				 
+	this->dtimestring += std::to_string(spaceship->rollTotal);
 
 	///////* start of planet and hoop stuff *///////
 
@@ -170,9 +224,10 @@ void StateGame::OnUpdate(double dt)
 	
 	///////* end of planet and hoop stuff *///////
 
-    for (size_t i = 0; i < this->entitylists->size(); i++)
+    std::map<std::string, entity*>::iterator it;
+    for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
     {
-        (*this->entitylists)[i]->Update(dt);
+        it->second->Update(dt);
     }
 
 	//spaceship->Update(dt);
@@ -193,6 +248,7 @@ void StateGame::OnUpdate(double dt)
 		cubeMult3.SetToIdentity();
 	}
 
+	/*
 	if ((Application::IsKeyPressed('5')) && this->STData->gameToggle == true && this->STData->bounceTime <= 0.0)
 	{
 		// Matrix method
@@ -214,10 +270,19 @@ void StateGame::OnUpdate(double dt)
         this->STData->bounceTime = 0.3;
 		this->spawnState = "debugger";
 	}
+	*/
 }
 
 void StateGame::OnRender()
 {
+	// Planet
+	(*this->modelStack).PushMatrix();
+	(*this->modelStack).Translate(400, 0, 1000);
+	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
+	(*this->modelStack).Scale(200.f, 200.f, 200.f);
+	RenderMesh(this->meshGetFast("planet"), true);
+	(*this->modelStack).PopMatrix();
+
 	///////* start of hoops *///////
 
 	// for loop to create 5 hoops?
@@ -343,12 +408,13 @@ void StateGame::OnRender()
 
 	///////* end of hoops *///////
 
-	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 15.f);
+	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 24.f);
+    std::map<std::string, entity*>::iterator it;
 
-	for (size_t i = 0; i < this->entitylists->size(); i++)
+    for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
 	{
 		(*this->modelStack).PushMatrix();
-		entity *buff = (*this->entitylists)[i];
+		entity *buff = it->second;
 		if (buff->type == entityType::eT_Text)
 		{
 			buff->position;
@@ -383,37 +449,37 @@ void StateGame::OnRender()
 			(*this->modelStack).PushMatrix();
 			cubeMult1.SetToTranslation(spaceship->position.x, spaceship->position.y, spaceship->position.z);
 
-			if (Application::IsKeyPressed(VK_LEFT))
+			if (spaceship->lKey == true)
 			{
 				cubeMultR.SetToRotation(spaceship->angle, spaceship->up.x, spaceship->up.y, spaceship->up.z);
 				cubeMult2 = cubeMultR * cubeMult2;
 			}
 
-			if (Application::IsKeyPressed(VK_RIGHT))
+			if (spaceship->rKey == true)
 			{
 				cubeMultR.SetToRotation(-(spaceship->angle), spaceship->up.x, spaceship->up.y, spaceship->up.z);
 				cubeMult2 = cubeMultR * cubeMult2;
 			}
 
-			if (Application::IsKeyPressed(VK_UP))
+			if (spaceship->uKey == true)
 			{
 				cubeMultR.SetToRotation(-(spaceship->angle), spaceship->right.x, spaceship->right.y, spaceship->right.z);
 				cubeMult2 = cubeMultR * cubeMult2;
 			}
 
-			if (Application::IsKeyPressed(VK_DOWN))
+			if (spaceship->dKey == true)
 			{
 				cubeMultR.SetToRotation(spaceship->angle, spaceship->right.x, spaceship->right.y, spaceship->right.z);
 				cubeMult2 = cubeMultR * cubeMult2;
 			}
 
-			if (Application::IsKeyPressed('Q'))
+			if (spaceship->qKey == true)
 			{
 				cubeMultR.SetToRotation(-(spaceship->angle), spaceship->view.x, spaceship->view.y, spaceship->view.z);
 				cubeMult2 = cubeMultR * cubeMult2;
 			}
 
-			if (Application::IsKeyPressed('E'))
+			if (spaceship->eKey == true)
 			{
 				cubeMultR.SetToRotation(spaceship->angle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
 				cubeMult2 = cubeMultR * cubeMult2;
