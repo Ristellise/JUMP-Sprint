@@ -1,6 +1,7 @@
 #include "StateManager.h"
 #include "State.h"
-
+#include "MeshBuilder.h"
+#include "LoadTGA.h"
 bool StateManager::setCam(Camera3 * cam)
 {
     this->manager_cam = cam;
@@ -13,23 +14,40 @@ StateManager::StateManager()
 
 void StateManager::Update(double dt, GLFWwindow* window)
 {
+    this->SM_Mouse->Update(window,dt);
     for (size_t i = 0; i < this->activeStates.size(); i++)
     {
         this->activeStates[i]->OnUpdate(dt);
-        
-        if (this->activeStates[i]->getspawnState() != "")
+        this->activeStates[i]->OnCam(this->SM_Mouse->X, this->SM_Mouse->Y,
+                                     this->SM_Mouse->XChange, this->SM_Mouse->YChange);
+        if (this->activeStates[i]->readyExit())
+        {
+            this->activeStates[i]->OnExit();
+            this->activeStates[i]->resetExit();
+            
+            
+            /*for (std::vector< entity* >::iterator it = this->entitylists.begin(); it != this->entitylists.end(); ++it)
+            {
+                delete (*it);
+            }
+            this->entitylists.clear();
+            this->entitylists.shrink_to_fit();*/
+            if (this->activeStates[i]->getspawnState() != "")
+            {
+                this->addState((this->activeStates[i]->getspawnState()));
+                this->activeStates[i]->resetspawnState();
+            }
+            this->activeStates.erase(this->activeStates.begin() + i);
+        }
+        else if (this->activeStates[i]->getspawnState() != "")
         {
             this->addState((this->activeStates[i]->getspawnState()));
 			this->activeStates[i]->resetspawnState();
         }
-        if (this->activeStates[i]->readyExit())
-        {
-            this->activeStates[i]->OnExit();
-			this->activeStates[i]->resetExit();
-            this->activeStates.erase(this->activeStates.begin() + i);
-        }
+        
     }
 }
+
 void StateManager::Render()
 {
     for (size_t i = 0; i < this->activeStates.size(); i++)
@@ -37,11 +55,17 @@ void StateManager::Render()
         this->activeStates[i]->OnRender();
     }
 }
+
 bool StateManager::Init(unsigned * m_parameters, FontLoader * FLInstance, MouseHandler * SM_Mouse)
 {
     this->StateMan_parameters = m_parameters;
     this->SM_FLInstance = FLInstance;
     this->SM_Mouse = SM_Mouse;
+
+	Mesh* meshbuffer;
+	meshbuffer = MeshBuilder::GenerateText("saofontsheet", *FLInstance);
+	meshbuffer->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
+	this->StateManagerData.font = meshbuffer;
     this->addState("init");
     return true;
 }
@@ -73,15 +97,9 @@ bool StateManager::addState(std::string Statename)
 				this->SM_FLInstance, 
 				this->manager_cam,
 				this->SM_Mouse, 
-				&this->collideInstance, 
-				&this->entitylists, 
-				&this->meshList
+				&this->collideInstance
 			);
-			(this->availableStates[i])->debugToggle = &this->debugToggle;
-			(this->availableStates[i])->gameToggle = &this->gameToggle;
-			(this->availableStates[i])->bounceTime = &this->bounceTime;
-			(this->availableStates[i])->shipSelect = &this->shipSelect;
-			(this->availableStates[i])->planetSelect = &this->planetSelect;
+			(this->availableStates[i])->STData = &this->StateManagerData;
             (this->availableStates[i])->SetMatrixes(this->modelStack,this->viewStack,this->projectionStack);
             (this->availableStates[i])->OnEnter();
             this->activeStates.push_back(this->availableStates[i]);

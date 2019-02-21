@@ -14,6 +14,7 @@ class StateManager
     Camera3* manager_cam;
     MouseHandler* SM_Mouse;
     // Mouselatch
+    StateData StateManagerData;
     bool lockswitch = true;
     bool currentlock = false;
     double lockbounce = 0.0;
@@ -24,19 +25,16 @@ class StateManager
 
     collision collideInstance;
 public:
-	int shipSelect;
+	int shipSelect = 0;
 	// 0 - Starter ship
 	// 1 - Heavy ship
 	// 2 - Speed ship
 
-	int planetSelect;
+	int planetSelect = 0;
 	// 0 - Earth
 	// 1 - Venus
 	// 2 - Mars
-	// 3 - Jupiter
-
-	std::vector<entity*> entitylists;
-	std::vector<Mesh*> meshList;
+	// 3 - Jupite
 
     bool setCam(Camera3* cam);
     StateManager();

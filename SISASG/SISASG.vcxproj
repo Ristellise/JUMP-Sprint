@@ -162,6 +162,7 @@
     <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\FontLoader.cpp" />
+    <ClCompile Include="Source\genericEntity.cpp" />
     <ClCompile Include="Source\Hoops.cpp" />
     <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
@@ -173,7 +174,6 @@
     <ClCompile Include="Source\MouseHandler.cpp" />
     <ClCompile Include="Source\PlanetRange.cpp" />
     <ClCompile Include="Source\SaveFiles.cpp" />
-    <ClCompile Include="Source\SceneHangar.cpp" />
     <ClCompile Include="Source\SceneWorld.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\State.cpp" />
@@ -184,6 +184,7 @@
     <ClCompile Include="Source\StateManager.cpp" />
     <ClCompile Include="Source\spaceship.cpp" />
     <ClCompile Include="Source\StateMenus.cpp" />
+    <ClCompile Include="Source\StatePlanet.cpp" />
     <ClCompile Include="Source\StateShop.cpp" />
     <ClCompile Include="Source\StateTitle.cpp" />
     <ClCompile Include="Source\testCube.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Source\Camera3.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\FontLoader.h" />
+    <ClInclude Include="Source\genericEntity.h" />
     <ClInclude Include="Source\Hoops.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
@@ -207,7 +209,6 @@
     <ClInclude Include="Source\PlanetRange.h" />
     <ClInclude Include="Source\SaveFiles.h" />
     <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\SceneHangar.h" />
     <ClInclude Include="Source\SceneWorld.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\State.h" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Source\StateInit.h" />
     <ClInclude Include="Source\StateManager.h" />
     <ClInclude Include="Source\StateMenus.h" />
+    <ClInclude Include="Source\StatePlanet.h" />
     <ClInclude Include="Source\StateShop.h" />
     <ClInclude Include="Source\StateTitle.h" />
     <ClInclude Include="Source\Uniforms.h" />

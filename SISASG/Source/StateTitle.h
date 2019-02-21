@@ -8,8 +8,6 @@ class StateTitle : public GState
 public:
 	StateTitle();
 	~StateTitle();
-	std::string titleString1;
-	std::string titleString2;
 
 	void OnEnter();
 	void OnExit();

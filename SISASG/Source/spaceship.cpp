@@ -47,7 +47,20 @@ void spaceship::Update(double dt)
 	{
 		velocity += (float)(bwdaccl * dt);
 		accl = bwdaccl;
-	}
+    }
+    if (velocity > 0 && 
+        !(Application::IsKeyPressed('W')) && (
+        (Application::IsKeyPressed(VK_LEFT)) ||
+        (Application::IsKeyPressed(VK_RIGHT)) ||
+        (Application::IsKeyPressed(VK_DOWN)) ||
+        (Application::IsKeyPressed(VK_UP)) || 
+        (Application::IsKeyPressed('Q')) || 
+        (Application::IsKeyPressed('E'))
+            )
+        )
+    {
+        velocity -= (float)(drift * dt);
+    }
     
 	if (Application::IsKeyPressed(VK_LEFT))
 	{
@@ -169,8 +182,6 @@ void spaceship::Update(double dt)
 	{
 		Reset();
 	}
-    std::cout << this->position.x << "|" << this->position.y << "|" << this->position.z << "|" <<
-                 this->yawTotal   << "|" << this->rollTotal  << "|" << this->pitchTotal << std::endl;
 	if (Application::IsKeyPressed('R'))
 	{
 		Reset();

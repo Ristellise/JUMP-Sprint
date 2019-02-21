@@ -4,6 +4,7 @@
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
 #include "collision.h"
+#include "genericEntity.h"
 
 
 StateGame::StateGame()
@@ -27,9 +28,26 @@ void StateGame::OnEnter()
 
 	Mesh* meshbuffer;
 
-	// Test Cube
-	meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
-	meshbuffer->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
+	// Ship loading
+	switch (this->STData->shipSelect)
+	{
+	case 0:
+		// Ship1 - Starter ship
+		meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship1.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	case 1:
+		// Ship2 - Heavy ship
+		meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship2.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	case 2:
+		// Ship3 - Speed ship
+		// meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship3.obj")[0];
+		// meshbuffer->textureID = LoadTGA("TGA//Ship3.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	}
+	
 	this->meshList->push_back(meshbuffer);
 
 	// Test Cube
@@ -47,6 +65,7 @@ void StateGame::OnEnter()
 	meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList->push_back(meshbuffer);
 
+    this->audiosrc.Load("Audio/testtrack.flac");
 	// Test Env
 	entity* testEnv = new entity();
 	testEnv->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
@@ -64,6 +83,19 @@ void StateGame::OnEnter()
 	// Axes
 	meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
 	this->meshList->push_back(meshbuffer);
+
+
+    // Collision tester
+
+    entity* current = new genericEntity();
+
+    current->Init(Vector3(1.f, 24.f, 2.f), Vector3(0, 0, 1), Vector3(0, 1, 0));
+    current->type = entityType::eT_Object;
+    current->meshptr = this->meshGetFast("testcube");
+    current->physics = true;
+    current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
+    this->entitylists->push_back(current);
+    //this->STData->VERYLOUD.play();
 }
 
 void StateGame::OnExit()
@@ -78,13 +110,13 @@ void StateGame::OnUpdate(double dt)
 
 	//test range coords for planet range (center sphere coords) (automate later)
 
-	int cx_venus = 300, cy_venus = 0, cz_venus = -300; // can manually set planet coords due to generate ones already
-	int cx_earth = -400, cy_earth = 0, cz_earth = -400;
-	int cx_mars = -550, cy_mars = 0, cz_mars = 550;
-	int cx_jupiter = 800, cy_jupiter = 0, cz_jupiter = 800;
+	float cx_venus = 300.f, cy_venus = 0.f, cz_venus = -300.f; // can manually set planet coords due to generate ones already
+	float cx_earth = -400.f, cy_earth = 0.f, cz_earth = -400.f;
+	float cx_mars = -550.f, cy_mars = 0.f, cz_mars = 550.f;
+	float cx_jupiter = 800.f, cy_jupiter = 0.f, cz_jupiter = 800.f;
 
 	// checks whether planet and character is in range (venus)
-
+	/*
 	this->dtimestring = "Points : ";
 	this->dtimestring += std::to_string(points);
 	this->dtimestring += "\nFPS:";
@@ -96,7 +128,7 @@ void StateGame::OnUpdate(double dt)
 	this->dtimestring += "\nCam Z:";
 	this->dtimestring += std::to_string(this->state_cam->position.z);
 
-	if (planetrange1.planetExecuteUI(cx_venus, cy_venus, cz_venus, (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_venus, cy_venus, cz_venus, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
 	{
 		if (Application::IsKeyPressed(VK_RETURN)) // testing keypress inside range checker1`
 		{
@@ -104,35 +136,40 @@ void StateGame::OnUpdate(double dt)
 		}
 		this->dtimestring += "\nYour range check should work for Venus";
 	}
-	if (planetrange1.planetExecuteUI(cx_earth, cy_earth, cz_earth, (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_earth, cy_earth, cz_earth, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
 	{
 		this->dtimestring += "\nYour range check should work for Earth";
 	}
-	if (planetrange1.planetExecuteUI(cx_mars, cy_mars, cz_mars, (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_mars, cy_mars, cz_mars, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
 	{
 		this->dtimestring += "\nYour range check should work for Mars";
 	}
-	if (planetrange1.planetExecuteUI(cx_jupiter, cy_jupiter, cz_jupiter, (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_jupiter, cy_jupiter, cz_jupiter, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
 	{
 		this->dtimestring += "\nYour range check should work for Jupiter";
 	}
+	*/
 
 	// generates the hoop checkers
 	for (int i = 0; i < 20; i++) // for loop follows array
 	{
 		// passes values into hoops for coords
 
-		if (hoop.hoopsExecuteUI(offset_x[i], offset_y[i], offset_z[i], (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z, rad) == true)
+		if (hoop.hoopsExecuteUI(offset_x[i], offset_y[i], offset_z[i], testCube1->position.x, testCube1->position.y, testCube1->position.z, rad) == true)
 		{
 			points++;
 		}
 	}
 	
 	
-	
 	///////* end of planet and hoop stuff *///////
 
-	testCube1->Update(dt);
+    for (size_t i = 0; i < this->entitylists->size(); i++)
+    {
+        (*this->entitylists)[i]->Update(dt);
+    }
+
+	//testCube1->Update(dt);
 
 	this->state_cam->Update(dt, *testCube1);
 
@@ -150,7 +187,7 @@ void StateGame::OnUpdate(double dt)
 		cubeMult3.SetToIdentity();
 	}
 
-	if ((Application::IsKeyPressed('5')) && *gameToggle == true && *bounceTime <= 0.0)
+	if ((Application::IsKeyPressed('5')) && this->STData->gameToggle == true && this->STData->bounceTime <= 0.0)
 	{
 		// Matrix method
 		cubeMatrix.SetToIdentity();
@@ -159,16 +196,16 @@ void StateGame::OnUpdate(double dt)
 		cubeMult2.SetToIdentity();
 		cubeMult3.SetToIdentity();
 
-		*gameToggle = false;
-		*bounceTime = 0.3;
+        this->STData->gameToggle = false;
+        this->STData->bounceTime = 0.3;
 		this->spawnState = "title";
 		this->readyExitlocal = true;
 	}
 
-	if ((Application::IsKeyPressed('6')) && *debugToggle == false && *bounceTime <= 0.0)
+	if ((Application::IsKeyPressed('6')) && this->STData->debugToggle == false && this->STData->bounceTime <= 0.0)
 	{
-		*debugToggle = true;
-		*bounceTime = 0.3;
+        this->STData->debugToggle = true;
+        this->STData->bounceTime = 0.3;
 		this->spawnState = "debugger";
 	}
 }
@@ -187,9 +224,9 @@ void StateGame::OnRender()
 	{
 		for (int i = 0; i < 5; i++) // for loop follows amount of rings wanted inside the "map" (e.g 0 to 4 for this case, thus 5 hoops)
 		{
-			offset_x[i] = x + the_addition * 2; // changes x coord (can multiply / divide all these to make it more spaced out)
-			offset_y[i] = y + the_addition / 2; // changes y coord
-			offset_z[i] = z + the_addition; // changes z coord
+			offset_x[i] = x + the_addition * 2;	// changes x coord (can multiply / divide all these to make it more spaced out)
+			offset_y[i] = y + the_addition / 2;	// changes y coord
+			offset_z[i] = z + the_addition;		// changes z coord
 
 			(*this->modelStack).PushMatrix(); // render the hoops
 			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); // sets the coords of each hoop (coord stored in an array for each hoop)
@@ -262,7 +299,7 @@ void StateGame::OnRender()
 
 	///////* end of hoops *///////
 
-	this->RenderTextScreen(this->meshGetFast("saofontsheet"), this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 24.f);
+	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 15.f);
 
 	for (size_t i = 0; i < this->entitylists->size(); i++)
 	{
@@ -345,23 +382,7 @@ void StateGame::OnRender()
 			RenderMesh(testCube1->meshptr, true);
 			(*this->modelStack).PopMatrix();
 
-            Vector3 Ent2V[] = { buff->HBox.frontLeftUp,
-                            buff->HBox.frontLeftDown,
-                            buff->HBox.frontRightUp,
-                            buff->HBox.frontRightDown,
-                            buff->HBox.backLeftUp,
-                            buff->HBox.backLeftDown,
-                            buff->HBox.backRightUp,
-                            buff->HBox.backRightDown };
-
-            for (size_t i = 0; i < 8; i++)
-            {
-                (*this->modelStack).PushMatrix();
-                (*this->modelStack).Translate(Ent2V[i].x, Ent2V[i].y, Ent2V[i].z);
-
-                RenderMesh(this->meshGetFast("debugballs"), true);
-                (*this->modelStack).PopMatrix();
-            }
+            
 		}
 		else if (buff->type == entityType::eT_Environment)
 		{
@@ -377,8 +398,24 @@ void StateGame::OnRender()
 		}
 		(*this->modelStack).PopMatrix();
 
-		
-		
+        Vector3 Ent2V[] = { buff->HBox.frontLeftUp,
+                            buff->HBox.frontLeftDown,
+                            buff->HBox.frontRightUp,
+                            buff->HBox.frontRightDown,
+                            buff->HBox.backLeftUp,
+                            buff->HBox.backLeftDown,
+                            buff->HBox.backRightUp,
+                            buff->HBox.backRightDown };
+		/*
+        for (size_t i = 0; i < 8; i++)
+        {
+            (*this->modelStack).PushMatrix();
+            (*this->modelStack).Translate(Ent2V[i].x, Ent2V[i].y, Ent2V[i].z);
+
+            RenderMesh(this->meshGetFast("debugballs"), true);
+            (*this->modelStack).PopMatrix();
+        }
+		*/
 	}
 }
 

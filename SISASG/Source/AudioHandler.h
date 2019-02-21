@@ -1,31 +1,33 @@
 #pragma once
 #include <soloud.h>
 #include <soloud_wavstream.h>
+#include <soloud_wav.h>
 #include <string>
 #include <Vector3.h>
-enum AudioType
+enum SourceType
 {
-    AT_2D,
-    AT_2DCLOCK,
-    AT_3D,
-    AT_3DCLOCK,
+    ST_WAVSTREAM,
+    ST_WAV,
+    ST_OPENMPT,
+
 };
 
-class AudioSource
+class SoundContainer
 {
 private:
     SoLoud::Soloud* instance;
-    Vector3 *pos;
 public:
 
-    AudioType audiotype;
-    AudioSource();
-    ~AudioSource();
-    bool playTrack();
-    bool pauseTrack();
-    bool loadTrack(std::string audiofile,AudioType audioType);
+    SourceType srcType;
+    SoundContainer();
+    ~SoundContainer();
+    bool Load(std::string filename, SourceType srcType = SourceType::ST_WAV);
+    void setHandle(unsigned int handle);
     SoLoud::handle Sourcehandle;
-    SoLoud::WavStream track;
-    void setPosition(Vector3 pos);
+    SoLoud::WavStream trackStream;
+    SoLoud::Wav track;
+
+    SoLoud::WavStream get();
+    SoLoud::Wav get();
 };
 
