@@ -81,7 +81,7 @@ void StateGame::OnEnter()
 	this->entitylists->push_back(testEnv);
 
 	// Hoops
-	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(255 / 255.f, 255 / 255.f, 255 / 255.f), 36, 36, 10, 1);
+	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(255 / 255.f, 255 / 255.f, 255 / 255.f), 36, 36, 15, 1);
 	this->meshList->push_back(meshbuffer);
 
 	// Axes
@@ -114,15 +114,16 @@ void StateGame::OnUpdate(double dt)
 
 	//test range coords for planet range (center sphere coords) (automate later)
 
-	float cx_venus = 300.f, cy_venus = 0.f, cz_venus = -300.f; // can manually set planet coords due to generate ones already
-	float cx_earth = -400.f, cy_earth = 0.f, cz_earth = -400.f;
-	float cx_mars = -550.f, cy_mars = 0.f, cz_mars = 550.f;
-	float cx_jupiter = 800.f, cy_jupiter = 0.f, cz_jupiter = 800.f;
+	//float cx_venus = 300.f, cy_venus = 0.f, cz_venus = -300.f; // can manually set planet coords due to generate ones already
+	//float cx_earth = -400.f, cy_earth = 0.f, cz_earth = -400.f;
+	//float cx_mars = -550.f, cy_mars = 0.f, cz_mars = 550.f;
+	//float cx_jupiter = 800.f, cy_jupiter = 0.f, cz_jupiter = 800.f;
 
 	// checks whether planet and character is in range (venus)
-	/*
+	
 	this->dtimestring = "Points : ";
 	this->dtimestring += std::to_string(points);
+	/*
 	this->dtimestring += "\nFPS:";
 	this->dtimestring += std::to_string(1.0f / dt);
 	this->dtimestring += "\nCam X:";
@@ -155,11 +156,11 @@ void StateGame::OnUpdate(double dt)
 	*/
 
 	// generates the hoop checkers
-	for (int i = 0; i < 20; i++) // for loop follows array
+	for (int i = 0; i < 5; i++) // for loop follows array
 	{
 		// passes values into hoops for coords
 
-		if (hoop.hoopsExecuteUI(offset_x[i], offset_y[i], offset_z[i], spaceship->position.x, spaceship->position.y, spaceship->position.z, rad) == true)
+		if (hoop.hoopsExecuteUI((int)offset_x[i], (int)offset_y[i], (int)offset_z[i], (int)spaceship->position.x, (int)spaceship->position.y, (int)spaceship->position.z, (int)rad))
 		{
 			points++;
 		}
@@ -220,21 +221,43 @@ void StateGame::OnRender()
 
 	// for loop to create 5 hoops?
 
-	int the_addition = 10;
+	int the_addition = 10, the_subtraction = 0;
+	int rotation = 0;
 
-	if (x = 0.f, y = 0.f, z = 30.f)
+	if (x = 0.f, y = 0.f, z = 30.f) //venus
 	{
 		for (int i = 0; i < 5; i++)
 		{
-			offset_x[i] = x;
-			offset_y[i] = y;
-			offset_z[i] = z + the_addition;
+			if (rotation == 360)
+			{
+				rotation = 0;
+			}
 
 			(*this->modelStack).PushMatrix(); // render the hoops
 			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); // sets the coords of each hoop (coord stored in an array for each hoop)
+			(*this->modelStack).Rotate(rotation, 1, 0, 0);
 			RenderMesh(this->meshGetFast("hoop"), true);
 			(*this->modelStack).PopMatrix();
-			the_addition += 20; // increases addition value so it keeps going
+
+			if (i > 2 && i < 5)
+			{
+				the_subtraction -= 20 ;
+
+				offset_x[i] = x + the_subtraction;
+			}
+			else
+			{
+				offset_x[i] = x + the_addition;
+
+				the_subtraction += 20;
+			}	
+
+			offset_y[i] = y + the_addition;
+			offset_z[i] = z + the_addition;
+			
+			the_addition += 30; // increases addition value so it keeps going
+			//rotation += 90; // for rotation of hoops
+			
 		}
 	}
 

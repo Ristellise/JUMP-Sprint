@@ -34,9 +34,9 @@ public:
 
 private:
 	// test for hoops currently
-	float x = 0.f, y = 0.f, z = 30.f, rad = 9.f; // main coords starts at venus, inner radius of ring is 9
-	float points = 0.f; // counts the points (fairly bugged)
-	float offset_x[20], offset_y[20], offset_z[20]; // stores positions of all rings (increase array size accordingly)
+	float x = 0.f, y = 0.f, z = 30.f, rad = 14.f; // main coords starts at venus, inner radius of ring is 9
+	int points = 0; // counts the points (fairly bugged)
+	float offset_x[5], offset_y[5], offset_z[5]; // stores positions of all rings (increase array size accordingly)
 
 };
 
