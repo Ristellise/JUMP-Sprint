@@ -6,6 +6,7 @@
 #include "Uniforms.h"
 #include "MatrixStack.h"
 #include "entity.h"
+#include "Bullet.h"
 #include "Camera3.h"
 #include "MouseHandler.h"
 #include "collision.h"

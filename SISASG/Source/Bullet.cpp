@@ -1,90 +1,50 @@
 #include "Bullet.h"
 #include "Mtx44.h"
 #include "Application.h"
+#include "spaceship.h"
 
 Bullet::Bullet()
 {
 }
 
+Bullet::Bullet(const Vector3 & pos, const Vector3 & target, const Vector3 & up)
+{
+	timeAlive = 0;
+	this->position = pos;
+	this->target = target;
+	this->up = up;
+	this->view = (target - position).Normalized();
+}
 
 Bullet::~Bullet()
 {
 }
 
-void Bullet::InitialiseBullets()
+void Bullet::Init(const Vector3 & pos, const Vector3 & target, const Vector3 & up)
 {
-	for (int i = 0; i < MAX_BULLETS; i++)
+	this->position = pos;
+	this->target = target;
+	this->up = up;
+	this->view = (target - position).Normalized();
+
+}
+
+void Bullet::Update(double dt)
+{
+	if (BulletActive = true)
 	{
-		BulletArray[i] = 0;
-	}
-}
+		spaceship spaceship1;
 
-Bullet * Bullet::CreateBullet(float x, float y, float xDir, float yDir, float speed)
-{
-	Bullet *bullet = new Bullet();
-	bullet->xPos = x;
-	bullet->yPos = y;
-	bullet->xDir = xDir;
-	bullet->yDir = yDir;
-	bullet->speed = speed;
+		this->position += view * dt * this->bbSpeed;
+		this->timeAlive += dt;
 
-	return bullet;
-}
-
-void Bullet::DestroyBullet(Bullet * pBullet)
-{
-	delete pBullet;
-}
-
-bool Bullet::Shoot(float x, float y, float xDir, float yDir, float speed)
-{
-	for (int i = 0; i < MAX_BULLETS; i++)
-	{
-		if (BulletArray[i] == 0)
+		if (this->timeAlive > 0.5)
 		{
-			BulletArray[i] = CreateBullet(x, y, xDir, yDir, speed);
-			return true;
+			this->position = spaceship1.position;
+			this->target = spaceship1.target;
+			//timeAlive = 0;
 		}
 	}
-
-	return false;
-}
-
-void Bullet::UpdateBullets(float dt)
-{
-	g_dElapsedTime += dt;
-	g_dDeltaTime = dt;
-
-	for (int i = 0; i < MAX_BULLETS; i++)
-	{
-		if (BulletArray[i] == 0)
-		{
-			continue;
-		}
-
-		BulletArray[i]->xPos += BulletArray[i]->xDir * BulletArray[i]->speed * dt;
-		BulletArray[i]->yPos += BulletArray[i]->yDir * BulletArray[i]->speed * dt;
-
-		BulletArray[i]->timeAlive += dt;
-		
-		if (BulletArray[i]->timeAlive > 2.0f)
-		{
-			DestroyBullet(BulletArray[i]);
-			BulletArray[i] = 0;
-		}
-	}
-}
-
-void Bullet::DrawBullets()
-{
-	for (int i = 0; i < MAX_BULLETS; i++)
-	{
-		if (BulletArray[i] == 0)
-		{
-			continue;
-		}
-	}
-	//Draw Bullets & Move Bullets
-}
-
-// Create a OpenGL model of bullet, set it to a fixed coordinate, try to animate it using coords.**
+} //Spawn after a set amount of time, can only spawn with your holding down a key
+// How to code it  to return to the position of the spaceship
+// VK_SPACE

@@ -181,8 +181,8 @@ void SceneWorld::Init()
 #pragma endregion
 
     //asteroids
-    meshList[GEO_ASTEROID1] = MeshBuilder::GenerateOBJ("asteroid1", "OBJ//asteroid1.obj")[0];
-    meshList[GEO_ASTEROID1]->textureID = LoadTGA("TGA//asteroid1 texture.tga", GL_LINEAR, GL_CLAMP);
+    //meshList[GEO_ASTEROID1] = MeshBuilder::GenerateOBJ("asteroid1", "OBJ//asteroid1.obj")[0];
+    //meshList[GEO_ASTEROID1]->textureID = LoadTGA("TGA//asteroid1 texture.tga", GL_LINEAR, GL_CLAMP);
 
     // Test Cube
     //meshList[GEO_spaceship] = MeshBuilder::GenerateOBJ("spaceship", "OBJ//spaceship.obj")[0];
@@ -430,19 +430,6 @@ void SceneWorld::RenderSkybox()
     modelStack.PopMatrix();
 }
 
-/*
-void SceneWorld::RenderBullet()
-{
-	modelStack.PushMatrix();
-
-	modelStack.Translate(spaceship.position.x, spaceship.position.y, spaceship.position.z);
-	modelStack.Rotate(spaceship.yawTotal, spaceship.up.x, spaceship.up.y, spaceship.up.z);
-	modelStack.Rotate(spaceship.pitchTotal, spaceship.right.x, spaceship.right.y, spaceship.right.z);
-
-	RenderMesh(meshList[GEO_BULLETBODY], true);
-	modelStack.PopMatrix();
-}
-*/
 
 void SceneWorld::RenderPlanets()
 {
@@ -631,14 +618,6 @@ void SceneWorld::Render()
     // RenderTextScreen(meshList[GEO_TEXT], this->dtimestring, Color(255, 255, 0), 2, 1.f, 24.f);
 
     this->StateManInst.Render();
-
-	/*
-	if (Application::IsKeyPressed('F'))
-	{
-		RenderBullet();
-		//Make it shoot?
-	}
-	*/
 }
 
 /*-------------
