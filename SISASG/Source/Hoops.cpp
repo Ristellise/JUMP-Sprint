@@ -20,8 +20,6 @@ bool Hoops::hoopsCheckXY(float circle_x, float circle_y, float circle_z, float x
 
 bool Hoops::hoopsExecuteUI(float circle_x, float circle_y, float circle_z, float x, float y, float z, float rad)
 {
-	testCube *testCube1 = new testCube();
-
 	bool ans = hoopsCheckXY(circle_x, circle_y, circle_z, x, y, z,rad);
 
 	if (ans == true)

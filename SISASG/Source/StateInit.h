@@ -1,5 +1,5 @@
 #include "State.h"
-#include "testCube.h"
+#include "spaceship.h"
 
 class Stateinit : public GState
 {

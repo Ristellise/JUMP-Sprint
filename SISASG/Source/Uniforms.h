@@ -50,7 +50,7 @@ enum GEOMETRY_TYPE
     GEO_BOTTOM,
 
     // Test Cube
-    GEO_TESTCUBE,
+    GEO_spaceship,
 
 	// Test Environment
 	GEO_TESTENV,

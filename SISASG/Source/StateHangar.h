@@ -5,7 +5,7 @@
 #include "MeshBuilder.h"
 #include "MatrixStack.h"
 #include "Light.h"
-#include "testCube.h"
+#include "spaceship.h"
 
 #include "MouseHandler.h"
 #include "Uniforms.h"
