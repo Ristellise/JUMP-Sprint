@@ -1,7 +1,7 @@
 #include "Bullet.h"
 #include "Mtx44.h"
 #include "Application.h"
-#include "testCube.h"
+#include "spaceship.h"
 
 Bullet::Bullet()
 {
@@ -33,15 +33,15 @@ void Bullet::Update(double dt)
 {
 	if (BulletActive = true)
 	{
-		testCube testCube1;
+		spaceship spaceship1;
 
 		this->position += view * dt * this->bbSpeed;
 		this->timeAlive += dt;
 
 		if (this->timeAlive > 0.5)
 		{
-			this->position = testCube1.position;
-			this->target = testCube1.target;
+			this->position = spaceship1.position;
+			this->target = spaceship1.target;
 			//timeAlive = 0;
 		}
 	}
