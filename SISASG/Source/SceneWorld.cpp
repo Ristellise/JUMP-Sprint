@@ -585,7 +585,7 @@ void SceneWorld::Render()
 
     RenderPlanets();
 
-	RenderAsteroid();
+	// RenderAsteroid();
 
 	// planetExecuteUI();
 

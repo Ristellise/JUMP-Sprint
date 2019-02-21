@@ -4,6 +4,7 @@
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
 #include "collision.h"
+#include "Bullet.h"
 
 void Stateinit::OnEnter()
 {
@@ -15,7 +16,7 @@ void Stateinit::OnEnter()
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 10000.f);
 	this->projectionStack->LoadMatrix(projection);
-
+	
     // Load meshes first.
     Mesh* meshbuffer;
     meshbuffer = MeshBuilder::GenerateText("saofontsheet", *this->St_FLInstance);
@@ -53,17 +54,18 @@ void Stateinit::OnEnter()
 	this->entitylists->push_back(testCube1); //Create an entity, initialises it at Vector ( Position, Target , up )
 
 	// Bullet
-	this->bullet = new Bullet();
+	this->bullet = new Bullet(); //Creates an entity
 	bullet->Init
 	(
 		Vector3(testCube1->position.x, testCube1->position.y, testCube1->position.z), 
 		Vector3(testCube1->target.x, testCube1->target.y, testCube1->target.z), 
-		Vector3(0, 1, 0)
+		Vector3(0, 1, 0) // Initialises at Vector..
 	);
 	bullet->type = entityType::eT_Bullet;
 	bullet->name = "bullet";
 	bullet->meshptr = this->meshGetFast("bullet");
 	this->entitylists->push_back(bullet);
+
     // Collision tester
 	/*
     current = new entity();
@@ -98,7 +100,7 @@ void Stateinit::OnRender()
             this->RenderTextScreen((*this->entitylists)[i]->meshptr, *(*this->entitylists)[i]->text, Color(0, 0, 0), 
                                    (*this->entitylists)[i]->position.z,	// Used for Text Scaling. only applies to 2d UI 
                                    (*this->entitylists)[i]->position.x,	// Same as before
-                                   (*this->entitylists)[i]->position.y);	// Same as before
+                                   (*this->entitylists)[i]->position.y);// Same as before
         }
 		else if ((*this->entitylists)[i]->type == entityType::eT_Space)
 		{
@@ -143,10 +145,19 @@ void Stateinit::OnUpdate(double dt)
 		testCube1->bwdaccl,
 		testCube1->view
 	);*/
-
+	bullet->timeAlive += dt;
 	testCube1->Update(dt);
-	bullet->Update(dt);
 
+	bullet->Update(dt); // Calls Bullet:Update();
+	
+	if (bullet->timeAlive > 1)
+	{
+		Bullet* bullet = new Bullet(Vector3(testCube1->position.x, testCube1->position.y, testCube1->position.z),
+			Vector3(testCube1->target.x, testCube1->target.y, testCube1->target.z),
+			Vector3(0, 1, 0));
+		delete bullet;
+		this->bullet->timeAlive = 0;
+	}
 	//entity* bullet = this->entityGetFast("testcube");
 
 	/*this->dtimestring = "FPS:";

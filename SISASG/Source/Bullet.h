@@ -5,15 +5,15 @@
 
 class Bullet : public entity
 {
-	float timeAlive;
-	double bbSpeed = 30.0;
-	int BulletLeft[10];
+	double bbSpeed = 200.0;
 public:
 	Bullet();
+	Bullet(const Vector3 & pos, const Vector3 & target, const Vector3 & up);
 	~Bullet();
 	void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
 	void Update(double dt);
-	bool isFiring = false;
+	float timeAlive = 0;
+	bool BulletActive = false;
 };
 
 #endif
