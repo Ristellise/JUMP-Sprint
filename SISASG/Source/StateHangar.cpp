@@ -349,9 +349,9 @@ void StateHangar::Stars()
 		float v = ((float)rand() / (RAND_MAX)) + 0.f;
 		float theta = 2 * Math::PI * u;
 		float phi = acos(2 * v - 1);
-		stars[i].x = 100 + ((10000.f * 0.9) * sin(phi) * cos(theta));
-		stars[i].y = 100 + ((10000.f * 0.9) * sin(phi) * sin(theta));
-		stars[i].z = 100 + ((10000.f * 0.9) * cos(phi));
+		stars[i].x = 100.f + ((10000.f * 0.9f) * sin(phi) * cos(theta));
+		stars[i].y = 100.f + ((10000.f * 0.9f) * sin(phi) * sin(theta));
+		stars[i].z = 100.f + ((10000.f * 0.9f) * cos(phi));
 	}
 }
 

@@ -130,6 +130,8 @@ void StateGame::OnEnter()
 	*/
 
     //this->STData->VERYLOUD.play();
+
+	Stars();
 }
 
 void StateGame::OnExit()
@@ -273,6 +275,22 @@ void StateGame::OnUpdate(double dt)
 
 void StateGame::OnRender()
 {
+	// Stars
+	for (int i = 0; starsnumber > i; i++)
+	{
+		(*this->modelStack).PushMatrix();
+		(*this->modelStack).Translate(stars[i].x, stars[i].y, stars[i].z);
+		if (stars[i].stime == 0)
+		{
+			stars[i].scale = (abs(stars[i].x) + abs(stars[i].y) + abs(stars[i].z)) / ((rand() % 250) + 250); // Scale (Rand adds twinkles)
+			stars[i].stime = rand() % 10 + 10;
+		}
+		(*this->modelStack).Scale(stars[i].scale, stars[i].scale, stars[i].scale);
+		stars[i].stime--;
+		RenderMesh(this->meshGetFast("star"), false);
+		(*this->modelStack).PopMatrix();
+	}
+
 	// Planet
 	(*this->modelStack).PushMatrix();
 	(*this->modelStack).Translate(400, 0, 1000);
@@ -507,4 +525,20 @@ void StateGame::OnRender()
 
 void StateGame::OnCam(int X, int Y, float XChange, float YChange)
 {
+}
+
+void StateGame::Stars()
+{
+	starsnumber = 200; // Generated number of stars
+	for (int i = 0; starsnumber > i; i++)
+	{
+		stars.push_back(coord);
+		float u = ((float)rand() / (RAND_MAX)) + 0.f;
+		float v = ((float)rand() / (RAND_MAX)) + 0.f;
+		float theta = 2 * Math::PI * u;
+		float phi = acos(2 * v - 1);
+		stars[i].x = 100.f + ((10000.f * 0.9f) * sin(phi) * cos(theta));
+		stars[i].y = 100.f + ((10000.f * 0.9f) * sin(phi) * sin(theta));
+		stars[i].z = 100.f + ((10000.f * 0.9f) * cos(phi));
+	}
 }

@@ -9,6 +9,15 @@
 
 class StateGame : public GState
 {
+	struct STARS
+	{
+		float x = 0;
+		float y = 0;
+		float z = 0;
+		float scale = 0;
+		int stime = 0;
+	};
+
 public:
 	StateGame();
 	~StateGame();
@@ -22,6 +31,11 @@ public:
 	float rotateAngle;
 
 	std::string dtimestring;
+
+	STARS coord;
+	std::vector<STARS> stars;
+	int starsnumber;
+	void Stars();
 
 	PlanetRange planetrange1;
 	Hoops hoop;
