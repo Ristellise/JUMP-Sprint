@@ -228,4 +228,7 @@
       <UniqueIdentifier>{be6ccd3e-7fc5-41b3-902e-6e673e11ef68}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="config.ini" />
+  </ItemGroup>
 </Project>

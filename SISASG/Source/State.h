@@ -12,6 +12,8 @@
 #include "collision.h"
 #include <soloud.h>
 #include "AudioHandler.h"
+#include "SaveFiles.h"
+
 // Contains a base template of game states Active.
 // They may be added or removed.
 
@@ -26,6 +28,13 @@ struct StateData
     std::map<std::string, SoundContainer*> SoundSrcs;
     unsigned int hoopsMap;
 	Mesh* font;
+	SaveFiles saveFile;
+	unsigned long long moneyData;
+	unsigned long long moneyEarned;
+	int pointsPrev;
+	double timePrev;
+	bool ship1unlock;
+	bool ship2unlock;
 };
 
 class GState

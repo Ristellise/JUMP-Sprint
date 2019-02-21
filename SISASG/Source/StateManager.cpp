@@ -72,12 +72,14 @@ void StateManager::addAvailable(GState * state)
 {
     this->availableStates.push_back(state);
 }
+
 void StateManager::SetMatrixes(MS* model, MS* view, MS* projection)
 {
 	this->modelStack = model;
 	this->viewStack = view;
 	this->projectionStack = projection;
 }
+
 bool StateManager::addState(std::string Statename)
 {
     for (size_t i = 0; i < this->availableStates.size(); i++)
@@ -101,7 +103,6 @@ bool StateManager::addState(std::string Statename)
     }
     return false;
 }
-
 
 bool StateManager::Shutdown()
 {

@@ -40,7 +40,6 @@ public:
 	PlanetRange planetrange1;
 	Hoops hoop;
 	
-
     SoundContainer audiosrc;
 
 	void OnEnter();
@@ -57,13 +56,13 @@ private:
 
 	struct Hooplah
 	{
-		float offset_x = 666, offset_y = 666, offset_z = 666, rotation = 666; // stores positions of all rings (increase array size accordingly)
+		float offset_x = 400, offset_y = 0, offset_z = 1000, rotation = 666; // stores positions of all rings (increase array size accordingly)
 		bool passed;
 	};
 	Hooplah ok;
 	std::vector<Hooplah> idk;
 	
-
+	double elapsedTime;
 };
 
 #endif

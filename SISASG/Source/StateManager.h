@@ -5,6 +5,7 @@
 #include "State.h"
 #include <map>
 #include "AudioHandler.h"
+
 class StateManager
 {
     std::vector<GState*> activeStates;

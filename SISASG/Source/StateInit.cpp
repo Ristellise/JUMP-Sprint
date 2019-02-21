@@ -7,6 +7,16 @@
 
 void Stateinit::OnEnter()
 {
+	// initialize file readwrite
+	this->STData->saveFile.loadFile("config.ini");
+
+	// Load ini file into memory
+	std::string moneyDat = this->STData->saveFile.getValueString("money");
+
+	this->STData->moneyData = std::stoull(moneyDat);
+	this->STData->ship1unlock = this->STData->saveFile.getValueBool("ship1");
+	this->STData->ship2unlock = this->STData->saveFile.getValueBool("ship2");
+
 	this->spawnState = "Menus";
 
 	// Init Stacks
@@ -27,6 +37,7 @@ void Stateinit::OnEnter()
 
 	// Camera
 	this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
+
 	// Spawn Entities.
 	entity* current = new entity();
 
