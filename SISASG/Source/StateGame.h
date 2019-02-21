@@ -5,6 +5,7 @@
 #include "testCube.h"
 #include "PlanetRange.h"
 #include "Hoops.h"
+#include "AudioHandler.h"
 
 class StateGame : public GState
 {
@@ -22,6 +23,8 @@ public:
 
 	PlanetRange planetrange1;
 	Hoops hoop;
+
+    SoundContainer audiosrc;
 
 	void OnEnter();
 	void OnExit();
