@@ -438,3 +438,4 @@ healthchecksdb
 !SoLoud/lib/*
 !glew/*
 !glfw/*
+/SISASG/Audio/testloop.wav
