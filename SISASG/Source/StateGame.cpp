@@ -99,6 +99,8 @@ void StateGame::OnEnter()
     current->physics = true;
     current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
     this->entitylists->insert_or_assign("testcube",current);
+    this->STData->SoundSrcs["looptest"]->enableLooping();
+    this->STData->SoundSrcs["looptest"]->pause();
 }
 
 void StateGame::OnExit()

@@ -8,7 +8,10 @@ StateMenus::StateMenus()
 void StateMenus::OnEnter()
 {
     this->STData->SoundSrcs.insert_or_assign("testTrack", new SoundContainer(&this->STData->VERYLOUD, "Audio/xmtest.xm", SourceType::ST_OPENMPT));
-    this->STData->SoundSrcs["testTrack"]->play(true);
+    this->STData->SoundSrcs.insert_or_assign("looptest", new SoundContainer(&this->STData->VERYLOUD, "Audio/testloop.wav", SourceType::ST_NORMAL));
+    this->STData->SoundSrcs["testTrack"]->play(true, true);
+    this->STData->SoundSrcs["looptest"]->play(true, true);
+    this->STData->SoundSrcs["looptest"]->loopPos(10.956f);
 }
 
 void StateMenus::OnExit()

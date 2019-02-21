@@ -45,7 +45,7 @@ bool SoundContainer::Load(std::string filename, SourceType srcType)
     return true;
 }
 
-void SoundContainer::play(bool background)
+void SoundContainer::play(bool background, bool PausedInital)
 {
     switch (this->srcType)
     {
@@ -53,11 +53,11 @@ void SoundContainer::play(bool background)
     {
         if (background)
         {
-            this->Sourcehandle = this->loudPtr->playBackground(this->track);
+            this->Sourcehandle = this->loudPtr->playBackground(this->track, -1.0f, PausedInital);
         }
         else
         {
-            this->Sourcehandle = this->loudPtr->play(this->track);
+            this->Sourcehandle = this->loudPtr->play(this->track, -1.0f, PausedInital);
         }
         break;
     }
@@ -65,11 +65,11 @@ void SoundContainer::play(bool background)
     {
         if (background)
         {
-            this->Sourcehandle = this->loudPtr->playBackground(this->trackStream);
+            this->Sourcehandle = this->loudPtr->playBackground(this->trackStream, -1.0f, PausedInital);
         }
         else
         {
-            this->Sourcehandle = this->loudPtr->play(this->trackStream);
+            this->Sourcehandle = this->loudPtr->play(this->trackStream, -1.0f, PausedInital);
             
         }
         break;
@@ -90,10 +90,7 @@ void SoundContainer::play(bool background)
     default:
         break;
     }
-    finally:
-    {
-        this->playing = true;
-    }
+    this->playing = true;
 }
 
 void SoundContainer::stop(bool Now, float timeToLive)
@@ -106,9 +103,29 @@ void SoundContainer::updatePos(const Vector3 pos)
     this->loudPtr->set3dSourcePosition(this->Sourcehandle, pos.x, pos.y, pos.z);
 }
 
+void SoundContainer::loopPos(const float loopPoint)
+{
+    this->loudPtr->setLoopPoint(this->Sourcehandle, loopPoint);
+}
+
 bool SoundContainer::isPlaying()
 {
     return this->playing;
+}
+
+void SoundContainer::pause()
+{
+    if (this->loudPtr->getPause(this->Sourcehandle))
+    {
+        std::cout << "Unpausing..." << std::endl;
+        this->loudPtr->setPause(this->Sourcehandle, 0);
+    }
+    else
+    {
+        std::cout << "Pausing..." << std::endl;
+        this->loudPtr->setPause(this->Sourcehandle, 1);
+    }
+    
 }
 
 bool SoundContainer::DIE(bool Now, float timeToLive)
