@@ -62,6 +62,11 @@ void StateHangar::OnEnter()
 
 void StateHangar::OnExit()
 {
+    delete this->entitylists->find("ship2")->second;
+    this->entitylists->erase("ship2");
+
+    delete this->entitylists->find("ship1")->second;
+    this->entitylists->erase("ship1");
 }
 
 void StateHangar::OnUpdate(double dt)

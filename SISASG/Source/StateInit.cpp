@@ -65,5 +65,4 @@ void Stateinit::OnUpdate(double dt)
 	{
         this->STData->bounceTime -= dt;
 	}
-    std::cout << this->entitylists->size() << std::endl;
 }
