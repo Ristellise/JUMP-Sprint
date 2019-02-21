@@ -37,7 +37,6 @@ void Stateinit::OnEnter()
     current->type = entityType::eT_TextUI;
     current->meshptr = this->meshGetFast("saofontsheet");
     this->entitylists->insert_or_assign("saofontsheet",current);
-	
 }
 
 void Stateinit::OnRender()
@@ -65,4 +64,5 @@ void Stateinit::OnUpdate(double dt)
 	{
         this->STData->bounceTime -= dt;
 	}
+    
 }

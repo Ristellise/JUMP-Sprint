@@ -53,7 +53,7 @@ bool StateManager::Init(unsigned * m_parameters, FontLoader * FLInstance, MouseH
     this->StateMan_parameters = m_parameters;
     this->SM_FLInstance = FLInstance;
     this->SM_Mouse = SM_Mouse;
-
+    this->StateManagerData.VERYLOUD.init();
 	Mesh* meshbuffer;
 	meshbuffer = MeshBuilder::GenerateText("saofontsheet", *FLInstance);
 	meshbuffer->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
