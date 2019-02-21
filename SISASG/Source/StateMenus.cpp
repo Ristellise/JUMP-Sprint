@@ -1,4 +1,8 @@
 #include "StateMenus.h"
+#include "MeshBuilder.h"
+#include <iostream>
+#include "LoadTGA.h"
+#include "LoadOBJ.h"
 
 StateMenus::StateMenus()
 {
@@ -7,6 +11,20 @@ StateMenus::StateMenus()
 
 void StateMenus::OnEnter()
 {
+	Mesh* meshbuffer;
+
+	// sun
+	meshbuffer = MeshBuilder::GenerateOBJ("sun", "OBJ//Planet sphere.obj")[0];
+	meshbuffer->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
+	this->meshList->push_back(meshbuffer);
+
+	// asteroid
+	meshbuffer = MeshBuilder::GenerateOBJ("asteroid", "OBJ//asteroid1.obj")[0];
+	meshbuffer->textureID = LoadTGA("TGA//asteroid1 texture.tga", GL_LINEAR, GL_CLAMP);
+	this->meshList->push_back(meshbuffer);
+
+	rotateAngle = 0;
+	movement_asteroid1_z = 0;
 }
 
 void StateMenus::OnExit()
@@ -15,14 +33,50 @@ void StateMenus::OnExit()
 
 void StateMenus::OnUpdate(double dt)
 {
+	this->dtimestring = "\nCURSOR: " + std::to_string(this->mouse->X) +
+		" | " + std::to_string(this->mouse->Y) +
+		" | SPEED: " + std::to_string(this->mouse->XChange) +
+		" | " + std::to_string(this->mouse->YChange);
+
+	static int rotateDir = 1;
+	static int rotateDir_asteroid = 1;
+	static const float ROTATE_SPEED = 10.f;
+	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
+
+	movement_asteroid1_z += (float)(rotateDir_asteroid * ROTATE_SPEED * dt);
+
+	if (movement_asteroid1_z * rotateDir_asteroid > 40)
+	{
+		rotateDir_asteroid = -rotateDir_asteroid;
+	}
+	if (movement_asteroid1_z < -40 && rotateDir_asteroid < -40)
+	{
+		rotateDir_asteroid = -rotateDir_asteroid;
+	}
 }
 
 void StateMenus::OnRender()
 {
+	(*this->modelStack).PushMatrix();
+	(*this->modelStack).Translate(0, 4, 400);
+	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
+	(*this->modelStack).Scale(200.f, 200.f, 200.f);
+	RenderMesh(this->meshGetFast("sun"), true);
+	(*this->modelStack).PopMatrix();
+
+	(*this->modelStack).PushMatrix();
+	(*this->modelStack).Translate(movement_asteroid1_z, 0, 0);
+	(*this->modelStack).Rotate(rotateAngle * 5, 1, 0, 1);
+	(*this->modelStack).Scale(0.8f, 0.8f, 0.8f);
+	RenderMesh(this->meshGetFast("asteroid"), true);
+	(*this->modelStack).PopMatrix();
+
+	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(255, 255, 255), 2.f, 4.f, 25.f);
+
 	// Ship Hangar button
-	if ((this->mouse->X > 100) && (this->mouse->X < 330) && (this->mouse->Y >380) && (this->mouse->Y < 450))
+	if ((this->mouse->X > 100) && (this->mouse->X < 330) && (this->mouse->Y >450) && (this->mouse->Y < 520))
 	{
-		this->RenderTextScreen(this->STData->font, " > Start Game", Color(255, 255, 255), 6.f, 1.f, 0.f);
+		this->RenderTextScreen(this->STData->font, " > Start Game", Color(255, 255, 255), 6.f, 1.f, -1.f);
 
 		if (Application::IsKeyPressed(VK_LBUTTON) && this->STData->bounceTime <= 0.0)
 		{
@@ -33,13 +87,13 @@ void StateMenus::OnRender()
 	}
 	else
 	{
-		this->RenderTextScreen(this->STData->font, "   Start Game", Color(255, 255, 255), 6.f, 1.f, 0.f);
+		this->RenderTextScreen(this->STData->font, "   Start Game", Color(255, 255, 255), 6.f, 1.f, -1.f);
 	}
 
 	// Ship Foundry button
-	if ((this->mouse->X > 100) && (this->mouse->X < 210) && (this->mouse->Y > 450) && (this->mouse->Y < 520))
+	if ((this->mouse->X > 100) && (this->mouse->X < 210) && (this->mouse->Y > 520) && (this->mouse->Y < 590))
 	{
-		this->RenderTextScreen(this->STData->font, " > Shop", Color(255, 255, 255), 6.f, 1.f, -1.f);
+		this->RenderTextScreen(this->STData->font, " > Shop", Color(255, 255, 255), 6.f, 1.f, -2.f);
 
 		if (Application::IsKeyPressed(VK_LBUTTON) && this->STData->bounceTime <= 0.0)
 		{
@@ -50,7 +104,7 @@ void StateMenus::OnRender()
 	}
 	else
 	{
-		this->RenderTextScreen(this->STData->font, "   Shop", Color(255, 255, 255), 6.f, 1.f, -1.f);
+		this->RenderTextScreen(this->STData->font, "   Shop", Color(255, 255, 255), 6.f, 1.f, -2.f);
 	}
 }
 

@@ -9,7 +9,6 @@
 #include "StateInit.h"
 #include "State.h"
 #include "StateStat.h"
-#include "StateTitle.h"
 #include "StateGame.h"
 #include "StateMenus.h"
 #include "StateHangar.h"
@@ -101,7 +100,7 @@ void SceneWorld::Init()
     glUseProgram(m_programID);
 
     lights[0].type = Light::LIGHT_DIRECTIONAL;
-    lights[0].position.Set(100.0f, 100.0f, 100.0f);
+    lights[0].position.Set(0.f, 0.f, -50.0f);
 
     glUniform1i(m_parameters[U_NUMLIGHTS], 8);
     glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
@@ -121,7 +120,6 @@ void SceneWorld::Init()
     FLInstance.Loadfnt("Font/fnt.fnt");
     Stateinit* initInstance = new Stateinit();
 	StateStat* statstate = new StateStat();
-	StateTitle* titlestate = new StateTitle();
 	StateGame* gamestate = new StateGame();
 	StateMenus* menustate = new StateMenus();
 	StateHangar* hangarstate = new StateHangar();
@@ -130,7 +128,6 @@ void SceneWorld::Init()
     this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
     this->StateManInst.addAvailable(initInstance);
     this->StateManInst.addAvailable(statstate);
-    this->StateManInst.addAvailable(titlestate);
     this->StateManInst.addAvailable(gamestate);
     this->StateManInst.addAvailable(menustate);
     this->StateManInst.addAvailable(hangarstate);
@@ -175,14 +172,7 @@ void SceneWorld::Init()
     meshList[GEO_PLANET_JUPITER] = MeshBuilder::GenerateOBJ("jupiter", "OBJ//Planet sphere.obj")[0];
     meshList[GEO_PLANET_JUPITER]->textureID = LoadTGA("TGA//jupiter texture.tga", GL_LINEAR, GL_CLAMP);
 
-    meshList[GEO_SUN] = MeshBuilder::GenerateOBJ("sun", "OBJ//Planet sphere.obj")[0];
-    meshList[GEO_SUN]->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
-
 #pragma endregion
-
-    //asteroids
-    meshList[GEO_ASTEROID1] = MeshBuilder::GenerateOBJ("asteroid1", "OBJ//asteroid1.obj")[0];
-    meshList[GEO_ASTEROID1]->textureID = LoadTGA("TGA//asteroid1 texture.tga", GL_LINEAR, GL_CLAMP);
 
     // Test Cube
     //meshList[GEO_spaceship] = MeshBuilder::GenerateOBJ("spaceship", "OBJ//spaceship.obj")[0];
