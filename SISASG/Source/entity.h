@@ -9,6 +9,7 @@ enum entityType
     eT_Object,
     eT_Text,
     eT_TextUI,
+    eT_Ship,
     eT_Space,
 	eT_Bullet,
 	eT_Environment,
@@ -54,6 +55,7 @@ public:
 	float topSpeed;
 	float fwdaccl;
 	float bwdaccl;
+	float drift;
 
 	float velocity;
 	float accl;
@@ -62,6 +64,10 @@ public:
 	float yawTotal;
 	float pitchTotal;
 	float rollTotal;
+
+    float yawVelocity;
+    float pitchVelocity;
+    float rollVelocity;
 
     bool physics = false;
 

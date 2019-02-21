@@ -3,6 +3,11 @@
 #include <iterator>
 #include <functional>
 #include "testCube.h"
+void GState::Setlists(std::vector<entity*>* entitylists, std::vector<Mesh*>* meshList)
+{
+    this->entitylists = entitylists;
+    this->meshList = meshList;
+}
 GState::GState()
 {
 }
@@ -41,9 +46,7 @@ void GState::OnCreate(
     FontLoader * St_FLInstance, 
     Camera3 * cam,
     MouseHandler* mouse, 
-    collision* collideInstance, 
-    std::vector<entity*> *entitylists,
-    std::vector<Mesh*> *meshList
+    collision* collideInstance
 )
 {
     this->state_params = parameters;
@@ -51,8 +54,8 @@ void GState::OnCreate(
     this->state_cam = cam;
     this->mouse = mouse;
     this->collideInstance = collideInstance;
-    this->entitylists = entitylists;
-    this->meshList = meshList;
+    this->entitylists = new std::vector<entity*>;
+    this->meshList = new std::vector<Mesh*>;
 }
 void GState::SetMatrixes(MS* model, MS* view, MS* projection)
 {
@@ -99,7 +102,7 @@ void GState::RenderTextScreen(Mesh* mesh, std::string text, Color color, float s
             characterSpacing.SetToTranslation(advance, yadvance, 0);
             Mtx44 MVP = (*this->projectionStack).Top() * (*this->viewStack).Top() * (*this->modelStack).Top() * characterSpacing;
             glUniformMatrix4fv(state_params[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-            advance += 1.0f / (float)buffer.advance + 0.3f; // advance the text
+            advance += ((float)buffer.advance / (float)(*this->St_FLInstance).fntInfo.scaleW) * 5.0f; // advance the text
             mesh->Render(res.index * 6, 6); // count is the index Size
         }
         else

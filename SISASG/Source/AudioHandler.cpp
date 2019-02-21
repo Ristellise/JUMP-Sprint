@@ -2,38 +2,37 @@
 
 
 
-AudioSource::AudioSource()
+SoundContainer::SoundContainer()
 {
 }
 
 
-AudioSource::~AudioSource()
+SoundContainer::~SoundContainer()
 {
 }
 
-bool AudioSource::playTrack()
+bool SoundContainer::Load(std::string filename, SourceType srcType)
 {
-    if (this->audiotype == AudioType::AT_2D)
+    switch (srcType)
     {
-        this->Sourcehandle = instance->play(this->track);
-    }
-    else if (this->audiotype == AudioType::AT_3D)
-    {
-        //this->Sourcehandle = instance->play3d(this->track);
+    case ST_WAVSTREAM:
+        this->trackStream.load(filename.c_str());
+        break;
+    case ST_WAV:
+        this->track.load(filename.c_str());
+        break;
+    default:
+        break;
     }
     return true;
 }
 
-void AudioSource::setPosition(Vector3 pos)
+void SoundContainer::setHandle(unsigned int handle)
 {
-    if (this->audiotype)
-    {
-        this->instance->set3dSourcePosition(this->Sourcehandle,
-            pos.x, pos.y, pos.z);
-        this->instance->update3dAudio();
-    }
-    else
-    {
-        std::cout << "Failed to updated instance!" << std::endl;
-    }
+    this->Sourcehandle = handle;
+}
+
+SoLoud::WavStream SoundContainer::get()
+{
+    return this->trackStream;
 }

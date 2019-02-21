@@ -4,7 +4,7 @@
 
 StateTitle::StateTitle()
 {
-	this->StateName = "title";
+	this->StateName = "Title";
 }
 
 
@@ -14,8 +14,6 @@ StateTitle::~StateTitle()
 
 void StateTitle::OnEnter()
 {
-	this->titleString1 = "             SISASG             ";
-	this->titleString2 = "\nIs Seriously not A Space Game!";
 }
 
 void StateTitle::OnExit()
@@ -24,19 +22,28 @@ void StateTitle::OnExit()
 
 void StateTitle::OnUpdate(double dt)
 {
-	if ((Application::IsKeyPressed('5')) && *gameToggle == false && *bounceTime <= 0.0)
+	/*
+	if ((Application::IsKeyPressed('5')) && this->STData->gameToggle == false && this->STData->bounceTime <= 0.0)
 	{
-		*gameToggle = true;
-		*bounceTime = 0.3;
+        this->STData->gameToggle = true;
+        this->STData->bounceTime = 0.3;
 		this->spawnState = "Game";
+		this->readyExitlocal = true;
+	}
+	*/
+
+	if (Application::IsKeyPressed(VK_LBUTTON))
+	{
+        this->STData->bounceTime = 0.3;
+		this->spawnState = "Menus";
 		this->readyExitlocal = true;
 	}
 }
 
 void StateTitle::OnRender()
 {
-	this->RenderTextScreen(this->meshGetFast("saofontsheet"), this->titleString1, Color(255, 255, 255), 6.f, -0.2f, 1.f);
-	this->RenderTextScreen(this->meshGetFast("saofontsheet"), this->titleString2, Color(255, 255, 255), 4.f, 4.5f, 3.f);
+	this->RenderTextScreen(this->STData->font, "SISASG", Color(255, 255, 255), 6.f, 6.f, 1.f);
+	this->RenderTextScreen(this->STData->font, "Is Seriously not A Space Game!", Color(255, 255, 255), 4.f, 6.5f, 2.5f);
 }
 
 void StateTitle::OnCam(int X, int Y, float XChange, float YChange)

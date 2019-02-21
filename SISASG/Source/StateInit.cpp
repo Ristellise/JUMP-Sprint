@@ -8,7 +8,7 @@
 
 void Stateinit::OnEnter()
 {
-	this->spawnState = "title";
+	this->spawnState = "Title";
 
 	// Init Stacks
     std::cout << "Entering: " << this->StateName<< " Albion Prelude."<< std::endl;
@@ -23,7 +23,7 @@ void Stateinit::OnEnter()
     meshbuffer->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
     this->meshList->push_back(meshbuffer);
 
-    meshbuffer = MeshBuilder::GenerateSphere("debugballs",Color(1,1,1),10,10,0.5f);
+    meshbuffer = MeshBuilder::GenerateSphere("debugballs",Color(1,1,1),10,10,0.25f);
     this->meshList->push_back(meshbuffer);
 	meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//TestCube.obj")[0];
 	meshbuffer->textureID = LoadTGA("TGA//TestCube.tga", GL_LINEAR, GL_CLAMP);
@@ -33,7 +33,7 @@ void Stateinit::OnEnter()
 	this->meshList->push_back(meshbuffer); // Pushes it into the mesh list
 
     // Camera
-    this->state_cam->Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
+    this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
     // Spawn Entities.
     entity* current = new entity();
 
@@ -70,16 +70,12 @@ void Stateinit::OnEnter()
 	/*
     current = new entity();
 
-    current->Init(Vector3(1.f, 24.f, 2.f), Vector3(0, 0, 1), Vector3(0, 1, 0) );
-    current->type = entityType::eT_Object;
-    current->meshptr = this->meshGetFast("testcube");
-    current->physics = true;
-    current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
-    this->entitylists->push_back(current);
-	*/
+void Stateinit::OnRender()
+{
+
 }
 
-void Stateinit::OnRender()
+void Stateinit::OnCam(int X, int Y, float XChange, float YChange)
 {
     for (size_t i = 0; i < this->entitylists->size(); i++)
     {
@@ -151,12 +147,14 @@ void Stateinit::OnUpdate(double dt)
 	bullet->Update(dt); // Calls Bullet:Update();
 	
 	if (bullet->timeAlive > 1)
+	if (this->STData->bounceTime >= 0.0)
 	{
 		Bullet* bullet = new Bullet(Vector3(testCube1->position.x, testCube1->position.y, testCube1->position.z),
 			Vector3(testCube1->target.x, testCube1->target.y, testCube1->target.z),
 			Vector3(0, 1, 0));
 		delete bullet;
 		this->bullet->timeAlive = 0;
+        this->STData->bounceTime -= dt;
 	}
 	//entity* bullet = this->entityGetFast("testcube");
 

@@ -9,8 +9,8 @@ class PlanetRange
 public:
 	PlanetRange();
 
-	int planetRangeCheck(int cx, int cy, int cz, int x, int y, int z); //these two can be used for teleportation to other planets (rename if necessary)
-	int planetExecuteUI(int cx, int cy, int cz, int x, int y, int z); //these two can be used for teleportation to other planets (rename if necessary)
+	bool planetRangeCheck(float cx, float cy, float cz, float x, float y, float z); //these two can be used for teleportation to other planets (rename if necessary)
+	bool planetExecuteUI(float cx, float cy, float cz, float x, float y, float z); //these two can be used for teleportation to other planets (rename if necessary)
 
 private:
 	
