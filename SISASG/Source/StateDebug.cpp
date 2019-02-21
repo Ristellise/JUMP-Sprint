@@ -21,7 +21,7 @@ void StateDebug::OnExit()
 
 void StateDebug::OnUpdate(double dt)
 {
-    // entity testCube1 = *this->entityGetFast("testcube");
+    // entity spaceship = *this->entityGetFast("spaceship");
 
 	this->dtimestring = "FPS:";
 	this->dtimestring += std::to_string(1.0f / dt);
@@ -34,15 +34,15 @@ void StateDebug::OnUpdate(double dt)
 
 	/*
 	this->dtimestring += "\nVel :";
-	this->dtimestring += std::to_string(testCube1.velocity);
+	this->dtimestring += std::to_string(spaceship.velocity);
 	this->dtimestring += "\nAcl :";
-	this->dtimestring += std::to_string(testCube1.accl);
+	this->dtimestring += std::to_string(spaceship.accl);
 	this->dtimestring += "\nPit :";
-	this->dtimestring += std::to_string(testCube1.pitchTotal);
+	this->dtimestring += std::to_string(spaceship.pitchTotal);
 	this->dtimestring += "\nYaw :";
-	this->dtimestring += std::to_string(testCube1.yawTotal);
+	this->dtimestring += std::to_string(spaceship.yawTotal);
 	this->dtimestring += "\nRol :";
-	this->dtimestring += std::to_string(testCube1.rollTotal);
+	this->dtimestring += std::to_string(spaceship.rollTotal);
 	this->dtimestring += "\nEntities With physics: " + std::to_string(this->collideInstance->updatingEnts);
 	*/
 

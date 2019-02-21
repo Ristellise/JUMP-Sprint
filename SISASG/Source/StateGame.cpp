@@ -33,17 +33,17 @@ void StateGame::OnEnter()
 	{
 	case 0:
 		// Ship1 - Starter ship
-		meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship1.obj")[0];
+		meshbuffer = MeshBuilder::GenerateOBJ("spaceship", "OBJ//Ship1.obj")[0];
 		meshbuffer->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
 		break;
 	case 1:
 		// Ship2 - Heavy ship
-		meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship2.obj")[0];
+		meshbuffer = MeshBuilder::GenerateOBJ("spaceship", "OBJ//Ship2.obj")[0];
 		meshbuffer->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
 		break;
 	case 2:
 		// Ship3 - Speed ship
-		// meshbuffer = MeshBuilder::GenerateOBJ("testcube", "OBJ//Ship3.obj")[0];
+		// meshbuffer = MeshBuilder::GenerateOBJ("spaceship", "OBJ//Ship3.obj")[0];
 		// meshbuffer->textureID = LoadTGA("TGA//Ship3.tga", GL_LINEAR, GL_CLAMP);
 		break;
 	}
@@ -51,14 +51,18 @@ void StateGame::OnEnter()
 	this->meshList->push_back(meshbuffer);
 
 	// Test Cube
-	testCube* testCube1 = new testCube();
-	testCube1->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
-	testCube1->type = entityType::eT_Ship;
-	testCube1->name = "testcube";
-	testCube1->physics = true;
-	testCube1->Boxsize = BBoxDimensions(2.5f, 2.5f, 2.5f);
-	testCube1->meshptr = this->meshGetFast("testcube");
-	this->entitylists->push_back(testCube1);
+	spaceship* spaceship1 = new spaceship();
+	spaceship1->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
+	spaceship1->type = entityType::eT_Ship;
+	spaceship1->name = "spaceship";
+	spaceship1->physics = true;
+	spaceship1->Boxsize = BBoxDimensions(2.5f, 2.5f, 2.5f);
+	spaceship1->meshptr = this->meshGetFast("spaceship");
+	spaceship1->topSpeed = 20.0f;
+	spaceship1->fwdaccl = 10.f;
+	spaceship1->bwdaccl = -5.f;
+	spaceship1->drift = 10.0f;
+	this->entitylists->push_back(spaceship1);
 
 	// Test Env
 	meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
@@ -91,7 +95,7 @@ void StateGame::OnEnter()
 
     current->Init(Vector3(1.f, 24.f, 2.f), Vector3(0, 0, 1), Vector3(0, 1, 0));
     current->type = entityType::eT_Object;
-    current->meshptr = this->meshGetFast("testcube");
+    current->meshptr = this->meshGetFast("spaceship");
     current->physics = true;
     current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
     this->entitylists->push_back(current);
@@ -104,7 +108,7 @@ void StateGame::OnExit()
 
 void StateGame::OnUpdate(double dt)
 {
-	entity* testCube1 = this->entityGetFast("testcube");
+	entity* spaceship = this->entityGetFast("spaceship");
 
 	///////* start of planet and hoop stuff *///////
 
@@ -128,23 +132,23 @@ void StateGame::OnUpdate(double dt)
 	this->dtimestring += "\nCam Z:";
 	this->dtimestring += std::to_string(this->state_cam->position.z);
 
-	if (planetrange1.planetExecuteUI(cx_venus, cy_venus, cz_venus, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_venus, cy_venus, cz_venus, spaceship->position.x, spaceship->position.y, spaceship->position.z) == true)
 	{
 		if (Application::IsKeyPressed(VK_RETURN)) // testing keypress inside range checker1`
 		{
-			testCube1->position.x = 0, testCube1->position.y = 0, testCube1->position.z = 0;
+			spaceship->position.x = 0, spaceship->position.y = 0, spaceship->position.z = 0;
 		}
 		this->dtimestring += "\nYour range check should work for Venus";
 	}
-	if (planetrange1.planetExecuteUI(cx_earth, cy_earth, cz_earth, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_earth, cy_earth, cz_earth, spaceship->position.x, spaceship->position.y, spaceship->position.z) == true)
 	{
 		this->dtimestring += "\nYour range check should work for Earth";
 	}
-	if (planetrange1.planetExecuteUI(cx_mars, cy_mars, cz_mars, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_mars, cy_mars, cz_mars, spaceship->position.x, spaceship->position.y, spaceship->position.z) == true)
 	{
 		this->dtimestring += "\nYour range check should work for Mars";
 	}
-	if (planetrange1.planetExecuteUI(cx_jupiter, cy_jupiter, cz_jupiter, testCube1->position.x, testCube1->position.y, testCube1->position.z) == true)
+	if (planetrange1.planetExecuteUI(cx_jupiter, cy_jupiter, cz_jupiter, spaceship->position.x, spaceship->position.y, spaceship->position.z) == true)
 	{
 		this->dtimestring += "\nYour range check should work for Jupiter";
 	}
@@ -155,7 +159,7 @@ void StateGame::OnUpdate(double dt)
 	{
 		// passes values into hoops for coords
 
-		if (hoop.hoopsExecuteUI(offset_x[i], offset_y[i], offset_z[i], testCube1->position.x, testCube1->position.y, testCube1->position.z, rad) == true)
+		if (hoop.hoopsExecuteUI(offset_x[i], offset_y[i], offset_z[i], spaceship->position.x, spaceship->position.y, spaceship->position.z, rad) == true)
 		{
 			points++;
 		}
@@ -169,9 +173,9 @@ void StateGame::OnUpdate(double dt)
         (*this->entitylists)[i]->Update(dt);
     }
 
-	//testCube1->Update(dt);
+	//spaceship->Update(dt);
 
-	this->state_cam->Update(dt, *testCube1);
+	this->state_cam->Update(dt, *spaceship);
 
 	this->collideInstance->updatingEnts = 0;
 
@@ -333,45 +337,45 @@ void StateGame::OnRender()
 		}
 		else if (buff->type == entityType::eT_Ship)
 		{
-			entity *testCube1 = this->entityGetFast("testcube");
+			entity *spaceship = this->entityGetFast("spaceship");
 
 			// Matrix method v2
 			(*this->modelStack).PushMatrix();
-			cubeMult1.SetToTranslation(testCube1->position.x, testCube1->position.y, testCube1->position.z);
+			cubeMult1.SetToTranslation(spaceship->position.x, spaceship->position.y, spaceship->position.z);
 
 			if (Application::IsKeyPressed(VK_LEFT))
 			{
-				cubeMultR.SetToRotation(testCube1->angle, testCube1->up.x, testCube1->up.y, testCube1->up.z);
+				cubeMultR.SetToRotation(spaceship->angle, spaceship->up.x, spaceship->up.y, spaceship->up.z);
 				cubeMult2 = cubeMultR * cubeMult2;
 			}
 
 			if (Application::IsKeyPressed(VK_RIGHT))
 			{
-				cubeMultR.SetToRotation(-(testCube1->angle), testCube1->up.x, testCube1->up.y, testCube1->up.z);
+				cubeMultR.SetToRotation(-(spaceship->angle), spaceship->up.x, spaceship->up.y, spaceship->up.z);
 				cubeMult2 = cubeMultR * cubeMult2;
 			}
 
 			if (Application::IsKeyPressed(VK_UP))
 			{
-				cubeMultR.SetToRotation(-(testCube1->angle), testCube1->right.x, testCube1->right.y, testCube1->right.z);
+				cubeMultR.SetToRotation(-(spaceship->angle), spaceship->right.x, spaceship->right.y, spaceship->right.z);
 				cubeMult2 = cubeMultR * cubeMult2;
 			}
 
 			if (Application::IsKeyPressed(VK_DOWN))
 			{
-				cubeMultR.SetToRotation(testCube1->angle, testCube1->right.x, testCube1->right.y, testCube1->right.z);
+				cubeMultR.SetToRotation(spaceship->angle, spaceship->right.x, spaceship->right.y, spaceship->right.z);
 				cubeMult2 = cubeMultR * cubeMult2;
 			}
 
 			if (Application::IsKeyPressed('Q'))
 			{
-				cubeMultR.SetToRotation(-(testCube1->angle), testCube1->view.x, testCube1->view.y, testCube1->view.z);
+				cubeMultR.SetToRotation(-(spaceship->angle), spaceship->view.x, spaceship->view.y, spaceship->view.z);
 				cubeMult2 = cubeMultR * cubeMult2;
 			}
 
 			if (Application::IsKeyPressed('E'))
 			{
-				cubeMultR.SetToRotation(testCube1->angle, testCube1->view.x, testCube1->view.y, testCube1->view.z);
+				cubeMultR.SetToRotation(spaceship->angle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
 				cubeMult2 = cubeMultR * cubeMult2;
 			}
 
@@ -379,7 +383,7 @@ void StateGame::OnRender()
 			cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
 
 			(*this->modelStack).LoadMatrix(cubeMatrix);
-			RenderMesh(testCube1->meshptr, true);
+			RenderMesh(spaceship->meshptr, true);
 			(*this->modelStack).PopMatrix();
 
             

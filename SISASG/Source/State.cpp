@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iterator>
 #include <functional>
-#include "testCube.h"
+#include "spaceship.h"
 void GState::Setlists(std::vector<entity*>* entitylists, std::vector<Mesh*>* meshList)
 {
     this->entitylists = entitylists;

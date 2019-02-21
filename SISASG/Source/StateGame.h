@@ -2,7 +2,7 @@
 #define GAME_H
 
 #include "State.h"
-#include "testCube.h"
+#include "spaceship.h"
 #include "PlanetRange.h"
 #include "Hoops.h"
 #include "AudioHandler.h"

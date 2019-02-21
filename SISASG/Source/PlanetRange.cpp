@@ -19,8 +19,6 @@ bool PlanetRange::planetRangeCheck(float cx, float cy, float cz, float x, float 
 
 bool PlanetRange::planetExecuteUI(float cx, float cy, float cz, float x, float y, float z)
 {
-	testCube *testCube1 = new testCube();
-
 	//use check function
 	float ans = planetRangeCheck(cx, cy, cz, x, y, z);
 
