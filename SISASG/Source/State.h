@@ -6,6 +6,7 @@
 #include "Uniforms.h"
 #include "MatrixStack.h"
 #include "entity.h"
+#include "Bullet.h"
 #include "Camera3.h"
 #include "MouseHandler.h"
 #include "collision.h"
@@ -39,14 +40,13 @@ protected:
     Camera3* state_cam;
     MouseHandler* mouse;
 
-    std::vector<entity*> *entitylists;
+    std::map<std::string,entity*> *entitylists;
     std::vector<Mesh*> *meshList;
 
     collision* collideInstance;
 public:
     StateData* STData;
-
-    void Setlists(std::vector<entity*> *entitylists, std::vector<Mesh*> *meshList);
+    void Setlists(std::map<std::string, entity*>* entitylists, std::vector<Mesh*>* meshList);
 
     GState();
     ~GState();

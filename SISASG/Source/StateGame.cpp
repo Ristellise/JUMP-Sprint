@@ -87,7 +87,7 @@ void StateGame::OnEnter()
 	spaceship1->fwdaccl = 10.f;
 	spaceship1->bwdaccl = -10.f;
 	spaceship1->drift = 10.0f;
-	this->entitylists->push_back(spaceship1);
+	this->entitylists->insert_or_assign("spaceship1",spaceship1);
 
 	// Test Env
 	meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
@@ -106,8 +106,7 @@ void StateGame::OnEnter()
 	// testEnv->physics = true;
 	// testEnv->Boxsize = BBoxDimensions(0.f, 0.f, 0.f);
 	testEnv->meshptr = this->meshGetFast("testenv");
-	this->entitylists->push_back(testEnv);
-	*/
+	this->entitylists->insert_or_assign("testenv",testEnv);
 
 	// Hoops
 	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(255 / 255.f, 255 / 255.f, 255 / 255.f), 36, 36, 10, 1);
@@ -126,8 +125,7 @@ void StateGame::OnEnter()
     current->meshptr = this->meshGetFast("spaceship");
     current->physics = true;
     current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
-    this->entitylists->push_back(current);
-	*/
+    this->entitylists->insert_or_assign("testcube",current);
     //this->STData->VERYLOUD.play();
 }
 
@@ -221,9 +219,10 @@ void StateGame::OnUpdate(double dt)
 	
 	///////* end of planet and hoop stuff *///////
 
-    for (size_t i = 0; i < this->entitylists->size(); i++)
+    std::map<std::string, entity*>::iterator it;
+    for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
     {
-        (*this->entitylists)[i]->Update(dt);
+        it->second->Update(dt);
     }
 
 	//spaceship->Update(dt);
@@ -381,13 +380,14 @@ void StateGame::OnRender()
 	//}
 
 	///////* end of hoops *///////
-	
-	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 24.f);
 
-	for (size_t i = 0; i < this->entitylists->size(); i++)
+	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 15.f);
+    std::map<std::string, entity*>::iterator it;
+
+    for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
 	{
 		(*this->modelStack).PushMatrix();
-		entity *buff = (*this->entitylists)[i];
+		entity *buff = it->second;
 		if (buff->type == entityType::eT_Text)
 		{
 			buff->position;
@@ -416,7 +416,7 @@ void StateGame::OnRender()
 		}
 		else if (buff->type == entityType::eT_Ship)
 		{
-			entity *spaceship = this->entityGetFast("spaceship");
+			entity *spaceship = this->entityGetFast("spaceship1");
 
 			// Matrix method v2
 			(*this->modelStack).PushMatrix();
