@@ -163,6 +163,7 @@ void StateGame::OnUpdate(double dt)
 		if (hoop.hoopsExecuteUI((int)offset_x[i], (int)offset_y[i], (int)offset_z[i], (int)spaceship->position.x, (int)spaceship->position.y, (int)spaceship->position.z, (int)rad))
 		{
 			points++;
+			//hoop.hoopsExecuteUI((int)offset_x[i], (int)offset_y[i], (int)offset_z[i], (int)spaceship->position.x, (int)spaceship->position.y, (int)spaceship->position.z, (int)rad) == false;
 		}
 	}
 	
