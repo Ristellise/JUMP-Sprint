@@ -6,26 +6,26 @@ PlanetRange::PlanetRange()
 
 }
 
-int PlanetRange::planetRangeCheck(int cx, int cy, int cz, int x, int y, int z)
+bool PlanetRange::planetRangeCheck(float cx, float cy, float cz, float x, float y, float z)
 {
-	int x1 = (int)pow((x - cx), 2);
-	int y1 = (int)pow((y - cy), 2);
-	int z1 = (int)pow((z - cz), 2);
+	float x1 = (float)pow((x - cx), 2);
+	float y1 = (float)pow((y - cy), 2);
+	float z1 = (float)pow((z - cz), 2);
 
-	// distance between the centre  
+	// distance between the centre
 	// and given point 
 	return (x1 + y1 + z1);
 }
 
-int PlanetRange::planetExecuteUI(int cx, int cy, int cz, int x, int y, int z)
+bool PlanetRange::planetExecuteUI(float cx, float cy, float cz, float x, float y, float z)
 {
 	testCube *testCube1 = new testCube();
 
 	//use check function
-	int ans = planetRangeCheck(cx, cy, cz, x, y, z);
+	float ans = planetRangeCheck(cx, cy, cz, x, y, z);
 
 	//radius sphere
-	int r = 150;
+	float r = 150.f;
 
 	if (ans < (r * r) || ans == (r * r))
 	{

@@ -11,6 +11,10 @@
 #include "StateDebug.h"
 #include "StateTitle.h"
 #include "StateGame.h"
+#include "StateMenus.h"
+#include "StateHangar.h"
+#include "StateShop.h"
+#include "StatePlanet.h"
 #include <stdexcept>
 
 
@@ -35,15 +39,14 @@ void SceneWorld::Init()
 	currRotate = 3;
 	prevRotate = 3;
 
-	srand(unsigned int(time(0)));
+	srand(unsigned int(time(NULL)));
 
     random = rand() % 10 + 1;
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     rotateAngle = 0;
     movement_asteroid1_z = 0;
-
-    // Generate a default VAO for now
+	// Generate a default VAO for now
     glGenVertexArrays(1, &m_vertexArrayID);
     glBindVertexArray(m_vertexArrayID);
 
@@ -120,11 +123,19 @@ void SceneWorld::Init()
 	StateDebug* debugstate = new StateDebug();
 	StateTitle* titlestate = new StateTitle();
 	StateGame* gamestate = new StateGame();
+	StateMenus* menustate = new StateMenus();
+	StateHangar* hangarstate = new StateHangar();
+	StateShop* shopstate = new StateShop();
+	StatePlanet* planetstate = new StatePlanet();
     this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
     this->StateManInst.addAvailable(initInstance);
     this->StateManInst.addAvailable(debugstate);
     this->StateManInst.addAvailable(titlestate);
     this->StateManInst.addAvailable(gamestate);
+    this->StateManInst.addAvailable(menustate);
+    this->StateManInst.addAvailable(hangarstate);
+    this->StateManInst.addAvailable(shopstate);
+    this->StateManInst.addAvailable(planetstate);
     this->StateManInst.setCam(&camera);
     this->StateManInst.Init(this->m_parameters, &this->FLInstance, &this->Mouse);
 
@@ -319,6 +330,11 @@ void SceneWorld::Update(double dt)
     }
 
     this->StateManInst.Update(dt, this->l_window);
+
+	glfwGetWindowSize(l_window, &WindowXpos, &WindowYpos); // gets the size of the window
+	Mtx44 projection;
+	projection.SetToPerspective(45.f, (float)WindowXpos / WindowYpos, 0.1f, ViewRange); // Window Scaling
+	projectionStack.LoadMatrix(projection);
 }
 
 void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
@@ -412,7 +428,6 @@ void SceneWorld::RenderSkybox()
     modelStack.Scale(SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
     RenderMesh(meshList[GEO_BOTTOM], false);
     modelStack.PopMatrix();
-
 }
 
 /*
@@ -596,11 +611,11 @@ void SceneWorld::Render()
             &lightPosition_cameraspace.x);
     }
 
-    RenderSkybox();
+    // RenderSkybox();
 
-    RenderPlanets();
+    // RenderPlanets();
 
-	RenderAsteroid();
+	// RenderAsteroid();
 
 	// planetExecuteUI();
 

@@ -5,7 +5,7 @@ Hoops::Hoops()
 
 }
 
-int Hoops::hoopsCheckXY(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad) // almost works just need to add z axis somehow so renamed to XY for now
+bool Hoops::hoopsCheckXY(float circle_x, float circle_y, float circle_z, float x, float y, float z, float rad) // almost works just need to add z axis somehow so renamed to XY for now
 {
 	// Compare radius of circle with distance of its center from given point
 	if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad && z == circle_z)
@@ -18,7 +18,7 @@ int Hoops::hoopsCheckXY(int circle_x, int circle_y, int circle_z, int x, int y, 
 	}
 }
 
-int Hoops::hoopsExecuteUI(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad)
+bool Hoops::hoopsExecuteUI(float circle_x, float circle_y, float circle_z, float x, float y, float z, float rad)
 {
 	testCube *testCube1 = new testCube();
 

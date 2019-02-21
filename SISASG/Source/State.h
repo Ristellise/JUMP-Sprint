@@ -23,6 +23,7 @@ struct StateData
     int shipSelect = 0;
     int planetSelect = 0;
     SoLoud::Soloud VERYLOUD;
+	Mesh* font;
 };
 
 class GState
@@ -62,9 +63,7 @@ public:
 		FontLoader * St_FLInstance, 
 		Camera3 * cam, 
 		MouseHandler* mouse, 
-		collision* collideInstance,
-		std::vector<entity*> *entitylists,
-		std::vector<Mesh*> *meshList
+		collision* collideInstance
 	);
 	void SetMatrixes(MS * model, MS * view, MS * projection);
     // GState Actually becomes active. does all the setup for the Uniforms and stuff.

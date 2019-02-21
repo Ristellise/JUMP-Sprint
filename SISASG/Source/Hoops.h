@@ -8,8 +8,8 @@ class Hoops
 public:
 	Hoops();
 
-	int hoopsCheckXY(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad); // for hoops detection (not fully working)
-	int hoopsExecuteUI(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad); // for hoops detection (not fully working)
+	bool hoopsCheckXY(float circle_x, float circle_y, float circle_z, float x, float y, float z, float rad); // for hoops detection (not fully working)
+	bool hoopsExecuteUI(float circle_x, float circle_y, float circle_z, float x, float y, float z, float rad); // for hoops detection (not fully working)
 
 private:
 

@@ -7,7 +7,7 @@
 
 void Stateinit::OnEnter()
 {
-	this->spawnState = "title";
+	this->spawnState = "Title";
 
 	// Init Stacks
     std::cout << "Entering: " << this->StateName<< " Albion Prelude."<< std::endl;
@@ -26,7 +26,7 @@ void Stateinit::OnEnter()
     this->meshList->push_back(meshbuffer);
 
     // Camera
-    this->state_cam->Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
+    this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
     // Spawn Entities.
     entity* current = new entity();
 
