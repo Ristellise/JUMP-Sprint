@@ -67,9 +67,6 @@
     <ClCompile Include="Source\State.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
-    <ClCompile Include="Source\StateDebug.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
     <ClCompile Include="Source\StateGame.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
@@ -102,6 +99,9 @@
     </ClCompile>
     <ClCompile Include="Source\Utility.cpp">
       <Filter>Source Files\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateStat.cpp">
+      <Filter>Source Files\States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="Source\Vertex.h">
       <Filter>Source Files\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateStat.h">
+      <Filter>Header Files\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

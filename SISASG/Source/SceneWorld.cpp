@@ -8,7 +8,7 @@
 #include "LoadTGA.h"
 #include "StateInit.h"
 #include "State.h"
-#include "StateDebug.h"
+#include "StateStat.h"
 #include "StateTitle.h"
 #include "StateGame.h"
 #include "StateMenus.h"
@@ -120,7 +120,7 @@ void SceneWorld::Init()
 
     FLInstance.Loadfnt("Font/fnt.fnt");
     Stateinit* initInstance = new Stateinit();
-	StateDebug* debugstate = new StateDebug();
+	StateStat* statstate = new StateStat();
 	StateTitle* titlestate = new StateTitle();
 	StateGame* gamestate = new StateGame();
 	StateMenus* menustate = new StateMenus();
@@ -129,7 +129,7 @@ void SceneWorld::Init()
 	StatePlanet* planetstate = new StatePlanet();
     this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
     this->StateManInst.addAvailable(initInstance);
-    this->StateManInst.addAvailable(debugstate);
+    this->StateManInst.addAvailable(statstate);
     this->StateManInst.addAvailable(titlestate);
     this->StateManInst.addAvailable(gamestate);
     this->StateManInst.addAvailable(menustate);

@@ -177,7 +177,6 @@
     <ClCompile Include="Source\SceneWorld.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\State.cpp" />
-    <ClCompile Include="Source\StateDebug.cpp" />
     <ClCompile Include="Source\StateGame.cpp" />
     <ClCompile Include="Source\StateHangar.cpp" />
     <ClCompile Include="Source\StateInit.cpp" />
@@ -186,6 +185,7 @@
     <ClCompile Include="Source\StateMenus.cpp" />
     <ClCompile Include="Source\StatePlanet.cpp" />
     <ClCompile Include="Source\StateShop.cpp" />
+    <ClCompile Include="Source\StateStat.cpp" />
     <ClCompile Include="Source\StateTitle.cpp" />
     <ClCompile Include="Source\testCube.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
@@ -220,6 +220,7 @@
     <ClInclude Include="Source\StateMenus.h" />
     <ClInclude Include="Source\StatePlanet.h" />
     <ClInclude Include="Source\StateShop.h" />
+    <ClInclude Include="Source\StateStat.h" />
     <ClInclude Include="Source\StateTitle.h" />
     <ClInclude Include="Source\Uniforms.h" />
     <ClInclude Include="Source\spaceship.h" />
