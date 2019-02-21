@@ -23,6 +23,8 @@ struct StateData
     int shipSelect = 0;
     int planetSelect = 0;
     SoLoud::Soloud VERYLOUD;
+    unsigned int hoopsMap;
+	Mesh* font;
 };
 
 class GState
@@ -37,12 +39,14 @@ protected:
     Camera3* state_cam;
     MouseHandler* mouse;
 
-	std::vector<entity*> *entitylists;
-	std::vector<Mesh*> *meshList;
+    std::vector<entity*> *entitylists;
+    std::vector<Mesh*> *meshList;
 
     collision* collideInstance;
 public:
     StateData* STData;
+
+    void Setlists(std::vector<entity*> *entitylists, std::vector<Mesh*> *meshList);
 
     GState();
     ~GState();
@@ -62,9 +66,7 @@ public:
 		FontLoader * St_FLInstance, 
 		Camera3 * cam, 
 		MouseHandler* mouse, 
-		collision* collideInstance,
-		std::vector<entity*> *entitylists,
-		std::vector<Mesh*> *meshList
+		collision* collideInstance
 	);
 	void SetMatrixes(MS * model, MS * view, MS * projection);
     // GState Actually becomes active. does all the setup for the Uniforms and stuff.

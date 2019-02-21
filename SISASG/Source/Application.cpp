@@ -7,8 +7,6 @@
 #include "SceneWorld.h"
 // Please dont even change to SceneHangar =_= 
 // It was temporary >.>
-// Okie~
-#include "SceneHangar.h" // For Selecting Ships 
 
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame

@@ -5,6 +5,7 @@
 #include "testCube.h"
 #include "PlanetRange.h"
 #include "Hoops.h"
+#include "AudioHandler.h"
 
 class StateGame : public GState
 {
@@ -23,6 +24,8 @@ public:
 	PlanetRange planetrange1;
 	Hoops hoop;
 
+    SoundContainer audiosrc;
+
 	void OnEnter();
 	void OnExit();
 	void OnUpdate(double dt);
@@ -31,8 +34,8 @@ public:
 
 private:
 	// test for hoops currently
-	int x = 250, y = 0, z = -250, rad = 9; // main coords starts at venus, inner radius of ring is 9
-	int points = 0; // counts the points (fairly bugged)
+	float x = 250.f, y = 0.f, z = -250.f, rad = 9.f; // main coords starts at venus, inner radius of ring is 9
+	float points = 0.f; // counts the points (fairly bugged)
 	float offset_x[20], offset_y[20], offset_z[20]; // stores positions of all rings (increase array size accordingly)
 
 };

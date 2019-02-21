@@ -142,13 +142,13 @@ void collision::doCollisions(std::vector<entity*> &entityList, double dt)
                     if (Ent->velocity > Ent2->velocity)
                     {
                         
-                        Ent->velocity = -velocity / 4;
+                        Ent->velocity = velocity / 4;
                         Ent2->velocity = velocity / 2;
                         Ent2->view = Ent->view;
                     }
                     else if (Ent->velocity > Ent2->velocity)
                     {
-                        Ent2->velocity = -velocity / 4;
+                        Ent2->velocity = velocity / 4;
                         Ent->velocity = velocity / 2;
                         Ent->view = Ent2->view;
                     }

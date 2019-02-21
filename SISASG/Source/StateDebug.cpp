@@ -21,7 +21,7 @@ void StateDebug::OnExit()
 
 void StateDebug::OnUpdate(double dt)
 {
-    entity testCube1 = *this->entityGetFast("testcube");
+    // entity testCube1 = *this->entityGetFast("testcube");
 
 	this->dtimestring = "FPS:";
 	this->dtimestring += std::to_string(1.0f / dt);
@@ -31,6 +31,8 @@ void StateDebug::OnUpdate(double dt)
 	this->dtimestring += std::to_string(this->state_cam->position.y);
 	this->dtimestring += "\nCam Z:";
 	this->dtimestring += std::to_string(this->state_cam->position.z);
+
+	/*
 	this->dtimestring += "\nVel :";
 	this->dtimestring += std::to_string(testCube1.velocity);
 	this->dtimestring += "\nAcl :";
@@ -42,6 +44,7 @@ void StateDebug::OnUpdate(double dt)
 	this->dtimestring += "\nRol :";
 	this->dtimestring += std::to_string(testCube1.rollTotal);
 	this->dtimestring += "\nEntities With physics: " + std::to_string(this->collideInstance->updatingEnts);
+	*/
 
 	this->dtimestring += "\nMouse:" + std::to_string(this->mouse->X) +
 		" | " + std::to_string(this->mouse->Y) +
@@ -58,7 +61,7 @@ void StateDebug::OnUpdate(double dt)
 
 void StateDebug::OnRender()
 {
-	this->RenderTextScreen(this->meshGetFast("saofontsheet"), this->dtimestring, Color(255, 255, 255), 2.f, 1.f, 24.f);
+	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(255, 255, 255), 2.f, 1.f, 24.f);
 }
 
 void StateDebug::OnCam(int X, int Y, float XChange, float YChange)

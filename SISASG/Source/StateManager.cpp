@@ -1,6 +1,7 @@
 #include "StateManager.h"
 #include "State.h"
-
+#include "MeshBuilder.h"
+#include "LoadTGA.h"
 bool StateManager::setCam(Camera3 * cam)
 {
     this->manager_cam = cam;
@@ -46,6 +47,7 @@ void StateManager::Update(double dt, GLFWwindow* window)
         
     }
 }
+
 void StateManager::Render()
 {
     for (size_t i = 0; i < this->activeStates.size(); i++)
@@ -53,11 +55,17 @@ void StateManager::Render()
         this->activeStates[i]->OnRender();
     }
 }
+
 bool StateManager::Init(unsigned * m_parameters, FontLoader * FLInstance, MouseHandler * SM_Mouse)
 {
     this->StateMan_parameters = m_parameters;
     this->SM_FLInstance = FLInstance;
     this->SM_Mouse = SM_Mouse;
+
+	Mesh* meshbuffer;
+	meshbuffer = MeshBuilder::GenerateText("saofontsheet", *FLInstance);
+	meshbuffer->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
+	this->StateManagerData.font = meshbuffer;
     this->addState("init");
     return true;
 }
@@ -89,11 +97,10 @@ bool StateManager::addState(std::string Statename)
 				this->SM_FLInstance, 
 				this->manager_cam,
 				this->SM_Mouse, 
-				&this->collideInstance, 
-				&this->entitylists, 
-				&this->meshList
+				&this->collideInstance
 			);
 			(this->availableStates[i])->STData = &this->StateManagerData;
+            (this->availableStates[i])->Setlists(&this->entitylists, &this->meshList);
             (this->availableStates[i])->SetMatrixes(this->modelStack,this->viewStack,this->projectionStack);
             (this->availableStates[i])->OnEnter();
             this->activeStates.push_back(this->availableStates[i]);
