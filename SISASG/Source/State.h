@@ -11,8 +11,7 @@
 #include "MouseHandler.h"
 #include "collision.h"
 #include <soloud.h>
-#include <soloud_wavstream.h>
-#include <soloud_wav.h>
+#include "AudioHandler.h"
 // Contains a base template of game states Active.
 // They may be added or removed.
 
@@ -24,6 +23,7 @@ struct StateData
     int shipSelect = 0;
     int planetSelect = 0;
     SoLoud::Soloud VERYLOUD;
+    std::map<std::string, SoundContainer*> SoundSrcs;
     unsigned int hoopsMap;
 	Mesh* font;
 };

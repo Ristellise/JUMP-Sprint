@@ -32,12 +32,11 @@ void Stateinit::OnEnter()
 
 	// Debugging string
 	// Init: Only the first Vector3 matters. Format: (translateX, translateY, scale) This is for TextUI
-	current->Init(Vector3(1.f, 24.f, 2.f), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
-	current->text = &dtimestring;
-	current->type = entityType::eT_TextUI;
-	current->meshptr = this->meshGetFast("saofontsheet");
-	this->entitylists->insert_or_assign("saofontsheet", current);
-
+    current->Init(Vector3(1.f, 24.f, 2.f), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
+    current->text = &dtimestring;
+    current->type = entityType::eT_TextUI;
+    current->meshptr = this->meshGetFast("saofontsheet");
+    this->entitylists->insert_or_assign("saofontsheet",current);
 }
 
 void Stateinit::OnRender()
@@ -65,4 +64,5 @@ void Stateinit::OnUpdate(double dt)
 	{
 		this->STData->bounceTime -= dt;
 	}
+    
 }

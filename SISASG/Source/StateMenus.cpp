@@ -25,10 +25,13 @@ void StateMenus::OnEnter()
 
 	rotateAngle = 0;
 	movement_asteroid1_z = 0;
+    this->STData->SoundSrcs.insert_or_assign("testTrack", new SoundContainer(&this->STData->VERYLOUD, "Audio/xmtest.xm", SourceType::ST_OPENMPT));
+    this->STData->SoundSrcs["testTrack"]->play(true);
 }
 
 void StateMenus::OnExit()
 {
+    this->STData->SoundSrcs["testTrack"]->DIE(false);
 }
 
 void StateMenus::OnUpdate(double dt)

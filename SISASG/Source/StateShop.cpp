@@ -7,6 +7,8 @@ StateShop::StateShop()
 
 void StateShop::OnEnter()
 {
+    this->STData->SoundSrcs.insert_or_assign("testTrack", new SoundContainer(&this->STData->VERYLOUD, "Audio/xmtest.xm", SourceType::ST_OPENMPT));
+    this->STData->SoundSrcs["testTrack"]->play(true);
 }
 
 void StateShop::OnExit()
