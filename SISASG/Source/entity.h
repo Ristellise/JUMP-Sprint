@@ -52,6 +52,13 @@ public:
 class entity
 {
 public:
+	bool lKey;
+	bool rKey;
+	bool uKey;
+	bool dKey;
+	bool qKey;
+	bool eKey;
+
 	float topSpeed;
 	float fwdaccl;
 	float bwdaccl;

@@ -41,7 +41,12 @@ public:
 	std::vector<STARS> stars;
 	std::vector<Light> lights;
 
+	float rotateAngle;
+	
 	int NumberOfShips = 3;
+	bool selectingShips = true;
+	int NumberOfPlanets = 4;
+	
 	int starsnumber;
 	float Shift = 0;
 	bool lit = true;
