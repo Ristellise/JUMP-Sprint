@@ -222,84 +222,100 @@ void StateGame::OnRender()
 
 	int the_addition = 10;
 
-	// venus 300, 0, -300, 20.0f, 20.0f, 20.0f
-
-	if (x = 250, y = 0, z = -250) // this double checks if specified start coordinates are right
+	if (x = 0.f, y = 0.f, z = 30.f)
 	{
-		for (int i = 0; i < 5; i++) // for loop follows amount of rings wanted inside the "map" (e.g 0 to 4 for this case, thus 5 hoops)
+		for (int i = 0; i < 5; i++)
 		{
-			offset_x[i] = x + the_addition * 2;	// changes x coord (can multiply / divide all these to make it more spaced out)
-			offset_y[i] = y + the_addition / 2;	// changes y coord
-			offset_z[i] = z + the_addition;		// changes z coord
+			offset_x[i] = x;
+			offset_y[i] = y;
+			offset_z[i] = z + the_addition;
 
 			(*this->modelStack).PushMatrix(); // render the hoops
 			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); // sets the coords of each hoop (coord stored in an array for each hoop)
 			RenderMesh(this->meshGetFast("hoop"), true);
 			(*this->modelStack).PopMatrix();
 			the_addition += 20; // increases addition value so it keeps going
-
-		}
-	}
-	
-	// earth -400, 0, -400, 21.0f, 21.0f, 21.0f
-
-	x = -350, y = 0, z = -350, the_addition = 15; // sets coords for next hoop range (near earth)
-
-	if (x = -350, y = 0, z = -350)
-	{
-		for (int i = 5; i < 10; i++)
-		{
-			offset_x[i] = x + the_addition;
-			offset_y[i] = y + the_addition;
-			offset_z[i] = z + the_addition;
-
-			(*this->modelStack).PushMatrix(); // render the hoops
-			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); 
-			RenderMesh(this->meshGetFast("hoop"), true);
-			(*this->modelStack).PopMatrix();
-			the_addition += 25;
 		}
 	}
 
-	// mars -550, 0, 550, 15.0f, 15.0f, 15.0f
+	// venus 300, 0, -300, 20.0f, 20.0f, 20.0f
 
-	x = -600, y = 10, z = 500, the_addition = 5; // sets coords for next hoop range (near mars)
+	//if (x = 250, y = 0, z = -250) // this double checks if specified start coordinates are right
+	//{
+	//	for (int i = 0; i < 5; i++) // for loop follows amount of rings wanted inside the "map" (e.g 0 to 4 for this case, thus 5 hoops)
+	//	{
+	//		offset_x[i] = x + the_addition * 2;	// changes x coord (can multiply / divide all these to make it more spaced out)
+	//		offset_y[i] = y + the_addition / 2;	// changes y coord
+	//		offset_z[i] = z + the_addition;		// changes z coord
 
-	if (x = -600, y = 10, z = 500)
-	{
-		for (int i = 10; i < 15; i++)
-		{
-			offset_x[i] = x + the_addition;
-			offset_y[i] = y + the_addition;
-			offset_z[i] = z + the_addition;
+	//		(*this->modelStack).PushMatrix(); // render the hoops
+	//		(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); // sets the coords of each hoop (coord stored in an array for each hoop)
+	//		RenderMesh(this->meshGetFast("hoop"), true);
+	//		(*this->modelStack).PopMatrix();
+	//		the_addition += 20; // increases addition value so it keeps going
 
-			(*this->modelStack).PushMatrix(); // render the hoops
-			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]);
-			RenderMesh(this->meshGetFast("hoop"), true);
-			(*this->modelStack).PopMatrix();
-			the_addition += 40;
-		}
-	}
+	//	}
+	//}
+	//
+	//// earth -400, 0, -400, 21.0f, 21.0f, 21.0f
 
-	// jupiter 800, 0, 800, 75.0f, 75.0f, 75.0f
+	//x = -350, y = 0, z = -350, the_addition = 15; // sets coords for next hoop range (near earth)
 
-	x = 900, y = 50, z = 850, the_addition = 20; // sets coords for next hoop range (near jupiter)
+	//if (x = -350, y = 0, z = -350)
+	//{
+	//	for (int i = 5; i < 10; i++)
+	//	{
+	//		offset_x[i] = x + the_addition;
+	//		offset_y[i] = y + the_addition;
+	//		offset_z[i] = z + the_addition;
 
-	if (x = 900, y = 50, z = 850)
-	{
-		for (int i = 15; i < 20; i++)
-		{
-			offset_x[i] = x + the_addition;
-			offset_y[i] = y + the_addition;
-			offset_z[i] = z + the_addition;
+	//		(*this->modelStack).PushMatrix(); // render the hoops
+	//		(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); 
+	//		RenderMesh(this->meshGetFast("hoop"), true);
+	//		(*this->modelStack).PopMatrix();
+	//		the_addition += 25;
+	//	}
+	//}
 
-			(*this->modelStack).PushMatrix(); // render the hoops
-			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); //change coords accordingly (automate later)
-			RenderMesh(this->meshGetFast("hoop"), true);
-			(*this->modelStack).PopMatrix();
-			the_addition += 15;
-		}
-	}
+	//// mars -550, 0, 550, 15.0f, 15.0f, 15.0f
+
+	//x = -600, y = 10, z = 500, the_addition = 5; // sets coords for next hoop range (near mars)
+
+	//if (x = -600, y = 10, z = 500)
+	//{
+	//	for (int i = 10; i < 15; i++)
+	//	{
+	//		offset_x[i] = x + the_addition;
+	//		offset_y[i] = y + the_addition;
+	//		offset_z[i] = z + the_addition;
+
+	//		(*this->modelStack).PushMatrix(); // render the hoops
+	//		(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]);
+	//		RenderMesh(this->meshGetFast("hoop"), true);
+	//		(*this->modelStack).PopMatrix();
+	//		the_addition += 40;
+	//	}
+	//}
+
+	//// jupiter 800, 0, 800, 75.0f, 75.0f, 75.0f
+
+	//x = 900, y = 50, z = 850, the_addition = 20; // sets coords for next hoop range (near jupiter)
+
+	//if (x = 900, y = 50, z = 850)
+	//{
+	//	for (int i = 15; i < 20; i++)
+	//	{
+	//		offset_x[i] = x + the_addition;
+	//		offset_y[i] = y + the_addition;
+	//		offset_z[i] = z + the_addition;
+
+	//		(*this->modelStack).PushMatrix(); // render the hoops
+	//		(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); //change coords accordingly (automate later)
+	//		RenderMesh(this->meshGetFast("hoop"), true);
+	//		(*this->modelStack).PopMatrix();
+	//		the_addition += 15;
+	//	}
+	//}
 
 	///////* end of hoops *///////
 
