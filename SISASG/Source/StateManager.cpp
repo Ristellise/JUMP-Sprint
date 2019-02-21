@@ -26,12 +26,12 @@ void StateManager::Update(double dt, GLFWwindow* window)
             this->activeStates[i]->resetExit();
             
             
-            /*for (std::vector< entity* >::iterator it = this->entitylists.begin(); it != this->entitylists.end(); ++it)
+            for (std::vector< entity* >::iterator it = this->entitylists.begin(); it != this->entitylists.end(); ++it)
             {
                 delete (*it);
             }
             this->entitylists.clear();
-            this->entitylists.shrink_to_fit();*/
+            this->entitylists.shrink_to_fit();
             if (this->activeStates[i]->getspawnState() != "")
             {
                 this->addState((this->activeStates[i]->getspawnState()));
@@ -100,6 +100,7 @@ bool StateManager::addState(std::string Statename)
 				&this->collideInstance
 			);
 			(this->availableStates[i])->STData = &this->StateManagerData;
+            (this->availableStates[i])->Setlists(&this->entitylists, &this->meshList);
             (this->availableStates[i])->SetMatrixes(this->modelStack,this->viewStack,this->projectionStack);
             (this->availableStates[i])->OnEnter();
             this->activeStates.push_back(this->availableStates[i]);

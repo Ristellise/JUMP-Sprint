@@ -28,6 +28,6 @@ public:
     SoLoud::Wav track;
 
     SoLoud::WavStream get();
-    SoLoud::Wav get();
+    // SoLoud::Wav get();
 };
 
