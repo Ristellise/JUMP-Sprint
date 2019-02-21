@@ -50,7 +50,7 @@ void StateGame::OnEnter()
 	
 	this->meshList->push_back(meshbuffer);
 
-	// Test Cube
+	// Spaceship
 	spaceship* spaceship1 = new spaceship();
 	spaceship1->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 	spaceship1->type = entityType::eT_Ship;
