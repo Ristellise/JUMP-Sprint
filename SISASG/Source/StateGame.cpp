@@ -58,7 +58,7 @@ void StateGame::OnEnter()
 	this->entitylists->push_back(testEnv);
 
 	// Hoops
-	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(1, 1, 1), 36, 36, 10, 1);
+	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(255 / 255.f, 255 / 255.f, 255 / 255.f), 36, 36, 10, 1);
 	this->meshList->push_back(meshbuffer);
 
 	// Axes
@@ -98,7 +98,7 @@ void StateGame::OnUpdate(double dt)
 
 	if (planetrange1.planetExecuteUI(cx_venus, cy_venus, cz_venus, (int)testCube1->position.x, (int)testCube1->position.y, (int)testCube1->position.z) == true)
 	{
-		if (Application::IsKeyPressed(VK_RETURN)) // testing keypress inside range checker
+		if (Application::IsKeyPressed(VK_RETURN)) // testing keypress inside range checker1`
 		{
 			testCube1->position.x = 0, testCube1->position.y = 0, testCube1->position.z = 0;
 		}
