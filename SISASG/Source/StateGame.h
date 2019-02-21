@@ -25,6 +25,7 @@ public:
 
 	PlanetRange planetrange1;
 	Hoops hoop;
+	
 
     SoundContainer audiosrc;
 
@@ -33,12 +34,21 @@ public:
 	void OnUpdate(double dt);
 	void OnRender();
 	void OnCam(int X, int Y, float XChange, float YChange);
+	void hoopGenerate();
 
 private:
 	// test for hoops currently
-	float x = 0.f, y = 0.f, z = 30.f, rad = 14.f; // main coords starts at venus, inner radius of ring is 9
+	float x = 20.f, y = 0.f, z = 180.f, rad = 14.f; // main coords starts at venus, inner radius of ring is 9
 	int points = 0; // counts the points (fairly bugged)
-	float offset_x[20], offset_y[20], offset_z[20]; // stores positions of all rings (increase array size accordingly)
+
+	struct Hooplah
+	{
+		float offset_x = 666, offset_y = 666, offset_z = 666, rotation = 666; // stores positions of all rings (increase array size accordingly)
+		bool passed;
+	};
+	Hooplah ok;
+	std::vector<Hooplah> idk;
+	
 
 };
 
