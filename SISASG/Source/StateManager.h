@@ -3,6 +3,7 @@
 #include "MouseHandler.h"
 #include "Uniforms.h"
 #include "State.h"
+#include <map>
 class StateManager
 {
     std::vector<GState*> activeStates;
@@ -15,7 +16,7 @@ class StateManager
     MouseHandler* SM_Mouse;
     // Mouselatch
 
-    std::vector<entity*> entitylists;
+    std::map<std::string, entity*> entitylists;
     std::vector<Mesh*> meshList;
 
     StateData StateManagerData;

@@ -24,14 +24,6 @@ void StateManager::Update(double dt, GLFWwindow* window)
         {
             this->activeStates[i]->OnExit();
             this->activeStates[i]->resetExit();
-            
-            
-            for (std::vector< entity* >::iterator it = this->entitylists.begin(); it != this->entitylists.end(); ++it)
-            {
-                delete (*it);
-            }
-            this->entitylists.clear();
-            this->entitylists.shrink_to_fit();
             if (this->activeStates[i]->getspawnState() != "")
             {
                 this->addState((this->activeStates[i]->getspawnState()));

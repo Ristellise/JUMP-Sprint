@@ -32,7 +32,7 @@ void StateHangar::OnEnter()
 	ship1->name = "ship1";
 	ship1->size = Vector3(5.f, 5.f, 5.f);
 	ship1->meshptr = this->meshGetFast("ship1");
-	this->entitylists->push_back(ship1);
+	this->entitylists->insert_or_assign("ship1",ship1);
 
 	// Ship 2
 	meshbuffer = MeshBuilder::GenerateOBJ("ship2", "OBJ//Ship2.obj")[0];
@@ -46,7 +46,7 @@ void StateHangar::OnEnter()
 	ship2->name = "ship2";
 	ship2->size = Vector3(5.f, 5.f, 5.f);
 	ship2->meshptr = this->meshGetFast("ship2");
-	this->entitylists->push_back(ship2);
+	this->entitylists->insert_or_assign("ship2", ship2);
 
 	// Side
 	meshbuffer = MeshBuilder::GenerateQuad("sides", Color(0, 0, 0), 1);
@@ -62,6 +62,11 @@ void StateHangar::OnEnter()
 
 void StateHangar::OnExit()
 {
+    delete this->entitylists->find("ship2")->second;
+    this->entitylists->erase("ship2");
+
+    delete this->entitylists->find("ship1")->second;
+    this->entitylists->erase("ship1");
 }
 
 void StateHangar::OnUpdate(double dt)
@@ -151,9 +156,11 @@ void StateHangar::OnCam(int X, int Y, float XChange, float YChange)
 
 void StateHangar::RenderShips()
 {
-	for (size_t i = 0; i < this->entitylists->size(); i++)
+    std::map<std::string, entity*>::iterator it;
+
+    for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
 	{
-		entity *buff = (*this->entitylists)[i];
+		entity *buff = it->second;
 
 		(*this->modelStack).PushMatrix();
 

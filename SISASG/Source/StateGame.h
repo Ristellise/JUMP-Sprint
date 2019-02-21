@@ -2,7 +2,7 @@
 #define GAME_H
 
 #include "State.h"
-#include "testCube.h"
+#include "spaceship.h"
 #include "PlanetRange.h"
 #include "Hoops.h"
 #include "AudioHandler.h"
@@ -34,7 +34,7 @@ public:
 
 private:
 	// test for hoops currently
-	float x = 250.f, y = 0.f, z = -250.f, rad = 9.f; // main coords starts at venus, inner radius of ring is 9
+	float x = 0.f, y = 0.f, z = 30.f, rad = 9.f; // main coords starts at venus, inner radius of ring is 9
 	float points = 0.f; // counts the points (fairly bugged)
 	float offset_x[20], offset_y[20], offset_z[20]; // stores positions of all rings (increase array size accordingly)
 

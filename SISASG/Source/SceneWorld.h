@@ -7,7 +7,7 @@
 #include "MeshBuilder.h"
 #include "MatrixStack.h"
 #include "Light.h"
-#include "testCube.h"
+#include "spaceship.h"
 #include "Bullet.h"
 #include "SaveFiles.h"
 #include "entity.h"
@@ -58,7 +58,7 @@ private:
     unsigned m_parameters[U_TOTAL];
 
     Camera3 camera;
-    // testCube testCube1;
+    // spaceship spaceship;
 	MS modelStack, viewStack, projectionStack;
     Light lights[8];
     FontLoader FLInstance;

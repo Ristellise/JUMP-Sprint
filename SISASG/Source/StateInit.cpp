@@ -67,7 +67,6 @@ void Stateinit::OnEnter()
 	this->entitylists->push_back(bullet);
 
     // Collision tester
-	/*
     current = new entity();
 
 void Stateinit::OnRender()
