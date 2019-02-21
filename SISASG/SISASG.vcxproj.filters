@@ -94,9 +94,6 @@
     <ClCompile Include="Source\spaceship.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Source\testCube.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Utility.cpp">
       <Filter>Source Files\Internal</Filter>
     </ClCompile>
@@ -197,9 +194,6 @@
     </ClInclude>
     <ClInclude Include="Source\StateTitle.h">
       <Filter>Header Files\States</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\testCube.h">
-      <Filter>Header Files\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Uniforms.h">
       <Filter>Header Files\Internal</Filter>

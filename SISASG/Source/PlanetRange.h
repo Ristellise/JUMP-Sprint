@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "entity.h"
-#include "testCube.h"
+#include "spaceship.h"
 
 class PlanetRange
 {
