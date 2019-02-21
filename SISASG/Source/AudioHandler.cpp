@@ -90,10 +90,7 @@ void SoundContainer::play(bool background)
     default:
         break;
     }
-    finally:
-    {
-        this->playing = true;
-    }
+	this->playing = true;
 }
 
 void SoundContainer::stop(bool Now, float timeToLive)
