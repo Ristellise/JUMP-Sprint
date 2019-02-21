@@ -38,8 +38,8 @@ void StateMenus::OnUpdate(double dt)
 		" | SPEED: " + std::to_string(this->mouse->XChange) +
 		" | " + std::to_string(this->mouse->YChange);
 
-	static int rotateDir = 1;
 	static int rotateDir_asteroid = 1;
+	static int rotateDir = 1;
 	static const float ROTATE_SPEED = 10.f;
 	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
 

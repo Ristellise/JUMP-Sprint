@@ -46,8 +46,32 @@ void StateGame::OnEnter()
 		// meshbuffer = MeshBuilder::GenerateOBJ("spaceship", "OBJ//Ship3.obj")[0];
 		// meshbuffer->textureID = LoadTGA("TGA//Ship3.tga", GL_LINEAR, GL_CLAMP);
 		break;
+	}	
+	this->meshList->push_back(meshbuffer);
+
+	switch (this->STData->planetSelect)
+	{
+	case 0:
+		// Venus
+		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//venus texture.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	case 1:
+		// Earth
+		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//earth texture.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	case 2:
+		// Mars
+		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//mars texture.tga", GL_LINEAR, GL_CLAMP);
+		break;
+	case 3:
+		// Jupiter
+		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//jupiter texture.tga", GL_LINEAR, GL_CLAMP);
+		break;
 	}
-	
 	this->meshList->push_back(meshbuffer);
 
 	// Spaceship
@@ -73,6 +97,7 @@ void StateGame::OnEnter()
 	// Audio src
     // this->audiosrc.Load("Audio/testtrack.flac");
 
+	/*
 	// Test Env
 	entity* testEnv = new entity();
 	testEnv->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
@@ -82,6 +107,7 @@ void StateGame::OnEnter()
 	// testEnv->Boxsize = BBoxDimensions(0.f, 0.f, 0.f);
 	testEnv->meshptr = this->meshGetFast("testenv");
 	this->entitylists->push_back(testEnv);
+	*/
 
 	// Hoops
 	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(255 / 255.f, 255 / 255.f, 255 / 255.f), 36, 36, 10, 1);
@@ -111,7 +137,31 @@ void StateGame::OnExit()
 
 void StateGame::OnUpdate(double dt)
 {
+	static int rotateDir = 1;
+	static const float ROTATE_SPEED = 10.f;
+	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
+
 	entity* spaceship = this->entityGetFast("spaceship");
+
+	this->dtimestring = "FPS: ";
+	this->dtimestring += std::to_string(1.0f / dt);
+	this->dtimestring += "\nCAM X: ";
+	this->dtimestring += std::to_string(this->state_cam->position.x);
+	this->dtimestring += "\nCAM Y: ";
+	this->dtimestring += std::to_string(this->state_cam->position.y);
+	this->dtimestring += "\nCAM Z: ";
+	this->dtimestring += std::to_string(this->state_cam->position.z);
+
+	this->dtimestring += "\nVEL :";
+	this->dtimestring += std::to_string(spaceship->velocity);
+	this->dtimestring += "\nACL :";
+	this->dtimestring += std::to_string(spaceship->accl);
+	this->dtimestring += "\nPIT :";				 
+	this->dtimestring += std::to_string(spaceship->pitchTotal);
+	this->dtimestring += "\nYAW :";				 
+	this->dtimestring += std::to_string(spaceship->yawTotal);
+	this->dtimestring += "\nROL :";				 
+	this->dtimestring += std::to_string(spaceship->rollTotal);
 
 	///////* start of planet and hoop stuff *///////
 
@@ -221,6 +271,14 @@ void StateGame::OnUpdate(double dt)
 
 void StateGame::OnRender()
 {
+	// Planet
+	(*this->modelStack).PushMatrix();
+	(*this->modelStack).Translate(400, 0, 1000);
+	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
+	(*this->modelStack).Scale(200.f, 200.f, 200.f);
+	RenderMesh(this->meshGetFast("planet"), true);
+	(*this->modelStack).PopMatrix();
+
 	///////* start of hoops *///////
 
 	// for loop to create 5 hoops?
@@ -323,8 +381,8 @@ void StateGame::OnRender()
 	//}
 
 	///////* end of hoops *///////
-
-	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 15.f);
+	
+	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 24.f);
 
 	for (size_t i = 0; i < this->entitylists->size(); i++)
 	{

@@ -19,6 +19,8 @@ public:
 	Mtx44 cubeMult2;
 	Mtx44 cubeMult3;
 
+	float rotateAngle;
+
 	std::string dtimestring;
 
 	PlanetRange planetrange1;
