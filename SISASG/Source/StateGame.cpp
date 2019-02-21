@@ -110,7 +110,7 @@ void StateGame::OnEnter()
 	*/
 
 	// Hoops
-	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(255 / 255.f, 255 / 255.f, 255 / 255.f), 36, 36, 10, 1);
+	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(255 / 255.f, 255 / 255.f, 255 / 255.f), 36, 36, 15, 1);
 	this->meshList->push_back(meshbuffer);
 
 	// Axes
@@ -132,6 +132,11 @@ void StateGame::OnEnter()
     //this->STData->VERYLOUD.play();
 
 	Stars();
+}
+	for (int i = 0; i < 20; i++)
+	{
+		idk.push_back(ok);
+	}
 }
 
 void StateGame::OnExit()
@@ -165,28 +170,22 @@ void StateGame::OnUpdate(double dt)
 	this->dtimestring += std::to_string(spaceship->yawTotal);
 	this->dtimestring += "\nROL :";				 
 	this->dtimestring += std::to_string(spaceship->rollTotal);
+	this->dtimestring += "\n\nPoints : ";
+	this->dtimestring += std::to_string(points);
 
 	///////* start of planet and hoop stuff *///////
 
 	//test range coords for planet range (center sphere coords) (automate later)
 
-	float cx_venus = 300.f, cy_venus = 0.f, cz_venus = -300.f; // can manually set planet coords due to generate ones already
-	float cx_earth = -400.f, cy_earth = 0.f, cz_earth = -400.f;
-	float cx_mars = -550.f, cy_mars = 0.f, cz_mars = 550.f;
-	float cx_jupiter = 800.f, cy_jupiter = 0.f, cz_jupiter = 800.f;
+	//float cx_venus = 300.f, cy_venus = 0.f, cz_venus = -300.f; // can manually set planet coords due to generate ones already
+	//float cx_earth = -400.f, cy_earth = 0.f, cz_earth = -400.f;
+	//float cx_mars = -550.f, cy_mars = 0.f, cz_mars = 550.f;
+	//float cx_jupiter = 800.f, cy_jupiter = 0.f, cz_jupiter = 800.f;
 
 	// checks whether planet and character is in range (venus)
+	
+
 	/*
-	this->dtimestring = "Points : ";
-	this->dtimestring += std::to_string(points);
-	this->dtimestring += "\nFPS:";
-	this->dtimestring += std::to_string(1.0f / dt);
-	this->dtimestring += "\nCam X:";
-	this->dtimestring += std::to_string(this->state_cam->position.x);
-	this->dtimestring += "\nCam Y:";
-	this->dtimestring += std::to_string(this->state_cam->position.y);
-	this->dtimestring += "\nCam Z:";
-	this->dtimestring += std::to_string(this->state_cam->position.z);
 
 	if (planetrange1.planetExecuteUI(cx_venus, cy_venus, cz_venus, spaceship->position.x, spaceship->position.y, spaceship->position.z) == true)
 	{
@@ -211,13 +210,15 @@ void StateGame::OnUpdate(double dt)
 	*/
 
 	// generates the hoop checkers
-	for (int i = 0; i < 20; i++) // for loop follows array
+	for (int i = 0; i < idk.size(); i++) // for loop follows array
 	{
 		// passes values into hoops for coords
 
-		if (hoop.hoopsExecuteUI(offset_x[i], offset_y[i], offset_z[i], spaceship->position.x, spaceship->position.y, spaceship->position.z, rad) == true)
+		if ((hoop.hoopsExecuteUI((int)idk[i].offset_x, (int)idk[i].offset_y, (int)idk[i].offset_z, (int)spaceship->position.x, (int)spaceship->position.y, (int)spaceship->position.z, (int)rad)) && idk[i].passed == false)
 		{
 			points++;
+			idk[i].passed = true;
+			//hoop.hoopsExecuteUI((int)offset_x[i], (int)offset_y[i], (int)offset_z[i], (int)spaceship->position.x, (int)spaceship->position.y, (int)spaceship->position.z, (int)rad) == false;
 		}
 	}
 	
@@ -273,6 +274,140 @@ void StateGame::OnUpdate(double dt)
 	*/
 }
 
+void StateGame::hoopGenerate()
+{
+	// venus
+	int the_addition = 10, the_subtraction = 0;
+
+	if (ok.rotation == 360)
+	{
+		ok.rotation = 0;
+	}
+
+	if (this->STData->planetSelect == 0)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			z = 400.f;
+
+			if (i > 2 && i < 5)
+			{
+				the_subtraction -= 20;
+				idk[i].offset_x = x + the_subtraction * 2;
+				idk[i].offset_y = y + the_subtraction;
+			}
+			else
+			{
+				idk[i].offset_x = x + the_addition * 2;
+				idk[i].offset_y = y + the_addition;
+				the_subtraction += 20;
+			}
+
+			idk[i].offset_z = z + the_addition * 3;
+
+			the_addition += 30; // increases addition value so it keeps going
+			//rotation += 90; // for rotation of hoops
+		}
+	}
+
+	if (this->STData->planetSelect == 1)
+	{
+		x = 100.f;
+		z = 400.f;
+
+		for (int i = 5; i < 10; i++)
+		{
+
+			if (i > 7 && i < 10)
+			{
+				the_subtraction -= 30;
+				idk[i].offset_x = x + the_subtraction * 2;
+				idk[i].offset_y = y + the_subtraction;
+				idk[i].offset_z = z + the_subtraction;
+			}
+			else
+			{
+				idk[i].offset_x = x + the_addition;
+				idk[i].offset_y = y + the_addition * 2;
+				idk[i].offset_z = z + the_addition * 3;
+				the_subtraction += 20;
+			}
+
+			the_addition += 50; // increases addition value so it keeps going
+			ok.rotation += 90; // for rotation of hoops
+		}
+	}
+
+	if (this->STData->planetSelect == 2)
+	{
+		x = 100.f;
+		z = 400.f;
+
+		for (int i = 10; i < 15; i++)
+		{
+
+			if (i > 12 && i < 15)
+			{
+				the_subtraction -= 30;
+				idk[i].offset_x = x - the_subtraction;
+				idk[i].offset_y = y + the_addition;
+			}
+			else
+			{
+				idk[i].offset_x = x - the_addition;
+				idk[i].offset_y = y + the_addition * 2;
+				the_subtraction += 50;
+			}
+			
+			idk[i].offset_z = z + the_addition;
+
+			the_addition += 40; // increases addition value so it keeps going
+			//rotation += 90; // for rotation of hoops
+		}
+	}
+
+	if (this->STData->planetSelect == 3)
+	{
+		x = 200.f;
+		z = 400.f;
+
+		for (int i = 15; i < 20; i++)
+		{
+
+			if (i > 17 && i < 20)
+			{
+				the_subtraction -= 50;
+				idk[i].offset_x = x - the_subtraction;
+				idk[i].offset_y = y - the_subtraction;
+				idk[i].offset_z = z + the_subtraction * 3;
+			}
+			else
+			{
+				idk[i].offset_x = x + the_addition * 2;
+				idk[i].offset_y = y - the_addition;
+				idk[i].offset_z = z + the_addition * 3;
+				the_subtraction += 15;
+			}
+
+			the_addition += 60; // increases addition value so it keeps going
+			//rotation += 90; // for rotation of hoops
+		}
+	}
+
+	for (int i = 0; i < 20; i++)
+	{
+		(*this->modelStack).PushMatrix(); // render the hoops
+		(*this->modelStack).Translate(idk[i].offset_x, idk[i].offset_y, idk[i].offset_z); // sets the coords of each hoop (coord stored in an array for each hoop)
+		//(*this->modelStack).Rotate(ok.rotation, 1, 0, 0);
+		RenderMesh(this->meshGetFast("hoop"), true);
+		(*this->modelStack).PopMatrix();
+	}
+	
+
+}
+
+
+
 void StateGame::OnRender()
 {
 	// Stars
@@ -301,25 +436,9 @@ void StateGame::OnRender()
 
 	///////* start of hoops *///////
 
+	hoopGenerate();
+
 	// for loop to create 5 hoops?
-
-	int the_addition = 10;
-
-	if (x = 0.f, y = 0.f, z = 30.f)
-	{
-		for (int i = 0; i < 5; i++)
-		{
-			offset_x[i] = x;
-			offset_y[i] = y;
-			offset_z[i] = z + the_addition;
-
-			(*this->modelStack).PushMatrix(); // render the hoops
-			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); // sets the coords of each hoop (coord stored in an array for each hoop)
-			RenderMesh(this->meshGetFast("hoop"), true);
-			(*this->modelStack).PopMatrix();
-			the_addition += 20; // increases addition value so it keeps going
-		}
-	}
 
 	// venus 300, 0, -300, 20.0f, 20.0f, 20.0f
 
