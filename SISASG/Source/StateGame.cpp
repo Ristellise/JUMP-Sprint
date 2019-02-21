@@ -62,7 +62,7 @@ void StateGame::OnEnter()
 	spaceship1->fwdaccl = 10.f;
 	spaceship1->bwdaccl = -5.f;
 	spaceship1->drift = 10.0f;
-	this->entitylists->push_back(spaceship1);
+	this->entitylists->insert_or_assign("spaceship1",spaceship1);
 
 	// Test Env
 	meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
@@ -108,7 +108,7 @@ void StateGame::OnExit()
 
 void StateGame::OnUpdate(double dt)
 {
-	entity* spaceship = this->entityGetFast("spaceship");
+	entity* spaceship = this->entityGetFast("spaceship1");
 
 	///////* start of planet and hoop stuff *///////
 
@@ -355,7 +355,7 @@ void StateGame::OnRender()
 		}
 		else if (buff->type == entityType::eT_Ship)
 		{
-			entity *spaceship = this->entityGetFast("spaceship");
+			entity *spaceship = this->entityGetFast("spaceship1");
 
 			// Matrix method v2
 			(*this->modelStack).PushMatrix();

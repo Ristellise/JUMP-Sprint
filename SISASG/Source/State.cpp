@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <iterator>
 #include <functional>
-#include "testCube.h"
 void GState::Setlists(std::map<std::string,entity*>* entitylists, std::vector<Mesh*>* meshList)
 {
     this->entitylists = entitylists;
