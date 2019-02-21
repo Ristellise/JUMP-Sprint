@@ -36,7 +36,7 @@ void Stateinit::OnEnter()
     current->text = &dtimestring;
     current->type = entityType::eT_TextUI;
     current->meshptr = this->meshGetFast("saofontsheet");
-    this->entitylists->push_back(current);
+    this->entitylists->insert_or_assign("saofontsheet",current);
 	
 }
 
@@ -65,4 +65,5 @@ void Stateinit::OnUpdate(double dt)
 	{
         this->STData->bounceTime -= dt;
 	}
+    std::cout << this->entitylists->size() << std::endl;
 }

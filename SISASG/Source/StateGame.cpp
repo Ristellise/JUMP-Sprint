@@ -58,14 +58,14 @@ void StateGame::OnEnter()
 	testCube1->physics = true;
 	testCube1->Boxsize = BBoxDimensions(2.5f, 2.5f, 2.5f);
 	testCube1->meshptr = this->meshGetFast("testcube");
-	this->entitylists->push_back(testCube1);
+	this->entitylists->insert_or_assign("testcube",testCube1);
 
 	// Test Env
 	meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
 	meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList->push_back(meshbuffer);
 
-    this->audiosrc.Load("Audio/testtrack.flac");
+    this->audiosrc.Load("Audio/testtrack.flac",SourceType::ST_WAVSTREAM);
 	// Test Env
 	entity* testEnv = new entity();
 	testEnv->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
@@ -74,7 +74,7 @@ void StateGame::OnEnter()
 	// testEnv->physics = true;
 	// testEnv->Boxsize = BBoxDimensions(0.f, 0.f, 0.f);
 	testEnv->meshptr = this->meshGetFast("testenv");
-	this->entitylists->push_back(testEnv);
+	this->entitylists->insert_or_assign("testenv",testEnv);
 
 	// Hoops
 	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(1, 1, 1), 36, 36, 10, 1);
@@ -94,7 +94,7 @@ void StateGame::OnEnter()
     current->meshptr = this->meshGetFast("testcube");
     current->physics = true;
     current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
-    this->entitylists->push_back(current);
+    this->entitylists->insert_or_assign("testcube",current);
     //this->STData->VERYLOUD.play();
 }
 
@@ -164,9 +164,10 @@ void StateGame::OnUpdate(double dt)
 	
 	///////* end of planet and hoop stuff *///////
 
-    for (size_t i = 0; i < this->entitylists->size(); i++)
+    std::map<std::string, entity*>::iterator it;
+    for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
     {
-        (*this->entitylists)[i]->Update(dt);
+        it->second->Update(dt);
     }
 
 	//testCube1->Update(dt);
@@ -300,11 +301,12 @@ void StateGame::OnRender()
 	///////* end of hoops *///////
 
 	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 15.f);
+    std::map<std::string, entity*>::iterator it;
 
-	for (size_t i = 0; i < this->entitylists->size(); i++)
+    for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
 	{
 		(*this->modelStack).PushMatrix();
-		entity *buff = (*this->entitylists)[i];
+		entity *buff = it->second;
 		if (buff->type == entityType::eT_Text)
 		{
 			buff->position;

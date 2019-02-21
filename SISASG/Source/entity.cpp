@@ -55,8 +55,8 @@ void entity::Update(double dt)
 	if (Application::IsKeyPressed(VK_DOWN) || Application::IsKeyPressed('S'))
 	{
 		position.y -= (float)(ENTITY_SPEED * 0.2 * dt);
-	}
-    position = position + view * (float)(velocity * dt);*/
+	}*/
+    position = position + view * (float)(velocity * dt);
 }
 
 void entity::UpdateBBox()

@@ -3,7 +3,7 @@
 #include <iterator>
 #include <functional>
 #include "testCube.h"
-void GState::Setlists(std::vector<entity*>* entitylists, std::vector<Mesh*>* meshList)
+void GState::Setlists(std::map<std::string,entity*>* entitylists, std::vector<Mesh*>* meshList)
 {
     this->entitylists = entitylists;
     this->meshList = meshList;
@@ -32,13 +32,16 @@ Mesh* GState::meshGetFast(std::string meshname)
 
 entity* GState::entityGetFast(std::string meshname)
 {
-    auto attributeFinder =
-        [](const entity* attr, const std::string& name) -> bool
-    { return attr->name == name; };
-
-    auto attr_iter = std::find_if(std::begin(*this->entitylists), std::end(*this->entitylists),
-        std::bind(attributeFinder, std::placeholders::_1, meshname));
-    return *attr_iter;
+    this->entitylists->find(meshname);
+    std::map<std::string, entity*>::const_iterator iterator = this->entitylists->find(meshname);
+    if (iterator == this->entitylists->end())
+    {
+        return nullptr;
+    }
+    else
+    {
+        return iterator->second;
+    }
 }
 
 void GState::OnCreate(
@@ -54,8 +57,6 @@ void GState::OnCreate(
     this->state_cam = cam;
     this->mouse = mouse;
     this->collideInstance = collideInstance;
-    this->entitylists = new std::vector<entity*>;
-    this->meshList = new std::vector<Mesh*>;
 }
 void GState::SetMatrixes(MS* model, MS* view, MS* projection)
 {

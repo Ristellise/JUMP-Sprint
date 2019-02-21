@@ -23,6 +23,6 @@ class collision
     std::map<long int,Chunk>::iterator chunkit;
 public:
     unsigned int updatingEnts = 0;
-    void doCollisions(std::vector<entity*>& entityList, double dt);
+    void doCollisions(std::map<std::string,entity*>& entityList, double dt);
 };
 
