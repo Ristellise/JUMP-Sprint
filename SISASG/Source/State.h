@@ -23,6 +23,7 @@ struct StateData
     int shipSelect = 0;
     int planetSelect = 0;
     SoLoud::Soloud VERYLOUD;
+    unsigned int hoopsMap;
 	Mesh* font;
 };
 
@@ -38,12 +39,14 @@ protected:
     Camera3* state_cam;
     MouseHandler* mouse;
 
-	std::vector<entity*> *entitylists;
-	std::vector<Mesh*> *meshList;
+    std::vector<entity*> *entitylists;
+    std::vector<Mesh*> *meshList;
 
     collision* collideInstance;
 public:
     StateData* STData;
+
+    void Setlists(std::vector<entity*> *entitylists, std::vector<Mesh*> *meshList);
 
     GState();
     ~GState();

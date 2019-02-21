@@ -14,6 +14,10 @@ class StateManager
     Camera3* manager_cam;
     MouseHandler* SM_Mouse;
     // Mouselatch
+
+    std::vector<entity*> entitylists;
+    std::vector<Mesh*> meshList;
+
     StateData StateManagerData;
     bool lockswitch = true;
     bool currentlock = false;

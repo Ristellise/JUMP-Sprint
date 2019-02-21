@@ -65,6 +65,7 @@ void StateGame::OnEnter()
 	meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList->push_back(meshbuffer);
 
+    this->audiosrc.Load("Audio/testtrack.flac");
 	// Test Env
 	entity* testEnv = new entity();
 	testEnv->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
@@ -94,6 +95,7 @@ void StateGame::OnEnter()
     current->physics = true;
     current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
     this->entitylists->push_back(current);
+    //this->STData->VERYLOUD.play();
 }
 
 void StateGame::OnExit()
@@ -158,7 +160,6 @@ void StateGame::OnUpdate(double dt)
 			points++;
 		}
 	}
-	
 	
 	
 	///////* end of planet and hoop stuff *///////
