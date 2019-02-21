@@ -3,6 +3,11 @@
 #include <iterator>
 #include <functional>
 #include "testCube.h"
+void GState::Setlists(std::vector<entity*>* entitylists, std::vector<Mesh*>* meshList)
+{
+    this->entitylists = entitylists;
+    this->meshList = meshList;
+}
 GState::GState()
 {
 }

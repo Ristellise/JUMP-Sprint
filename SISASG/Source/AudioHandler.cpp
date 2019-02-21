@@ -24,6 +24,7 @@ bool SoundContainer::Load(std::string filename, SourceType srcType)
     default:
         break;
     }
+    return true;
 }
 
 void SoundContainer::setHandle(unsigned int handle)

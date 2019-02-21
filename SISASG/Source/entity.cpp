@@ -39,7 +39,7 @@ void entity::Reset()
 
 void entity::Update(double dt)
 {
-	static const float ENTITY_SPEED = 20.f;
+	/*static const float ENTITY_SPEED = 20.f;
 	if (Application::IsKeyPressed(VK_LEFT) || Application::IsKeyPressed('A'))
 	{
 		position.x -= (float)(ENTITY_SPEED * 0.2 * dt);
@@ -56,7 +56,7 @@ void entity::Update(double dt)
 	{
 		position.y -= (float)(ENTITY_SPEED * 0.2 * dt);
 	}
-    position = position + view * (float)(velocity * dt);
+    position = position + view * (float)(velocity * dt);*/
 }
 
 void entity::UpdateBBox()
