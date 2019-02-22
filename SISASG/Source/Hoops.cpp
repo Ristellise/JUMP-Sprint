@@ -17,11 +17,3 @@ bool Hoops::hoopsCheckXY(int circle_x, int circle_y, int circle_z, int x, int y,
 		return false;
 	}
 }
-
-bool Hoops::hoopsExecuteUI(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad)
-{
-	bool ans = hoopsCheckXY(circle_x, circle_y, circle_z, x, y, z,rad);
-
-	return ans;
-
-}

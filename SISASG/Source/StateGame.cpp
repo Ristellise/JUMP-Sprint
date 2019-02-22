@@ -130,7 +130,6 @@ void StateGame::OnEnter()
 	}
 	
 	this->entitylists->insert_or_assign("spaceship", spaceship1);
-	spaceship1->Reset();
 
 	// Test Env
 	meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
@@ -191,6 +190,7 @@ void StateGame::OnExit()
 	}
 	totalHoops = 0;
 	points = 0;
+	system("cls");
 }
 
 void StateGame::OnUpdate(double dt)
@@ -305,8 +305,7 @@ void StateGame::hoopChecker()
 	for (int i = 0; i < hoopPos.size(); i++) // for loop follows array
 	{
 		// passes values into hoops for coords
-
-		if ((hoop.hoopsExecuteUI((int)hoopPos[i].offset_x, (int)hoopPos[i].offset_y, (int)hoopPos[i].offset_z, (int)spaceship->position.x, (int)spaceship->position.y, (int)spaceship->position.z, (int)rad)) && hoopPos[i].passed == false)
+		if ((hoop.hoopsCheckXY((int)hoopPos[i].offset_x, (int)hoopPos[i].offset_y, (int)hoopPos[i].offset_z, (int)spaceship->position.x, (int)spaceship->position.y, (int)spaceship->position.z, (int)rad)) && hoopPos[i].passed == false)
 		{
 			points++;
 			hoopPos[i].passed = true;
