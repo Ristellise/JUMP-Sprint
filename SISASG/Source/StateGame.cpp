@@ -26,7 +26,7 @@ void StateGame::OnEnter()
 	///////* end of hoops *///////
 
 	// Reset hoops
-	for (int i = 0; i < 26; i++)
+	for (int i = 0; i < totalHoops; i++)
 	{
 		hoopPos[i].passed = false;
 	}
