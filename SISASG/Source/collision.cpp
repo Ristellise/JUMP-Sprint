@@ -121,12 +121,13 @@ void Chunk::popEnt(entity * ent)
 void collision::doCollisions(std::map<std::string, entity*> &entityList, double dt)
 {
     entity* Ent2;
+    entity* Ent;
     std::map<std::string, entity*>::iterator it;
     std::map<std::string, entity*>::iterator it2;
     for (it = entityList.begin(); it != entityList.end(); it++)
     {
-        entity* Ent = it->second;
-        if (Ent->physics)
+        Ent = it->second;
+        if (Ent->physics && Ent->velocity > .0f)
         {
             Ent->UpdateBBox();
             this->updatingEnts += 1;
@@ -134,7 +135,7 @@ void collision::doCollisions(std::map<std::string, entity*> &entityList, double 
         for (it2 = std::next(it,1); it2 != entityList.end(); it2++)
         {
             Ent2 = it2->second;
-            if (Ent2->physics)
+            if (Ent2->physics && Ent2->velocity > .0f)
             {
                 Ent2->UpdateBBox();
                 this->updatingEnts += 1;

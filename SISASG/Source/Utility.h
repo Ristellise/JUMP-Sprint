@@ -18,4 +18,5 @@
 
 Position operator*(const Mtx44& lhs, const Position& rhs);
 std::string CurrentDirectory();
+int mt19937Rand(int low, int hi);
 #endif

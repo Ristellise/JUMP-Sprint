@@ -146,6 +146,9 @@ void StateGame::OnEnter()
 	meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
 	this->meshList->push_back(meshbuffer);
 
+    meshbuffer = MeshBuilder::GenerateOBJ("asstroid", "OBJ//Ship1.obj")[0];
+    meshbuffer->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
+    this->meshList->push_back(meshbuffer);
 
     // Collision tester
 	/*
@@ -160,14 +163,36 @@ void StateGame::OnEnter()
 
     //this->STData->VERYLOUD.play();
 
-	Stars();
+	//Stars();
 
-	for (int i = 0; i < 20; i++)
+	for (size_t i = 0; i < 20; i++)
 	{
 		idk.push_back(ok);
 	}
+    unsigned int counter = 0;
+    for (size_t i = 0; i < idk.size(); i++)
+    {
+        for (size_t i = 0; i < mt19937Rand(3, 5); i++)
+        {
+            entity* current = new genericEntity();
+            current->Init(Vector3(idk[i].offset_x + mt19937Rand(-50, 50),
+                                  idk[i].offset_y + mt19937Rand(-50, 50),
+                                  idk[i].offset_z + mt19937Rand(-50, 50)),
+                          Vector3(0, 0, 1),
+                          Vector3(0, 1, 0));
+            current->type = entityType::eT_Object;
+            current->meshptr = this->meshGetFast("asstroid");
+            current->physics = true;
+            current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
+            this->entitylists->insert_or_assign("asstroid" + std::to_string(counter), current);
+            counter++;
+        }
+    }
+    hoopGenerate();
     this->STData->SoundSrcs["looptest"]->enableLooping();
     this->STData->SoundSrcs["looptest"]->pause();
+    std::cout << this->entitylists->size() << std::endl;
+    std::cout << this->meshList->size() << std::endl;
 }
 
 void StateGame::OnExit()
@@ -318,6 +343,7 @@ void StateGame::OnUpdate(double dt)
 	*/
 }
 
+// TODO: Refactor this to be more dynamic.
 void StateGame::hoopGenerate()
 {
 	// venus
@@ -437,15 +463,6 @@ void StateGame::hoopGenerate()
 			//rotation += 90; // for rotation of hoops
 		}
 	}
-
-	for (int i = 0; i < 20; i++)
-	{
-		(*this->modelStack).PushMatrix(); // render the hoops
-		(*this->modelStack).Translate(idk[i].offset_x, idk[i].offset_y, idk[i].offset_z); // sets the coords of each hoop (coord stored in an array for each hoop)
-		//(*this->modelStack).Rotate(ok.rotation, 1, 0, 0);
-		RenderMesh(this->meshGetFast("hoop"), true);
-		(*this->modelStack).PopMatrix();
-	}
 }
 
 void StateGame::OnRender()
@@ -475,7 +492,7 @@ void StateGame::OnRender()
 	(*this->modelStack).PopMatrix();
 
 	///////* start of hoops *///////
-	hoopGenerate();
+	
 	/*
 	for loop to create 5 hoops?
 
@@ -558,6 +575,14 @@ void StateGame::OnRender()
 		}
 	}
 	*/
+    for (int i = 0; i < 20; i++)
+    {
+        (*this->modelStack).PushMatrix(); // render the hoops
+        (*this->modelStack).Translate(idk[i].offset_x, idk[i].offset_y, idk[i].offset_z); // sets the coords of each hoop (coord stored in an array for each hoop)
+        //(*this->modelStack).Rotate(ok.rotation, 1, 0, 0);
+        RenderMesh(this->meshGetFast("hoop"), true);
+        (*this->modelStack).PopMatrix();
+    }
 	///////* end of hoops *///////
 
 	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 24.f);
@@ -590,7 +615,7 @@ void StateGame::OnRender()
 		else if (buff->type == entityType::eT_TextUI)
 		{
 			this->RenderTextScreen(buff->meshptr, *buff->text, Color(0, 0, 0),
-				buff->position.z,	// Used for Text SCaling. only applies to 2d UI 
+				buff->position.z,	// Used for Text Scaling. only applies to 2d UI 
 				buff->position.x,	// Same as before
 				buff->position.y);	// Same as before
 		}
@@ -669,7 +694,7 @@ void StateGame::OnRender()
                             buff->HBox.backLeftDown,
                             buff->HBox.backRightUp,
                             buff->HBox.backRightDown };
-		/*
+		
         for (size_t i = 0; i < 8; i++)
         {
             (*this->modelStack).PushMatrix();
@@ -678,7 +703,7 @@ void StateGame::OnRender()
             RenderMesh(this->meshGetFast("debugballs"), true);
             (*this->modelStack).PopMatrix();
         }
-		*/
+		
 	}
 }
 
