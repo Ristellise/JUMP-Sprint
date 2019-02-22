@@ -40,10 +40,19 @@ void StateShop::OnEnter()
 	ship2->meshptr = this->meshGetFast("ship2");
 	this->entitylists->insert_or_assign("ship2", ship2);
 
-	// Ship 3
-	// meshbuffer = MeshBuilder::GenerateOBJ("ship3", "OBJ//Ship3.obj")[0];
-	// meshbuffer->textureID = LoadTGA("TGA//Ship3.tga", GL_LINEAR, GL_CLAMP);
-	// this->meshList->push_back(meshbuffer);
+	 //Ship 3
+	 meshbuffer = MeshBuilder::GenerateOBJ("ship3", "OBJ//Ship3.obj")[0];
+	 meshbuffer->textureID = LoadTGA("TGA//Ship3.tga", GL_LINEAR, GL_CLAMP);
+	 this->meshList->push_back(meshbuffer);
+
+	 // Ship 3
+	 entity* ship3 = new entity();
+	 ship3->Init(Vector3(-80, 4, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
+	 ship3->type = entityType::eT_Object;
+	 ship3->name = "ship3";
+	 ship3->size = Vector3(5.f, 5.f, 5.f);
+	 ship3->meshptr = this->meshGetFast("ship3");
+	 this->entitylists->insert_or_assign("ship3", ship3);
 
 	// Side
 	meshbuffer = MeshBuilder::GenerateQuad("sides", Color(0, 0, 0), 1);
