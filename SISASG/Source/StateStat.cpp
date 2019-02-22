@@ -29,7 +29,7 @@ void StateStat::OnUpdate(double dt)
 	this->dtimestring += std::to_string(this->STData->moneyEarned);
 	this->dtimestring += "\nMONEY TOTAL: ";
 	this->dtimestring += std::to_string(this->STData->moneyData);
-	this->dtimestring += "\nPRESS 'R' TO RETURN TO MENUS";
+	this->dtimestring += "\n\nPRESS 'R' TO RETURN TO MENUS";
 	
 	if (Application::IsKeyPressed('R'))
 	{

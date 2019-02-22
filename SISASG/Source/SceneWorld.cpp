@@ -373,8 +373,9 @@ void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
     }
 }
 
+// Legacy render skybox code - Do not open!
+/*
 static const int SKYBOXSIZE = 2000;
-
 void SceneWorld::RenderSkybox()
 {
     float x = this->camera.position.x;
@@ -423,8 +424,10 @@ void SceneWorld::RenderSkybox()
     RenderMesh(meshList[GEO_BOTTOM], false);
     modelStack.PopMatrix();
 }
+*/
 
-
+// Legacy render planets code - Do not open!
+/*
 void SceneWorld::RenderPlanets()
 {
     //venus
@@ -467,7 +470,10 @@ void SceneWorld::RenderPlanets()
     RenderMesh(meshList[GEO_SUN], true);
     modelStack.PopMatrix();
 }
+*/
 
+// Legacy render asteroid code - Do not open!
+/*
 void SceneWorld::RenderAsteroid()
 {
 		modelStack.PushMatrix();
@@ -478,7 +484,9 @@ void SceneWorld::RenderAsteroid()
 		RenderMesh(meshList[GEO_ASTEROID1], true);
 		modelStack.PopMatrix();	
 }
+*/
 
+// Legacy render spaceship code - Do not open!
 /*
 void SceneWorld::RenderSpaceship()
 {
@@ -592,24 +600,27 @@ void SceneWorld::Render()
             &lightPosition_cameraspace.x);
     }
 
-    // RenderSkybox();
+	// Legacy render code function calls - Do not open!
+	/*
+    RenderSkybox();
 
-    // RenderPlanets();
+    RenderPlanets();
 
-	// RenderAsteroid();
+	RenderAsteroid();
 
-	// planetExecuteUI();
+	planetExecuteUI();
 
-	// hoopsExecuteUI();
+	hoopsExecuteUI();
 
-	// RenderSpaceship();
+	RenderSpaceship();
 
-    modelStack.PushMatrix();
+	modelStack.PushMatrix();
     modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
     RenderMesh(meshList[GEO_LIGHTBALL], false);
     modelStack.PopMatrix();
 
-    // RenderTextScreen(meshList[GEO_TEXT], this->dtimestring, Color(255, 255, 0), 2, 1.f, 24.f);
+    RenderTextScreen(meshList[GEO_TEXT], this->dtimestring, Color(255, 255, 0), 2, 1.f, 24.f);
+	*/
 
     this->StateManInst.Render();
 }
