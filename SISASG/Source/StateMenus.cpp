@@ -11,6 +11,9 @@ StateMenus::StateMenus()
 
 void StateMenus::OnEnter()
 {
+	// Camera reset
+	this->state_cam->Reset();
+
 	Mesh* meshbuffer;
 
 	// sun
@@ -25,6 +28,8 @@ void StateMenus::OnEnter()
 
 	rotateAngle = 0;
 	movement_asteroid1_z = 0;
+
+	// Sound
     this->STData->SoundSrcs.insert_or_assign("testTrack", new SoundContainer(&this->STData->VERYLOUD, "Audio/xmtest.xm", SourceType::ST_OPENMPT));
     this->STData->SoundSrcs.insert_or_assign("looptest", new SoundContainer(&this->STData->VERYLOUD, "Audio/testloop.wav", SourceType::ST_NORMAL));
     this->STData->SoundSrcs["testTrack"]->play(true, true);
@@ -45,8 +50,8 @@ void StateMenus::OnUpdate(double dt)
 		" | " + std::to_string(this->mouse->YChange);
 
 	static int rotateDir_asteroid = 1;
-	static int rotateDir = 1;
-	static const float ROTATE_SPEED = 10.f;
+	static int rotateDir = -1;
+	static const float ROTATE_SPEED = 8.f;
 	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
 
 	movement_asteroid1_z += (float)(rotateDir_asteroid * ROTATE_SPEED * dt);
@@ -64,20 +69,22 @@ void StateMenus::OnUpdate(double dt)
 void StateMenus::OnRender()
 {
 	(*this->modelStack).PushMatrix();
-	(*this->modelStack).Translate(0, 4, 400);
+	(*this->modelStack).Translate(-300, 0, 600);
 	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
-	(*this->modelStack).Scale(200.f, 200.f, 200.f);
+	(*this->modelStack).Scale(300.f, 300.f, 300.f);
 	RenderMesh(this->meshGetFast("sun"), true);
-	(*this->modelStack).PopMatrix();
+	//(*this->modelStack).PopMatrix();
 
-	(*this->modelStack).PushMatrix();
-	(*this->modelStack).Translate(movement_asteroid1_z, 0, 0);
+	//(*this->modelStack).PushMatrix();
+	(*this->modelStack).Translate(2, 0, 0);
 	(*this->modelStack).Rotate(rotateAngle * 5, 1, 0, 1);
-	(*this->modelStack).Scale(0.8f, 0.8f, 0.8f);
+	(*this->modelStack).Scale(0.005f, 0.005f, 0.005f);
 	RenderMesh(this->meshGetFast("asteroid"), true);
 	(*this->modelStack).PopMatrix();
 
-	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(255, 255, 255), 2.f, 4.f, 25.f);
+
+	this->RenderTextScreen(this->STData->font, "SISASG", Color(255, 255, 255), 6.f, 1.3f, 4.5f);
+	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(255, 255, 255), 2.f, 4.f, 21.f);
 
 	// Ship Hangar button
 	if ((this->mouse->X > 100) && (this->mouse->X < 330) && (this->mouse->Y >450) && (this->mouse->Y < 520))

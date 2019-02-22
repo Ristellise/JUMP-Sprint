@@ -48,19 +48,22 @@ public:
 	void OnRender();
 	void OnCam(int X, int Y, float XChange, float YChange);
 	void hoopGenerate();
+	void hoopChecker();
+	void hoopRender();
 
 private:
 	// test for hoops currently
 	float x = 20.f, y = 0.f, z = 180.f, rad = 14.f; // main coords starts at venus, inner radius of ring is 9
 	int points = 0; // counts the points (fairly bugged)
+	int totalHoops = 0;
 
 	struct Hooplah
 	{
-		float offset_x = 400, offset_y = 0, offset_z = 1000, rotation = 666; // stores positions of all rings (increase array size accordingly)
+		float offset_x = 400, offset_y = 0, offset_z = 1000, rotation = 0; // stores positions of all rings (increase array size accordingly)
 		bool passed;
 	};
 	Hooplah ok;
-	std::vector<Hooplah> idk;
+	std::vector<Hooplah> hoopPos;
 	
 	double elapsedTime;
 };

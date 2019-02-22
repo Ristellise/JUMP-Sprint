@@ -16,9 +16,13 @@ StateHangar::StateHangar()
 
 void StateHangar::OnEnter()
 {
+	selectingShips = true;
+	this->STData->shipSelect = 0;
+	this->STData->planetSelect = 0;
+
 	Mesh* meshbuffer;
 
-	this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
+	// this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
 
 	// Ship 1
 	meshbuffer = MeshBuilder::GenerateOBJ("ship1", "OBJ//Ship1.obj")[0];
@@ -91,6 +95,12 @@ void StateHangar::OnExit()
 
 void StateHangar::OnUpdate(double dt)
 {
+	if (Application::IsKeyPressed('R'))
+	{
+		this->readyExitlocal = true;
+		this->spawnState = "Menus";
+	}
+
 	static int rotateDir = 1;
 	static const float ROTATE_SPEED = 10.f;
 	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
@@ -147,7 +157,6 @@ void StateHangar::OnUpdate(double dt)
 			shiftmovement = true;
 		}
 	}
-	
 
 	if (Delay > 0) // Handles movement
 	{
@@ -185,6 +194,35 @@ void StateHangar::OnUpdate(double dt)
 
 void StateHangar::OnRender()
 {
+	if (selectingShips == true)
+	{
+		switch (this->STData->shipSelect)
+		{
+		case 0:
+			lockUnlock = 1;
+			break;
+		case 1:
+			lockUnlock = this->STData->ship2unlock;
+			break;
+		case 2:
+			lockUnlock = this->STData->ship3unlock;
+			break;
+		}
+
+		switch (lockUnlock)
+		{
+		case 0:
+			this->RenderTextScreen(this->STData->font, "Locked", Color(255.f, 0.f, 0.f), 4.f, 1.f, 9.5f);
+			break;
+		case 1:
+			this->RenderTextScreen(this->STData->font, "Unlocked", Color(0.f, 255.f, 255.f), 4.f, 1.f, 9.5f);
+			break;
+		}
+	}
+	else
+	{
+
+	}
 	(*this->modelStack).PushMatrix();
 	(*this->modelStack).Translate(-80, 4, 0);
 	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
@@ -318,10 +356,30 @@ void StateHangar::RenderUI()
 		
 		if (selectingShips == true)
 		{
-			Delay += 10;
-			Shift = (-80.f - state_cam->position.x) / Delay;
-			shiftmovement = true;
-			selectingShips = false;
+			switch (this->STData->shipSelect)
+			{
+			case 0:
+				lockUnlock = 1;
+				break;
+			case 1:
+				lockUnlock = this->STData->ship2unlock;
+				break;
+			case 2:
+				lockUnlock = this->STData->ship3unlock;
+				break;
+			}
+
+			switch (lockUnlock)
+			{
+			case 0:
+				break;
+			case 1:
+				Delay += 10;
+				Shift = (-80.f - state_cam->position.x) / Delay;
+				shiftmovement = true;
+				selectingShips = false;
+				break;
+			}
 		}
 		else if (selectingShips == false)
 		{

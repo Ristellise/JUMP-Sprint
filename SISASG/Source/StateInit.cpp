@@ -8,14 +8,14 @@
 void Stateinit::OnEnter()
 {
 	// initialize file readwrite
-	this->STData->saveFile.loadFile("config.ini");
+	this->STData->fileSaver.loadFile("config.ini");
 
 	// Load ini file into memory
-	std::string moneyDat = this->STData->saveFile.getValueString("money");
+	std::string moneyDat = this->STData->fileSaver.getValueString("money");
 
 	this->STData->moneyData = std::stoull(moneyDat);
-	this->STData->ship1unlock = this->STData->saveFile.getValueBool("ship1");
-	this->STData->ship2unlock = this->STData->saveFile.getValueBool("ship2");
+	this->STData->ship2unlock = this->STData->fileSaver.getValueBool("ship2");
+	this->STData->ship3unlock = this->STData->fileSaver.getValueBool("ship3");
 
 	this->spawnState = "Menus";
 

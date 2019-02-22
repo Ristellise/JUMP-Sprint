@@ -85,10 +85,13 @@ void Camera3::Update(double dt, entity targetShip)
 		targetShip.position.z + (up.z * camUpOffset)
 	);
 
+	// Legacy dev function for resetting camera. Do not open!
+	/*
 	if (Application::IsKeyPressed('R'))
 	{
 		Reset();
 	}
+	*/
 }
 
 void Camera3::Updatealt(double dt)

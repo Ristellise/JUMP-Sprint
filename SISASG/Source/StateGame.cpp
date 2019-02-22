@@ -159,37 +159,14 @@ void StateGame::OnEnter()
 
     //this->STData->VERYLOUD.play();
 
-	//Stars();
+	Stars();
 
-	for (size_t i = 0; i < 20; i++)
-	{
-		idk.push_back(ok);
-	}
-    hoopGenerate();
-    unsigned int counter = 0;
-    for (size_t i = 0; i < idk.size(); i++)
-    {
-        int spawns = mt19937Rand(1, 3);
-        for (size_t v = 0; v < spawns; v++)
-        {
-            entity* current = new genericEntity();
-            current->Init(Vector3(idk[i].offset_x + mt19937Rand(-50.0f, 50.0f),
-                                  idk[i].offset_y + mt19937Rand(-50.0f, 50.0f),
-                                  idk[i].offset_z + mt19937Rand(-50.0f, 50.0f)),
-                          Vector3(0, 0, 1),
-                          Vector3(0, 1, 0));
-            current->type = entityType::eT_Object;
-            current->meshptr = this->meshGetFast("asteroid");
-            current->physics = true;
-            current->Boxsize = BBoxDimensions(1.0f, 1.0f, 1.0f);
-            current->UpdateBBox();
-            std::string name = "asstroid" + std::to_string(counter);
-            current->name = name;
-            this->entitylists->insert_or_assign(name, current);
-            counter++;
-        }
-    }
-    
+	///////* start of hoops *///////
+
+	hoopGenerate();
+
+	///////* end of hoops *///////
+
     this->STData->SoundSrcs["looptest"]->enableLooping();
     this->STData->SoundSrcs["looptest"]->pause();
     std::cout << this->entitylists->size() << std::endl;
@@ -235,7 +212,7 @@ void StateGame::OnUpdate(double dt)
 	this->dtimestring += "\nROL: ";				 
 	this->dtimestring += std::to_string(spaceship->rollTotal);
 
-	if ((points >= 5) || (elapsedTime <= 0))
+	if ((points >= totalHoops) || (elapsedTime <= 0))
 	{
 		this->STData->moneyEarned = (unsigned long long)(points * elapsedTime);
 		this->STData->pointsPrev = points;
@@ -245,55 +222,7 @@ void StateGame::OnUpdate(double dt)
 		this->spawnState = "Stat";
 	}
 
-	///////* start of planet and hoop stuff *///////
-
-	//test range coords for planet range (center sphere coords) (automate later)
-
-	//float cx_venus = 300.f, cy_venus = 0.f, cz_venus = -300.f; // can manually set planet coords due to generate ones already
-	//float cx_earth = -400.f, cy_earth = 0.f, cz_earth = -400.f;
-	//float cx_mars = -550.f, cy_mars = 0.f, cz_mars = 550.f;
-	//float cx_jupiter = 800.f, cy_jupiter = 0.f, cz_jupiter = 800.f;
-
-	// checks whether planet and character is in range (venus)
-
-	/*
-
-	if (planetrange1.planetExecuteUI(cx_venus, cy_venus, cz_venus, spaceship->position.x, spaceship->position.y, spaceship->position.z) == true)
-	{
-		if (Application::IsKeyPressed(VK_RETURN)) // testing keypress inside range checker1`
-		{
-			spaceship->position.x = 0, spaceship->position.y = 0, spaceship->position.z = 0;
-		}
-		this->dtimestring += "\nYour range check should work for Venus";
-	}
-	if (planetrange1.planetExecuteUI(cx_earth, cy_earth, cz_earth, spaceship->position.x, spaceship->position.y, spaceship->position.z) == true)
-	{
-		this->dtimestring += "\nYour range check should work for Earth";
-	}
-	if (planetrange1.planetExecuteUI(cx_mars, cy_mars, cz_mars, spaceship->position.x, spaceship->position.y, spaceship->position.z) == true)
-	{
-		this->dtimestring += "\nYour range check should work for Mars";
-	}
-	if (planetrange1.planetExecuteUI(cx_jupiter, cy_jupiter, cz_jupiter, spaceship->position.x, spaceship->position.y, spaceship->position.z) == true)
-	{
-		this->dtimestring += "\nYour range check should work for Jupiter";
-	}
-	*/
-
-	// generates the hoop checkers
-	for (int i = 0; i < idk.size(); i++) // for loop follows array
-	{
-		// passes values into hoops for coords
-
-		if ((hoop.hoopsExecuteUI((int)idk[i].offset_x, (int)idk[i].offset_y, (int)idk[i].offset_z, (int)spaceship->position.x, (int)spaceship->position.y, (int)spaceship->position.z, (int)rad)) && idk[i].passed == false)
-		{
-			points++;
-			idk[i].passed = true;
-			//hoop.hoopsExecuteUI((int)offset_x[i], (int)offset_y[i], (int)offset_z[i], (int)spaceship->position.x, (int)spaceship->position.y, (int)spaceship->position.z, (int)rad) == false;
-		}
-	}
-	
-	///////* end of planet and hoop stuff *///////
+	hoopChecker();
 
     std::map<std::string, entity*>::iterator it;
     for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
@@ -311,12 +240,18 @@ void StateGame::OnUpdate(double dt)
 
 	if (Application::IsKeyPressed('R'))
 	{
-		// Matrix method
+		// Legacy dev function for resetting matrices. Do not open!
+		/*
+		Matrix method
 		cubeMatrix.SetToIdentity();
 		cubeMultR.SetToIdentity();
 		cubeMult1.SetToIdentity();
 		cubeMult2.SetToIdentity();
 		cubeMult3.SetToIdentity();
+		*/
+
+		this->readyExitlocal = true;
+		this->spawnState = "Menus";
 	}
 
 	/*
@@ -344,9 +279,58 @@ void StateGame::OnUpdate(double dt)
 	*/
 }
 
-// TODO: Refactor this to be more dynamic.
+void StateGame::hoopChecker()
+{
+	///////* start of planet and hoop stuff *///////
+
+	entity* spaceship = this->entityGetFast("spaceship");
+
+	// generates the hoop checkers
+	for (int i = 0; i < hoopPos.size(); i++) // for loop follows array
+	{
+		// passes values into hoops for coords
+
+		if ((hoop.hoopsExecuteUI((int)hoopPos[i].offset_x, (int)hoopPos[i].offset_y, (int)hoopPos[i].offset_z, (int)spaceship->position.x, (int)spaceship->position.y, (int)spaceship->position.z, (int)rad)) && hoopPos[i].passed == false)
+		{
+			points++;
+			hoopPos[i].passed = true;
+		}
+	}
+
+	///////* end of planet and hoop stuff *///////
+}
+
+void StateGame::hoopRender()
+{
+	for (int i = 0; i < 26; i++)
+	{
+		if (hoopPos[i].passed == true)
+		{
+			hoopPos[i].offset_x = 400;
+			hoopPos[i].offset_y = 0;
+			hoopPos[i].offset_z = 1000;
+
+			(*this->modelStack).PushMatrix(); // render the hoops
+			(*this->modelStack).Translate(hoopPos[i].offset_x, hoopPos[i].offset_y, hoopPos[i].offset_z);
+			RenderMesh(this->meshGetFast("hoop"), true);
+			(*this->modelStack).PopMatrix();
+		}
+
+		(*this->modelStack).PushMatrix(); // render the hoops
+		(*this->modelStack).Translate(hoopPos[i].offset_x, hoopPos[i].offset_y, hoopPos[i].offset_z); // sets the coords of each hoop (coord stored in an array for each hoop)
+		(*this->modelStack).Rotate(hoopPos[i].rotation, 1, 0, 0);
+		RenderMesh(this->meshGetFast("hoop"), true);
+		(*this->modelStack).PopMatrix();
+	}
+}
+
 void StateGame::hoopGenerate()
 {
+	for (int i = 0; i < 26; i++)
+	{
+		hoopPos.push_back(ok);
+	}
+
 	// venus
 	int the_addition = 10, the_subtraction = 0;
 
@@ -357,27 +341,35 @@ void StateGame::hoopGenerate()
 
 	if (this->STData->planetSelect == 0)
 	{
+		z = 400.f;
+
 		for (int i = 0; i < 5; i++)
 		{
-			z = 400.f;
+			totalHoops++;
 
 			if (i > 2 && i < 5)
 			{
 				the_subtraction -= 20;
-				idk[i].offset_x = x + the_subtraction * 2;
-				idk[i].offset_y = y + the_subtraction;
+				hoopPos[i].offset_x = x + the_subtraction * 2;
+				hoopPos[i].offset_y = y + the_subtraction;
 			}
 			else
 			{
-				idk[i].offset_x = x + the_addition * 2;
-				idk[i].offset_y = y + the_addition;
+				hoopPos[i].offset_x = x + the_addition * 2;
+				hoopPos[i].offset_y = y + the_addition;
 				the_subtraction += 20;
 			}
 
-			idk[i].offset_z = z + the_addition * 3;
+			hoopPos[i].offset_z = z + the_addition * 3;
 
+			
 			the_addition += 30; // increases addition value so it keeps going
-			//rotation += 90; // for rotation of hoops
+
+			if (i > 0)
+			{
+				hoopPos[i].rotation += 90 + hoopPos[i - 1].rotation; // for rotation of hoops
+			}
+		
 		}
 	}
 
@@ -386,51 +378,63 @@ void StateGame::hoopGenerate()
 		x = 100.f;
 		z = 400.f;
 
-		for (int i = 5; i < 10; i++)
+		for (int i = 5; i < 11; i++)
 		{
+			totalHoops++;
 
-			if (i > 7 && i < 10)
+			if (i > 7 && i < 11)
 			{
 				the_subtraction -= 30;
-				idk[i].offset_x = x + the_subtraction * 2;
-				idk[i].offset_y = y + the_subtraction;
-				idk[i].offset_z = z + the_subtraction;
+				hoopPos[i].offset_x = x + the_subtraction * 2;
+				hoopPos[i].offset_y = y + the_subtraction;
+				hoopPos[i].offset_z = z + the_subtraction;
 			}
 			else
 			{
-				idk[i].offset_x = x + the_addition;
-				idk[i].offset_y = y + the_addition * 2;
-				idk[i].offset_z = z + the_addition * 3;
+				hoopPos[i].offset_x = x + the_addition;
+				hoopPos[i].offset_y = y + the_addition * 2;
+				hoopPos[i].offset_z = z + the_addition * 3;
 				the_subtraction += 20;
 			}
 
 			the_addition += 50; // increases addition value so it keeps going
-			ok.rotation += 90; // for rotation of hoops
+			
+			if (i > 5)
+			{
+				hoopPos[i].rotation += 90 + hoopPos[i - 1].rotation; // for rotation of hoops
+			}
 		}
 	}
 
 	if (this->STData->planetSelect == 2)
 	{
 		x = 100.f;
-		z = 400.f;
+		z = 500.f;
+		
 
-		for (int i = 10; i < 15; i++)
+		for (int i = 11; i < 18; i++)
 		{
+			totalHoops++;
 
-			if (i > 12 && i < 15)
+			if (i > 13 && i < 17)
 			{
 				the_subtraction -= 30;
-				idk[i].offset_x = x - the_subtraction;
-				idk[i].offset_y = y + the_addition;
+				hoopPos[i].offset_x = x - the_subtraction * 1.5;
+				hoopPos[i].offset_y = y - the_subtraction;
+			}
+			else if (i == 17)
+			{
+				hoopPos[i].offset_x = x - the_addition;
+				hoopPos[i].offset_y = y + the_addition;
 			}
 			else
 			{
-				idk[i].offset_x = x - the_addition;
-				idk[i].offset_y = y + the_addition * 2;
+				hoopPos[i].offset_x = x - the_addition * 2;
+				hoopPos[i].offset_y = y + the_addition;
 				the_subtraction += 50;
 			}
 
-			idk[i].offset_z = z + the_addition;
+			hoopPos[i].offset_z = z + the_addition * 3;
 
 			the_addition += 40; // increases addition value so it keeps going
 			//rotation += 90; // for rotation of hoops
@@ -442,21 +446,22 @@ void StateGame::hoopGenerate()
 		x = 200.f;
 		z = 400.f;
 
-		for (int i = 15; i < 20; i++)
+		for (int i = 18; i < 26; i++)
 		{
+			totalHoops++;
 
-			if (i > 17 && i < 20)
+			if (i > 20 && i < 26)
 			{
-				the_subtraction -= 50;
-				idk[i].offset_x = x - the_subtraction;
-				idk[i].offset_y = y - the_subtraction;
-				idk[i].offset_z = z + the_subtraction * 3;
+				the_subtraction -= 20;
+				hoopPos[i].offset_x = x - the_subtraction * 1.5;
+				hoopPos[i].offset_y = y - the_subtraction;
+				hoopPos[i].offset_z = z + the_subtraction * 2;
 			}
 			else
 			{
-				idk[i].offset_x = x + the_addition * 2;
-				idk[i].offset_y = y - the_addition;
-				idk[i].offset_z = z + the_addition * 3;
+				hoopPos[i].offset_x = x + the_addition * 2;
+				hoopPos[i].offset_y = y - the_addition;
+				hoopPos[i].offset_z = z + the_addition * 3;
 				the_subtraction += 15;
 			}
 
@@ -464,6 +469,7 @@ void StateGame::hoopGenerate()
 			//rotation += 90; // for rotation of hoops
 		}
 	}
+
 }
 
 void StateGame::OnRender()
@@ -492,99 +498,7 @@ void StateGame::OnRender()
 	RenderMesh(this->meshGetFast("planet"), true);
 	(*this->modelStack).PopMatrix();
 
-	///////* start of hoops *///////
-	
-	/*
-	for loop to create 5 hoops?
-
-	venus 300, 0, -300, 20.0f, 20.0f, 20.0f
-
-	if (x = 250, y = 0, z = -250) // this double checks if specified start coordinates are right
-	{
-		for (int i = 0; i < 5; i++) // for loop follows amount of rings wanted inside the "map" (e.g 0 to 4 for this case, thus 5 hoops)
-		{
-			offset_x[i] = x + the_addition * 2;	// changes x coord (can multiply / divide all these to make it more spaced out)
-			offset_y[i] = y + the_addition / 2;	// changes y coord
-			offset_z[i] = z + the_addition;		// changes z coord
-
-			(*this->modelStack).PushMatrix(); // render the hoops
-			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); // sets the coords of each hoop (coord stored in an array for each hoop)
-			RenderMesh(this->meshGetFast("hoop"), true);
-			(*this->modelStack).PopMatrix();
-			the_addition += 20; // increases addition value so it keeps going
-
-		}
-	}
-	
-	earth -400, 0, -400, 21.0f, 21.0f, 21.0f
-
-	x = -350, y = 0, z = -350, the_addition = 15; // sets coords for next hoop range (near earth)
-
-	if (x = -350, y = 0, z = -350)
-	{
-		for (int i = 5; i < 10; i++)
-		{
-			offset_x[i] = x + the_addition;
-			offset_y[i] = y + the_addition;
-			offset_z[i] = z + the_addition;
-
-			(*this->modelStack).PushMatrix(); // render the hoops
-			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); 
-			RenderMesh(this->meshGetFast("hoop"), true);
-			(*this->modelStack).PopMatrix();
-			the_addition += 25;
-		}
-	}
-
-	mars -550, 0, 550, 15.0f, 15.0f, 15.0f
-
-	x = -600, y = 10, z = 500, the_addition = 5; // sets coords for next hoop range (near mars)
-
-	if (x = -600, y = 10, z = 500)
-	{
-		for (int i = 10; i < 15; i++)
-		{
-			offset_x[i] = x + the_addition;
-			offset_y[i] = y + the_addition;
-			offset_z[i] = z + the_addition;
-
-			(*this->modelStack).PushMatrix(); // render the hoops
-			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]);
-			RenderMesh(this->meshGetFast("hoop"), true);
-			(*this->modelStack).PopMatrix();
-			the_addition += 40;
-		}
-	}
-
-	jupiter 800, 0, 800, 75.0f, 75.0f, 75.0f
-
-	x = 900, y = 50, z = 850, the_addition = 20; // sets coords for next hoop range (near jupiter)
-
-	if (x = 900, y = 50, z = 850)
-	{
-		for (int i = 15; i < 20; i++)
-		{
-			offset_x[i] = x + the_addition;
-			offset_y[i] = y + the_addition;
-			offset_z[i] = z + the_addition;
-
-			(*this->modelStack).PushMatrix(); // render the hoops
-			(*this->modelStack).Translate(offset_x[i], offset_y[i], offset_z[i]); //change coords accordingly (automate later)
-			RenderMesh(this->meshGetFast("hoop"), true);
-			(*this->modelStack).PopMatrix();
-			the_addition += 15;
-		}
-	}
-	*/
-    for (int i = 0; i < 20; i++)
-    {
-        (*this->modelStack).PushMatrix(); // render the hoops
-        (*this->modelStack).Translate(idk[i].offset_x, idk[i].offset_y, idk[i].offset_z); // sets the coords of each hoop (coord stored in an array for each hoop)
-        //(*this->modelStack).Rotate(ok.rotation, 1, 0, 0);
-        RenderMesh(this->meshGetFast("hoop"), true);
-        (*this->modelStack).PopMatrix();
-    }
-	///////* end of hoops *///////
+	hoopRender();
 
 	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 24.f);
 

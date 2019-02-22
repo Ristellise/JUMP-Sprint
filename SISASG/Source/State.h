@@ -28,13 +28,14 @@ struct StateData
     std::map<std::string, SoundContainer*> SoundSrcs;
     unsigned int hoopsMap;
 	Mesh* font;
-	SaveFiles saveFile;
+	SaveFiles fileSaver;
 	unsigned long long moneyData;
 	unsigned long long moneyEarned;
 	int pointsPrev;
 	double timePrev;
-	bool ship1unlock;
 	bool ship2unlock;
+	bool ship3unlock;
+	int shopSelect;
 };
 
 class GState
