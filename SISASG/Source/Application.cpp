@@ -5,8 +5,6 @@
 #include <stdlib.h>
 
 #include "SceneWorld.h"
-// Please dont even change to SceneHangar =_= 
-// It was temporary >.>
 
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
@@ -99,8 +97,7 @@ void Application::Init()
 void Application::Run()
 {
     //Main Loop
-    Scene *scene  = = new SceneWorld(this->m_window);
-//new SceneHangar(this->m_window);
+    Scene *scene  = new SceneWorld(this->m_window);
     scene->Init();
 
     m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame

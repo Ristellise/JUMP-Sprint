@@ -172,6 +172,8 @@
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\money.cpp" />
     <ClCompile Include="Source\MouseHandler.cpp" />
+    <ClCompile Include="Source\Particle.cpp" />
+    <ClCompile Include="Source\ParticleSystem.cpp" />
     <ClCompile Include="Source\PlanetRange.cpp" />
     <ClCompile Include="Source\SaveFiles.cpp" />
     <ClCompile Include="Source\SceneWorld.cpp" />
@@ -206,6 +208,8 @@
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\MouseHandler.h" />
     <ClInclude Include="Source\money.h" />
+    <ClInclude Include="Source\Particle.h" />
+    <ClInclude Include="Source\ParticleSystem.h" />
     <ClInclude Include="Source\PlanetRange.h" />
     <ClInclude Include="Source\SaveFiles.h" />
     <ClInclude Include="Source\Scene.h" />
