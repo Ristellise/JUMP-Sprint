@@ -134,7 +134,6 @@ void StateGame::OnEnter()
 	{
 		idk.push_back(ok);
 	}
-}
     this->STData->SoundSrcs["looptest"]->enableLooping();
     this->STData->SoundSrcs["looptest"]->pause();
 }
