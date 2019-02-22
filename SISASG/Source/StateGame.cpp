@@ -146,6 +146,9 @@ void StateGame::OnEnter()
 	meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
 	this->meshList->push_back(meshbuffer);
 
+    meshbuffer = MeshBuilder::GenerateOBJ("asstroid", "OBJ//Ship1.obj")[0];
+    meshbuffer->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
+    this->meshList->push_back(meshbuffer);
 
     // Collision tester
 	/*
@@ -160,7 +163,7 @@ void StateGame::OnEnter()
 
     //this->STData->VERYLOUD.play();
 
-	Stars();
+	//Stars();
 
 	///////* start of hoops *///////
 
@@ -170,6 +173,8 @@ void StateGame::OnEnter()
 
     this->STData->SoundSrcs["looptest"]->enableLooping();
     this->STData->SoundSrcs["looptest"]->pause();
+    std::cout << this->entitylists->size() << std::endl;
+    std::cout << this->meshList->size() << std::endl;
 }
 
 void StateGame::OnExit()
@@ -523,7 +528,7 @@ void StateGame::OnRender()
 		else if (buff->type == entityType::eT_TextUI)
 		{
 			this->RenderTextScreen(buff->meshptr, *buff->text, Color(0, 0, 0),
-				buff->position.z,	// Used for Text SCaling. only applies to 2d UI 
+				buff->position.z,	// Used for Text Scaling. only applies to 2d UI 
 				buff->position.x,	// Same as before
 				buff->position.y);	// Same as before
 		}
@@ -602,7 +607,7 @@ void StateGame::OnRender()
                             buff->HBox.backLeftDown,
                             buff->HBox.backRightUp,
                             buff->HBox.backRightDown };
-		/*
+		
         for (size_t i = 0; i < 8; i++)
         {
             (*this->modelStack).PushMatrix();
@@ -611,7 +616,7 @@ void StateGame::OnRender()
             RenderMesh(this->meshGetFast("debugballs"), true);
             (*this->modelStack).PopMatrix();
         }
-		*/
+		
 	}
 }
 
