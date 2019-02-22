@@ -26,6 +26,10 @@ Mesh* GState::meshGetFast(std::string meshname)
 
     auto attr_iter = std::find_if(std::begin(*this->meshList), std::end(*this->meshList),
         std::bind(attributeFinder, std::placeholders::_1, meshname));
+	if (attr_iter == std::end(*this->meshList))
+	{
+		return nullptr;
+	}
     return *attr_iter;
 }
 

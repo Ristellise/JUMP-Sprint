@@ -73,30 +73,36 @@ void StateGame::OnEnter()
 	}	
 	this->meshList->push_back(meshbuffer);
 
+	meshbuffer = meshGetFast("planet");
+	bool meshisnull = false;
+	if (meshbuffer == nullptr)
+	{
+		meshisnull = true;
+		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
+	}
 	switch (this->STData->planetSelect)
 	{
 	case 0:
 		// Venus
-		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
 		meshbuffer->textureID = LoadTGA("TGA//venus texture.tga", GL_LINEAR, GL_CLAMP);
 		break;
 	case 1:
 		// Earth
-		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
 		meshbuffer->textureID = LoadTGA("TGA//earth texture.tga", GL_LINEAR, GL_CLAMP);
 		break;
 	case 2:
 		// Mars
-		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
 		meshbuffer->textureID = LoadTGA("TGA//mars texture.tga", GL_LINEAR, GL_CLAMP);
 		break;
 	case 3:
 		// Jupiter
-		meshbuffer = MeshBuilder::GenerateOBJ("planet", "OBJ//Planet sphere.obj")[0];
 		meshbuffer->textureID = LoadTGA("TGA//jupiter texture.tga", GL_LINEAR, GL_CLAMP);
 		break;
 	}
-	this->meshList->push_back(meshbuffer);
+	if (meshisnull)
+	{
+		this->meshList->push_back(meshbuffer);
+	}
 
 	// Spaceship
 	spaceship* spaceship1 = new spaceship();
