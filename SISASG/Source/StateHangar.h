@@ -52,6 +52,8 @@ public:
 
 	bool selectingShips = true;
 	int NumberOfPlanets = 4;
+
+	bool lockUnlock;
 	
 	float Shift = 0;
 	bool shiftmovement = false;

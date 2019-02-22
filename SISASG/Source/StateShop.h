@@ -27,6 +27,9 @@ public:
 	int Dir = 0; // x Direction on UI
 	float Delay = 0; // Frame delay
 
+	bool lockUnlock;
+	unsigned long long costOfShip;
+
 	void RenderShips();
 	void RenderUI();
 

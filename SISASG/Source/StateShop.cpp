@@ -60,6 +60,22 @@ void StateShop::OnExit()
 
 void StateShop::OnUpdate(double dt)
 {
+	if (Application::IsKeyPressed('R'))
+	{
+		// money update
+		this->STData->fileSaver.setValue("money", std::to_string(this->STData->moneyData));
+
+		// ship unlocks
+		this->STData->fileSaver.setValue("ship2", std::to_string(this->STData->ship2unlock));
+		this->STData->fileSaver.setValue("ship3", std::to_string(this->STData->ship3unlock));
+
+		// save
+		this->STData->fileSaver.saveFile("config.ini");
+
+		this->readyExitlocal = true;
+		this->spawnState = "Menus";
+	}
+
 	static int rotateDir = 1;
 	static const float ROTATE_SPEED = 15.f;
 	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
@@ -105,8 +121,6 @@ void StateShop::OnUpdate(double dt)
 
 void StateShop::OnRender()
 {
-	bool lockUnlock;
-
 	switch (this->STData->shopSelect)
 	{
 	case 0:
@@ -259,10 +273,50 @@ void StateShop::RenderUI()
 	{
 		this->STData->bounceTime = 0.3;
 
-		// To add:
 		// Code for checking price
-		// Code for editing money
-		// Code for editing ship unlock
+		switch (this->STData->shopSelect)
+		{
+		case 0:
+			costOfShip = 0;
+			break;
+		case 1:
+			costOfShip = 1000;
+			break;
+		case 2:
+			costOfShip = 3000;
+			break;
+		}
+
+		// if the player has enough money
+		if (this->STData->moneyData >= costOfShip)
+		{
+			// find which spacecraft is being looked at
+			switch (this->STData->shopSelect)
+			{
+			case 0:
+				break;
+			case 1:
+				// if it is not already unlocked
+				if (this->STData->ship2unlock == false)
+				{
+					// Code for editing ship unlock
+					this->STData->ship2unlock = true;
+					// Code for editing money
+					this->STData->moneyData -= costOfShip;
+				}
+				break;
+			case 2:
+				// if it is not already unlocked
+				if (this->STData->ship3unlock == false)
+				{
+					// Code for editing ship unlock
+					this->STData->ship3unlock = true;
+					// Code for editing money
+					this->STData->moneyData -= costOfShip;
+				}
+				break;
+			}
+		}
 	}
 
 	glEnable(GL_DEPTH_TEST);

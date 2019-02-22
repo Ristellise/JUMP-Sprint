@@ -7,15 +7,13 @@ StateStat::StateStat()
 
 void StateStat::OnEnter()
 {
-	this->spawnState = "Stat";
-
-	// key first then value
+	// money update
 	this->STData->fileSaver.setValue("money", std::to_string(this->STData->moneyData));
-	// this->STData->fileSaver.setValue("ship2", "1");
-	// this->STData->fileSaver.setValue("ship3", "1");
 
-	// unlock the next planet
-	this->STData->fileSaver.setValue("level", std::to_string(this->STData->planetSelect + 1));
+	// Legacy code for abandoned feature - Do not open!
+	/*
+	// this->STData->fileSaver.setValue("level", std::to_string(this->STData->planetSelect + 1));
+	*/
 
 	// save
 	this->STData->fileSaver.saveFile("config.ini");
@@ -31,11 +29,17 @@ void StateStat::OnUpdate(double dt)
 	this->dtimestring += std::to_string(this->STData->moneyEarned);
 	this->dtimestring += "\nMONEY TOTAL: ";
 	this->dtimestring += std::to_string(this->STData->moneyData);
+	
+	if (Application::IsKeyPressed('R'))
+	{
+		this->readyExitlocal = true;
+		this->spawnState = "Menus";
+	}
 }
 
 void StateStat::OnRender()
 {
-	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(255, 255, 255), 2.f, 4.f, 24.f);
+	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(255, 255, 255), 4.f, 9.5f, 9.5f);
 }
 
 void StateStat::OnCam(int X, int Y, float XChange, float YChange)

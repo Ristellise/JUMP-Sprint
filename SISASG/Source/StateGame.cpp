@@ -163,7 +163,7 @@ void StateGame::OnEnter()
 
     //this->STData->VERYLOUD.play();
 
-	//Stars();
+	Stars();
 
 	///////* start of hoops *///////
 
@@ -244,12 +244,18 @@ void StateGame::OnUpdate(double dt)
 
 	if (Application::IsKeyPressed('R'))
 	{
-		// Matrix method
+		// Legacy dev function for resetting matrices. Do not open!
+		/*
+		Matrix method
 		cubeMatrix.SetToIdentity();
 		cubeMultR.SetToIdentity();
 		cubeMult1.SetToIdentity();
 		cubeMult2.SetToIdentity();
 		cubeMult3.SetToIdentity();
+		*/
+
+		this->readyExitlocal = true;
+		this->spawnState = "Menus";
 	}
 
 	/*
