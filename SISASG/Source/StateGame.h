@@ -26,6 +26,8 @@ public:
 
     SoundContainer audiosrc;
 
+	Bullet* bullet;
+
 	void OnEnter();
 	void OnExit();
 	void OnUpdate(double dt);

@@ -5,6 +5,7 @@
 #include "LoadOBJ.h"
 #include "collision.h"
 #include "genericEntity.h"
+#include "Bullet.h"
 
 
 StateGame::StateGame()
@@ -88,6 +89,17 @@ void StateGame::OnEnter()
 	meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
 	this->meshList->push_back(meshbuffer);
 
+	// Bullet
+	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 1);
+	this->meshList->push_back(meshbuffer);
+
+	Bullet* bullet = new Bullet();
+	bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
+	bullet->type = entityType::eT_Bullet;
+	bullet->name = "bullet";
+	bullet->size = (1, 1, 1);
+	bullet->meshptr = this->meshGetFast("bullet");
+	this->entitylists->insert_or_assign("bullet", bullet); // this isnt spawning bullet
 
     // Collision tester
 
@@ -213,6 +225,22 @@ void StateGame::OnUpdate(double dt)
         this->STData->bounceTime = 0.3;
 		this->spawnState = "debugger";
 	}
+
+	// Bullet
+	// bullet->timeAlive += dt;
+	// bullet->Update(dt); // Calling bullet.Update(); crashes the program. 
+
+	/*
+	if (bullet->timeAlive > 0.5)
+	{
+		Bullet* bullet = new Bullet(Vector3(spaceship->position.x, spaceship->position.y, spaceship->position.z),
+			Vector3(spaceship->target.x, spaceship->target.y, spaceship->target.z),
+			Vector3(0, 1, 0));
+		delete bullet;
+		
+		this->bullet->timeAlive = 0;
+	}
+	*/
 }
 
 void StateGame::OnRender()
@@ -416,6 +444,14 @@ void StateGame::OnRender()
 			(*this->modelStack).PushMatrix();
 			(*this->modelStack).Translate(0, 0, 0);
 			RenderMesh(this->meshGetFast("axes"), false);
+			(*this->modelStack).PopMatrix();
+		}
+		else if (buff->type == entityType::eT_Bullet)
+		{
+			spaceship spaceship1;
+			(*this->modelStack).PushMatrix();
+			(*this->modelStack).Translate(0, 0, 0);
+			RenderMesh(buff->meshptr, true);
 			(*this->modelStack).PopMatrix();
 		}
 		(*this->modelStack).PopMatrix();
