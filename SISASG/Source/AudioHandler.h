@@ -41,4 +41,3 @@ public:
     void SetLoudInstance(SoLoud::Soloud* loudPtr);
     // SoLoud::Wav get();
 };
-

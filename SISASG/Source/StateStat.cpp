@@ -8,6 +8,17 @@ StateStat::StateStat()
 void StateStat::OnEnter()
 {
 	this->spawnState = "Stat";
+
+	// key first then value
+	this->STData->fileSaver.setValue("money", std::to_string(this->STData->moneyData));
+	// this->STData->fileSaver.setValue("ship2", "1");
+	// this->STData->fileSaver.setValue("ship3", "1");
+
+	// unlock the next planet
+	this->STData->fileSaver.setValue("level", std::to_string(this->STData->planetSelect + 1));
+
+	// save
+	this->STData->fileSaver.saveFile("config.ini");
 }
 
 void StateStat::OnUpdate(double dt)

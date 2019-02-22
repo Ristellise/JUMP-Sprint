@@ -166,7 +166,6 @@ void StateGame::OnEnter()
 	{
 		idk.push_back(ok);
 	}
-}
     this->STData->SoundSrcs["looptest"]->enableLooping();
     this->STData->SoundSrcs["looptest"]->pause();
 }
@@ -210,6 +209,7 @@ void StateGame::OnUpdate(double dt)
 	this->dtimestring += "\nROL: ";				 
 	this->dtimestring += std::to_string(spaceship->rollTotal);
 
+	// Check game end condition
 	if ((points >= 5) || (elapsedTime <= 0))
 	{
 		this->STData->moneyEarned = (unsigned long long)(points * elapsedTime);

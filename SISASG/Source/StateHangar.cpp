@@ -18,7 +18,7 @@ void StateHangar::OnEnter()
 {
 	Mesh* meshbuffer;
 
-	this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
+	// this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
 
 	// Ship 1
 	meshbuffer = MeshBuilder::GenerateOBJ("ship1", "OBJ//Ship1.obj")[0];
@@ -147,7 +147,6 @@ void StateHangar::OnUpdate(double dt)
 			shiftmovement = true;
 		}
 	}
-	
 
 	if (Delay > 0) // Handles movement
 	{

@@ -38,23 +38,25 @@ class StateHangar : public GState
 
 public:
 	GLFWwindow* l_window;
+
+	STARS coord;
+
 	std::vector<STARS> stars;
+	int starsnumber;
+
 	std::vector<Light> lights;
+	bool lit = true;
 
 	float rotateAngle;
-	
 	int NumberOfShips = 3;
+
 	bool selectingShips = true;
 	int NumberOfPlanets = 4;
 	
-	int starsnumber;
 	float Shift = 0;
-	bool lit = true;
 	bool shiftmovement = false;
 	int Dir = 0; // x Direction on UI
 	float Delay = 0; // Frame delay
-
-	STARS coord;
 
 	StateHangar();
 	~StateHangar();
