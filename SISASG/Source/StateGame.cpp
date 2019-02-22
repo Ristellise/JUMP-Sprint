@@ -19,6 +19,18 @@ StateGame::~StateGame()
 
 void StateGame::OnEnter()
 {
+	///////* start of hoops *///////
+
+	hoopGenerate();
+
+	///////* end of hoops *///////
+
+	// Reset hoops
+	for (int i = 0; i < 26; i++)
+	{
+		hoopPos[i].passed = false;
+	}
+
 	// Reset stats
 	this->STData->moneyEarned = 0;
 	this->STData->pointsPrev = 0;
@@ -27,8 +39,9 @@ void StateGame::OnEnter()
 	// Camera reset
 	this->state_cam->Reset();
 	
-	// Elapsed time
+	// Resets
 	elapsedTime = 60;
+	points = 0;
 
 	// Matrix method
 	cubeMatrix.SetToIdentity();
@@ -117,6 +130,7 @@ void StateGame::OnEnter()
 	}
 	
 	this->entitylists->insert_or_assign("spaceship", spaceship1);
+	spaceship1->Reset();
 
 	// Test Env
 	meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
@@ -146,10 +160,6 @@ void StateGame::OnEnter()
 	meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
 	this->meshList->push_back(meshbuffer);
 
-    meshbuffer = MeshBuilder::GenerateOBJ("asstroid", "OBJ//Ship1.obj")[0];
-    meshbuffer->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
-    this->meshList->push_back(meshbuffer);
-
     // Collision tester
 	/*
     entity* current = new genericEntity();
@@ -164,12 +174,6 @@ void StateGame::OnEnter()
     //this->STData->VERYLOUD.play();
 
 	Stars();
-
-	///////* start of hoops *///////
-
-	hoopGenerate();
-
-	///////* end of hoops *///////
 
     this->STData->SoundSrcs["looptest"]->enableLooping();
     this->STData->SoundSrcs["looptest"]->pause();
@@ -603,7 +607,9 @@ void StateGame::OnRender()
                             buff->HBox.backLeftDown,
                             buff->HBox.backRightUp,
                             buff->HBox.backRightDown };
-		
+
+		// Debug balls for Josh
+		/*
         for (size_t i = 0; i < 8; i++)
         {
             (*this->modelStack).PushMatrix();
@@ -612,7 +618,7 @@ void StateGame::OnRender()
             RenderMesh(this->meshGetFast("debugballs"), true);
             (*this->modelStack).PopMatrix();
         }
-		
+		*/
 	}
 }
 
