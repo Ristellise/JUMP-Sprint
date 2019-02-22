@@ -45,7 +45,7 @@ void StateHangar::OnEnter()
 
 	// Ship 2
 	entity* ship2 = new entity();
-	ship2->Init(Vector3(-20, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
+	ship2->Init(Vector3(-40, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 	ship2->type = entityType::eT_Object;
 	ship2->name = "ship2";
 	ship2->size = Vector3(5.f, 5.f, 5.f);
@@ -59,7 +59,7 @@ void StateHangar::OnEnter()
 
 	// Ship 3
 	entity* ship3 = new entity();
-	ship3->Init(Vector3(-40, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
+	ship3->Init(Vector3(-80, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 	ship3->type = entityType::eT_Object;
 	ship3->name = "ship3";
 	ship3->size = Vector3(5.f, 5.f, 5.f);
@@ -126,7 +126,7 @@ void StateHangar::OnUpdate(double dt)
 	{
 		// For movement
 		// static const float LSPEED = 10.0f;
-		static const float CSHIFT = 20.f;
+		static const float CSHIFT = 40.f;
 
 		if ((Application::IsKeyPressed('A') ||
 			((Application::IsKeyPressed(MK_LBUTTON)) && Dir == 1)) &&
@@ -156,7 +156,7 @@ void StateHangar::OnUpdate(double dt)
 
 		if ((Application::IsKeyPressed('A') ||
 			((Application::IsKeyPressed(MK_LBUTTON)) && Dir == 1)) &&
-			(state_cam->position.x < -80) && Delay == 0)
+			(state_cam->position.x < -120) && Delay == 0)
 		{
 			this->STData->planetSelect -= 1;
 			Delay += 10;
@@ -166,7 +166,7 @@ void StateHangar::OnUpdate(double dt)
 
 		if ((Application::IsKeyPressed('D') ||
 			((Application::IsKeyPressed(MK_LBUTTON)) && Dir == -1)) &&
-			(state_cam->position.x > (-CSHIFT * (NumberOfPlanets - 1)) - 80 && Delay == 0))
+			(state_cam->position.x > (-CSHIFT * (NumberOfPlanets - 1)) - 120 && Delay == 0))
 		{
 			this->STData->planetSelect += 1;
 			Delay += 10;
@@ -238,31 +238,45 @@ void StateHangar::OnRender()
 	}
 	else
 	{
-
+		switch (this->STData->planetSelect)
+		{
+		case 0:
+			this->RenderTextScreen(this->STData->font, "Venus", Color(255, 255, 255), 4.f, 9.2f, 9.5f);
+			break;
+		case 1:
+			this->RenderTextScreen(this->STData->font, "Earth", Color(255, 255, 255), 4.f, 9.2f, 9.5f);
+			break;
+		case 2:
+			this->RenderTextScreen(this->STData->font, "Mars", Color(255, 255, 255), 4.f, 9.2f, 9.5f);
+			break;
+		case 3:
+			this->RenderTextScreen(this->STData->font, "Jupiter", Color(255, 255, 255), 4.f, 9.2f, 9.5f);
+			break;
+		}
 	}
 	(*this->modelStack).PushMatrix();
-	(*this->modelStack).Translate(-80, 4, 0);
+	(*this->modelStack).Translate(-120, 4, 0);
 	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
 	(*this->modelStack).Scale(8.f, 8.f, 8.f);
 	RenderMesh(this->meshGetFast("venus"), true);
 	(*this->modelStack).PopMatrix();
 
 	(*this->modelStack).PushMatrix();
-	(*this->modelStack).Translate(-110, 4, 0);
+	(*this->modelStack).Translate(-150, 4, 0);
 	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
 	(*this->modelStack).Scale(8.4f, 8.4f, 8.4f);
 	RenderMesh(this->meshGetFast("earth"), true);
 	(*this->modelStack).PopMatrix();
 
 	(*this->modelStack).PushMatrix();
-	(*this->modelStack).Translate(-140, 4, 0);
+	(*this->modelStack).Translate(-180, 4, 0);
 	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
 	(*this->modelStack).Scale(6.0f, 6.0f, 6.0f);
 	RenderMesh(this->meshGetFast("mars"), true);
 	(*this->modelStack).PopMatrix();
 
 	(*this->modelStack).PushMatrix();
-	(*this->modelStack).Translate(-170, 4, 0);
+	(*this->modelStack).Translate(-210, 4, 0);
 	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
 	(*this->modelStack).Scale(12.f, 12.f, 12.f);
 	RenderMesh(this->meshGetFast("jupiter"), true);
@@ -392,7 +406,7 @@ void StateHangar::RenderUI()
 				break;
 			case 1:
 				Delay += 10;
-				Shift = (-80.f - state_cam->position.x) / Delay;
+				Shift = (-120.f - state_cam->position.x) / Delay;
 				shiftmovement = true;
 				selectingShips = false;
 				break;

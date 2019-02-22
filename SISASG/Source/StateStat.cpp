@@ -29,6 +29,7 @@ void StateStat::OnUpdate(double dt)
 	this->dtimestring += std::to_string(this->STData->moneyEarned);
 	this->dtimestring += "\nMONEY TOTAL: ";
 	this->dtimestring += std::to_string(this->STData->moneyData);
+	this->dtimestring += "\nPRESS 'R' TO RETURN TO MENUS";
 	
 	if (Application::IsKeyPressed('R'))
 	{
@@ -39,7 +40,7 @@ void StateStat::OnUpdate(double dt)
 
 void StateStat::OnRender()
 {
-	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(255, 255, 255), 4.f, 9.5f, 9.5f);
+	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(255, 255, 255), 4.f, 1.f, 9.5f);
 }
 
 void StateStat::OnCam(int X, int Y, float XChange, float YChange)
