@@ -8,7 +8,17 @@
 
 void Stateinit::OnEnter()
 {
-	this->spawnState = "Title";
+	// initialize file readwrite
+	this->STData->fileSaver.loadFile("config.ini");
+
+	// Load ini file into memory
+	std::string moneyDat = this->STData->fileSaver.getValueString("money");
+
+	this->STData->moneyData = std::stoull(moneyDat);
+	this->STData->ship2unlock = this->STData->fileSaver.getValueBool("ship2");
+	this->STData->ship3unlock = this->STData->fileSaver.getValueBool("ship3");
+
+	this->spawnState = "Menus";
 
 	// Init Stacks
 	std::cout << "Entering: " << this->StateName << " Albion Prelude." << std::endl;
@@ -70,20 +80,5 @@ void Stateinit::OnUpdate(double dt)
 	{
 		this->STData->bounceTime -= dt;
 	}
-
-	//bullet->timeAlive += dt;
-	//spaceship1->Update(dt);
-
-	//bullet->Update(dt); // Calls Bullet:Update();
-
-	/*if (bullet->timeAlive > 1)
-	if (this->STData->bounceTime >= 0.0)
-	{
-		Bullet* bullet = new Bullet(Vector3(spaceship1->position.x, spaceship1->position.y, spaceship1->position.z),
-			Vector3(spaceship1->target.x, spaceship1->target.y, spaceship1->target.z),
-			Vector3(0, 1, 0));
-		delete bullet;
-		this->bullet->timeAlive = 0;
-		this->STData->bounceTime -= dt;
-	}*/
+    
 }

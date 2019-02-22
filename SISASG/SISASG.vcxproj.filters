@@ -88,9 +88,6 @@
     <ClCompile Include="Source\StateShop.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
-    <ClCompile Include="Source\StateTitle.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
     <ClCompile Include="Source\spaceship.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
@@ -99,6 +96,12 @@
     </ClCompile>
     <ClCompile Include="Source\StateStat.cpp">
       <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Particle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ParticleSystem.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,9 +195,6 @@
     <ClInclude Include="Source\StateShop.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
-    <ClInclude Include="Source\StateTitle.h">
-      <Filter>Header Files\States</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Uniforms.h">
       <Filter>Header Files\Internal</Filter>
     </ClInclude>
@@ -203,6 +203,12 @@
     </ClInclude>
     <ClInclude Include="Source\Vertex.h">
       <Filter>Source Files\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Particle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ParticleSystem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\StateStat.h">
       <Filter>Header Files\States</Filter>
@@ -233,5 +239,14 @@
     <Filter Include="Source Files\States">
       <UniqueIdentifier>{be6ccd3e-7fc5-41b3-902e-6e673e11ef68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Particle">
+      <UniqueIdentifier>{f29a94ee-e3f4-430d-9b88-c1eef9d808ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Particle">
+      <UniqueIdentifier>{e3adb7fc-89a4-48b3-bdd6-3bdee03eeec0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.ini" />
   </ItemGroup>
 </Project>

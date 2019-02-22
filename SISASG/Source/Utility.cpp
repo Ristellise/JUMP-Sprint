@@ -1,5 +1,6 @@
 #include "Utility.h"
-
+#include <random>
+#include <functional>
 Position operator*(const Mtx44& lhs, const Position& rhs)
 {
     float b[4];
@@ -19,4 +20,18 @@ std::string CurrentDirectory()
     }
     cCurrentPath[sizeof(cCurrentPath) - 1] = '\0';
     return std::string(cCurrentPath);
+}
+
+int mt19937Rand(int low, int hi)
+{
+    auto dice_rand = std::bind(std::uniform_int_distribution<int>(low, hi),
+        std::mt19937(time(0)));
+    return dice_rand();
+}
+
+float mt19937Rand(float low, float hi)
+{
+    auto dice_rand = std::bind(std::uniform_real_distribution<float>(low, hi),
+        std::mt19937(time(0)));
+    return dice_rand();
 }

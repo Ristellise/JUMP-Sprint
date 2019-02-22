@@ -24,6 +24,19 @@ MS::MS() {
 /******************************************************************************/
 /*!
 \brief
+MS initalizer.
+*/
+/******************************************************************************/
+void MS::Init()
+{
+    Mtx44 mat;
+    mat.SetToIdentity();
+    ms.push(mat);
+}
+
+/******************************************************************************/
+/*!
+\brief
 MS destructor
 */
 /******************************************************************************/
@@ -230,7 +243,7 @@ void MS::LookAt(double eyeX, double eyeY, double eyeZ,
 	ms.top() = ms.top() * mat;
 }
 
-std::stack<Mtx44> MS::getMatrixStack()
+std::stack<Mtx44, std::vector<Mtx44>> MS::getMatrixStack()
 {
     return this->ms;
 }

@@ -9,6 +9,15 @@
 
 class StateGame : public GState
 {
+	struct STARS
+	{
+		float x = 0;
+		float y = 0;
+		float z = 0;
+		float scale = 0;
+		int stime = 0;
+	};
+
 public:
 	StateGame();
 	~StateGame();
@@ -19,11 +28,18 @@ public:
 	Mtx44 cubeMult2;
 	Mtx44 cubeMult3;
 
+	float rotateAngle;
+
 	std::string dtimestring;
+
+	STARS coord;
+	std::vector<STARS> stars;
+	int starsnumber;
+	void Stars();
 
 	PlanetRange planetrange1;
 	Hoops hoop;
-
+	
     SoundContainer audiosrc;
 
 	Bullet* bullet;
@@ -33,13 +49,25 @@ public:
 	void OnUpdate(double dt);
 	void OnRender();
 	void OnCam(int X, int Y, float XChange, float YChange);
+	void hoopGenerate();
+	void hoopChecker();
+	void hoopRender();
 
 private:
 	// test for hoops currently
-	float x = 0.f, y = 0.f, z = 30.f, rad = 9.f; // main coords starts at venus, inner radius of ring is 9
-	float points = 0.f; // counts the points (fairly bugged)
-	float offset_x[20], offset_y[20], offset_z[20]; // stores positions of all rings (increase array size accordingly)
+	float x = 20.f, y = 0.f, z = 180.f, rad = 14.f; // main coords starts at venus, inner radius of ring is 9
+	int points = 0; // counts the points (fairly bugged)
+	int totalHoops = 0;
 
+	struct Hooplah
+	{
+		float offset_x = 400, offset_y = 0, offset_z = 1000, rotation = 0; // stores positions of all rings (increase array size accordingly)
+		bool passed;
+	};
+	Hooplah ok;
+	std::vector<Hooplah> hoopPos;
+	
+	double elapsedTime;
 };
 
 #endif

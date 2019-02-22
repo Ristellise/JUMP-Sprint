@@ -42,6 +42,6 @@ void genericEntity::Update(double dt)
     position = position + view * (float)(velocity * dt);
     if (this->velocity > 0)
     {
-        this->velocity -= 1.0f * dt;
+        this->velocity -= (float)(1.0f * dt);
     }
 }

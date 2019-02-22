@@ -35,45 +35,45 @@ void Camera3::Update(double dt, entity targetShip)
 	// up = right.Cross(view).Normalized();
 	// view = position - target;
 
-	if (Application::IsKeyPressed(VK_LEFT))
+	if (targetShip.lKey == true)
 	{
 		Mtx44 rotation;
 		rotation.SetToRotation(targetShip.angle, up.x, up.y, up.z);
 		view = rotation * view;
 	}
 
-	if (Application::IsKeyPressed(VK_RIGHT))
+	if (targetShip.rKey == true)
 	{
 		Mtx44 rotation;
-		rotation.SetToRotation(targetShip.angle, up.x, up.y, up.z);
+		rotation.SetToRotation(-targetShip.angle, up.x, up.y, up.z);
 		view = rotation * view;
 	}
 
-	if (Application::IsKeyPressed(VK_UP))
+	if (targetShip.uKey == true)
+	{
+		Mtx44 rotation;
+		rotation.SetToRotation(targetShip.angle, right.x, right.y, right.z);
+		view = rotation * view;
+	}
+
+	if (targetShip.dKey == true)
 	{
 		Mtx44 rotation;
 		rotation.SetToRotation(-targetShip.angle, right.x, right.y, right.z);
 		view = rotation * view;
 	}
 
-	if (Application::IsKeyPressed(VK_DOWN))
-	{
-		Mtx44 rotation;
-		rotation.SetToRotation(-targetShip.angle, right.x, right.y, right.z);
-		view = rotation * view;
-	}
-
-	if (Application::IsKeyPressed('Q'))
+	if (targetShip.qKey == true)
 	{
 		Mtx44 rotation;
 		rotation.SetToRotation(-targetShip.angle, view.x, view.y, view.z);
 		view = rotation * view;
 	}
 
-	if (Application::IsKeyPressed('E'))
+	if (targetShip.eKey == true)
 	{
 		Mtx44 rotation;
-		rotation.SetToRotation(-targetShip.angle, view.x, view.y, view.z);
+		rotation.SetToRotation(targetShip.angle, view.x, view.y, view.z);
 		view = rotation * view;
 	}
 
@@ -85,10 +85,13 @@ void Camera3::Update(double dt, entity targetShip)
 		targetShip.position.z + (up.z * camUpOffset)
 	);
 
+	// Legacy dev function for resetting camera. Do not open!
+	/*
 	if (Application::IsKeyPressed('R'))
 	{
 		Reset();
 	}
+	*/
 }
 
 void Camera3::Updatealt(double dt)
