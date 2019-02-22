@@ -221,9 +221,6 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{fc631571-b1af-43f2-950a-fc4dea99d1a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Internal">
-      <UniqueIdentifier>{98100814-ddf7-486f-b3f1-583e36eae24b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Internal">
       <UniqueIdentifier>{f54f8e0e-3028-4fef-bf07-d0b897410c59}</UniqueIdentifier>
     </Filter>
@@ -244,6 +241,9 @@
     </Filter>
     <Filter Include="Header Files\Particle">
       <UniqueIdentifier>{e3adb7fc-89a4-48b3-bdd6-3bdee03eeec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Internal">
+      <UniqueIdentifier>{98100814-ddf7-486f-b3f1-583e36eae24b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -29,8 +29,10 @@ public:
 	Mtx44 cubeMult3;
 
 	float rotateAngle;
+	bool meshisnull;
 
 	std::string dtimestring;
+	std::string dgamestring;
 
 	STARS coord;
 	std::vector<STARS> stars;

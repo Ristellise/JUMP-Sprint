@@ -52,6 +52,12 @@ void StateGame::OnEnter()
 
 	Mesh* meshbuffer;
 
+	meshbuffer = meshGetFast("spaceship");
+	meshisnull = false;
+	if (meshbuffer == nullptr)
+	{
+		meshisnull = true;
+	}
 	// Ship loading
 	switch (this->STData->shipSelect)
 	{
@@ -71,10 +77,47 @@ void StateGame::OnEnter()
 		meshbuffer->textureID = LoadTGA("TGA//Ship3.tga", GL_LINEAR, GL_CLAMP);
 		break;
 	}	
-	this->meshList->push_back(meshbuffer);
+	if (meshisnull)
+	{
+		this->meshList->push_back(meshbuffer);
+	}
+
+	// Spaceship
+	spaceship* spaceship1 = new spaceship();
+	spaceship1->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
+	spaceship1->type = entityType::eT_Ship;
+	spaceship1->name = "spaceship";
+	spaceship1->physics = true;
+	spaceship1->Boxsize = BBoxDimensions(2.5f, 2.5f, 2.5f);
+	spaceship1->meshptr = meshbuffer;
+
+	switch (this->STData->shipSelect)
+	{
+	case 0:
+		spaceship1->topSpeed = 40.0f;
+		spaceship1->fwdaccl = 20.f;
+		spaceship1->bwdaccl = -20.f;
+		spaceship1->drift = 7.0f;
+		break;
+	case 1:
+		spaceship1->topSpeed = 60.0f;
+		spaceship1->fwdaccl = 15.f;
+		spaceship1->bwdaccl = -15.f;
+		spaceship1->drift = 10.f;
+		break;
+	case 2:
+		spaceship1->topSpeed = 80.0f;
+		spaceship1->fwdaccl = 10.f;
+		spaceship1->bwdaccl = -10.f;
+		spaceship1->drift = 5.0f;
+		break;
+	}
+	spaceship1->Reset();
+	this->entitylists->insert_or_assign("spaceship", spaceship1);
+	
 
 	meshbuffer = meshGetFast("planet");
-	bool meshisnull = false;
+	meshisnull = false;
 	if (meshbuffer == nullptr)
 	{
 		meshisnull = true;
@@ -103,40 +146,6 @@ void StateGame::OnEnter()
 	{
 		this->meshList->push_back(meshbuffer);
 	}
-
-	// Spaceship
-	spaceship* spaceship1 = new spaceship();
-	spaceship1->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
-	spaceship1->type = entityType::eT_Ship;
-	spaceship1->name = "spaceship";
-	spaceship1->physics = true;
-	spaceship1->Boxsize = BBoxDimensions(2.5f, 2.5f, 2.5f);
-	spaceship1->meshptr = this->meshGetFast("spaceship");
-	
-	switch (this->STData->shipSelect)
-	{
-	case 0:
-		spaceship1->topSpeed = 40.0f;
-		spaceship1->fwdaccl = 20.f;
-		spaceship1->bwdaccl = -20.f;
-		spaceship1->drift = 7.0f;
-		break;
-	case 1:
-		spaceship1->topSpeed = 60.0f;
-		spaceship1->fwdaccl = 15.f;
-		spaceship1->bwdaccl = -15.f;
-		spaceship1->drift = 10.f;
-		break;
-	case 2:
-		spaceship1->topSpeed = 80.0f;
-		spaceship1->fwdaccl = 10.f;
-		spaceship1->bwdaccl = -10.f;
-		spaceship1->drift = 5.0f;
-		break;
-	}
-	
-	this->entitylists->insert_or_assign("spaceship", spaceship1);
-	spaceship1->Reset();
 
 	// Test Env
 	meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
@@ -209,12 +218,12 @@ void StateGame::OnUpdate(double dt)
 
 	entity* spaceship = this->entityGetFast("spaceship");
 
-	this->dtimestring = "POINTS OBTAINED: ";
-	this->dtimestring += std::to_string(points);
-	this->dtimestring += "\nTIME REMAINING: ";
-	this->dtimestring += std::to_string(elapsedTime);
+	this->dgamestring = "POINTS OBTAINED: ";
+	this->dgamestring += std::to_string(points);
+	this->dgamestring += "\nTIME REMAINING: ";
+	this->dgamestring += std::to_string(elapsedTime);
 
-	this->dtimestring += "\n\nFPS: ";
+	this->dtimestring = "\n\nFPS: ";
 	this->dtimestring += std::to_string(1.0f / dt);
 	this->dtimestring += "\nCAM X: ";
 	this->dtimestring += std::to_string(this->state_cam->position.x);
@@ -504,7 +513,8 @@ void StateGame::OnRender()
 
 	hoopRender();
 
-	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 1.f, 24.f);
+	this->RenderTextScreen(this->STData->font, this->dgamestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 4.f, 1.f, 9.5f);
+	this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 2.f, 20.f);
 
     std::map<std::string, entity*>::iterator it;
 
@@ -588,8 +598,6 @@ void StateGame::OnRender()
 			(*this->modelStack).LoadMatrix(cubeMatrix);
 			RenderMesh(spaceship->meshptr, true);
 			(*this->modelStack).PopMatrix();
-
-            
 		}
 		else if (buff->type == entityType::eT_Environment)
 		{

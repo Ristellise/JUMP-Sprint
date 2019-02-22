@@ -2,15 +2,16 @@
 #include <algorithm>
 #include <iterator>
 #include <functional>
+
 void GState::Setlists(std::map<std::string,entity*>* entitylists, std::vector<Mesh*>* meshList)
 {
     this->entitylists = entitylists;
     this->meshList = meshList;
 }
+
 GState::GState()
 {
 }
-
 
 GState::~GState()
 {
@@ -61,12 +62,14 @@ void GState::OnCreate(
     this->mouse = mouse;
     this->collideInstance = collideInstance;
 }
+
 void GState::SetMatrixes(MS* model, MS* view, MS* projection)
 {
     this->modelStack = model;
     this->viewStack = view;
     this->projectionStack = projection;
 }
+
 void GState::RenderTextScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
     if (!mesh || mesh->textureID <= 0) //Proper error check

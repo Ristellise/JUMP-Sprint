@@ -75,5 +75,4 @@ void Stateinit::OnUpdate(double dt)
 	{
 		this->STData->bounceTime -= dt;
 	}
-    
 }
