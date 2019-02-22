@@ -1,15 +1,16 @@
 #pragma once
 
 #include "entity.h"
-#include "testCube.h"
+#include "spaceship.h"
 
 class Hoops
 {
 public:
 	Hoops();
 
-	bool hoopsCheckXY(float circle_x, float circle_y, float circle_z, float x, float y, float z, float rad); // for hoops detection (not fully working)
-	bool hoopsExecuteUI(float circle_x, float circle_y, float circle_z, float x, float y, float z, float rad); // for hoops detection (not fully working)
+	bool hoopsCheckXY(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad); // for hoops detection (not fully working)
+	bool hoopsExecuteUI(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad); // for hoops detection (not fully working)
+	
 
 private:
 

@@ -7,7 +7,7 @@ bool SaveFiles::setValue(const std::string key,const std::string value)
 {
     if (this->data.find(key) != this->data.end())
     {
-        this->data.insert(std::pair<std::string, std::string>(key, value));
+        this->data.insert_or_assign(key,value);
         return true;
     }
     else

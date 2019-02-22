@@ -12,7 +12,7 @@ Matrix Stack to replace openGL math function
 
 #include <stack>
 #include "Mtx44.h"
-
+#include <vector>
 /******************************************************************************/
 /*!
 		Class MS:
@@ -20,9 +20,10 @@ Matrix Stack to replace openGL math function
 */
 /******************************************************************************/
 class MS {
-	std::stack<Mtx44> ms;
+	std::stack<Mtx44, std::vector<Mtx44>> ms; // POSSIBLE to change this container to someting faster?
 public:
 	MS();
+    void Init();
 	~MS();
 	const Mtx44& Top() const;
 	void PopMatrix();
@@ -38,7 +39,7 @@ public:
 	void LookAt(double eyeX, double eyeY, double eyeZ,
 				double centerX, double centerY, double centerZ,
 				double upX, double upY, double upZ);
-    std::stack<Mtx44> getMatrixStack();
+    std::stack<Mtx44, std::vector<Mtx44>> getMatrixStack();
 };
 
 #endif

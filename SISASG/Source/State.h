@@ -6,12 +6,14 @@
 #include "Uniforms.h"
 #include "MatrixStack.h"
 #include "entity.h"
+#include "Bullet.h"
 #include "Camera3.h"
 #include "MouseHandler.h"
 #include "collision.h"
 #include <soloud.h>
-#include <soloud_wavstream.h>
-#include <soloud_wav.h>
+#include "AudioHandler.h"
+#include "SaveFiles.h"
+
 // Contains a base template of game states Active.
 // They may be added or removed.
 
@@ -23,8 +25,17 @@ struct StateData
     int shipSelect = 0;
     int planetSelect = 0;
     SoLoud::Soloud VERYLOUD;
+    std::map<std::string, SoundContainer*> SoundSrcs;
     unsigned int hoopsMap;
 	Mesh* font;
+	SaveFiles fileSaver;
+	unsigned long long moneyData;
+	unsigned long long moneyEarned;
+	int pointsPrev;
+	double timePrev;
+	bool ship2unlock;
+	bool ship3unlock;
+	int shopSelect;
 };
 
 class GState
@@ -39,14 +50,13 @@ protected:
     Camera3* state_cam;
     MouseHandler* mouse;
 
-    std::vector<entity*> *entitylists;
+    std::map<std::string,entity*> *entitylists;
     std::vector<Mesh*> *meshList;
 
     collision* collideInstance;
 public:
     StateData* STData;
-
-    void Setlists(std::vector<entity*> *entitylists, std::vector<Mesh*> *meshList);
+    void Setlists(std::map<std::string, entity*>* entitylists, std::vector<Mesh*>* meshList);
 
     GState();
     ~GState();

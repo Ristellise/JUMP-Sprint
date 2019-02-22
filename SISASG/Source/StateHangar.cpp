@@ -16,9 +16,13 @@ StateHangar::StateHangar()
 
 void StateHangar::OnEnter()
 {
+	selectingShips = true;
+	this->STData->shipSelect = 0;
+	this->STData->planetSelect = 0;
+
 	Mesh* meshbuffer;
 
-	this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
+	// this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
 
 	// Ship 1
 	meshbuffer = MeshBuilder::GenerateOBJ("ship1", "OBJ//Ship1.obj")[0];
@@ -32,7 +36,7 @@ void StateHangar::OnEnter()
 	ship1->name = "ship1";
 	ship1->size = Vector3(5.f, 5.f, 5.f);
 	ship1->meshptr = this->meshGetFast("ship1");
-	this->entitylists->push_back(ship1);
+	this->entitylists->insert_or_assign("ship1",ship1);
 
 	// Ship 2
 	meshbuffer = MeshBuilder::GenerateOBJ("ship2", "OBJ//Ship2.obj")[0];
@@ -46,7 +50,27 @@ void StateHangar::OnEnter()
 	ship2->name = "ship2";
 	ship2->size = Vector3(5.f, 5.f, 5.f);
 	ship2->meshptr = this->meshGetFast("ship2");
-	this->entitylists->push_back(ship2);
+	this->entitylists->insert_or_assign("ship2", ship2);
+
+	// Venus
+	meshbuffer = MeshBuilder::GenerateOBJ("venus", "OBJ//Planet sphere.obj")[0];
+	meshbuffer->textureID = LoadTGA("TGA//venus texture.tga", GL_LINEAR, GL_CLAMP);
+	this->meshList->push_back(meshbuffer);
+
+	// Earth
+	meshbuffer = MeshBuilder::GenerateOBJ("earth", "OBJ//Planet sphere.obj")[0];
+	meshbuffer->textureID = LoadTGA("TGA//earth texture.tga", GL_LINEAR, GL_CLAMP);
+	this->meshList->push_back(meshbuffer);
+
+	// Mars
+	meshbuffer = MeshBuilder::GenerateOBJ("mars", "OBJ//Planet sphere.obj")[0];
+	meshbuffer->textureID = LoadTGA("TGA//mars texture.tga", GL_LINEAR, GL_CLAMP);
+	this->meshList->push_back(meshbuffer);
+
+	// Jupiter
+	meshbuffer = MeshBuilder::GenerateOBJ("jupiter", "OBJ//Planet sphere.obj")[0];
+	meshbuffer->textureID = LoadTGA("TGA//jupiter texture.tga", GL_LINEAR, GL_CLAMP);
+	this->meshList->push_back(meshbuffer);
 
 	// Side
 	meshbuffer = MeshBuilder::GenerateQuad("sides", Color(0, 0, 0), 1);
@@ -62,32 +86,76 @@ void StateHangar::OnEnter()
 
 void StateHangar::OnExit()
 {
+    delete this->entitylists->find("ship2")->second;
+    this->entitylists->erase("ship2");
+
+    delete this->entitylists->find("ship1")->second;
+    this->entitylists->erase("ship1");
 }
 
 void StateHangar::OnUpdate(double dt)
 {
-	static const float LSPEED = 10.0f;
-	static const float CSHIFT = 20.f;
-
-	//For movement
-	if ((Application::IsKeyPressed('A') || 
-		((Application::IsKeyPressed(MK_LBUTTON)) && Dir == 1)) && 
-		(state_cam->position.x < 0) && Delay == 0)
+	if (Application::IsKeyPressed('R'))
 	{
-		this->STData->shipSelect -= 1;
-		Delay += 10;
-		Shift = CSHIFT / Delay;
-		shiftmovement = true;
+		this->readyExitlocal = true;
+		this->spawnState = "Menus";
 	}
 
-	if ((Application::IsKeyPressed('D') || 
-		((Application::IsKeyPressed(MK_LBUTTON)) && Dir == -1)) && 
-		(state_cam->position.x > (-CSHIFT * (NumberOfShips - 1)) && Delay == 0))
+	static int rotateDir = 1;
+	static const float ROTATE_SPEED = 10.f;
+	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
+
+	if (selectingShips == true)
 	{
-		this->STData->shipSelect += 1;
-		Delay += 10;
-		Shift = -CSHIFT / Delay;
-		shiftmovement = true;
+		// For movement
+		// static const float LSPEED = 10.0f;
+		static const float CSHIFT = 20.f;
+
+		if ((Application::IsKeyPressed('A') ||
+			((Application::IsKeyPressed(MK_LBUTTON)) && Dir == 1)) &&
+			(state_cam->position.x < 0) && Delay == 0)
+		{
+			this->STData->shipSelect -= 1;
+			Delay += 10;
+			Shift = CSHIFT / Delay;
+			shiftmovement = true;
+		}
+
+		if ((Application::IsKeyPressed('D') ||
+			((Application::IsKeyPressed(MK_LBUTTON)) && Dir == -1)) &&
+			(state_cam->position.x > (-CSHIFT * (NumberOfShips - 1)) && Delay == 0))
+		{
+			this->STData->shipSelect += 1;
+			Delay += 10;
+			Shift = -CSHIFT / Delay;
+			shiftmovement = true;
+		}
+	}
+	else
+	{
+		// For movement
+		// static const float LSPEED = 10.0f;
+		static const float CSHIFT = 30.f;
+
+		if ((Application::IsKeyPressed('A') ||
+			((Application::IsKeyPressed(MK_LBUTTON)) && Dir == 1)) &&
+			(state_cam->position.x < -80) && Delay == 0)
+		{
+			this->STData->planetSelect -= 1;
+			Delay += 10;
+			Shift = CSHIFT / Delay;
+			shiftmovement = true;
+		}
+
+		if ((Application::IsKeyPressed('D') ||
+			((Application::IsKeyPressed(MK_LBUTTON)) && Dir == -1)) &&
+			(state_cam->position.x > (-CSHIFT * (NumberOfPlanets - 1)) - 80 && Delay == 0))
+		{
+			this->STData->planetSelect += 1;
+			Delay += 10;
+			Shift = -CSHIFT / Delay;
+			shiftmovement = true;
+		}
 	}
 
 	if (Delay > 0) // Handles movement
@@ -126,6 +194,63 @@ void StateHangar::OnUpdate(double dt)
 
 void StateHangar::OnRender()
 {
+	if (selectingShips == true)
+	{
+		switch (this->STData->shipSelect)
+		{
+		case 0:
+			lockUnlock = 1;
+			break;
+		case 1:
+			lockUnlock = this->STData->ship2unlock;
+			break;
+		case 2:
+			lockUnlock = this->STData->ship3unlock;
+			break;
+		}
+
+		switch (lockUnlock)
+		{
+		case 0:
+			this->RenderTextScreen(this->STData->font, "Locked", Color(255.f, 0.f, 0.f), 4.f, 1.f, 9.5f);
+			break;
+		case 1:
+			this->RenderTextScreen(this->STData->font, "Unlocked", Color(0.f, 255.f, 255.f), 4.f, 1.f, 9.5f);
+			break;
+		}
+	}
+	else
+	{
+
+	}
+	(*this->modelStack).PushMatrix();
+	(*this->modelStack).Translate(-80, 4, 0);
+	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
+	(*this->modelStack).Scale(8.f, 8.f, 8.f);
+	RenderMesh(this->meshGetFast("venus"), true);
+	(*this->modelStack).PopMatrix();
+
+	(*this->modelStack).PushMatrix();
+	(*this->modelStack).Translate(-110, 4, 0);
+	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
+	(*this->modelStack).Scale(8.4f, 8.4f, 8.4f);
+	RenderMesh(this->meshGetFast("earth"), true);
+	(*this->modelStack).PopMatrix();
+
+	(*this->modelStack).PushMatrix();
+	(*this->modelStack).Translate(-140, 4, 0);
+	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
+	(*this->modelStack).Scale(6.0f, 6.0f, 6.0f);
+	RenderMesh(this->meshGetFast("mars"), true);
+	(*this->modelStack).PopMatrix();
+
+	(*this->modelStack).PushMatrix();
+	(*this->modelStack).Translate(-170, 4, 0);
+	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
+	(*this->modelStack).Scale(12.f, 12.f, 12.f);
+	RenderMesh(this->meshGetFast("jupiter"), true);
+	(*this->modelStack).PopMatrix();
+
 	for (int i = 0; starsnumber > i; i++)
 	{
 		(*this->modelStack).PushMatrix();
@@ -151,9 +276,11 @@ void StateHangar::OnCam(int X, int Y, float XChange, float YChange)
 
 void StateHangar::RenderShips()
 {
-	for (size_t i = 0; i < this->entitylists->size(); i++)
+    std::map<std::string, entity*>::iterator it;
+
+    for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
 	{
-		entity *buff = (*this->entitylists)[i];
+		entity *buff = it->second;
 
 		(*this->modelStack).PushMatrix();
 
@@ -187,6 +314,7 @@ void StateHangar::RenderShips()
 	}
 }
 
+// For left/right arrow buttons
 void StateHangar::RenderUI()
 {
 	(*this->modelStack).PushMatrix();
@@ -225,8 +353,44 @@ void StateHangar::RenderUI()
 	else if (Application::IsKeyPressed(VK_LBUTTON) && this->STData->bounceTime <= 0.0)
 	{
 		this->STData->bounceTime = 0.3;
+		
+		if (selectingShips == true)
+		{
+			switch (this->STData->shipSelect)
+			{
+			case 0:
+				lockUnlock = 1;
+				break;
+			case 1:
+				lockUnlock = this->STData->ship2unlock;
+				break;
+			case 2:
+				lockUnlock = this->STData->ship3unlock;
+				break;
+			}
+
+			switch (lockUnlock)
+			{
+			case 0:
+				break;
+			case 1:
+				Delay += 10;
+				Shift = (-80.f - state_cam->position.x) / Delay;
+				shiftmovement = true;
+				selectingShips = false;
+				break;
+			}
+		}
+		else if (selectingShips == false)
+		{
+			this->readyExitlocal = true;
+			this->spawnState = "Game";
+		}
+
+		/*
 		this->readyExitlocal = true;
 		this->spawnState = "Game";
+		*/
 	}
 
 	glEnable(GL_DEPTH_TEST);
@@ -243,9 +407,9 @@ void StateHangar::Stars()
 		float v = ((float)rand() / (RAND_MAX)) + 0.f;
 		float theta = 2 * Math::PI * u;
 		float phi = acos(2 * v - 1);
-		stars[i].x = 100 + ((10000.f * 0.9) * sin(phi) * cos(theta));
-		stars[i].y = 100 + ((10000.f * 0.9) * sin(phi) * sin(theta));
-		stars[i].z = 100 + ((10000.f * 0.9) * cos(phi));
+		stars[i].x = 100.f + ((10000.f * 0.9f) * sin(phi) * cos(theta));
+		stars[i].y = 100.f + ((10000.f * 0.9f) * sin(phi) * sin(theta));
+		stars[i].z = 100.f + ((10000.f * 0.9f) * cos(phi));
 	}
 }
 

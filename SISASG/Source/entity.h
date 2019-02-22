@@ -10,6 +10,8 @@ enum entityType
     eT_Text,
     eT_TextUI,
     eT_Ship,
+    eT_Space,
+	eT_Bullet,
 	eT_Environment,
     eT_Count
 };
@@ -50,6 +52,13 @@ public:
 class entity
 {
 public:
+	bool lKey;
+	bool rKey;
+	bool uKey;
+	bool dKey;
+	bool qKey;
+	bool eKey;
+
 	float topSpeed;
 	float fwdaccl;
 	float bwdaccl;
@@ -80,6 +89,8 @@ public:
 	Vector3 right;	// relative x
 	Vector3 up;		// relative y
 	Vector3 view;	// relative z
+
+	bool doDestroy = false;
 
     std::string *text;
     std::string name = "";

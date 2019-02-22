@@ -1,19 +1,18 @@
-#ifndef TITLE_H
-#define TITLE_H
-
 #include "State.h"
+#include "spaceship.h"
 
-class StateTitle : public GState
+class StateStat : public GState
 {
 public:
-	StateTitle();
-	~StateTitle();
+	StateStat();
+	~StateStat();
+	std::string dtimestring;
 
 	void OnEnter();
 	void OnExit();
 	void OnUpdate(double dt);
 	void OnRender();
 	void OnCam(int X, int Y, float XChange, float YChange);
-};
 
-#endif
+	std::string Teststring = "";
+};
