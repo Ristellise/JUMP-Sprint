@@ -43,19 +43,19 @@ void StateGame::OnEnter()
 	switch (this->STData->shipSelect)
 	{
 	case 0:
-		// Ship1 - Starter ship
+		// Ship1
 		meshbuffer = MeshBuilder::GenerateOBJ("spaceship", "OBJ//Ship1.obj")[0];
 		meshbuffer->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
 		break;
 	case 1:
-		// Ship2 - Heavy ship
+		// Ship2
 		meshbuffer = MeshBuilder::GenerateOBJ("spaceship", "OBJ//Ship2.obj")[0];
 		meshbuffer->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
 		break;
 	case 2:
-		// Ship3 - Speed ship
-		// meshbuffer = MeshBuilder::GenerateOBJ("spaceship", "OBJ//Ship3.obj")[0];
-		// meshbuffer->textureID = LoadTGA("TGA//Ship3.tga", GL_LINEAR, GL_CLAMP);
+		// Ship3
+		meshbuffer = MeshBuilder::GenerateOBJ("spaceship", "OBJ//Ship3.obj")[0];
+		meshbuffer->textureID = LoadTGA("TGA//Ship3.tga", GL_LINEAR, GL_CLAMP);
 		break;
 	}	
 	this->meshList->push_back(meshbuffer);
@@ -179,6 +179,8 @@ void StateGame::OnEnter()
 
 void StateGame::OnExit()
 {
+	delete this->entitylists->find("spaceship")->second;
+	this->entitylists->erase("spaceship");
 }
 
 void StateGame::OnUpdate(double dt)
