@@ -146,10 +146,6 @@ void StateGame::OnEnter()
 	meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
 	this->meshList->push_back(meshbuffer);
 
-    meshbuffer = MeshBuilder::GenerateOBJ("asstroid", "OBJ//Ship1.obj")[0];
-    meshbuffer->textureID = LoadTGA("TGA//Ship1.tga", GL_LINEAR, GL_CLAMP);
-    this->meshList->push_back(meshbuffer);
-
     // Collision tester
 	/*
     entity* current = new genericEntity();
@@ -169,26 +165,31 @@ void StateGame::OnEnter()
 	{
 		idk.push_back(ok);
 	}
+    hoopGenerate();
     unsigned int counter = 0;
     for (size_t i = 0; i < idk.size(); i++)
     {
-        for (size_t i = 0; i < mt19937Rand(3, 5); i++)
+        int spawns = mt19937Rand(1, 3);
+        for (size_t v = 0; v < spawns; v++)
         {
             entity* current = new genericEntity();
-            current->Init(Vector3(idk[i].offset_x + mt19937Rand(-50, 50),
-                                  idk[i].offset_y + mt19937Rand(-50, 50),
-                                  idk[i].offset_z + mt19937Rand(-50, 50)),
+            current->Init(Vector3(idk[i].offset_x + mt19937Rand(-50.0f, 50.0f),
+                                  idk[i].offset_y + mt19937Rand(-50.0f, 50.0f),
+                                  idk[i].offset_z + mt19937Rand(-50.0f, 50.0f)),
                           Vector3(0, 0, 1),
                           Vector3(0, 1, 0));
             current->type = entityType::eT_Object;
-            current->meshptr = this->meshGetFast("asstroid");
+            current->meshptr = this->meshGetFast("asteroid");
             current->physics = true;
-            current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
-            this->entitylists->insert_or_assign("asstroid" + std::to_string(counter), current);
+            current->Boxsize = BBoxDimensions(1.0f, 1.0f, 1.0f);
+            current->UpdateBBox();
+            std::string name = "asstroid" + std::to_string(counter);
+            current->name = name;
+            this->entitylists->insert_or_assign(name, current);
             counter++;
         }
     }
-    hoopGenerate();
+    
     this->STData->SoundSrcs["looptest"]->enableLooping();
     this->STData->SoundSrcs["looptest"]->pause();
     std::cout << this->entitylists->size() << std::endl;

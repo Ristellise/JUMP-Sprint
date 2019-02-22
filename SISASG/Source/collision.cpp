@@ -127,37 +127,53 @@ void collision::doCollisions(std::map<std::string, entity*> &entityList, double 
     for (it = entityList.begin(); it != entityList.end(); it++)
     {
         Ent = it->second;
-        if (Ent->physics && Ent->velocity > .0f)
+        if (Ent->physics)
         {
+            
             Ent->UpdateBBox();
-            this->updatingEnts += 1;
         }
-        for (it2 = std::next(it,1); it2 != entityList.end(); it2++)
+        if (Ent->name != "spaceship")
         {
-            Ent2 = it2->second;
-            if (Ent2->physics && Ent2->velocity > .0f)
+            std::cout << Ent->name.c_str() << std::endl;
+        }
+    }
+    for (it = entityList.begin(); it != entityList.end(); it++)
+    {
+        Ent = it->second;
+        if (Ent->physics)
+        {
+            this->updatingEnts += 1;
+            if (Ent->velocity != .0f)
             {
-                Ent2->UpdateBBox();
-                this->updatingEnts += 1;
-                if (Intersects(Ent, Ent2))
+                for (it2 = std::next(it, 1); it2 != entityList.end(); it2++)
                 {
-                    float velocity = Ent->velocity + Ent2->velocity;
-                    if (Ent->velocity > Ent2->velocity)
+                    Ent2 = it2->second;
+                    if (Ent2->physics && Ent2->velocity > .0f)
                     {
-                        
-                        Ent->velocity = velocity / 4;
-                        Ent2->velocity = velocity / 2;
-                        Ent2->view = Ent->view;
+                        Ent2->UpdateBBox();
+                        this->updatingEnts += 1;
+                        if (Intersects(Ent, Ent2))
+                        {
+                            float velocity = Ent->velocity + Ent2->velocity;
+                            if (Ent->velocity > Ent2->velocity)
+                            {
+
+                                Ent->velocity = velocity / 4;
+                                Ent2->velocity = velocity / 2;
+                                Ent2->view = Ent->view;
+                            }
+                            else if (Ent->velocity > Ent2->velocity)
+                            {
+                                Ent2->velocity = velocity / 4;
+                                Ent->velocity = velocity / 2;
+                                Ent->view = Ent2->view;
+                            }
+
+                        }
                     }
-                    else if (Ent->velocity > Ent2->velocity)
-                    {
-                        Ent2->velocity = velocity / 4;
-                        Ent->velocity = velocity / 2;
-                        Ent->view = Ent2->view;
-                    }
-                    
                 }
             }
         }
+        
     }
 }
