@@ -14,6 +14,6 @@ public:
     void OnUpdate(double dt);
     void OnRender();
     void OnCam(int X, int Y, float XChange, float YChange);
-	Bullet* bullet;
+    Bullet* bullet;
     std::string Teststring = "";
 };

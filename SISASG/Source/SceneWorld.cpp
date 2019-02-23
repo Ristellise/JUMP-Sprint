@@ -34,18 +34,18 @@ SceneWorld::~SceneWorld()
 
 void SceneWorld::Init()
 {
-	// Vector method
-	currRotate = 3;
-	prevRotate = 3;
+    // Vector method
+    currRotate = 3;
+    prevRotate = 3;
 
-	srand(unsigned int(time(NULL)));
+    srand(unsigned int(time(NULL)));
 
     random = rand() % 10 + 1;
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     rotateAngle = 0;
     movement_asteroid1_z = 0;
-	// Generate a default VAO for now
+    // Generate a default VAO for now
     glGenVertexArrays(1, &m_vertexArrayID);
     glBindVertexArray(m_vertexArrayID);
 
@@ -58,7 +58,7 @@ void SceneWorld::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     
-	// bullet.Init(Vector3(spaceship.position.x, spaceship.position.y, spaceship.position.z),Vector3(0,0,-1),Vector3(0,1,0));
+    // bullet.Init(Vector3(spaceship.position.x, spaceship.position.y, spaceship.position.z),Vector3(0,0,-1),Vector3(0,1,0));
     // camera.Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
     // spaceship.Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
 
@@ -119,12 +119,12 @@ void SceneWorld::Init()
 
     FLInstance.Loadfnt("Font/fnt.fnt");
     Stateinit* initInstance = new Stateinit();
-	StateStat* statstate = new StateStat();
-	StateGame* gamestate = new StateGame();
-	StateMenus* menustate = new StateMenus();
-	StateHangar* hangarstate = new StateHangar();
-	StateShop* shopstate = new StateShop();
-	StatePlanet* planetstate = new StatePlanet();
+    StateStat* statstate = new StateStat();
+    StateGame* gamestate = new StateGame();
+    StateMenus* menustate = new StateMenus();
+    StateHangar* hangarstate = new StateHangar();
+    StateShop* shopstate = new StateShop();
+    StatePlanet* planetstate = new StatePlanet();
     this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
     this->StateManInst.addAvailable(initInstance);
     this->StateManInst.addAvailable(statstate);
@@ -180,18 +180,18 @@ void SceneWorld::Init()
 
     // Test Cube
     //meshList[GEO_spaceship] = MeshBuilder::GenerateOBJ("spaceship", "OBJ//spaceship.obj")[0];
-	//meshList[GEO_spaceship]->textureID = LoadTGA("TGA//spaceship.tga", GL_LINEAR, GL_CLAMP);
-	//meshList[GEO_spaceship] = MeshBuilder::GenerateOBJ("spaceship", "OBJ//Ship2.obj")[0];
-	//meshList[GEO_spaceship]->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
+    //meshList[GEO_spaceship]->textureID = LoadTGA("TGA//spaceship.tga", GL_LINEAR, GL_CLAMP);
+    //meshList[GEO_spaceship] = MeshBuilder::GenerateOBJ("spaceship", "OBJ//Ship2.obj")[0];
+    //meshList[GEO_spaceship]->textureID = LoadTGA("TGA//Ship2.tga", GL_LINEAR, GL_CLAMP);
 
-	// Lightball
-	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
+    // Lightball
+    meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
 
-	//Bullet
-	meshList[GEO_BULLETBODY] = MeshBuilder::GenerateSphere("bulletbody", Color(255, 255, 255), 18, 36, 0.5);
-	
-	// Test Environment
-	// meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
+    //Bullet
+    meshList[GEO_BULLETBODY] = MeshBuilder::GenerateSphere("bulletbody", Color(255, 255, 255), 18, 36, 0.5);
+    
+    // Test Environment
+    // meshList[GEO_TESTENV] = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
 
     // Lightball
     meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightBall", Color(1, 1, 1), 9, 36, 1);
@@ -238,51 +238,51 @@ void SceneWorld::Update(double dt)
     if (Application::IsKeyPressed('P'))
         lights[this->selector].position.y += (float)(LSPEED * dt);
 
-	// Outdated vector modelstack method - Do not open!
-	/*
-	if (Application::IsKeyPressed('R'))
-	{
-		// Vector method
-		cubeRotateVector.clear();
-		currRotate = 3;
-		prevRotate = 3;
-	}
+    // Outdated vector modelstack method - Do not open!
+    /*
+    if (Application::IsKeyPressed('R'))
+    {
+        // Vector method
+        cubeRotateVector.clear();
+        currRotate = 3;
+        prevRotate = 3;
+    }
 
-	if ((Application::IsKeyPressed(VK_LEFT)) || (Application::IsKeyPressed(VK_RIGHT)))
-	{
-		currRotate = 0;
-	}
-	if ((Application::IsKeyPressed(VK_UP)) || (Application::IsKeyPressed(VK_DOWN)))
-	{
-		currRotate = 1;
-	}
-	if ((Application::IsKeyPressed('Q')) || (Application::IsKeyPressed('E')))
-	{
-		currRotate = 2;
-	}
-	if (currRotate != prevRotate)
-	{
-		cubeRotateVector.push_back(currRotate);
-		prevRotate = currRotate;
-	}
-	for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
-	{
-		for (unsigned int j = (i + 1); j < cubeRotateVector.size(); j++)
-		{
-			if (cubeRotateVector[i] == cubeRotateVector[j])
-			{
-				cubeRotateVector.erase(cubeRotateVector.begin() + i);
-			}
-		}
-	}
-	*/
+    if ((Application::IsKeyPressed(VK_LEFT)) || (Application::IsKeyPressed(VK_RIGHT)))
+    {
+        currRotate = 0;
+    }
+    if ((Application::IsKeyPressed(VK_UP)) || (Application::IsKeyPressed(VK_DOWN)))
+    {
+        currRotate = 1;
+    }
+    if ((Application::IsKeyPressed('Q')) || (Application::IsKeyPressed('E')))
+    {
+        currRotate = 2;
+    }
+    if (currRotate != prevRotate)
+    {
+        cubeRotateVector.push_back(currRotate);
+        prevRotate = currRotate;
+    }
+    for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
+    {
+        for (unsigned int j = (i + 1); j < cubeRotateVector.size(); j++)
+        {
+            if (cubeRotateVector[i] == cubeRotateVector[j])
+            {
+                cubeRotateVector.erase(cubeRotateVector.begin() + i);
+            }
+        }
+    }
+    */
 
     this->lastkeypress += dt;
 
-	// Outdated SceneWorld renders - Do not open!
-	/*
+    // Outdated SceneWorld renders - Do not open!
+    /*
     spaceship.Update(dt);
-	camera.Update(dt, spaceship);
+    camera.Update(dt, spaceship);
 
     this->dtimestring = "FPS:";
     this->dtimestring += std::to_string(1.0f / dt);
@@ -292,7 +292,7 @@ void SceneWorld::Update(double dt)
     this->dtimestring += std::to_string(this->camera.position.y);
     this->dtimestring += "\nCam Z:";
     this->dtimestring += std::to_string(this->camera.position.z);
-    this->dtimestring += "\n"	+ std::to_string(this->lights[this->selector].position.x) + " |" 
+    this->dtimestring += "\n"    + std::to_string(this->lights[this->selector].position.x) + " |" 
                                 + std::to_string(this->lights[this->selector].position.y) + " |"
                                 + std::to_string(this->lights[this->selector].position.z);
     this->dtimestring += "\nVel :";
@@ -303,9 +303,9 @@ void SceneWorld::Update(double dt)
     this->dtimestring += std::to_string(spaceship.pitchTotal);
     this->dtimestring += "\nYaw :";
     this->dtimestring += std::to_string(spaceship.yawTotal);
-	this->dtimestring += "\nRol :";
-	this->dtimestring += std::to_string(spaceship.rollTotal);
-	*/
+    this->dtimestring += "\nRol :";
+    this->dtimestring += std::to_string(spaceship.rollTotal);
+    */
 
     static int rotateDir = 1;
     static int rotateDir_asteroid = 1;
@@ -325,10 +325,10 @@ void SceneWorld::Update(double dt)
 
     this->StateManInst.Update(dt, this->l_window);
 
-	glfwGetWindowSize(l_window, &WindowXpos, &WindowYpos); // gets the size of the window
-	Mtx44 projection;
-	projection.SetToPerspective(45.f, (float)WindowXpos / WindowYpos, 0.1f, ViewRange); // Window Scaling
-	projectionStack.LoadMatrix(projection);
+    glfwGetWindowSize(l_window, &WindowXpos, &WindowYpos); // gets the size of the window
+    Mtx44 projection;
+    projection.SetToPerspective(45.f, (float)WindowXpos / WindowYpos, 0.1f, ViewRange); // Window Scaling
+    projectionStack.LoadMatrix(projection);
 }
 
 void SceneWorld::RenderMesh(Mesh *mesh, bool enableLight)
@@ -470,90 +470,90 @@ void SceneWorld::RenderPlanets()
 
 void SceneWorld::RenderAsteroid()
 {
-		modelStack.PushMatrix();
-		modelStack.Translate((float)random, (float)random, (float)random);
-		modelStack.Translate(movement_asteroid1_z, 0, 0);
-		modelStack.Rotate(rotateAngle * 5, 1, 0, 1);
-		modelStack.Scale(0.8f, 0.8f, 0.8f);
-		RenderMesh(meshList[GEO_ASTEROID1], true);
-		modelStack.PopMatrix();	
+        modelStack.PushMatrix();
+        modelStack.Translate((float)random, (float)random, (float)random);
+        modelStack.Translate(movement_asteroid1_z, 0, 0);
+        modelStack.Rotate(rotateAngle * 5, 1, 0, 1);
+        modelStack.Scale(0.8f, 0.8f, 0.8f);
+        RenderMesh(meshList[GEO_ASTEROID1], true);
+        modelStack.PopMatrix();    
 }
 
 /*
 void SceneWorld::RenderSpaceship()
 {
-	// Matrix method v2
-	modelStack.PushMatrix();
-	cubeMult1.SetToTranslation(spaceship.position.x, spaceship.position.y, spaceship.position.z);
-	
-	if (Application::IsKeyPressed(VK_LEFT))
-	{
-		cubeMultR.SetToRotation(spaceship.angle, spaceship.up.x, spaceship.up.y, spaceship.up.z);
-		cubeMult2 = cubeMultR * cubeMult2;
-	}
-	
-	if (Application::IsKeyPressed(VK_RIGHT))
-	{
-		cubeMultR.SetToRotation(-(spaceship.angle), spaceship.up.x, spaceship.up.y, spaceship.up.z);
-		cubeMult2 = cubeMultR * cubeMult2;
-	}
+    // Matrix method v2
+    modelStack.PushMatrix();
+    cubeMult1.SetToTranslation(spaceship.position.x, spaceship.position.y, spaceship.position.z);
+    
+    if (Application::IsKeyPressed(VK_LEFT))
+    {
+        cubeMultR.SetToRotation(spaceship.angle, spaceship.up.x, spaceship.up.y, spaceship.up.z);
+        cubeMult2 = cubeMultR * cubeMult2;
+    }
+    
+    if (Application::IsKeyPressed(VK_RIGHT))
+    {
+        cubeMultR.SetToRotation(-(spaceship.angle), spaceship.up.x, spaceship.up.y, spaceship.up.z);
+        cubeMult2 = cubeMultR * cubeMult2;
+    }
 
-	if (Application::IsKeyPressed(VK_UP))
-	{
-		cubeMultR.SetToRotation(-(spaceship.angle), spaceship.right.x, spaceship.right.y, spaceship.right.z);
-		cubeMult2 = cubeMultR * cubeMult2;
-	}
-	
-	if (Application::IsKeyPressed(VK_DOWN))
-	{
-		cubeMultR.SetToRotation(spaceship.angle, spaceship.right.x, spaceship.right.y, spaceship.right.z);
-		cubeMult2 = cubeMultR * cubeMult2;
-	}
+    if (Application::IsKeyPressed(VK_UP))
+    {
+        cubeMultR.SetToRotation(-(spaceship.angle), spaceship.right.x, spaceship.right.y, spaceship.right.z);
+        cubeMult2 = cubeMultR * cubeMult2;
+    }
+    
+    if (Application::IsKeyPressed(VK_DOWN))
+    {
+        cubeMultR.SetToRotation(spaceship.angle, spaceship.right.x, spaceship.right.y, spaceship.right.z);
+        cubeMult2 = cubeMultR * cubeMult2;
+    }
 
-	if (Application::IsKeyPressed('Q'))
-	{
-		cubeMultR.SetToRotation(-(spaceship.angle), spaceship.view.x, spaceship.view.y, spaceship.view.z);
-		cubeMult2 = cubeMultR * cubeMult2;
-	}
+    if (Application::IsKeyPressed('Q'))
+    {
+        cubeMultR.SetToRotation(-(spaceship.angle), spaceship.view.x, spaceship.view.y, spaceship.view.z);
+        cubeMult2 = cubeMultR * cubeMult2;
+    }
 
-	if (Application::IsKeyPressed('E'))
-	{
-		cubeMultR.SetToRotation(spaceship.angle, spaceship.view.x, spaceship.view.y, spaceship.view.z);
-		cubeMult2 = cubeMultR * cubeMult2;
-	}
-	
-	cubeMult3.SetToScale(5.0f, 5.0f, 5.0f);
-	cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
-	
-	modelStack.LoadMatrix(cubeMatrix);
-	RenderMesh(meshList[GEO_spaceship], true);
-	modelStack.PopMatrix();
+    if (Application::IsKeyPressed('E'))
+    {
+        cubeMultR.SetToRotation(spaceship.angle, spaceship.view.x, spaceship.view.y, spaceship.view.z);
+        cubeMult2 = cubeMultR * cubeMult2;
+    }
+    
+    cubeMult3.SetToScale(5.0f, 5.0f, 5.0f);
+    cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
+    
+    modelStack.LoadMatrix(cubeMatrix);
+    RenderMesh(meshList[GEO_spaceship], true);
+    modelStack.PopMatrix();
 
-	// Vector method
-	modelStack.PushMatrix();
-	modelStack.Translate(spaceship.position.x, spaceship.position.y, spaceship.position.z);
+    // Vector method
+    modelStack.PushMatrix();
+    modelStack.Translate(spaceship.position.x, spaceship.position.y, spaceship.position.z);
 
-	for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
-	{
-		switch (cubeRotateVector[i])
-		{
-		case 0:
-			modelStack.Rotate(spaceship.yawTotal, spaceship.up.x, spaceship.up.y, spaceship.up.z);
-			break;
-		case 1:
-			modelStack.Rotate(spaceship.pitchTotal, spaceship.right.x, spaceship.right.y, spaceship.right.z);
-			break;
-		case 2:
-			modelStack.Rotate(spaceship.rollTotal, spaceship.view.x, spaceship.view.y, spaceship.view.z);
-			break;
-		case 3:
-			break;
-		}
-	}
+    for (unsigned int i = 0; i < cubeRotateVector.size(); i++)
+    {
+        switch (cubeRotateVector[i])
+        {
+        case 0:
+            modelStack.Rotate(spaceship.yawTotal, spaceship.up.x, spaceship.up.y, spaceship.up.z);
+            break;
+        case 1:
+            modelStack.Rotate(spaceship.pitchTotal, spaceship.right.x, spaceship.right.y, spaceship.right.z);
+            break;
+        case 2:
+            modelStack.Rotate(spaceship.rollTotal, spaceship.view.x, spaceship.view.y, spaceship.view.z);
+            break;
+        case 3:
+            break;
+        }
+    }
 
-	modelStack.Scale(5.0f, 5.0f, 5.0f);
-	RenderMesh(meshList[GEO_spaceship], true);
-	modelStack.PopMatrix();
+    modelStack.Scale(5.0f, 5.0f, 5.0f);
+    RenderMesh(meshList[GEO_spaceship], true);
+    modelStack.PopMatrix();
 }
 */
 
@@ -596,13 +596,13 @@ void SceneWorld::Render()
 
     // RenderPlanets();
 
-	// RenderAsteroid();
+    // RenderAsteroid();
 
-	// planetExecuteUI();
+    // planetExecuteUI();
 
-	// hoopsExecuteUI();
+    // hoopsExecuteUI();
 
-	// RenderSpaceship();
+    // RenderSpaceship();
 
     modelStack.PushMatrix();
     modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);

@@ -26,22 +26,22 @@ class StateManager
     bool currentlock = false;
     double lockbounce = 0.0;
     double bounceTime = 0.0;
-	bool debugToggle = false;
-	bool gameToggle = false;
-	int fdelay;
+    bool debugToggle = false;
+    bool gameToggle = false;
+    int fdelay;
 
     collision collideInstance;
 public:
-	int shipSelect = 0;
-	// 0 - Starter ship
-	// 1 - Heavy ship
-	// 2 - Speed ship
+    int shipSelect = 0;
+    // 0 - Starter ship
+    // 1 - Heavy ship
+    // 2 - Speed ship
 
-	int planetSelect = 0;
-	// 0 - Earth
-	// 1 - Venus
-	// 2 - Mars
-	// 3 - Jupite
+    int planetSelect = 0;
+    // 0 - Earth
+    // 1 - Venus
+    // 2 - Mars
+    // 3 - Jupite
 
     bool setCam(Camera3* cam);
     StateManager();
@@ -50,10 +50,10 @@ public:
     bool Init(unsigned * m_parameters, FontLoader * FLInstance, MouseHandler * SM_Mouse);
     bool InitmeshList(Mesh *StatemeshList);
     void addAvailable(GState* state);
-	void SetMatrixes(MS * model, MS * view, MS * projection);
+    void SetMatrixes(MS * model, MS * view, MS * projection);
     bool Shutdown();
-	MS *modelStack;
-	MS *viewStack;
-	MS *projectionStack;
+    MS *modelStack;
+    MS *viewStack;
+    MS *projectionStack;
     ~StateManager();
 };

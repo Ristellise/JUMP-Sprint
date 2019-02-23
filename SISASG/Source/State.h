@@ -27,15 +27,15 @@ struct StateData
     SoLoud::Soloud VERYLOUD;
     std::map<std::string, SoundContainer*> SoundSrcs;
     unsigned int hoopsMap;
-	Mesh* font;
-	SaveFiles fileSaver;
-	unsigned long long moneyData;
-	unsigned long long moneyEarned;
-	int pointsPrev;
-	double timePrev;
-	bool ship2unlock;
-	bool ship3unlock;
-	int shopSelect;
+    Mesh* font;
+    SaveFiles fileSaver;
+    unsigned long long moneyData;
+    unsigned long long moneyEarned;
+    int pointsPrev;
+    double timePrev;
+    bool ship2unlock;
+    bool ship3unlock;
+    int shopSelect;
 };
 
 class GState
@@ -46,7 +46,7 @@ protected:
     std::string spawnState = "";
     FontLoader* St_FLInstance;
     unsigned *state_params;
-	MS *modelStack, *viewStack, *projectionStack;
+    MS *modelStack, *viewStack, *projectionStack;
     Camera3* state_cam;
     MouseHandler* mouse;
 
@@ -72,13 +72,13 @@ public:
     virtual void OnRender() = 0; // Rendering Calls=
     virtual void OnCam(int X, int Y, float XChange, float YChange) = 0;
     void OnCreate(
-		unsigned * parameters, 
-		FontLoader * St_FLInstance, 
-		Camera3 * cam, 
-		MouseHandler* mouse, 
-		collision* collideInstance
-	);
-	void SetMatrixes(MS * model, MS * view, MS * projection);
+        unsigned * parameters, 
+        FontLoader * St_FLInstance, 
+        Camera3 * cam, 
+        MouseHandler* mouse, 
+        collision* collideInstance
+    );
+    void SetMatrixes(MS * model, MS * view, MS * projection);
     // GState Actually becomes active. does all the setup for the Uniforms and stuff.
     void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void OnEnter() = 0; // GState initalisation
