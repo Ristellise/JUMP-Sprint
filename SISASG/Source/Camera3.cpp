@@ -35,12 +35,13 @@ void Camera3::Update(double dt, entity targetShip)
     // up = right.Cross(view).Normalized();
     // view = position - target;
 
-    if (targetShip.lKey == true)
-    {
-        Mtx44 rotation;
-        rotation.SetToRotation(targetShip.angle, up.x, up.y, up.z);
-        view = rotation * view;
-    }
+	if (targetShip.lKey == true)
+	{
+		Mtx44 rotation;
+		rotation.SetToRotation(targetShip.angle, up.x, up.y, up.z);
+		view = rotation * view;
+		std::cout << "woahwhatthefuck" << std::endl;
+	}
 
     if (targetShip.rKey == true)
     {
