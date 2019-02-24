@@ -9,13 +9,6 @@ void StateStat::OnEnter()
 {
     // money update
     this->STData->fileSaver.setValue("money", std::to_string(this->STData->moneyData));
-
-    // Legacy code for abandoned feature - Do not open!
-    /*
-    // this->STData->fileSaver.setValue("level", std::to_string(this->STData->planetSelect + 1));
-    */
-
-    // save
     this->STData->fileSaver.saveFile("config.ini");
 }
 
