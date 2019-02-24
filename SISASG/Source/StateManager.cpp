@@ -34,7 +34,7 @@ void StateManager::Update(double dt, GLFWwindow* window)
         else if (this->activeStates[i]->getspawnState() != "")
         {
             this->addState((this->activeStates[i]->getspawnState()));
-			this->activeStates[i]->resetspawnState();
+            this->activeStates[i]->resetspawnState();
         }
         
     }
@@ -54,10 +54,10 @@ bool StateManager::Init(unsigned * m_parameters, FontLoader * FLInstance, MouseH
     this->SM_FLInstance = FLInstance;
     this->SM_Mouse = SM_Mouse;
     this->StateManagerData.VERYLOUD.init();
-	Mesh* meshbuffer;
-	meshbuffer = MeshBuilder::GenerateText("saofontsheet", *FLInstance);
-	meshbuffer->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
-	this->StateManagerData.font = meshbuffer;
+    Mesh* meshbuffer;
+    meshbuffer = MeshBuilder::GenerateText("saofontsheet", *FLInstance);
+    meshbuffer->textureID = LoadTGA("Font//fnt_0.tga", GL_LINEAR, GL_REPEAT);
+    this->StateManagerData.font = meshbuffer;
     this->addState("init");
     return true;
 }
@@ -75,9 +75,9 @@ void StateManager::addAvailable(GState * state)
 
 void StateManager::SetMatrixes(MS* model, MS* view, MS* projection)
 {
-	this->modelStack = model;
-	this->viewStack = view;
-	this->projectionStack = projection;
+    this->modelStack = model;
+    this->viewStack = view;
+    this->projectionStack = projection;
 }
 
 bool StateManager::addState(std::string Statename)
@@ -86,16 +86,16 @@ bool StateManager::addState(std::string Statename)
     {
         if ((*this->availableStates[i]).StateName == Statename)
         {
-			this->manager_cam->Reset();
+            this->manager_cam->Reset();
             (this->availableStates[i])->OnCreate(
-				StateMan_parameters, 
-				this->SM_FLInstance, 
-				this->manager_cam,
-				this->SM_Mouse, 
-				&this->collideInstance
-			);
+                StateMan_parameters, 
+                this->SM_FLInstance, 
+                this->manager_cam,
+                this->SM_Mouse, 
+                &this->collideInstance
+            );
 
-			(this->availableStates[i])->STData = &this->StateManagerData;
+            (this->availableStates[i])->STData = &this->StateManagerData;
             (this->availableStates[i])->Setlists(&this->entitylists, &this->meshList);
             (this->availableStates[i])->SetMatrixes(this->modelStack,this->viewStack,this->projectionStack);
             (this->availableStates[i])->OnEnter();

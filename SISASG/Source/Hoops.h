@@ -6,11 +6,11 @@
 class Hoops
 {
 public:
-	Hoops();
+    Hoops();
 
-	bool hoopsCheckXY(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad); // for hoops detection (not fully working)
-	bool hoopsExecuteUI(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad); // for hoops detection (not fully working)
-	
+    bool hoopsCheckXY(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad); // for hoops detection (not fully working)
+    bool hoopsExecuteUI(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad); // for hoops detection (not fully working)
+    
 
 private:
 

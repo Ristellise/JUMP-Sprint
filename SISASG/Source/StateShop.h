@@ -16,26 +16,26 @@
 class StateShop : public GState
 {
 public:
-	StateShop();
-	~StateShop();
+    StateShop();
+    ~StateShop();
 
-	float rotateAngle;
-	int NumberOfShips = 3;
+    float rotateAngle;
+    int NumberOfShips = 3;
 
-	float Shift = 0;
-	bool shiftmovement = false;
-	int Dir = 0; // x Direction on UI
-	float Delay = 0; // Frame delay
+    float Shift = 0;
+    bool shiftmovement = false;
+    int Dir = 0; // x Direction on UI
+    float Delay = 0; // Frame delay
 
-	bool lockUnlock;
-	unsigned long long costOfShip;
+    bool lockUnlock;
+    unsigned long long costOfShip;
 
-	void RenderShips();
-	void RenderUI();
+    void RenderShips();
+    void RenderUI();
 
-	void OnEnter();
-	void OnExit();
-	void OnUpdate(double dt);
-	void OnRender();
-	void OnCam(int X, int Y, float XChange, float YChange);
+    void OnEnter();
+    void OnExit();
+    void OnUpdate(double dt);
+    void OnRender();
+    void OnCam(int X, int Y, float XChange, float YChange);
 };

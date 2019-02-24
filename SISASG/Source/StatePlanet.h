@@ -4,12 +4,12 @@
 class StatePlanet : public GState
 {
 public:
-	StatePlanet();
-	~StatePlanet();
+    StatePlanet();
+    ~StatePlanet();
 
-	void OnEnter();
-	void OnExit();
-	void OnUpdate(double dt);
-	void OnRender();
-	void OnCam(int X, int Y, float XChange, float YChange);
+    void OnEnter();
+    void OnExit();
+    void OnUpdate(double dt);
+    void OnRender();
+    void OnCam(int X, int Y, float XChange, float YChange);
 };

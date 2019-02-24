@@ -6,26 +6,26 @@
 class Camera3 : public entity
 {
 public:
-	//Vector3 position;
-	//Vector3 target;
-	//Vector3 up;
+    //Vector3 position;
+    //Vector3 target;
+    //Vector3 up;
 
-	Vector3 defaultPosition;
-	Vector3 defaultTarget;
-	Vector3 defaultUp;
+    Vector3 defaultPosition;
+    Vector3 defaultTarget;
+    Vector3 defaultUp;
 
-	float camUpOffset;
+    float camUpOffset;
 
-	float camX;
-	float camY;
-	float camZ;
+    float camX;
+    float camY;
+    float camZ;
 
-	Camera3();
-	~Camera3();
-	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-	virtual void Update(double dt, entity targetShip);
-	virtual void Updatealt(double dt);
-	virtual void Reset();
+    Camera3();
+    ~Camera3();
+    virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
+    virtual void Update(double dt, entity targetShip);
+    virtual void Updatealt(double dt);
+    virtual void Reset();
 };
 
 #endif

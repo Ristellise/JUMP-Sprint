@@ -7,7 +7,7 @@
 /******************************************************************************/
 /*!
         Class MeshBuilder:
-\brief	Provides methods to generate mesh of different shapes
+\brief    Provides methods to generate mesh of different shapes
 */
 /******************************************************************************/
 class MeshBuilder
@@ -21,7 +21,7 @@ public:
     static Mesh* GenerateSphere(const std::string &meshName, Color color, unsigned numStack, unsigned numSlice, float radius);
     static Mesh* GenerateTorus(const std::string &meshName, Color color, unsigned numStack, unsigned numSlice, float outerR, float innerR);
     static Mesh* GenerateCylinder(const std::string &meshName, Color color, unsigned numStack, unsigned numSlice, float radius, float height);
-	static Mesh* GenerateCone(const std::string &meshName, Color color, unsigned numSlice, float radius, float height);
+    static Mesh* GenerateCone(const std::string &meshName, Color color, unsigned numSlice, float radius, float height);
     static Mesh * GenerateText(const std::string & meshName, FontLoader loaderInstance, float scale = 5.0f);
     static std::vector<Mesh*> GenerateOBJ(const std::string & meshName, const std::string & file_path);
 };
