@@ -1,10 +1,13 @@
 #pragma once
-#include "Vector3.h"
+#include "genericEntity.h"
 class Particle
 {
 	Vector3 Position;
+	Vector3 Target;
+	Vector3 Up;
+	float particleLifespan;
 public:
-	Particle();
+	Particle(Vector3 Position,Vector3 Target,Vector3 Up);
 	~Particle();
 };
 

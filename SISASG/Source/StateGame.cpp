@@ -19,17 +19,8 @@ StateGame::~StateGame()
 
 void StateGame::OnEnter()
 {
-	///////* start of hoops *///////
 
-	hoopGenerate();
-
-	///////* end of hoops *///////
-
-	// Reset hoops
-	for (int i = 0; i < totalHoops; i++)
-	{
-		hoopPos[i].passed = false;
-	}
+	hoopGenerate(); // Generates the locations of the hoops based on the selected planet
 
 	// Reset stats
 	this->STData->moneyEarned = 0;
@@ -171,6 +162,11 @@ void StateGame::OnEnter()
 	meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(0.f, 255.f, 255.f), 36, 36, 15, 1);
 	this->meshList->push_back(meshbuffer);
 
+	// Particle
+	meshbuffer = MeshBuilder::GenerateQuad("testparticle", Color(0.f, 255.f, 255.f), 1);
+	meshbuffer->textureID = LoadTGA("TGA//testparticle.tga", GL_LINEAR, GL_CLAMP);
+	this->meshList->push_back(meshbuffer);
+
 	// Axes
 	meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
 	this->meshList->push_back(meshbuffer);
@@ -200,12 +196,10 @@ void StateGame::OnExit()
 {
 	delete this->entitylists->find("spaceship")->second;
 	this->entitylists->erase("spaceship");
-	while (hoopPos.size())
+	while (hoopPos.size()) // Clears the hoops
 	{
 		hoopPos.pop_back();
 	}
-	totalHoops = 0;
-	points = 0;
 }
 
 void StateGame::OnUpdate(double dt)
@@ -356,8 +350,7 @@ void StateGame::hoopRender()
 
 void StateGame::hoopGenerate()
 {
-
-	// venus
+	
 	int the_addition = 10, the_subtraction = 0;
 
 	if (ok.rotation == 360)
@@ -367,7 +360,7 @@ void StateGame::hoopGenerate()
 
 	switch (this->STData->planetSelect)
 	{
-	case(0):
+	case(0): // venus
 		z = 400.f;
 		totalHoops = 5;
 		for (int i = 0; i < totalHoops; i++)
@@ -395,7 +388,7 @@ void StateGame::hoopGenerate()
 
 		}
 		break;
-	case(1):
+	case(1): // earth
 		x = 100.f;
 		z = 400.f;
 		totalHoops = 6;
@@ -422,7 +415,7 @@ void StateGame::hoopGenerate()
 				hoopPos[i].rotation += 90 + hoopPos[i - 1].rotation; // for rotation of hoops
 		}
 		break;
-	case(2):
+	case(2): // mars
 		x = 100.f;
 		z = 500.f;
 		totalHoops = 7;
@@ -453,7 +446,7 @@ void StateGame::hoopGenerate()
 								//rotation += 90; // for rotation of hoops
 		}
 		break;
-	case(3):
+	case(3): // jupiter
 		x = 200.f;
 		z = 400.f;
 		totalHoops = 8;
@@ -494,7 +487,7 @@ void StateGame::OnRender()
 		if (stars[i].stime == 0)
 		{
 			stars[i].scale = (abs(stars[i].x) + abs(stars[i].y) + abs(stars[i].z)) / ((rand() % 250) + 250); // Scale (Rand adds twinkles)
-			stars[i].stime = rand() % 10 + 10;
+			stars[i].stime = rand() % 10 + 10; // Sets frame delay for the stars
 		}
 		(*this->modelStack).Scale(stars[i].scale, stars[i].scale, stars[i].scale);
 		stars[i].stime--;
