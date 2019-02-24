@@ -329,23 +329,14 @@ void StateGame::hoopRender()
 {
     for (int i = 0; i < totalHoops; i++)
     {
-        if (hoopPos[i].passed == true)
+        if (hoopPos[i].passed != true)
         {
-            hoopPos[i].offset_x = 400;
-            hoopPos[i].offset_y = 0;
-            hoopPos[i].offset_z = 1000;
-
             (*this->modelStack).PushMatrix(); // render the hoops
-            (*this->modelStack).Translate(hoopPos[i].offset_x, hoopPos[i].offset_y, hoopPos[i].offset_z);
+            (*this->modelStack).Translate(hoopPos[i].offset_x, hoopPos[i].offset_y, hoopPos[i].offset_z); // sets the coords of each hoop (coord stored in an array for each hoop)
+            (*this->modelStack).Rotate(hoopPos[i].rotation, 1, 0, 0);
             RenderMesh(this->meshGetFast("hoop"), true);
             (*this->modelStack).PopMatrix();
         }
-
-        (*this->modelStack).PushMatrix(); // render the hoops
-        (*this->modelStack).Translate(hoopPos[i].offset_x, hoopPos[i].offset_y, hoopPos[i].offset_z); // sets the coords of each hoop (coord stored in an array for each hoop)
-        (*this->modelStack).Rotate(hoopPos[i].rotation, 1, 0, 0);
-        RenderMesh(this->meshGetFast("hoop"), true);
-        (*this->modelStack).PopMatrix();
     }
 }
 

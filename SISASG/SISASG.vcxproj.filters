@@ -98,10 +98,10 @@
       <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="Source\Particle.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Source\ParticleSystem.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
