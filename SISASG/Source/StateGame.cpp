@@ -266,43 +266,10 @@ void StateGame::OnUpdate(double dt)
 
     if (Application::IsKeyPressed('R'))
     {
-        // Legacy dev function for resetting matrices. Do not open!
-        /*
-        Matrix method
-        cubeMatrix.SetToIdentity();
-        cubeMultR.SetToIdentity();
-        cubeMult1.SetToIdentity();
-        cubeMult2.SetToIdentity();
-        cubeMult3.SetToIdentity();
-        */
-
         this->readyExitlocal = true;
         this->spawnState = "Menus";
     }
 
-    /*
-    if ((Application::IsKeyPressed('5')) && this->STData->gameToggle == true && this->STData->bounceTime <= 0.0)
-    {
-        // Matrix method
-        cubeMatrix.SetToIdentity();
-        cubeMultR.SetToIdentity();
-        cubeMult1.SetToIdentity();
-        cubeMult2.SetToIdentity();
-        cubeMult3.SetToIdentity();
-
-        this->STData->gameToggle = false;
-        this->STData->bounceTime = 0.3;
-        this->spawnState = "title";
-        this->readyExitlocal = true;
-    }
-
-    if ((Application::IsKeyPressed('6')) && this->STData->debugToggle == false && this->STData->bounceTime <= 0.0)
-    {
-        this->STData->debugToggle = true;
-        this->STData->bounceTime = 0.3;
-        this->spawnState = "debugger";
-    }
-    */
 }
 
 void StateGame::hoopChecker()

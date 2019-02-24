@@ -189,24 +189,6 @@ void StateHangar::OnUpdate(double dt)
         shiftmovement = false;
     }
 
-    /*
-    if (Application::IsKeyPressed(VK_SPACE) && Delay == 0)
-    {
-        shiftmovement = false;
-        if (lit == true)
-        {
-            lit = false;
-            lights[0].power = 0;
-        }
-        else
-        {
-            lit = true;
-            lights[0].power = 5.f;
-        }
-        glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
-        Delay += 10;
-    }
-    */
 }
 
 void StateHangar::OnRender()
