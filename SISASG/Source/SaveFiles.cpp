@@ -3,7 +3,7 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
-bool SaveFiles::setValue(const std::string key,const std::string value)
+bool INIFile::setValue(const std::string key,const std::string value)
 {
     if (this->data.find(key) != this->data.end())
     {
@@ -17,11 +17,15 @@ bool SaveFiles::setValue(const std::string key,const std::string value)
     }
     return false;
 }
-SaveFiles::SaveFiles()
+std::map<std::string, std::string> INIFile::getValuesAll()
+{
+    return this->data;
+}
+INIFile::INIFile()
 {
 }
 
-void SaveFiles::parseBuffer(std::string line)
+void INIFile::parseBuffer(std::string line)
 {
     std::vector<std::string> seglist;
     std::stringstream ssteam(line);
@@ -39,7 +43,7 @@ void SaveFiles::parseBuffer(std::string line)
     }
 }
 
-bool SaveFiles::saveFile(const std::string filename)
+bool INIFile::saveFile(const std::string filename)
 {
 
     if (this->loaded)
@@ -64,7 +68,7 @@ bool SaveFiles::saveFile(const std::string filename)
     return true;
 }
 
-bool SaveFiles::loadFile(const std::string filename)
+bool INIFile::loadFile(const std::string filename)
 {
     std::string buffer = "";
     std::fstream fileStream(filename);
@@ -73,19 +77,31 @@ bool SaveFiles::loadFile(const std::string filename)
         while (!fileStream.eof())
         {
             std::getline(fileStream, buffer);
-            parseBuffer(buffer);
+            if (buffer.find('#') == -1)
+            {
+                parseBuffer(buffer);
+            }
         }
     }
     this->loaded = true;
     return true;
 }
 
-std::string SaveFiles::getValueString(const std::string value)
+std::string INIFile::getValueString(const std::string key)
 {
-    return this->data[value];
+    std::map<std::string, std::string>::iterator it;
+    it = this->data.find(key);
+    if (it != this->data.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return "";
+    }
 }
 
-bool SaveFiles::getValueBool(const std::string value)
+bool INIFile::getValueBool(const std::string value, bool defaults)
 {
     std::string val = this->data[value].c_str();
     std::transform(val.begin(), val.end(), val.begin(), ::tolower);
@@ -97,25 +113,64 @@ bool SaveFiles::getValueBool(const std::string value)
     {
         return false;
     }
-	return 0;
+    return defaults;
 }
 
-double SaveFiles::getValueDouble(const std::string value)
+double INIFile::getValueDouble(const std::string key, double defaults)
 {
-    return std::stod(this->data[value]);
+    std::string val = this->getValueString(key);
+    if (val == "") // tis empty
+    {
+        return defaults;
+    }
+    else
+    {
+        return std::stod(val);
+    }
+    
 }
 
-int SaveFiles::getValueint(const std::string value)
+int INIFile::getValueint(const std::string key, int defaults)
 {
-    return std::stoi(this->data[value]);
+    std::string val = this->getValueString(key);
+    if (val == "")
+    {
+        return defaults;
+    }
+    else
+    {
+        return std::stoi(val);
+    }
+    
 }
 
-SaveFiles::SaveFiles(const std::string filename)
+INIFile::INIFile(const std::string filename)
 {
     this->loadFile(filename);
 }
 
-SaveFiles::~SaveFiles()
+INIFile::~INIFile()
 {
     this->loaded = false;
+}
+
+// Gets a value which is seperated by a delimiter.
+// By default, its a ",".
+std::vector<std::string> INIFile::getValueMulti(std::string key,char delimiter)
+{
+    std::vector<std::string> tokens;
+    std::string token;
+    if (this->getValueString(key) == "")
+    {
+        return tokens;
+    }
+    else
+    {
+        std::istringstream tokenStream(this->getValueString(key));
+        while (std::getline(tokenStream, token, delimiter))
+        {
+            tokens.push_back(token);
+        }
+        return tokens;
+    }
 }

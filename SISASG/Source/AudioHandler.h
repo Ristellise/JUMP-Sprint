@@ -10,6 +10,8 @@ enum SourceType
     ST_STREAM,
     ST_NORMAL,
     ST_OPENMPT,
+    ST_UNSUPPORTED,
+    ST_COUNT
 
 };
 
@@ -41,3 +43,7 @@ public:
     void SetLoudInstance(SoLoud::Soloud* loudPtr);
     // SoLoud::Wav get();
 };
+
+std::string fileNameNoExt(std::string filename);
+
+SourceType srcTypeFromExtension(std::string filename, bool stream = false);

@@ -1,8 +1,8 @@
 /******************************************************************************/
 /*!
-\file	Mtx44.cpp
+\file    Mtx44.cpp
 \author Wen Sheng Tang
-\par	email: tang_wen_sheng\@nyp.edu.sg
+\par    email: tang_wen_sheng\@nyp.edu.sg
 \brief
 Matrix 4 by 4 use for affine transformation
 */
@@ -304,15 +304,15 @@ Vector3 Mtx44::operator*(const Vector3& rhs) const {
 \brief
 Set Matrix to a rotation matrix about arbitrary axis
 
-\param	degrees
+\param    degrees
     Angle of rotation, in degrees, clockwise
-\param	axisX
+\param    axisX
     X-component of the rotation axis
-\param	axisY
+\param    axisY
     Y-component of the rotation axis
-\param	axisZ
+\param    axisZ
     Z-component of the rotation axis
-\exception	DivideByZero
+\exception    DivideByZero
     Thrown if rotation axis is a zero vector
 */
 /******************************************************************************/

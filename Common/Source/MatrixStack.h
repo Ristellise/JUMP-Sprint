@@ -1,8 +1,8 @@
 /******************************************************************************/
 /*!
-\file	MatrixStack.h
+\file    MatrixStack.h
 \author Wen Sheng Tang
-\par	email: tang_wen_sheng\@nyp.edu.sg
+\par    email: tang_wen_sheng\@nyp.edu.sg
 \brief
 Matrix Stack to replace openGL math function
 */
@@ -15,30 +15,30 @@ Matrix Stack to replace openGL math function
 #include <vector>
 /******************************************************************************/
 /*!
-		Class MS:
-\brief	Matrix Stack class
+        Class MS:
+\brief    Matrix Stack class
 */
 /******************************************************************************/
 class MS {
-	std::stack<Mtx44, std::vector<Mtx44>> ms; // POSSIBLE to change this container to someting faster?
+    std::stack<Mtx44, std::vector<Mtx44>> ms; // POSSIBLE to change this container to someting faster?
 public:
-	MS();
+    MS();
     void Init();
-	~MS();
-	const Mtx44& Top() const;
-	void PopMatrix();
-	void PushMatrix();
-	void Clear();
-	void LoadIdentity();
-	void LoadMatrix(const Mtx44 &matrix);
-	void MultMatrix(const Mtx44 &matrix);
-	void Rotate(float degrees, float axisX, float axisY, float axisZ);
-	void Scale(float scaleX, float scaleY, float scaleZ);
-	void Translate(float translateX, float translateY, float translateZ);
-	void Frustum(double left, double right, double	bottom, double top, double near, double far);
-	void LookAt(double eyeX, double eyeY, double eyeZ,
-				double centerX, double centerY, double centerZ,
-				double upX, double upY, double upZ);
+    ~MS();
+    const Mtx44& Top() const;
+    void PopMatrix();
+    void PushMatrix();
+    void Clear();
+    void LoadIdentity();
+    void LoadMatrix(const Mtx44 &matrix);
+    void MultMatrix(const Mtx44 &matrix);
+    void Rotate(float degrees, float axisX, float axisY, float axisZ);
+    void Scale(float scaleX, float scaleY, float scaleZ);
+    void Translate(float translateX, float translateY, float translateZ);
+    void Frustum(double left, double right, double    bottom, double top, double near, double far);
+    void LookAt(double eyeX, double eyeY, double eyeZ,
+                double centerX, double centerY, double centerZ,
+                double upX, double upY, double upZ);
     std::stack<Mtx44, std::vector<Mtx44>> getMatrixStack();
 };
 

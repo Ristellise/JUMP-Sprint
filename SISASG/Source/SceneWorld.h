@@ -30,20 +30,20 @@ public:
     SceneWorld(GLFWwindow * l_window);
     ~SceneWorld();
 
-	int WindowXpos = 0;
-	int WindowYpos = 0;
-	float ViewRange = 10000.f;
+    int WindowXpos = 0;
+    int WindowYpos = 0;
+    float ViewRange = 10000.f;
 
-	int prevRotate;
-	int currRotate;
+    int prevRotate;
+    int currRotate;
 
     virtual void Init();
     virtual void Update(double dt);
     virtual void Render();
     void RenderSkybox();
     void RenderPlanets();
-	void RenderAsteroid();
-	// void RenderSpaceship();
+    void RenderAsteroid();
+    // void RenderSpaceship();
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void Exit();
@@ -59,21 +59,21 @@ private:
 
     Camera3 camera;
     // spaceship spaceship;
-	MS modelStack, viewStack, projectionStack;
+    MS modelStack, viewStack, projectionStack;
     Light lights[8];
     FontLoader FLInstance;
     MouseHandler Mouse;
-    SaveFiles sf;
-	Bullet bullet;
-	entity entity;
+    INIFile sf;
+    Bullet bullet;
+    entity entity;
     std::string dtimestring = "";
     void RenderMesh(Mesh *mesh, bool enableLight);
-	//bool checkerAsteroid = false;
-	int random;
-	int asteroidSpawn = 0;
+    //bool checkerAsteroid = false;
+    int random;
+    int asteroidSpawn = 0;
     double lastkeypress = 0.0;
     float rotateAngle;
-	float movement_asteroid1_z;
+    float movement_asteroid1_z;
     bool leg = false;
     float legdance = 0.0f;
     StateManager StateManInst;
@@ -81,10 +81,10 @@ private:
 
     unsigned int selector = 0;
 
-	//RenderBullet
-	// void RenderBullet();
+    //RenderBullet
+    // void RenderBullet();
 
-	std::vector <int> cubeRotateVector;
+    std::vector <int> cubeRotateVector;
 };
 
 #endif

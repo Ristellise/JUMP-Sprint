@@ -15,61 +15,61 @@
 
 class StateHangar : public GState
 {
-	enum GEOMETRY_TYPE
-	{
-		GEO_LIGHT,
-		GEO_STAR,
-		GEO_SIDE,
+    enum GEOMETRY_TYPE
+    {
+        GEO_LIGHT,
+        GEO_STAR,
+        GEO_SIDE,
 
-		// Ships
-		GEO_SHIP1,
-		GEO_SHIP2,
-		NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
-	};
+        // Ships
+        GEO_SHIP1,
+        GEO_SHIP2,
+        NUM_GEOMETRY, // This should be at the end of the Enum, else nothing renders.
+    };
 
-	struct STARS
-	{
-		float x = 0;
-		float y = 0;
-		float z = 0;
-		float scale = 0;
-		int stime = 0;
-	};
+    struct STARS
+    {
+        float x = 0;
+        float y = 0;
+        float z = 0;
+        float scale = 0;
+        int stime = 0;
+    };
 
 public:
-	GLFWwindow* l_window;
+    GLFWwindow* l_window;
 
-	STARS coord;
+    STARS coord;
 
-	std::vector<STARS> stars;
-	int starsnumber;
+    std::vector<STARS> stars;
+    int starsnumber;
 
-	std::vector<Light> lights;
-	bool lit = true;
+    std::vector<Light> lights;
+    bool lit = true;
 
-	float rotateAngle;
-	int NumberOfShips = 3;
+    float rotateAngle;
+    int NumberOfShips = 3;
 
-	bool selectingShips = true;
-	int NumberOfPlanets = 4;
+    bool selectingShips = true;
+    int NumberOfPlanets = 4;
 
-	bool lockUnlock;
-	
-	float Shift = 0;
-	bool shiftmovement = false;
-	int Dir = 0; // x Direction on UI
-	float Delay = 0; // Frame delay
+    bool lockUnlock;
+    
+    float Shift = 0;
+    bool shiftmovement = false;
+    int Dir = 0; // x Direction on UI
+    float Delay = 0; // Frame delay
 
-	StateHangar();
-	~StateHangar();
+    StateHangar();
+    ~StateHangar();
 
-	void RenderShips();
-	void RenderUI();
-	void Stars();
+    void RenderShips();
+    void RenderUI();
+    void Stars();
 
-	void OnEnter();
-	void OnExit();
-	void OnUpdate(double dt);
-	void OnRender();
-	void OnCam(int X, int Y, float XChange, float YChange);
+    void OnEnter();
+    void OnExit();
+    void OnUpdate(double dt);
+    void OnRender();
+    void OnCam(int X, int Y, float XChange, float YChange);
 };

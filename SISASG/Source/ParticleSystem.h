@@ -3,7 +3,7 @@
 class ParticleSystem
 {
 public:
-	ParticleSystem();
-	~ParticleSystem();
+    ParticleSystem();
+    ~ParticleSystem();
 };
 

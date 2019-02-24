@@ -11,12 +11,12 @@ bool LoadOBJ(
 );
 
 void IndexVBO(
-	std::vector<Position> & in_vertices,
-	std::vector<TexCoord> & in_uvs,
-	std::vector<Vector3> & in_normals,
+    std::vector<Position> & in_vertices,
+    std::vector<TexCoord> & in_uvs,
+    std::vector<Vector3> & in_normals,
 
-	std::vector<unsigned> & out_indices,
-	std::vector<Vertex> & out_vertices
+    std::vector<unsigned> & out_indices,
+    std::vector<Vertex> & out_vertices
 );
 
 #endif

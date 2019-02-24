@@ -8,7 +8,7 @@
 /******************************************************************************/
 /*!
         Class Mesh:
-\brief	To store VBO (vertex & color buffer) and IBO (index buffer)
+\brief    To store VBO (vertex & color buffer) and IBO (index buffer)
 */
 /******************************************************************************/
 class Mesh
