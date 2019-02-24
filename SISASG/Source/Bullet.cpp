@@ -35,8 +35,8 @@ void Bullet::Update(double dt)
     {
         spaceship spaceship1;
 
-        this->position += view * dt * this->bbSpeed;
-        this->timeAlive += dt;
+        this->position += view * (float)dt * (float)this->bbSpeed;
+        this->timeAlive += (float)dt;
 
         if (this->timeAlive > 0.5)
         {

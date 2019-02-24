@@ -40,7 +40,6 @@ void Camera3::Update(double dt, entity targetShip)
         Mtx44 rotation;
         rotation.SetToRotation(targetShip.angle, up.x, up.y, up.z);
         view = rotation * view;
-        std::cout << "woahwhatthefuck" << std::endl;
     }
 
     if (targetShip.rKey == true)
