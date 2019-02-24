@@ -186,12 +186,7 @@ void StateGame::OnEnter()
     this->entitylists->insert_or_assign("testcube",current);
     */
 
-    //this->STData->VERYLOUD.play();
-
     Stars();
-
-    this->STData->SoundSrcs["looptest"]->enableLooping();
-    this->STData->SoundSrcs["looptest"]->pause();
     std::cout << this->entitylists->size() << std::endl;
     std::cout << this->meshList->size() << std::endl;
 }

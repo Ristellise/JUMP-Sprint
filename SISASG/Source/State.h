@@ -28,7 +28,7 @@ struct StateData
     std::map<std::string, SoundContainer*> SoundSrcs;
     unsigned int hoopsMap;
     Mesh* font;
-    SaveFiles fileSaver;
+    INIFile fileSaver;
     unsigned long long moneyData;
     unsigned long long moneyEarned;
     int pointsPrev;

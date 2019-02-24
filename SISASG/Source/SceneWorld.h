@@ -63,7 +63,7 @@ private:
     Light lights[8];
     FontLoader FLInstance;
     MouseHandler Mouse;
-    SaveFiles sf;
+    INIFile sf;
     Bullet bullet;
     entity entity;
     std::string dtimestring = "";
