@@ -23,9 +23,9 @@ SceneWorld::SceneWorld()
     throw std::runtime_error("Did not define window correctly!");
 }
 
-SceneWorld::SceneWorld(GLFWwindow *l_window)
+SceneWorld::SceneWorld(WindowManager* winMan)
 {
-    this->l_window = l_window;
+    this->l_window = winMan;
 }
 
 SceneWorld::~SceneWorld()
@@ -116,7 +116,7 @@ void SceneWorld::Init()
     glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
 
     // meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 200, 200, 200);
-
+    camera.setWindow(this->l_window);
     FLInstance.Loadfnt("Font/fnt.fnt");
     Stateinit* initInstance = new Stateinit();
     StateStat* statstate = new StateStat();
@@ -199,45 +199,30 @@ void SceneWorld::Init()
 
 void SceneWorld::Update(double dt)
 {
-    // Temporarily commented out from Josh mouse handler
-    this->Mouse.Update(this->l_window,dt);
-    // this->Mouse.Center(this->l_window);
+    this->Mouse.Update(this->l_window->handle,dt);
 
     static const float LSPEED = 10.0f;
 
     // For culling and line / fill modes
-    if (Application::IsKeyPressed('1'))
+    if (this->l_window->IsKeyPressed('1'))
     {
         glEnable(GL_CULL_FACE);
     }
-    if (Application::IsKeyPressed('2'))
+    if (this->l_window->IsKeyPressed('2'))
     {
         glDisable(GL_CULL_FACE);
     }
-    if (Application::IsKeyPressed('3'))
+    if (this->l_window->IsKeyPressed('3'))
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
-    if (Application::IsKeyPressed('4'))
+    if (this->l_window->IsKeyPressed('4'))
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
-    if (Application::IsKeyPressed(VK_SPACE))
+    if (this->l_window->IsKeyPressed(GLFW_KEY_SPACE))
     {
     }
-    if (Application::IsKeyPressed('I'))
-        lights[this->selector].position.z -= (float)(LSPEED * dt);
-    if (Application::IsKeyPressed('K'))
-        lights[this->selector].position.z += (float)(LSPEED * dt);
-    if (Application::IsKeyPressed('J'))
-        lights[this->selector].position.x -= (float)(LSPEED * dt);
-    if (Application::IsKeyPressed('L'))
-        lights[this->selector].position.x += (float)(LSPEED * dt);
-    if (Application::IsKeyPressed('O'))
-        lights[this->selector].position.y -= (float)(LSPEED * dt);
-    if (Application::IsKeyPressed('P'))
-        lights[this->selector].position.y += (float)(LSPEED * dt);
-
     this->lastkeypress += dt;
 
     static int rotateDir = 1;
@@ -256,9 +241,9 @@ void SceneWorld::Update(double dt)
         rotateDir_asteroid = -rotateDir_asteroid;
     }
 
-    this->StateManInst.Update(dt, this->l_window);
+    this->StateManInst.Update(dt, this->l_window->handle);
 
-    glfwGetWindowSize(l_window, &WindowXpos, &WindowYpos); // gets the size of the window
+    glfwGetWindowSize(l_window->handle, &WindowXpos, &WindowYpos); // gets the size of the window
     Mtx44 projection;
     projection.SetToPerspective(45.f, (float)WindowXpos / WindowYpos, 0.1f, ViewRange); // Window Scaling
     projectionStack.LoadMatrix(projection);

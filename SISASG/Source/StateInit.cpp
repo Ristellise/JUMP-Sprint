@@ -60,9 +60,8 @@ void Stateinit::OnEnter()
         
         if (Sndbuff[1] == "1")
         {
-            
             this->STData->SoundSrcs[soundit->first]->play(true, true);
-            this->STData->SoundSrcs[soundit->first]->loopPos(10.956f);
+            this->STData->SoundSrcs[soundit->first]->loopPos(std::stof(Sndbuff[2]));
             this->STData->SoundSrcs[soundit->first]->enableLooping();
         }
         else

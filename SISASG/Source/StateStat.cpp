@@ -24,7 +24,7 @@ void StateStat::OnUpdate(double dt)
     this->dtimestring += std::to_string(this->STData->moneyData);
     this->dtimestring += "\n\nPRESS 'R' TO RETURN TO MENUS";
     
-    if (Application::IsKeyPressed('R'))
+    if (this->winMan->IsKeyPressed('R'))
     {
         this->readyExitlocal = true;
         this->spawnState = "Menus";
