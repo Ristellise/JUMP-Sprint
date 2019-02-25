@@ -87,8 +87,8 @@ void StateGame::OnEnter()
     switch (this->STData->shipSelect)
     {
     case 0:
-        spaceship1->topSpeed = 40.0f;
-        spaceship1->fwdaccl = 20.f;
+        spaceship1->topSpeed = 100.0f;
+        spaceship1->fwdaccl = 2000.f;
         spaceship1->bwdaccl = -20.f;
         spaceship1->drift = 7.0f;
 		Exhausts.push_back(Exhaust);

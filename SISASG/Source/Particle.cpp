@@ -18,7 +18,7 @@ void Particle::pSetlocation(Vector3 Position, float pitch, float yaw, float roll
 	Pitch = pitch;
 	Yaw = yaw;
 	Roll = roll;
-	particleLifespan = 0.5f;
+	particleLifespan = 1.5f;
 }
 
 bool Particle::pUpdate(double dt)
