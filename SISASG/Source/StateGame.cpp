@@ -257,6 +257,7 @@ void StateGame::OnUpdate(double dt)
 		}
 
         this->STData->moneyEarned = (unsigned long long)(points * elapsedTime);
+
         this->STData->pointsPrev = points;
         this->STData->timePrev = elapsedTime;
         this->STData->moneyData += this->STData->moneyEarned;
