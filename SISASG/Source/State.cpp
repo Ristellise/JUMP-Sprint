@@ -61,6 +61,7 @@ void GState::OnCreate(
     this->state_cam = cam;
     this->mouse = mouse;
     this->collideInstance = collideInstance;
+    this->winMan = this->state_cam->winMan; // steal it!
 }
 
 void GState::SetMatrixes(MS* model, MS* view, MS* projection)

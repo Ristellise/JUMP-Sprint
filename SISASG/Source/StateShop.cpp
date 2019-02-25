@@ -69,7 +69,7 @@ void StateShop::OnExit()
 
 void StateShop::OnUpdate(double dt)
 {
-    if (Application::IsKeyPressed('R'))
+    if (this->winMan->IsKeyPressed('R'))
     {
         // money update
         this->STData->fileSaver.setValue("money", std::to_string(this->STData->moneyData));
@@ -93,8 +93,8 @@ void StateShop::OnUpdate(double dt)
     // static const float LSPEED = 10.0f;
     static const float CSHIFT = 40.f;
 
-    if ((Application::IsKeyPressed('A') ||
-        ((Application::IsKeyPressed(MK_LBUTTON)) && Dir == 1)) &&
+    if ((this->winMan->IsKeyPressed('A') ||
+        (this->winMan->IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT) && Dir == 1)) &&
         (state_cam->position.x < 0) && Delay == 0)
     {
         this->STData->shopSelect -= 1;
@@ -103,8 +103,8 @@ void StateShop::OnUpdate(double dt)
         shiftmovement = true;
     }
 
-    if ((Application::IsKeyPressed('D') ||
-        ((Application::IsKeyPressed(MK_LBUTTON)) && Dir == -1)) &&
+    if ((this->winMan->IsKeyPressed('D') ||
+        (this->winMan->IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT) && Dir == -1)) &&
         (state_cam->position.x > (-CSHIFT * (NumberOfShips - 1)) && Delay == 0))
     {
         this->STData->shopSelect += 1;
@@ -278,7 +278,7 @@ void StateShop::RenderUI()
         (*this->viewStack).PopMatrix();
         (*this->modelStack).PopMatrix();
     }
-    else if (Application::IsKeyPressed(VK_LBUTTON) && this->STData->bounceTime <= 0.0)
+    else if (this->winMan->IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT) && this->STData->bounceTime <= 0.0)
     {
         this->STData->bounceTime = 0.3;
 

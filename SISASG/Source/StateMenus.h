@@ -12,6 +12,10 @@ public:
     ~StateMenus();
     std::string dtimestring;
 
+    float size = 10.0f;
+    float xpos = 10.0f;
+    float ypos = 10.0f;
+
     void OnEnter();
     void OnExit();
     void OnUpdate(double dt);

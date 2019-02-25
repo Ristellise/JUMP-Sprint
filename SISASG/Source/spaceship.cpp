@@ -1,8 +1,15 @@
 #include "spaceship.h"
 #include "Application.h"
 #include "Mtx44.h"
-#include <limits>
 
+#include <limits>
+// Code to remove min and max conflict for numeric limits for **good**.
+#ifdef min
+#undef min
+#endif //min
+#ifdef max
+#undef max
+#endif //max
 spaceship::spaceship()
 {
 }
@@ -51,32 +58,32 @@ void spaceship::Update(double dt)
     up = right.Cross(view).Normalized();
     accl = 0;
 
-    if ((Application::IsKeyPressed('W')) && (velocity < topSpeed))
+    if ((this->winMan->IsKeyPressed('W')) && (velocity < topSpeed))
     {
         velocity += (float)(fwdaccl * dt);
         accl = fwdaccl;
     }
 
-    if ((Application::IsKeyPressed('S')) && (velocity > -topSpeed))
+    if ((this->winMan->IsKeyPressed('S')) && (velocity > -topSpeed))
     {
         velocity += (float)(bwdaccl * dt);
         accl = bwdaccl;
     }
     if (velocity > 0 && 
-        !(Application::IsKeyPressed('W')) && (
-        (Application::IsKeyPressed(VK_LEFT)) ||
-        (Application::IsKeyPressed(VK_RIGHT)) ||
-        (Application::IsKeyPressed(VK_DOWN)) ||
-        (Application::IsKeyPressed(VK_UP)) || 
-        (Application::IsKeyPressed('Q')) || 
-        (Application::IsKeyPressed('E'))
+        !(this->winMan->IsKeyPressed('W')) && (
+        (this->winMan->IsKeyPressed(GLFW_KEY_LEFT)) ||
+        (this->winMan->IsKeyPressed(GLFW_KEY_RIGHT)) ||
+        (this->winMan->IsKeyPressed(GLFW_KEY_DOWN)) ||
+        (this->winMan->IsKeyPressed(GLFW_KEY_UP)) ||
+        (this->winMan->IsKeyPressed('Q')) || 
+        (this->winMan->IsKeyPressed('E'))
             )
         )
     {
         velocity -= (float)(drift * dt);
     }
     
-    if (Application::IsKeyPressed(VK_LEFT))
+    if (this->winMan->IsKeyPressed(GLFW_KEY_LEFT))
     {
         lKey = true;
 
@@ -90,7 +97,7 @@ void spaceship::Update(double dt)
         this->yawTotal += angle;
     }
 
-    if (Application::IsKeyPressed(VK_RIGHT))
+    if (this->winMan->IsKeyPressed(GLFW_KEY_RIGHT))
     {
         rKey = true;
 
@@ -106,7 +113,7 @@ void spaceship::Update(double dt)
         this->yawTotal -= angle;
     }
 
-    if (Application::IsKeyPressed(VK_DOWN))
+    if (this->winMan->IsKeyPressed(GLFW_KEY_DOWN))
     {
         dKey = true;
 
@@ -122,7 +129,7 @@ void spaceship::Update(double dt)
         this->pitchTotal += angle;
     }
 
-    if (Application::IsKeyPressed(VK_UP))
+    if (this->winMan->IsKeyPressed(GLFW_KEY_UP))
     {
         uKey = true;
 
@@ -138,7 +145,7 @@ void spaceship::Update(double dt)
         this->pitchTotal -= angle;
     }
 
-    if (Application::IsKeyPressed('Q'))
+    if (this->winMan->IsKeyPressed('Q'))
     {
         qKey = true;
 
@@ -154,7 +161,7 @@ void spaceship::Update(double dt)
         this->rollTotal -= angle;
     }
 
-    if (Application::IsKeyPressed('E'))
+    if (this->winMan->IsKeyPressed('E'))
     {
         eKey = true;
 
@@ -208,7 +215,7 @@ void spaceship::Update(double dt)
     {
         Reset();
     }
-    if (Application::IsKeyPressed('R'))
+    if (this->winMan->IsKeyPressed('R'))
     {
         Reset();
     }

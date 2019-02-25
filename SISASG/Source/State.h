@@ -13,6 +13,7 @@
 #include <soloud.h>
 #include "AudioHandler.h"
 #include "SaveFiles.h"
+#include "WindowManager.h"
 
 // Contains a base template of game states Active.
 // They may be added or removed.
@@ -48,6 +49,7 @@ protected:
     unsigned *state_params;
     MS *modelStack, *viewStack, *projectionStack;
     Camera3* state_cam;
+    WindowManager* winMan;
     MouseHandler* mouse;
 
     std::map<std::string,entity*> *entitylists;

@@ -1,6 +1,7 @@
 #ifndef SCENE_SKBOX_H
 #define SCENE_SKBOX_H
 
+#include "WindowManager.h"
 #include "Scene.h"
 #include "Camera3.h"
 #include "Mesh.h"
@@ -15,6 +16,7 @@
 #include "MouseHandler.h"
 #include "Uniforms.h"
 #include "StateManager.h"
+#include "WindowManager.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -27,7 +29,7 @@ class SceneWorld : public Scene
 
 public:
     SceneWorld();
-    SceneWorld(GLFWwindow * l_window);
+    SceneWorld(WindowManager* winMan);
     ~SceneWorld();
 
     int WindowXpos = 0;
@@ -50,7 +52,7 @@ public:
     // void SetWindow(GLFWwindow* window);
 
 private:
-    GLFWwindow* l_window;
+    WindowManager* l_window;
     unsigned m_vertexArrayID;
     
     std::vector<Mesh*> meshListVector;

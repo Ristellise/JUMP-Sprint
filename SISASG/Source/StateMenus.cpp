@@ -76,8 +76,7 @@ void StateMenus::OnRender()
     (*this->modelStack).Scale(0.005f, 0.005f, 0.005f);
     RenderMesh(this->meshGetFast("asteroid"), true);
     (*this->modelStack).PopMatrix();
-
-
+      
     this->RenderTextScreen(this->STData->font, "SISASG", Color(255, 255, 255), 6.f, 1.3f, 4.5f);
     this->RenderTextScreen(this->STData->font, this->dtimestring, Color(255, 255, 255), 2.f, 4.f, 21.f);
 
@@ -85,8 +84,8 @@ void StateMenus::OnRender()
     if ((this->mouse->X > 100) && (this->mouse->X < 330) && (this->mouse->Y >450) && (this->mouse->Y < 520))
     {
         this->RenderTextScreen(this->STData->font, " > Start Game", Color(255, 255, 255), 6.f, 1.f, -1.f);
-
-        if (Application::IsKeyPressed(VK_LBUTTON) && this->STData->bounceTime <= 0.0)
+        
+        if (this->winMan->IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT) && this->STData->bounceTime <= 0.0)
         {
             this->STData->bounceTime = 0.3;
             this->readyExitlocal = true;
@@ -103,7 +102,7 @@ void StateMenus::OnRender()
     {
         this->RenderTextScreen(this->STData->font, " > Shop", Color(255, 255, 255), 6.f, 1.f, -2.f);
 
-        if (Application::IsKeyPressed(VK_LBUTTON) && this->STData->bounceTime <= 0.0)
+        if (this->winMan->IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT) && this->STData->bounceTime <= 0.0)
         {
             this->STData->bounceTime = 0.3;
             this->readyExitlocal = true;

@@ -76,6 +76,7 @@ void StateGame::OnEnter()
     // Spaceship
     spaceship* spaceship1 = new spaceship();
     spaceship1->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
+    spaceship1->setWindow(this->winMan);
     spaceship1->type = entityType::eT_Ship;
     spaceship1->name = "spaceship";
     spaceship1->physics = true;
@@ -258,7 +259,7 @@ void StateGame::OnUpdate(double dt)
 
     this->collideInstance->doCollisions(*this->entitylists, dt);
 
-    if (Application::IsKeyPressed('R'))
+    if (this->winMan->IsKeyPressed('R'))
     {
         this->readyExitlocal = true;
         this->spawnState = "Menus";
