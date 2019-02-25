@@ -18,7 +18,6 @@ bool WindowManager::IsKeyPressed(int key)
 
 bool WindowManager::IsButtonPressed(int button)
 {
-    std::cout << glfwGetMouseButton(this->handle, button) << std::endl;
     return glfwGetMouseButton(this->handle, button);
 }
 

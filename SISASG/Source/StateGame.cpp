@@ -586,33 +586,11 @@ void StateGame::OnRender()
 			(*this->modelStack).PopMatrix();
 		}
 		(*this->modelStack).PopMatrix();
+
             (*this->modelStack).PushMatrix();
             (*this->modelStack).Translate(0, 0, 0);
             RenderMesh(this->meshGetFast("axes"), false);
             (*this->modelStack).PopMatrix();
-        }
-        (*this->modelStack).PopMatrix();
-
-        Vector3 Ent2V[] = { buff->HBox.frontLeftUp,
-                            buff->HBox.frontLeftDown,
-                            buff->HBox.frontRightUp,
-                            buff->HBox.frontRightDown,
-                            buff->HBox.backLeftUp,
-                            buff->HBox.backLeftDown,
-                            buff->HBox.backRightUp,
-                            buff->HBox.backRightDown };
-
-        // Debug balls for Josh
-        /*
-        for (size_t i = 0; i < 8; i++)
-        {
-            (*this->modelStack).PushMatrix();
-            (*this->modelStack).Translate(Ent2V[i].x, Ent2V[i].y, Ent2V[i].z);
-
-            RenderMesh(this->meshGetFast("debugballs"), true);
-            (*this->modelStack).PopMatrix();
-        }
-        */
     }
 }
 
