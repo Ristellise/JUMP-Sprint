@@ -252,8 +252,13 @@ void StateGame::OnUpdate(double dt)
     this->dtimestring += "\nROL: ";                 
     this->dtimestring += std::to_string(spaceship->rollTotal);
 
-    if ((points >= totalHoops) || (elapsedTime <= 0))
+    if ((points >= totalHoops) || (elapsedTime <= 0.0))
     {
+		if (elapsedTime < 0.0)
+		{
+			elapsedTime = 0.0;
+		}
+
         this->STData->moneyEarned = (unsigned long long)(points * elapsedTime);
         this->STData->pointsPrev = points;
         this->STData->timePrev = elapsedTime;
