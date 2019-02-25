@@ -89,7 +89,7 @@ void Camera3::Update(double dt, entity targetShip)
     }
 	*/
 
-    position = (-view * 40) + target;
+	position = (-view * 40) + target;
 
     target.Set(
         targetShip.position.x + (up.x * camUpOffset),

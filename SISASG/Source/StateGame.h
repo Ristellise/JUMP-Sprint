@@ -41,6 +41,7 @@ public:
     void Stars();
 
 	ParticleSystem Exhaust;
+	std::vector<ParticleSystem> Exhausts;
 
     PlanetRange planetrange1;
     Hoops hoop;
