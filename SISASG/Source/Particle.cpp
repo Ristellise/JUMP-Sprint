@@ -12,18 +12,18 @@ Particle::~Particle()
 {
 }
 
-void Particle::pSetlocation(Vector3 Position)
+void Particle::pSetlocation(Vector3 Position, float pitch, float yaw, float roll)
 {
 	this->Position = Position;
-	//this->Position.x += ((rand() % 5) - 10.f);
-	//this->Position.y += ((rand() % 5) - 10.f);
-	//this->Position.z += ((rand() % 5) - 10.f);
+	Pitch = pitch;
+	Yaw = yaw;
+	Roll = roll;
 	particleLifespan = 0.5f;
 }
 
 bool Particle::pUpdate(double dt)
 {
-	particleLifespan -= dt;
+	particleLifespan -= (float)dt;
 	if (0 > particleLifespan)
 		return true;
 	else
