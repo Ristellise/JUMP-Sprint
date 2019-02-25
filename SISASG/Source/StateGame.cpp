@@ -290,7 +290,7 @@ void StateGame::OnUpdate(double dt)
 		break;
 	}
 
-	for (int i = 0; Exhausts.size() > i; i++)
+	for (unsigned int i = 0; Exhausts.size() > i; i++)
 	{
 		Exhausts[i].GenerateParticles(dt, spaceship->pitchTotal, spaceship->yawTotal, spaceship->rollTotal);
 		Exhausts[i].ParticleUpdate(dt);

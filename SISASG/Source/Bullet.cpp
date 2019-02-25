@@ -34,8 +34,8 @@ void Bullet::Update(double dt)
 	spaceship spaceship1;
 	Bullet bullet;
 
-	this->position += view * dt * this->bbSpeed;
-	this->timeAlive += dt; //Bullet Update is running, Bullet not updating.
+	this->position += view * (float)dt * this->bbSpeed;
+	this->timeAlive += (float)dt; //Bullet Update is running, Bullet not updating.
 
 	if (this->timeAlive > 0.5)
 	{
@@ -43,7 +43,7 @@ void Bullet::Update(double dt)
 		this->position.y = spaceship1.position.y;
 		this->position.z = spaceship1.position.z;
 
-		this->target = spaceship1.target * dt;
+		this->target = spaceship1.target * (float)dt;
 
 		std::cout << spaceship1.position.x << std::endl; // 1
 		std::cout << spaceship1.position.y << std::endl; // 0
