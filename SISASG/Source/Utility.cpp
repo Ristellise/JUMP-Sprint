@@ -31,13 +31,13 @@ std::string CurrentDirectory()
 int mt19937Rand(int low, int hi)
 {
     auto dice_rand = std::bind(std::uniform_int_distribution<int>(low, hi),
-        std::mt19937(time(0)));
+        std::mt19937((unsigned int)time(0)));
     return dice_rand();
 }
 
 float mt19937Rand(float low, float hi)
 {
     auto dice_rand = std::bind(std::uniform_real_distribution<float>(low, hi),
-        std::mt19937(time(0)));
+        std::mt19937((unsigned int)time(0)));
     return dice_rand();
 }

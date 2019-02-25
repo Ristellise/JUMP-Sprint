@@ -5,6 +5,7 @@
 #include "LoadOBJ.h"
 #include "collision.h"
 #include "genericEntity.h"
+#include "Bullet.h"
 
 
 StateGame::StateGame()
@@ -140,9 +141,9 @@ void StateGame::OnEnter()
     }
 
     // Test Env
-    meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
-    meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
-    this->meshList->push_back(meshbuffer);
+    // meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
+    // meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
+    // this->meshList->push_back(meshbuffer);
 
     // Audio src
     // this->audiosrc.Load("Audio/testtrack.flac");
@@ -171,6 +172,21 @@ void StateGame::OnEnter()
 	// Axes
 	meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
 	this->meshList->push_back(meshbuffer);
+    // Axes
+    // meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
+    // this->meshList->push_back(meshbuffer);
+
+	// Bullet
+	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 1);
+	this->meshList->push_back(meshbuffer);
+
+	Bullet* bullet = new Bullet();
+	bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
+	bullet->type = entityType::eT_Bullet;
+	bullet->name = "bullet";
+	bullet->size = (1.f, 1.f, 1.f);
+	bullet->meshptr = this->meshGetFast("bullet");
+	this->entitylists->insert_or_assign("bullet", bullet); 
 
     // Collision tester
     /*
@@ -233,8 +249,13 @@ void StateGame::OnUpdate(double dt)
     this->dtimestring += "\nROL: ";                 
     this->dtimestring += std::to_string(spaceship->rollTotal);
 
-    if ((points >= totalHoops) || (elapsedTime <= 0))
+    if ((points >= totalHoops) || (elapsedTime <= 0.0))
     {
+		if (elapsedTime < 0.0)
+		{
+			elapsedTime = 0.0;
+		}
+
         this->STData->moneyEarned = (unsigned long long)(points * elapsedTime);
         this->STData->pointsPrev = points;
         this->STData->timePrev = elapsedTime;
@@ -252,7 +273,7 @@ void StateGame::OnUpdate(double dt)
     for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
     {
         it->second->Update(dt);
-    }
+    } // Calling Updates.
 
     //spaceship->Update(dt);
 
@@ -567,33 +588,25 @@ void StateGame::OnRender()
             RenderMesh(buff->meshptr, true);
             (*this->modelStack).PopMatrix();
 
-            (*this->modelStack).PushMatrix();
-            (*this->modelStack).Translate(0, 0, 0);
-            RenderMesh(this->meshGetFast("axes"), false);
-            (*this->modelStack).PopMatrix();
-        }
-        (*this->modelStack).PopMatrix();
+			(*this->modelStack).PushMatrix();
+			(*this->modelStack).Translate(0, 0, 0);
+			RenderMesh(this->meshGetFast("axes"), false);
+			(*this->modelStack).PopMatrix();
+		}
+		else if (buff->type == entityType::eT_Bullet)
+		{
+			// spaceship spaceship1;
+			// (*this->modelStack).PushMatrix();
+			// (*this->modelStack).Translate(0, 0, 0);
+			// RenderMesh(buff->meshptr, true);
+			// (*this->modelStack).PopMatrix();
+		}
+		(*this->modelStack).PopMatrix();
 
-        Vector3 Ent2V[] = { buff->HBox.frontLeftUp,
-                            buff->HBox.frontLeftDown,
-                            buff->HBox.frontRightUp,
-                            buff->HBox.frontRightDown,
-                            buff->HBox.backLeftUp,
-                            buff->HBox.backLeftDown,
-                            buff->HBox.backRightUp,
-                            buff->HBox.backRightDown };
-
-        // Debug balls for Josh
-        /*
-        for (size_t i = 0; i < 8; i++)
-        {
-            (*this->modelStack).PushMatrix();
-            (*this->modelStack).Translate(Ent2V[i].x, Ent2V[i].y, Ent2V[i].z);
-
-            RenderMesh(this->meshGetFast("debugballs"), true);
-            (*this->modelStack).PopMatrix();
-        }
-        */
+        // (*this->modelStack).PushMatrix();
+        // (*this->modelStack).Translate(0, 0, 0);
+        // RenderMesh(this->meshGetFast("axes"), false);
+        // (*this->modelStack).PopMatrix();
     }
 }
 

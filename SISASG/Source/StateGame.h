@@ -47,14 +47,16 @@ public:
     
     SoundContainer audiosrc;
 
-    void OnEnter();
-    void OnExit();
-    void OnUpdate(double dt);
-    void OnRender();
-    void OnCam(int X, int Y, float XChange, float YChange);
-    void hoopGenerate();
-    void hoopChecker();
-    void hoopRender();
+	Bullet* bullet;
+
+	void OnEnter();
+	void OnExit();
+	void OnUpdate(double dt);
+	void OnRender();
+	void OnCam(int X, int Y, float XChange, float YChange);
+	void hoopGenerate();
+	void hoopChecker();
+	void hoopRender();
 
 private:
     // test for hoops currently
