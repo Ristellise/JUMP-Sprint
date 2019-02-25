@@ -5,6 +5,7 @@
 #include "spaceship.h"
 #include "PlanetRange.h"
 #include "Hoops.h"
+#include "ParticleSystem.h"
 #include "AudioHandler.h"
 
 class StateGame : public GState
@@ -38,6 +39,8 @@ public:
     std::vector<STARS> stars;
     int starsnumber;
     void Stars();
+
+	ParticleSystem Exhaust;
 
     PlanetRange planetrange1;
     Hoops hoop;

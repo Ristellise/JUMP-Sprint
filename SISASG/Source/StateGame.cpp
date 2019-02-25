@@ -164,7 +164,7 @@ void StateGame::OnEnter()
     this->meshList->push_back(meshbuffer);
 
 	// Particle
-	meshbuffer = MeshBuilder::GenerateQuad("testparticle", Color(0.f, 255.f, 255.f), 1);
+	meshbuffer = MeshBuilder::GenerateQuad("particle", Color(0.f, 255.f, 255.f),1);
 	meshbuffer->textureID = LoadTGA("TGA//testparticle.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList->push_back(meshbuffer);
 
@@ -244,6 +244,9 @@ void StateGame::OnUpdate(double dt)
     }
 
     hoopChecker();
+	Exhaust.GenerateParticles(dt);
+	Exhaust.ParticleUpdate(dt);
+	Exhaust.setplocation(spaceship->position);
 
     std::map<std::string, entity*>::iterator it;
     for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
@@ -449,6 +452,17 @@ void StateGame::OnRender()
         RenderMesh(this->meshGetFast("star"), false);
         (*this->modelStack).PopMatrix();
     }
+
+	for (unsigned int i = 0; Exhaust.particles.size() > i; i++)
+	{
+		(*this->modelStack).PushMatrix();
+		(*this->modelStack).Translate(Exhaust.particles[i].Position.x, Exhaust.particles[i].Position.y, Exhaust.particles[i].Position.z);
+		(*this->modelStack).Rotate(this->entityGetFast("spaceship")->yawTotal, 0, 1, 0);
+		(*this->modelStack).Rotate(this->entityGetFast("spaceship")->pitchTotal, 1, 0, 0);
+		(*this->modelStack).Scale(1,1,1);		
+		RenderMesh(this->meshGetFast("particle"), false);
+		(*this->modelStack).PopMatrix();
+	}
 
     // Planet
     (*this->modelStack).PushMatrix();
