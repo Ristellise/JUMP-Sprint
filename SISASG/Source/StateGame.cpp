@@ -157,7 +157,7 @@ void StateGame::OnEnter()
 	bullet->name = "bullet";
 	bullet->size = (1, 1, 1);
 	bullet->meshptr = this->meshGetFast("bullet");
-	this->entitylists->insert_or_assign("bullet", bullet); // this isnt spawning bullet
+	this->entitylists->insert_or_assign("bullet", bullet); 
 
     // Collision tester
 	/*
@@ -243,7 +243,7 @@ void StateGame::OnUpdate(double dt)
     for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
     {
         it->second->Update(dt);
-    }
+    } // Calling Updates.
 
 	//spaceship->Update(dt);
 

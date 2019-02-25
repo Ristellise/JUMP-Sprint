@@ -30,8 +30,6 @@ void Bullet::Init(const Vector3 & pos, const Vector3 & target, const Vector3 & u
 
 void Bullet::Update(double dt)
 {
-	spaceship spaceship1;
-
 	this->position += view * dt * this->bbSpeed;
 	this->timeAlive += dt;
 
