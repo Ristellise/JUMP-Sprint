@@ -2,7 +2,7 @@
 
 StatePlanet::StatePlanet()
 {
-	this->StateName = "Planet";
+    this->StateName = "Planet";
 }
 
 void StatePlanet::OnEnter()

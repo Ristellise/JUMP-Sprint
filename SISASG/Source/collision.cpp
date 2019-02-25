@@ -104,7 +104,7 @@ bool Intersects(entity *Ent1, entity *Ent2)
     if (Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->view)))
         return false;
 
-	return true;
+    return true;
 }
 
 void Chunk::popEnt(entity * ent)
@@ -129,13 +129,13 @@ void collision::doCollisions(std::map<std::string, entity*> &entityList, double 
         Ent = it->second;
         if (Ent->physics)
         {
-            
+            /*if (Ent->name != "spaceship")
+            {
+                std::cout << Ent->name.c_str() << std::endl;
+            }*/
             Ent->UpdateBBox();
         }
-        if (Ent->name != "spaceship")
-        {
-            std::cout << Ent->name.c_str() << std::endl;
-        }
+        
     }
     for (it = entityList.begin(); it != entityList.end(); it++)
     {
@@ -145,10 +145,10 @@ void collision::doCollisions(std::map<std::string, entity*> &entityList, double 
             this->updatingEnts += 1;
             if (Ent->velocity != .0f)
             {
-                for (it2 = std::next(it, 1); it2 != entityList.end(); it2++)
+                for (it2 = entityList.begin(); it2 != entityList.end(); it2++)
                 {
                     Ent2 = it2->second;
-                    if (Ent2->physics && Ent2->velocity > .0f)
+                    if (Ent2->physics)
                     {
                         Ent2->UpdateBBox();
                         this->updatingEnts += 1;

@@ -13,12 +13,12 @@ using namespace std;
 class money
 {
 private:
-	unsigned long long userMoney;
+    unsigned long long userMoney;
 public:
-	money();
-	~money();
-	string getMoney();
-	void setMoney(unsigned long long newMoney);
+    money();
+    ~money();
+    string getMoney();
+    void setMoney(unsigned long long newMoney);
 };
 
 #endif

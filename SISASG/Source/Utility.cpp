@@ -1,6 +1,12 @@
 #include "Utility.h"
 #include <random>
 #include <functional>
+
+#ifdef _WIN32
+#include <direct.h>
+#elif defined __linux__
+#include <sys/stat.h>
+#endif
 Position operator*(const Mtx44& lhs, const Position& rhs)
 {
     float b[4];

@@ -23,6 +23,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
+[[deprecated("Use WindowManager.")]]
 bool Application::IsKeyPressed(unsigned short key)
 {
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
@@ -97,19 +98,21 @@ void Application::Init()
 void Application::Run()
 {
     //Main Loop
-    Scene *scene  = new SceneWorld(this->m_window);
+    WindowManager winMan;
+    winMan.setWindow(this->m_window);
+    Scene *scene  = new SceneWorld(&winMan);
     scene->Init();
 
     m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-    while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
+    while (!winMan.getExit() || !glfwWindowShouldClose(this->m_window))
     {
         scene->Update(m_timer.getElapsedTime());
         scene->Render();
         //Swap buffers
         glfwSwapBuffers(m_window);
-        //Get and organize events, like keyboard and mouse input, window resizing, etc...
-        glfwPollEvents();
-        m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
+        
+        glfwPollEvents(); //Get and organize events, like keyboard and mouse input, window resizing.
+        m_timer.waitUntil(frameTime); // Frame rate limiter. Limits each frame to a specified time in ms.   
 
     } //Check if the ESC key had been pressed or if the window had been closed
     scene->Exit();

@@ -2,15 +2,16 @@
 #include <algorithm>
 #include <iterator>
 #include <functional>
+
 void GState::Setlists(std::map<std::string,entity*>* entitylists, std::vector<Mesh*>* meshList)
 {
     this->entitylists = entitylists;
     this->meshList = meshList;
 }
+
 GState::GState()
 {
 }
-
 
 GState::~GState()
 {
@@ -26,6 +27,10 @@ Mesh* GState::meshGetFast(std::string meshname)
 
     auto attr_iter = std::find_if(std::begin(*this->meshList), std::end(*this->meshList),
         std::bind(attributeFinder, std::placeholders::_1, meshname));
+    if (attr_iter == std::end(*this->meshList))
+    {
+        return nullptr;
+    }
     return *attr_iter;
 }
 
@@ -56,13 +61,16 @@ void GState::OnCreate(
     this->state_cam = cam;
     this->mouse = mouse;
     this->collideInstance = collideInstance;
+    this->winMan = this->state_cam->winMan; // steal it!
 }
+
 void GState::SetMatrixes(MS* model, MS* view, MS* projection)
 {
     this->modelStack = model;
     this->viewStack = view;
     this->projectionStack = projection;
 }
+
 void GState::RenderTextScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
     if (!mesh || mesh->textureID <= 0) //Proper error check

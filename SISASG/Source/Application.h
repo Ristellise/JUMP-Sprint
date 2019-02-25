@@ -12,17 +12,17 @@
 class Application
 {
 public:
-	Application();
-	~Application();
-	void Init();
-	void Run();
-	void Exit();
-	static bool IsKeyPressed(unsigned short key);
+    Application();
+    ~Application();
+    void Init();
+    void Run();
+    void Exit();
+    static bool IsKeyPressed(unsigned short key);
     GLFWwindow* m_window;
 private:
 
-	//Declare a window object
-	StopWatch m_timer;
+    //Declare a window object
+    StopWatch m_timer;
 };
 
 #endif

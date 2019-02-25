@@ -11,8 +11,8 @@ enum entityType
     eT_TextUI,
     eT_Ship,
     eT_Space,
-	eT_Bullet,
-	eT_Environment,
+    eT_Bullet,
+    eT_Environment,
     eT_Count
 };
 
@@ -25,14 +25,14 @@ enum collisionType
 
 struct hitbox
 {
-	Vector3 frontLeftUp;
-	Vector3 frontLeftDown;
-	Vector3 frontRightDown;
-	Vector3 frontRightUp;
-	Vector3 backLeftUp;
-	Vector3 backLeftDown;
-	Vector3 backRightDown;
-	Vector3 backRightUp;
+    Vector3 frontLeftUp;
+    Vector3 frontLeftDown;
+    Vector3 frontRightDown;
+    Vector3 frontRightUp;
+    Vector3 backLeftUp;
+    Vector3 backLeftDown;
+    Vector3 backRightDown;
+    Vector3 backRightUp;
 
 };
 
@@ -52,25 +52,25 @@ public:
 class entity
 {
 public:
-	bool lKey;
-	bool rKey;
-	bool uKey;
-	bool dKey;
-	bool qKey;
-	bool eKey;
+    bool lKey;
+    bool rKey;
+    bool uKey;
+    bool dKey;
+    bool qKey;
+    bool eKey;
 
-	float topSpeed;
-	float fwdaccl;
-	float bwdaccl;
-	float drift;
+    float topSpeed;
+    float fwdaccl;
+    float bwdaccl;
+    float drift;
 
-	float velocity;
-	float accl;
+    float velocity;
+    float accl;
 
-	float angle;
-	float yawTotal;
-	float pitchTotal;
-	float rollTotal;
+    float angle;
+    float yawTotal;
+    float pitchTotal;
+    float rollTotal;
 
     float yawVelocity;
     float pitchVelocity;
@@ -78,42 +78,42 @@ public:
 
     bool physics = false;
 
-	Vector3 position;
-	Vector3 target;
+    Vector3 position;
+    Vector3 target;
     entityType type;
     BBoxDimensions Boxsize;
-	hitbox HBox;
+    hitbox HBox;
 
     Vector3 size;
 
-	Vector3 right;	// relative x
-	Vector3 up;		// relative y
-	Vector3 view;	// relative z
+    Vector3 right;    // relative x
+    Vector3 up;        // relative y
+    Vector3 view;    // relative z
 
-	bool doDestroy = false;
+    bool doDestroy = false;
 
     std::string *text;
     std::string name = "";
-	Mesh *meshptr = nullptr;
+    Mesh *meshptr = nullptr;
 
-	entity();
-	~entity();
-	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
+    entity();
+    ~entity();
+    virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
     virtual void Init(const Vector3 & pos, const Vector3 & target, const Vector3 & up, const Vector3 & size);
-	virtual void Reset();
-	virtual void Update(double dt);
+    virtual void Reset();
+    virtual void Update(double dt);
 
     void UpdateBBox();
 
     /*
-	virtual void Update(
+    virtual void Update(
         double dt,
         float topSpeed,
         float fwdaccl,
         float bwdaccl,
         float &accl
     );
-	*/
+    */
 };
 
 #endif

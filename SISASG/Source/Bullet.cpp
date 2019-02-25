@@ -9,11 +9,11 @@ Bullet::Bullet()
 
 Bullet::Bullet(const Vector3 & pos, const Vector3 & target, const Vector3 & up)
 {
-	timeAlive = 0;
-	this->position = pos;
-	this->target = target;
-	this->up = up;
-	this->view = (target - position).Normalized();
+    timeAlive = 0;
+    this->position = pos;
+    this->target = target;
+    this->up = up;
+    this->view = (target - position).Normalized();
 }
 
 Bullet::~Bullet()

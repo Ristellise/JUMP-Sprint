@@ -98,10 +98,13 @@
       <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="Source\Particle.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Source\ParticleSystem.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WindowManager.cpp">
+      <Filter>Source Files\Internal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +216,9 @@
     <ClInclude Include="Source\StateStat.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
+    <ClInclude Include="Source\WindowManager.h">
+      <Filter>Source Files\Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -220,9 +226,6 @@
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{fc631571-b1af-43f2-950a-fc4dea99d1a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Internal">
-      <UniqueIdentifier>{98100814-ddf7-486f-b3f1-583e36eae24b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Internal">
       <UniqueIdentifier>{f54f8e0e-3028-4fef-bf07-d0b897410c59}</UniqueIdentifier>
@@ -244,6 +247,9 @@
     </Filter>
     <Filter Include="Header Files\Particle">
       <UniqueIdentifier>{e3adb7fc-89a4-48b3-bdd6-3bdee03eeec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Internal">
+      <UniqueIdentifier>{98100814-ddf7-486f-b3f1-583e36eae24b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

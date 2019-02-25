@@ -189,6 +189,7 @@
     <ClCompile Include="Source\StateShop.cpp" />
     <ClCompile Include="Source\StateStat.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
+    <ClCompile Include="Source\WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
@@ -227,6 +228,7 @@
     <ClInclude Include="Source\spaceship.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
+    <ClInclude Include="Source\WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config.ini" />

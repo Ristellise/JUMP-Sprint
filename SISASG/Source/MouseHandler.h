@@ -3,7 +3,7 @@
 class MouseHandler
 {
 private:
-	double sensitivity = 10.0f;
+    double sensitivity = 10.0f;
 public:
     double XChange = 0.0;
     double YChange = 0.0;

@@ -13,10 +13,10 @@ money::~money()
 
 std::string money::getMoney()
 {
-	return to_string(this->userMoney);
+    return to_string(this->userMoney);
 }
 
 void money::setMoney(unsigned long long newMoney)
 {
-	this->userMoney = newMoney;
+    this->userMoney = newMoney;
 }
