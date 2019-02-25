@@ -164,8 +164,8 @@ void StateHangar::OnUpdate(double dt)
             shiftmovement = true;
         }
 
-        if (((this->winMan->IsKeyPressed('D') || (this->winMan->IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT))) 
-            && Dir == -1) &&
+        if (((this->winMan->IsKeyPressed('D') || 
+			(this->winMan->IsButtonPressed(GLFW_MOUSE_BUTTON_LEFT))) && Dir == -1) &&
             (state_cam->position.x > (-CSHIFT * (NumberOfPlanets - 1)) - 120 && Delay == 0))
         {
             this->STData->planetSelect += 1;

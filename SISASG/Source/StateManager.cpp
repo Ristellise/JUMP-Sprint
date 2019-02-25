@@ -19,7 +19,7 @@ void StateManager::Update(double dt, GLFWwindow* window)
     {
         this->activeStates[i]->OnUpdate(dt);
         this->activeStates[i]->OnCam(this->SM_Mouse->X, this->SM_Mouse->Y,
-                                     this->SM_Mouse->XChange, this->SM_Mouse->YChange);
+                                     (float)this->SM_Mouse->XChange, (float)this->SM_Mouse->YChange);
         if (this->activeStates[i]->readyExit())
         {
             this->activeStates[i]->OnExit();

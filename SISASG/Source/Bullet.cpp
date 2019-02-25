@@ -30,8 +30,8 @@ void Bullet::Init(const Vector3 & pos, const Vector3 & target, const Vector3 & u
 
 void Bullet::Update(double dt)
 {
-	this->position += view * dt * this->bbSpeed;
-	this->timeAlive += dt;
+	this->position += view * (float)dt * (float)this->bbSpeed;
+	this->timeAlive += (float)dt;
 
 	/*if (this->timeAlive > 0.5)
 	{

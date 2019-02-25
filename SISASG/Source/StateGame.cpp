@@ -150,9 +150,9 @@ void StateGame::OnEnter()
     }
 
     // Test Env
-    meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
-    meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
-    this->meshList->push_back(meshbuffer);
+    // meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
+    // meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
+    // this->meshList->push_back(meshbuffer);
 
     // Audio src
     // this->audiosrc.Load("Audio/testtrack.flac");
@@ -174,8 +174,8 @@ void StateGame::OnEnter()
     this->meshList->push_back(meshbuffer);
 
     // Axes
-    meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
-    this->meshList->push_back(meshbuffer);
+    // meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
+    // this->meshList->push_back(meshbuffer);
 
 	// Bullet
 	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 1);
@@ -185,7 +185,7 @@ void StateGame::OnEnter()
 	bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
 	bullet->type = entityType::eT_Bullet;
 	bullet->name = "bullet";
-	bullet->size = (1, 1, 1);
+	bullet->size = (1.f, 1.f, 1.f);
 	bullet->meshptr = this->meshGetFast("bullet");
 	this->entitylists->insert_or_assign("bullet", bullet); 
 
@@ -579,18 +579,18 @@ void StateGame::OnRender()
 		}
 		else if (buff->type == entityType::eT_Bullet)
 		{
-			spaceship spaceship1;
-			(*this->modelStack).PushMatrix();
-			(*this->modelStack).Translate(0, 0, 0);
-			RenderMesh(buff->meshptr, true);
-			(*this->modelStack).PopMatrix();
+			// spaceship spaceship1;
+			// (*this->modelStack).PushMatrix();
+			// (*this->modelStack).Translate(0, 0, 0);
+			// RenderMesh(buff->meshptr, true);
+			// (*this->modelStack).PopMatrix();
 		}
 		(*this->modelStack).PopMatrix();
 
-            (*this->modelStack).PushMatrix();
-            (*this->modelStack).Translate(0, 0, 0);
-            RenderMesh(this->meshGetFast("axes"), false);
-            (*this->modelStack).PopMatrix();
+        // (*this->modelStack).PushMatrix();
+        // (*this->modelStack).Translate(0, 0, 0);
+        // RenderMesh(this->meshGetFast("axes"), false);
+        // (*this->modelStack).PopMatrix();
     }
 }
 

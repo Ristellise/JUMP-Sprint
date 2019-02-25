@@ -175,6 +175,7 @@ std::string fileNameNoExt(std::string filename)
     if (index != std::string::npos)
     {
         std::string ext = filename.substr(0, index);
+		return ext;
     }
     else
     {
