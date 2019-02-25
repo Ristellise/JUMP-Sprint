@@ -36,10 +36,16 @@ void Camera3::Update(double dt, entity targetShip)
     right = targetShip.right;
     up = targetShip.up;
     view = targetShip.view;
-    // right = view.Cross(up).Normalized();
-    // up = right.Cross(view).Normalized();
-    // view = position - target;
 
+	// Legacy code for up/right/view vectors
+	/*
+	right = view.Cross(up).Normalized();
+    up = right.Cross(view).Normalized();
+    view = position - target;
+	*/
+
+	// Legacy code which produced unintended feature (camera snapping)
+	/*
     if (targetShip.lKey == true)
     {
         Mtx44 rotation;
@@ -81,6 +87,7 @@ void Camera3::Update(double dt, entity targetShip)
         rotation.SetToRotation(targetShip.angle, view.x, view.y, view.z);
         view = rotation * view;
     }
+	*/
 
     position = (-view * 40) + target;
 

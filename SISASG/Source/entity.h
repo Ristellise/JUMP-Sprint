@@ -78,17 +78,17 @@ public:
 
     bool physics = false;
 
-    Vector3 position;
-    Vector3 target;
     entityType type;
     BBoxDimensions Boxsize;
     hitbox HBox;
 
     Vector3 size;
 
-    Vector3 right;    // relative x
-    Vector3 up;        // relative y
-    Vector3 view;    // relative z
+	Vector3 position;
+	Vector3 target;
+    Vector3 right;  // relative x
+    Vector3 up;     // relative y
+    Vector3 view;	// relative z
 
     bool doDestroy = false;
 

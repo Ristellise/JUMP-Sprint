@@ -20,17 +20,8 @@ StateGame::~StateGame()
 
 void StateGame::OnEnter()
 {
-    ///////* start of hoops *///////
 
-    hoopGenerate();
-
-    ///////* end of hoops *///////
-
-    // Reset hoops
-    for (int i = 0; i < totalHoops; i++)
-    {
-        hoopPos[i].passed = false;
-    }
+	hoopGenerate(); // Generates the locations of the hoops based on the selected planet
 
     // Reset stats
     this->STData->moneyEarned = 0;
@@ -150,9 +141,9 @@ void StateGame::OnEnter()
     }
 
     // Test Env
-    meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
-    meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
-    this->meshList->push_back(meshbuffer);
+    // meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
+    // meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
+    // this->meshList->push_back(meshbuffer);
 
     // Audio src
     // this->audiosrc.Load("Audio/testtrack.flac");
@@ -173,9 +164,17 @@ void StateGame::OnEnter()
     meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(0.f, 255.f, 255.f), 36, 36, 15, 1);
     this->meshList->push_back(meshbuffer);
 
+	// Particle
+	meshbuffer = MeshBuilder::GenerateQuad("particle", Color(0.f, 255.f, 255.f),1);
+	meshbuffer->textureID = LoadTGA("TGA//testparticle.tga", GL_LINEAR, GL_CLAMP);
+	this->meshList->push_back(meshbuffer);
+
+	// Axes
+	meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
+	this->meshList->push_back(meshbuffer);
     // Axes
-    meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
-    this->meshList->push_back(meshbuffer);
+    // meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
+    // this->meshList->push_back(meshbuffer);
 
 	// Bullet
 	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 1);
@@ -185,7 +184,7 @@ void StateGame::OnEnter()
 	bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
 	bullet->type = entityType::eT_Bullet;
 	bullet->name = "bullet";
-	bullet->size = (1, 1, 1);
+	bullet->size = (1.f, 1.f, 1.f);
 	bullet->meshptr = this->meshGetFast("bullet");
 	this->entitylists->insert_or_assign("bullet", bullet); 
 
@@ -207,14 +206,12 @@ void StateGame::OnEnter()
 
 void StateGame::OnExit()
 {
-    delete this->entitylists->find("spaceship")->second;
-    this->entitylists->erase("spaceship");
-    while (hoopPos.size())
-    {
-        hoopPos.pop_back();
-    }
-    totalHoops = 0;
-    points = 0;
+	delete this->entitylists->find("spaceship")->second;
+	this->entitylists->erase("spaceship");
+	while (hoopPos.size()) // Clears the hoops
+	{
+		hoopPos.pop_back();
+	}
 }
 
 void StateGame::OnUpdate(double dt)
@@ -252,8 +249,13 @@ void StateGame::OnUpdate(double dt)
     this->dtimestring += "\nROL: ";                 
     this->dtimestring += std::to_string(spaceship->rollTotal);
 
-    if ((points >= totalHoops) || (elapsedTime <= 0))
+    if ((points >= totalHoops) || (elapsedTime <= 0.0))
     {
+		if (elapsedTime < 0.0)
+		{
+			elapsedTime = 0.0;
+		}
+
         this->STData->moneyEarned = (unsigned long long)(points * elapsedTime);
         this->STData->pointsPrev = points;
         this->STData->timePrev = elapsedTime;
@@ -263,6 +265,9 @@ void StateGame::OnUpdate(double dt)
     }
 
     hoopChecker();
+	Exhaust.GenerateParticles(dt);
+	Exhaust.ParticleUpdate(dt);
+	Exhaust.setplocation(spaceship->position);
 
     std::map<std::string, entity*>::iterator it;
     for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
@@ -332,26 +337,26 @@ void StateGame::hoopGenerate()
         ok.rotation = 0;
     }
 
-    switch (this->STData->planetSelect)
-    {
-    case(0):
-        z = 400.f;
-        totalHoops = 5;
-        for (int i = 0; i < totalHoops; i++)
-        {
-            hoopPos.push_back(ok);
-            if (i > 2 && i < totalHoops)
-            {
-                the_subtraction -= 20.f;
-                hoopPos[i].offset_x = x + the_subtraction * 2;
-                hoopPos[i].offset_y = y + the_subtraction;
-            }
-            else
-            {
-                hoopPos[i].offset_x = x + the_addition * 2;
-                hoopPos[i].offset_y = y + the_addition;
-                the_subtraction += 20;
-            }
+	switch (this->STData->planetSelect)
+	{
+	case(0): // venus
+		z = 400.f;
+		totalHoops = 5;
+		for (int i = 0; i < totalHoops; i++)
+		{
+			hoopPos.push_back(ok);
+			if (i > 2 && i < totalHoops)
+			{
+				the_subtraction -= 20;
+				hoopPos[i].offset_x = x + the_subtraction * 2;
+				hoopPos[i].offset_y = y + the_subtraction;
+			}
+			else
+			{
+				hoopPos[i].offset_x = x + the_addition * 2;
+				hoopPos[i].offset_y = y + the_addition;
+				the_subtraction += 20;
+			}
 
             hoopPos[i].offset_z = z + the_addition * 3;
 
@@ -360,39 +365,39 @@ void StateGame::hoopGenerate()
             if (i > 1)
                 hoopPos[i].rotation += 90 + hoopPos[i - 1].rotation; // for rotation of hoops
 
-        }
-        break;
-    case(1):
-        x = 100.f;
-        z = 400.f;
-        totalHoops = 6;
-        for (int i = 0; i < totalHoops; i++)
-        {
-            hoopPos.push_back(ok);
-            if (i > 2 && i < totalHoops)
-            {
-                the_subtraction -= 30.f;
-                hoopPos[i].offset_x = x + the_subtraction * 2;
-                hoopPos[i].offset_y = y + the_subtraction;
-                hoopPos[i].offset_z = z + the_subtraction;
-            }
-            else
-            {
-                hoopPos[i].offset_x = x + the_addition;
-                hoopPos[i].offset_y = y + the_addition * 2;
-                hoopPos[i].offset_z = z + the_addition * 3;
-                the_subtraction += 20.f;
-            }
+		}
+		break;
+	case(1): // earth
+		x = 100.f;
+		z = 400.f;
+		totalHoops = 6;
+		for (int i = 0; i < totalHoops; i++)
+		{
+			hoopPos.push_back(ok);
+			if (i > 2 && i < totalHoops)
+			{
+				the_subtraction -= 30;
+				hoopPos[i].offset_x = x + the_subtraction * 2;
+				hoopPos[i].offset_y = y + the_subtraction;
+				hoopPos[i].offset_z = z + the_subtraction;
+			}
+			else
+			{
+				hoopPos[i].offset_x = x + the_addition;
+				hoopPos[i].offset_y = y + the_addition * 2;
+				hoopPos[i].offset_z = z + the_addition * 3;
+				the_subtraction += 20;
+			}
 
-            the_addition += 50.f; // increases addition value so it keeps going
-            if (i > 1)
-                hoopPos[i].rotation += 90 + hoopPos[i - 1].rotation; // for rotation of hoops
-        }
-        break;
-    case(2):
-        x = 100.f;
-        z = 500.f;
-        totalHoops = 7;
+			the_addition += 50; // increases addition value so it keeps going
+			if (i > 1)
+				hoopPos[i].rotation += 90 + hoopPos[i - 1].rotation; // for rotation of hoops
+		}
+		break;
+	case(2): // mars
+		x = 100.f;
+		z = 500.f;
+		totalHoops = 7;
 
         for (int i = 0; i < totalHoops; i++)
         {
@@ -415,39 +420,39 @@ void StateGame::hoopGenerate()
                 the_subtraction += 50.f;
             }
 
-            hoopPos[i].offset_z = z + the_addition * 3;
-            the_addition += 40.f; // increases addition value so it keeps going
-                                //rotation += 90; // for rotation of hoops
-        }
-        break;
-    case(3):
-        x = 200.f;
-        z = 400.f;
-        totalHoops = 8;
-        for (int i = 0; i < totalHoops; i++)
-        {
-            hoopPos.push_back(ok);
-            if (i > 2 && i < totalHoops)
-            {
-                the_subtraction -= 20.f;
-                hoopPos[i].offset_x = x - the_subtraction * 1.5f;
-                hoopPos[i].offset_y = y - the_subtraction;
-                hoopPos[i].offset_z = z + the_subtraction * 2.f;
-            }
-            else
-            {
-                hoopPos[i].offset_x = x + the_addition * 2;
-                hoopPos[i].offset_y = y - the_addition;
-                hoopPos[i].offset_z = z + the_addition * 3;
-                the_subtraction += 15.f;
-            }
-            the_addition += 60.f; // increases addition value so it keeps going
-                                //rotation += 90; // for rotation of hoops
-        }
-        break;
-    default:
-        break;
-    }
+			hoopPos[i].offset_z = z + the_addition * 3;
+			the_addition += 40; // increases addition value so it keeps going
+								//rotation += 90; // for rotation of hoops
+		}
+		break;
+	case(3): // jupiter
+		x = 200.f;
+		z = 400.f;
+		totalHoops = 8;
+		for (int i = 0; i < totalHoops; i++)
+		{
+			hoopPos.push_back(ok);
+			if (i > 2 && i < totalHoops)
+			{
+				the_subtraction -= 20;
+				hoopPos[i].offset_x = x - the_subtraction * 1.5;
+				hoopPos[i].offset_y = y - the_subtraction;
+				hoopPos[i].offset_z = z + the_subtraction * 2;
+			}
+			else
+			{
+				hoopPos[i].offset_x = x + the_addition * 2;
+				hoopPos[i].offset_y = y - the_addition;
+				hoopPos[i].offset_z = z + the_addition * 3;
+				the_subtraction += 15;
+			}
+			the_addition += 60; // increases addition value so it keeps going
+								//rotation += 90; // for rotation of hoops
+		}
+		break;
+	default:
+		break;
+	}
 
 }
 
@@ -468,6 +473,17 @@ void StateGame::OnRender()
         RenderMesh(this->meshGetFast("star"), false);
         (*this->modelStack).PopMatrix();
     }
+
+	for (unsigned int i = 0; Exhaust.particles.size() > i; i++)
+	{
+		(*this->modelStack).PushMatrix();
+		(*this->modelStack).Translate(Exhaust.particles[i].Position.x, Exhaust.particles[i].Position.y, Exhaust.particles[i].Position.z);
+		(*this->modelStack).Rotate(this->entityGetFast("spaceship")->yawTotal, 0, 1, 0);
+		(*this->modelStack).Rotate(this->entityGetFast("spaceship")->pitchTotal, 1, 0, 0);
+		(*this->modelStack).Scale(1,1,1);		
+		RenderMesh(this->meshGetFast("particle"), false);
+		(*this->modelStack).PopMatrix();
+	}
 
     // Planet
     (*this->modelStack).PushMatrix();
@@ -586,10 +602,10 @@ void StateGame::OnRender()
 		}
 		(*this->modelStack).PopMatrix();
 
-            (*this->modelStack).PushMatrix();
-            (*this->modelStack).Translate(0, 0, 0);
-            RenderMesh(this->meshGetFast("axes"), false);
-            (*this->modelStack).PopMatrix();
+        // (*this->modelStack).PushMatrix();
+        // (*this->modelStack).Translate(0, 0, 0);
+        // RenderMesh(this->meshGetFast("axes"), false);
+        // (*this->modelStack).PopMatrix();
     }
 }
 
