@@ -181,7 +181,7 @@ void StateGame::OnEnter()
 	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 1);
 	this->meshList->push_back(meshbuffer);
 
-	Bullet* bullet = new Bullet();
+	bullet = new Bullet();
 	bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
 	bullet->type = entityType::eT_Bullet;
 	bullet->name = "bullet";
@@ -579,9 +579,8 @@ void StateGame::OnRender()
 		}
 		else if (buff->type == entityType::eT_Bullet)
 		{
-			spaceship spaceship1;
 			(*this->modelStack).PushMatrix();
-			(*this->modelStack).Translate(0, 0, 0);
+			(*this->modelStack).Translate(bullet->position.x,bullet->position.y,bullet->position.z);
 			RenderMesh(buff->meshptr, true);
 			(*this->modelStack).PopMatrix();
 		}
