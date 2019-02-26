@@ -2,7 +2,6 @@
 #include "genericEntity.h"
 class Particle : public genericEntity
 {
-	
 	float particleLifespan;
 public:
 	Particle();

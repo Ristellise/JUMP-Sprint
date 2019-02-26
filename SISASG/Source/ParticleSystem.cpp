@@ -1,16 +1,12 @@
 #include "ParticleSystem.h"
-// temp
-
 
 ParticleSystem::ParticleSystem()
 {
+	Rotate = true;
+	x = 1;
+	y = 1;
+	z = 1;
 }
-
-ParticleSystem::ParticleSystem(int numparticles)
-{
-	this->numparticles = numparticles;
-}
-
 
 ParticleSystem::~ParticleSystem()
 {
@@ -23,7 +19,7 @@ void ParticleSystem::GenerateParticles(double dt)
 	{
 		particle.pSetlocation(position);
 		particles.push_back(particle);
-		spawndelay = 0.005;
+		spawndelay = spawndelaydefault;
 	}
 }
 
@@ -42,7 +38,26 @@ void ParticleSystem::ParticleUpdate(double dt)
 	}
 }
 
-void ParticleSystem::setplocation(Vector3 position)
+void ParticleSystem::setplocation(entity refPoint,float offset_x,float offset_y,float offset_z)
 {
-	this->position = position;
+	this->position = 
+		  (refPoint.right * offset_x)
+		+ (refPoint.up * offset_y)
+		+ (refPoint.view * offset_z)
+		+  refPoint.position;
 }
+
+void ParticleSystem::setRotatestatus(bool rtate)
+{
+	this->Rotate = rtate;
+}
+
+void ParticleSystem::setScale(float x, float y, float z)
+{
+	this->x = x;
+	this->y = y;
+	this->z = z;
+}
+
+
+

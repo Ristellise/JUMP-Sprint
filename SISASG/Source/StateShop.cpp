@@ -133,11 +133,11 @@ void StateShop::OnRender()
     switch (this->STData->shopSelect)
     {
     case 0:
-        this->RenderTextScreen(this->STData->font, "Ship1", Color(255, 255, 255), 4.f, 9.5f, 9.5f);
+        this->RenderTextScreen(this->STData->font, "Imperator", Color(255, 255, 255), 4.f, 9.f, 9.5f);
         this->RenderTextScreen(this->STData->font, "FREE", Color(255, 255, 255), 4.f, 17.5f, 9.5f);
 
-        this->RenderTextScreen(this->STData->font, "40 Vel", Color(255, 255, 255), 4.f, 1.f, 6.5f);
-        this->RenderTextScreen(this->STData->font, "20 Acl", Color(255, 255, 255), 4.f, 1.f, 5.5f);
+        this->RenderTextScreen(this->STData->font, "70 Vel", Color(255, 255, 255), 4.f, 1.f, 6.5f);
+        this->RenderTextScreen(this->STData->font, "70 Acl", Color(255, 255, 255), 4.f, 1.f, 5.5f);
         
         this->RenderTextScreen
         (
@@ -150,11 +150,11 @@ void StateShop::OnRender()
         lockUnlock = 1;
         break;
     case 1:
-        this->RenderTextScreen(this->STData->font, "Ship2", Color(255, 255, 255), 4.f, 9.5f, 9.5f);
+        this->RenderTextScreen(this->STData->font, "De Carrier", Color(255, 255, 255), 4.f, 9.f, 9.5f);
         this->RenderTextScreen(this->STData->font, "$1000", Color(255, 255, 255), 4.f, 17.5f, 9.5f);
 
-        this->RenderTextScreen(this->STData->font, "60 Vel", Color(255, 255, 255), 4.f, 1.f, 6.5f);
-        this->RenderTextScreen(this->STData->font, "15 Acl", Color(255, 255, 255), 4.f, 1.f, 5.5f);
+        this->RenderTextScreen(this->STData->font, "90 Vel", Color(255, 255, 255), 4.f, 1.f, 6.5f);
+        this->RenderTextScreen(this->STData->font, "60 Acl", Color(255, 255, 255), 4.f, 1.f, 5.5f);
 
         this->RenderTextScreen
         (
@@ -167,11 +167,11 @@ void StateShop::OnRender()
         lockUnlock = this->STData->ship2unlock;
         break;
     case 2:
-        this->RenderTextScreen(this->STData->font, "Ship3", Color(255, 255, 255), 4.f, 9.5f, 9.5f);
+        this->RenderTextScreen(this->STData->font, "SUPER MEGA ULTRA HYPER BEAM", Color(255, 255, 255), 4.f, 7.f, 9.5f);
         this->RenderTextScreen(this->STData->font, "$3000", Color(255, 255, 255), 4.f, 17.5f, 9.5f);
 
-        this->RenderTextScreen(this->STData->font, "80 Vel", Color(255, 255, 255), 4.f, 1.f, 6.5f);
-        this->RenderTextScreen(this->STData->font, "10 Acl", Color(255, 255, 255), 4.f, 1.f, 5.5f);
+        this->RenderTextScreen(this->STData->font, "120 Vel", Color(255, 255, 255), 4.f, 1.f, 6.5f);
+        this->RenderTextScreen(this->STData->font, "500 Acl", Color(255, 255, 255), 4.f, 1.f, 5.5f);
 
         this->RenderTextScreen
         (
