@@ -17,4 +17,3 @@ public:
 	void setplocation(Vector3 position);
 	std::vector<Particle> particles;
 };
-

@@ -268,6 +268,16 @@ void StateGame::OnUpdate(double dt)
 	Exhaust.GenerateParticles(dt);
 	Exhaust.ParticleUpdate(dt);
 	Exhaust.setplocation(spaceship->position);
+	//gbullet.GenerateBullets(dt);
+	//gbullet.BulletUpdate(dt);
+	//gbullet.setBulletLocation(spaceship->position);
+	
+	if ((bullet->timeAlive > 0.5) && (Application::IsKeyPressed(VK_SPACE)))
+	{
+		bullet->position = spaceship->position;
+		bullet->view = spaceship->view;
+		bullet->timeAlive = 0;
+	}
 
     std::map<std::string, entity*>::iterator it;
     for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
