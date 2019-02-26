@@ -287,11 +287,14 @@ void StateGame::OnUpdate(double dt)
 		break;
 	case 1:
 		Exhausts[0].setplocation(*spaceship, +0, -1.5, -7);
+		Exhausts[0].setRotatestatus(false);
+		Exhausts[0].setScale(3, 1, 1);
 		Exhausts[1].setplocation(*spaceship, +4, -3, -8);
 		Exhausts[2].setplocation(*spaceship, -4, -3, -8);
 		break;
 	case 2:
 		Exhausts[0].setplocation(*spaceship, +0, -2, -5);
+		Exhausts[0].setScale(3, 3, 1);
 		break;
 	}
 
@@ -554,15 +557,12 @@ void StateGame::OnRender()
 				(*this->modelStack).PushMatrix();
 				
 				(*this->modelStack).Translate(Exhausts[j].particles[i].Position.x, Exhausts[j].particles[i].Position.y, Exhausts[j].particles[i].Position.z);
-				(*this->modelStack).Rotate(rotateAngle * 10, spaceship->view.x, spaceship->view.y, spaceship->view.z);
+				if (Exhausts[j].Rotate)
+				{
+					(*this->modelStack).Rotate(rotateAngle * 10, spaceship->view.x, spaceship->view.y, spaceship->view.z);
+				}
 				(*this->modelStack).MultMatrix(cubeMult2);
-				// (*this->modelStack).Rotate(Exhausts[j].particles[i].Pitch, 1, 0, 0);
-				// (*this->modelStack).Translate(Exhausts[j].offset_x, 0, 0);
-				// (*this->modelStack).Rotate(Exhausts[j].particles[i].Yaw, 0, 1, 0);
-				// (*this->modelStack).Translate(0, Exhausts[j].offset_y, 0);
-				// (*this->modelStack).Rotate(Exhausts[j].particles[i].Roll, 0, 0, 1);
-				// (*this->modelStack).Translate(0, 0, Exhausts[j].offset_z);
-				// (*this->modelStack).Scale(1, 1, 1);
+				(*this->modelStack).Scale(Exhausts[j].x, Exhausts[j].y, Exhausts[j].z);
 				
 				RenderMesh(this->meshGetFast("particle"), false);
 				(*this->modelStack).PopMatrix();
