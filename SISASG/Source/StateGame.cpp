@@ -216,9 +216,13 @@ void StateGame::OnExit()
 	{
 		hoopPos.pop_back();
 	}
-	while (Exhausts.size()) // Clears the hoops
+	while (Exhausts.size()) // Clears particles
 	{
 		Exhausts.pop_back();
+	}
+	while (stars.size())
+	{
+		stars.pop_back();
 	}
 }
 
