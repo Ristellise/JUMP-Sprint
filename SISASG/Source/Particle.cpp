@@ -1,7 +1,4 @@
 #include "Particle.h"
-// temp
-// extends from entity, onupdate and such
-
 
 Particle::Particle()
 {
@@ -12,12 +9,9 @@ Particle::~Particle()
 {
 }
 
-void Particle::pSetlocation(Vector3 Position, float pitch, float yaw, float roll)
+void Particle::pSetlocation(Vector3 Position)
 {
 	this->Position = Position;
-	Pitch = pitch;
-	Yaw = yaw;
-	Roll = roll;
 	particleLifespan = 1.5f;
 }
 

@@ -286,9 +286,9 @@ void StateGame::OnUpdate(double dt)
 		Exhausts[1].setplocation(*spaceship, +2, -2, -11);
 		break;
 	case 1:
-		Exhausts[0].setplocation(*spaceship, +0, -2, -5);
-		Exhausts[1].setplocation(*spaceship, +2, -2, -5);
-		Exhausts[2].setplocation(*spaceship, -2, -2, -5);
+		Exhausts[0].setplocation(*spaceship, +0, -1.5, -7);
+		Exhausts[1].setplocation(*spaceship, +4, -3, -8);
+		Exhausts[2].setplocation(*spaceship, -4, -3, -8);
 		break;
 	case 2:
 		Exhausts[0].setplocation(*spaceship, +0, -2, -5);
@@ -297,7 +297,7 @@ void StateGame::OnUpdate(double dt)
 
 	for (unsigned int i = 0; Exhausts.size() > i; i++)
 	{
-		Exhausts[i].GenerateParticles(dt, spaceship->pitchTotal, spaceship->yawTotal, spaceship->rollTotal);
+		Exhausts[i].GenerateParticles(dt);
 		Exhausts[i].ParticleUpdate(dt);
 	}
 
