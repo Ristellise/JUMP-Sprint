@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\asteroidEnt.cpp" />
     <ClCompile Include="Source\AudioHandler.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\collision.cpp" />
@@ -185,7 +186,6 @@
     <ClCompile Include="Source\StateManager.cpp" />
     <ClCompile Include="Source\spaceship.cpp" />
     <ClCompile Include="Source\StateMenus.cpp" />
-    <ClCompile Include="Source\StatePlanet.cpp" />
     <ClCompile Include="Source\StateShop.cpp" />
     <ClCompile Include="Source\StateStat.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
@@ -193,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\asteroidEnt.h" />
     <ClInclude Include="Source\AudioHandler.h" />
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera3.h" />
@@ -221,7 +222,6 @@
     <ClInclude Include="Source\StateInit.h" />
     <ClInclude Include="Source\StateManager.h" />
     <ClInclude Include="Source\StateMenus.h" />
-    <ClInclude Include="Source\StatePlanet.h" />
     <ClInclude Include="Source\StateShop.h" />
     <ClInclude Include="Source\StateStat.h" />
     <ClInclude Include="Source\Uniforms.h" />
@@ -231,6 +231,7 @@
     <ClInclude Include="Source\WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="config.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

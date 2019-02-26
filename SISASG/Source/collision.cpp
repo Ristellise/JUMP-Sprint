@@ -3,14 +3,21 @@
 #include <limits>
 #include <unordered_set>
 #include <algorithm>
+#ifdef max
+#undef max
+#endif // max
+
+#ifdef min
+#undef min
+#endif // max
+
 struct ChunkPos
 {
     int Chnkx;
     int Chnky;
 };
 
-
-bool Separated(entity *Ent, entity *Ent2, Vector3 Axis)
+bool Separated(entity *Ent, entity *Ent2, Vector3 Axis, bool printseperations = false)
 {
     Vector3 Ent1V[] = {
     Ent->HBox.frontLeftUp,
@@ -50,6 +57,10 @@ bool Separated(entity *Ent, entity *Ent2, Vector3 Axis)
     }
     float longSpan = std::fmaxf(aMax, bMax) - std::fminf(aMin, bMin);
     float sumSpan = aMax - aMin + bMax - bMin;
+    if (printseperations)
+    {
+        std::cout << longSpan - sumSpan << "|" << (longSpan >= sumSpan) << std::endl;
+    }
     return longSpan >= sumSpan;
 }
 
@@ -69,42 +80,27 @@ ChunkPos getChunk(Vector3 pos)
 
 bool Intersects(entity *Ent1, entity *Ent2)
 {
-    if (Separated(Ent1, Ent2, Ent1->right))
+    if (Separated(Ent1, Ent2, Ent1->right) || Separated(Ent1, Ent2, Ent1->up) ||
+        Separated(Ent1, Ent2, Ent1->view) || Separated(Ent1, Ent2, Ent2->right) ||
+        Separated(Ent1, Ent2, Ent2->up) || Separated(Ent1, Ent2, Ent2->view) ||
+        Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->right)) ||
+        Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->up)) ||
+        Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->view)) ||
+        Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->right)) ||
+        Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->up)) ||
+        Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->view)) ||
+        Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->right)) ||
+        Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->up)) ||
+        Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->view))
+        )
+    {
         return false;
-    if (Separated(Ent1, Ent2, Ent1->up))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->view))
-        return false;
-
-    if (Separated(Ent1, Ent2, Ent2->right))
-        return false;
-    if (Separated(Ent1, Ent2, Ent2->up))
-        return false;
-    if (Separated(Ent1, Ent2, Ent2->view))
-        return false;
-
-    if (Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->right)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->up)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->view)))
-        return false;
-
-    if (Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->right)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->up)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->view)))
-        return false;
-
-    if (Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->right)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->up)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->view)))
-        return false;
-
-    return true;
+    }
+    else
+    {
+        return true;
+    }
+    
 }
 
 void Chunk::popEnt(entity * ent)
@@ -129,10 +125,6 @@ void collision::doCollisions(std::map<std::string, entity*> &entityList, double 
         Ent = it->second;
         if (Ent->physics)
         {
-            /*if (Ent->name != "spaceship")
-            {
-                std::cout << Ent->name.c_str() << std::endl;
-            }*/
             Ent->UpdateBBox();
         }
         
@@ -148,32 +140,53 @@ void collision::doCollisions(std::map<std::string, entity*> &entityList, double 
                 for (it2 = entityList.begin(); it2 != entityList.end(); it2++)
                 {
                     Ent2 = it2->second;
-                    if (Ent2->physics)
+                    if (Ent != Ent2)
                     {
-                        Ent2->UpdateBBox();
-                        this->updatingEnts += 1;
-                        if (Intersects(Ent, Ent2))
+                        
+                        if (Ent2->physics)
                         {
-                            float velocity = Ent->velocity + Ent2->velocity;
-                            if (Ent->velocity > Ent2->velocity)
-                            {
+                            Ent2->UpdateBBox();
+                            entity *EntNext = new entity;
+                            entity *Ent2Next = new entity;
+                            *EntNext = *Ent;
+                            *Ent2Next = *Ent2;
 
-                                Ent->velocity = velocity / 4;
-                                Ent2->velocity = velocity / 2;
-                                Ent2->view = Ent->view;
-                            }
-                            else if (Ent->velocity > Ent2->velocity)
+                            EntNext->position = Ent->position + (dt * Ent->velocity) * Ent->view;
+                            Ent2Next->position = Ent2->position + (dt * Ent2->velocity) * Ent2->view;
+                            this->updatingEnts += 1;
+                            if (Intersects(Ent, Ent2))
                             {
-                                Ent2->velocity = velocity / 4;
-                                Ent->velocity = velocity / 2;
-                                Ent->view = Ent2->view;
+                                float velocity = Ent->velocity + Ent2->velocity;
+                                if (Ent->velocity > Ent2->velocity)
+                                {
+                                    Ent->velocity = velocity / 4;
+                                    Ent2->velocity = velocity / 2;
+                                    if (Ent2->type != entityType::eT_Ship)
+                                    {
+                                        Ent2->view = Ent->view;
+                                    }
+                                    
+                                    Ent2->OnHit(Ent);
+                                }
+                                else
+                                {
+                                    Ent2->velocity = 50.0f;
+                                    Ent->velocity = velocity / 2;
+                                    if (Ent2->type != entityType::eT_Ship)
+                                    {
+                                        Ent2->view = Ent->view;
+                                    }
+                                    Ent->OnHit(Ent2);
+                                }
                             }
-
+                            // https://www.youtube.com/watch?v=fTVB2Sxa2Cs delete
+                            delete EntNext;
+                            delete Ent2Next;
                         }
                     }
+                    
                 }
             }
         }
-        
     }
 }

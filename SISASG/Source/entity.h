@@ -3,7 +3,7 @@
 
 #include "Vector3.h"
 #include "Mesh.h"
-
+#include "AudioHandler.h"
 enum entityType
 {
     eT_Object,
@@ -95,12 +95,15 @@ public:
     std::string *text;
     std::string name = "";
     Mesh *meshptr = nullptr;
+    SoundContainer* SoundSrc;
 
     entity();
     ~entity();
+    void InitSound(SoundContainer * Src, double * dt);
     virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
     virtual void Init(const Vector3 & pos, const Vector3 & target, const Vector3 & up, const Vector3 & size);
     virtual void Reset();
+    virtual void OnHit(entity* Ent);
     virtual void Update(double dt);
 
     void UpdateBBox();

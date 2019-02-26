@@ -18,6 +18,14 @@ spaceship::~spaceship()
 {
 }
 
+void spaceship::OnHit(entity * Ent)
+{
+    /*if (Ent->type == entityType::eT_Object)
+    {
+        this->SoundSrc->play3d();
+    }*/
+}
+
 void spaceship::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 {
     this->position = defaultPosition = pos;

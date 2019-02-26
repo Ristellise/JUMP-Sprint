@@ -13,7 +13,6 @@
 #include "StateMenus.h"
 #include "StateHangar.h"
 #include "StateShop.h"
-#include "StatePlanet.h"
 #include <stdexcept>
 
 
@@ -124,7 +123,6 @@ void SceneWorld::Init()
     StateMenus* menustate = new StateMenus();
     StateHangar* hangarstate = new StateHangar();
     StateShop* shopstate = new StateShop();
-    StatePlanet* planetstate = new StatePlanet();
     this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
     this->StateManInst.addAvailable(initInstance);
     this->StateManInst.addAvailable(statstate);
@@ -132,7 +130,6 @@ void SceneWorld::Init()
     this->StateManInst.addAvailable(menustate);
     this->StateManInst.addAvailable(hangarstate);
     this->StateManInst.addAvailable(shopstate);
-    this->StateManInst.addAvailable(planetstate);
     this->StateManInst.setCam(&camera);
     this->StateManInst.Init(this->m_parameters, &this->FLInstance, &this->Mouse);
 
@@ -242,6 +239,7 @@ void SceneWorld::Update(double dt)
     }
 
     this->StateManInst.Update(dt, this->l_window->handle);
+
 
     glfwGetWindowSize(l_window->handle, &WindowXpos, &WindowYpos); // gets the size of the window
     Mtx44 projection;

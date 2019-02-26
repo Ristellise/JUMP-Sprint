@@ -6,7 +6,7 @@
 #include "collision.h"
 #include "genericEntity.h"
 #include "Bullet.h"
-
+#include "asteroidEnt.h"
 
 StateGame::StateGame()
 {
@@ -201,6 +201,35 @@ void StateGame::OnEnter()
     current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
     this->entitylists->insert_or_assign("testcube",current);
     */
+    Hooplah hl;
+    unsigned int cnter = 0;
+    for (size_t i = 0; i < this->hoopPos.size(); i++)
+    {
+        hl = this->hoopPos[i];
+        int rand = mt19937Rand(0, 1);
+        for (size_t i = 0; i < rand; i++)
+        {
+            
+            asteroidEnt* AstEntity = new asteroidEnt();
+            //AstEntity->InitSound(this->STData->SoundSrcs["asteroidhit"]);
+            AstEntity->Boxsize;
+            AstEntity->Init(Vector3(hl.offset_x + mt19937Rand(-50.0f, 50.0f),
+                                    hl.offset_y + mt19937Rand(-50.0f, 50.0f),
+                                    hl.offset_z + mt19937Rand(-50.0f, 50.0f)), Vector3(0, 0, 1), Vector3(0, 1, 0));
+            AstEntity->size = Vector3(mt19937Rand(2.f, 3.0f), mt19937Rand(2.f, 3.0f), mt19937Rand(2.f, 3.0f));
+            AstEntity->type = entityType::eT_Object;
+            AstEntity->meshptr = this->meshGetFast("asteroid");
+            AstEntity->physics = true;
+            AstEntity->pitchTotal = mt19937Rand(.0f, 360.0f);
+            AstEntity->rollTotal = mt19937Rand(.0f, 360.0f);
+            AstEntity->yawTotal = mt19937Rand(.0f, 360.0f);
+            AstEntity->InitSound(this->STData->SoundSrcs["asteroidhit"], &this->STData->timeBegin);
+            AstEntity->Boxsize = BBoxDimensions(AstEntity->size.x * 3.0f, AstEntity->size.y  * 3.0f, AstEntity->size.z  * 3.0f);
+            this->entitylists->insert_or_assign("asteroid"+std::to_string(cnter), AstEntity);
+            cnter++;
+        }
+    }
+    
 
     Stars();
     std::cout << this->entitylists->size() << std::endl;
@@ -223,6 +252,20 @@ void StateGame::OnExit()
 	{
 		stars.pop_back();
 	}
+    std::map<std::string, entity*>::iterator it = this->entitylists->begin();
+    while (it != this->entitylists->end())
+    {
+        if (it->first.find("asteroid") != -1)
+        {
+            std::map<std::string, entity*>::iterator toErase = it;
+            ++it;
+            delete toErase->second;
+            this->entitylists->erase(toErase);
+        } 
+        else {
+            ++it;
+        }
+    }
 }
 
 void StateGame::OnUpdate(double dt)
@@ -299,30 +342,38 @@ void StateGame::OnUpdate(double dt)
 		break;
 	case 1:
 		Exhausts[0].setplocation(*spaceship, +0, -1.5, -7);
-		Exhausts[0].setRotatestatus(false);
+		Exhausts[0].setRotateangle(0);
 		Exhausts[0].setScale(3, 1, 1);
 		Exhausts[1].setplocation(*spaceship, +4, -3, -8);
 		Exhausts[2].setplocation(*spaceship, -4, -3, -8);
 		break;
 	case 2:
 		Exhausts[0].setplocation(*spaceship, +0, -2, -5);
+		Exhausts[0].setRotateangle(100);
 		Exhausts[0].setScale(3, 3, 1);
 		break;
 	}
 
 	for (unsigned int i = 0; Exhausts.size() > i; i++)
 	{
-		Exhausts[i].GenerateParticles(dt);
+		if (this->entityGetFast("spaceship")->velocity > 0)
+		{
+			Exhausts[i].GenerateParticles(dt);
+		}
 		Exhausts[i].ParticleUpdate(dt);
 	}
+
+    // Sound Updating
+    this->STData->VERYLOUD.set3dListenerPosition(spaceship->position.x, spaceship->position.y, spaceship->position.z);
+    this->STData->VERYLOUD.set3dListenerUp(spaceship->up.x, spaceship->up.y, spaceship->up.z);
+    this->STData->VERYLOUD.set3dListenerAt(spaceship->view.x, spaceship->view.y, spaceship->view.z);
+    this->STData->VERYLOUD.update3dAudio();
 
     std::map<std::string, entity*>::iterator it;
     for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
     {
         it->second->Update(dt);
-    } // Calling Updates.
-
-    //spaceship->Update(dt);
+    }
 
     this->state_cam->Update(dt, *spaceship);
 
@@ -335,6 +386,8 @@ void StateGame::OnUpdate(double dt)
         this->readyExitlocal = true;
         this->spawnState = "Menus";
     }
+
+    
 
 }
 
@@ -455,11 +508,10 @@ void StateGame::hoopGenerate()
 			}
         }
         break;
-    case(2):
+    case(2): // mars
         x = 100.f;
         z = 500.f;
         totalHoops = 7;
-
         for (int i = 0; i < totalHoops; i++)
         {
             hoopPos.push_back(ok);
@@ -496,7 +548,7 @@ void StateGame::hoopGenerate()
 			}
         }
         break;
-    case(3):
+    case(3): // jupiter
         x = 200.f;
         z = 400.f;
         totalHoops = 8;
@@ -553,27 +605,22 @@ void StateGame::OnRender()
         RenderMesh(this->meshGetFast("star"), false);
         (*this->modelStack).PopMatrix();
     }
-	if (this->entityGetFast("spaceship")->velocity > 0)
-	{
-		entity *spaceship = this->entityGetFast("spaceship");
 
-		for (unsigned int j = 0; Exhausts.size() > j; j++)
+	entity *spaceship = this->entityGetFast("spaceship");
+
+	for (unsigned int j = 0; Exhausts.size() > j; j++)
+	{
+		for (unsigned int i = 0; Exhausts[j].particles.size() > i; i++)
 		{
-			for (unsigned int i = 0; Exhausts[j].particles.size() > i; i++)
-			{
-				(*this->modelStack).PushMatrix();
+			(*this->modelStack).PushMatrix();
 				
-				(*this->modelStack).Translate(Exhausts[j].particles[i].Position.x, Exhausts[j].particles[i].Position.y, Exhausts[j].particles[i].Position.z);
-				if (Exhausts[j].Rotate)
-				{
-					(*this->modelStack).Rotate(rotateAngle * 10, spaceship->view.x, spaceship->view.y, spaceship->view.z);
-				}
-				(*this->modelStack).MultMatrix(cubeMult2);
-				(*this->modelStack).Scale(Exhausts[j].x, Exhausts[j].y, Exhausts[j].z);
+			(*this->modelStack).Translate(Exhausts[j].particles[i].Position.x, Exhausts[j].particles[i].Position.y, Exhausts[j].particles[i].Position.z);
+			(*this->modelStack).Rotate(Exhausts[j].pRotateAngle * 10 * rotateAngle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
+			(*this->modelStack).MultMatrix(cubeMult2);
+			(*this->modelStack).Scale(Exhausts[j].scale_x, Exhausts[j].scale_y, Exhausts[j].scale_z);
 				
-				RenderMesh(this->meshGetFast("particle"), false);
-				(*this->modelStack).PopMatrix();
-			}
+			RenderMesh(this->meshGetFast("particle"), false);
+			(*this->modelStack).PopMatrix();
 		}
 	}
 
@@ -611,6 +658,7 @@ void StateGame::OnRender()
             (*this->modelStack).Translate(buff->position.x, buff->position.y, buff->position.z);
             (*this->modelStack).Rotate(buff->yawTotal, 0, 1, 0);
             (*this->modelStack).Rotate(buff->pitchTotal, 1, 0, 0);
+            (*this->modelStack).Rotate(buff->rollTotal, 0, 0, 1);
             (*this->modelStack).Scale(buff->size.x, buff->size.y, buff->size.z);
             RenderMesh(buff->meshptr, true);
 
@@ -687,13 +735,34 @@ void StateGame::OnRender()
 		}
 		else if (buff->type == entityType::eT_Bullet)
 		{
+			/*
 			(*this->modelStack).PushMatrix();
 			(*this->modelStack).Translate(bullet->position.x,bullet->position.y,bullet->position.z);
 			RenderMesh(buff->meshptr, true);
 			(*this->modelStack).PopMatrix();
+			*/
 		}
 		(*this->modelStack).PopMatrix();
 
+        Vector3 temp[] = {
+            buff->HBox.backLeftDown,
+            buff->HBox.backLeftUp,
+            buff->HBox.backRightDown,
+            buff->HBox.backRightUp,
+            buff->HBox.frontLeftDown,
+            buff->HBox.frontLeftUp,
+            buff->HBox.frontRightDown,
+            buff->HBox.frontRightUp,
+        };
+
+        for (size_t i = 0; i < 8; i++)
+        {
+             (*this->modelStack).PushMatrix();
+             (*this->modelStack).Translate(temp[i].x, temp[i].y, temp[i].z);
+             (*this->modelStack).Scale(0.1f, 0.1f, 0.1f);
+             RenderMesh(this->meshGetFast("star"), false);
+             (*this->modelStack).PopMatrix();
+        }
         // (*this->modelStack).PushMatrix();
         // (*this->modelStack).Translate(0, 0, 0);
         // RenderMesh(this->meshGetFast("axes"), false);

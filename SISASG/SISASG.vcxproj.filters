@@ -82,9 +82,6 @@
     <ClCompile Include="Source\StateMenus.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
-    <ClCompile Include="Source\StatePlanet.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
     <ClCompile Include="Source\StateShop.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
@@ -105,6 +102,9 @@
     </ClCompile>
     <ClCompile Include="Source\WindowManager.cpp">
       <Filter>Source Files\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\asteroidEnt.cpp">
+      <Filter>Source Files\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,9 +192,6 @@
     <ClInclude Include="Source\StateMenus.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
-    <ClInclude Include="Source\StatePlanet.h">
-      <Filter>Header Files\States</Filter>
-    </ClInclude>
     <ClInclude Include="Source\StateShop.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
@@ -219,6 +216,7 @@
     <ClInclude Include="Source\WindowManager.h">
       <Filter>Source Files\Internal</Filter>
     </ClInclude>
+    <ClInclude Include="Source\asteroidEnt.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -254,5 +252,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="config.ini" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
