@@ -5,10 +5,14 @@ Hoops::Hoops()
 
 }
 
-bool Hoops::hoopsCheckXY(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad) // almost works just need to add z axis somehow so renamed to XY for now
+bool Hoops::hoopsCheckXY(int circle_x, int circle_y, int circle_z, int x, int y, int z, int rad, int rotationCircle)
 {
     // Compare radius of circle with distance of its center from given point
-    if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad && z == circle_z)
+	checkX = x - circle_x;
+	checkY = y - circle_y;
+	checkZ = z - circle_z;
+
+    if (checkX * checkX + checkY * checkY + checkZ * checkZ <= rad * rad)// && (rotationCircle == 0 || rotationCircle == 45 || rotationCircle == 90))
     {
         return true;
     }
