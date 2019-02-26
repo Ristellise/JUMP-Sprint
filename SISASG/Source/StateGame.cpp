@@ -443,7 +443,7 @@ void StateGame::hoopGenerate()
 			}
         }
         break;
-    case(2):
+    case(2): // mars
         x = 100.f;
         z = 500.f;
         totalHoops = 7;
@@ -484,7 +484,7 @@ void StateGame::hoopGenerate()
 			}
         }
         break;
-    case(3):
+    case(3): // jupiter
         x = 200.f;
         z = 400.f;
         totalHoops = 8;
