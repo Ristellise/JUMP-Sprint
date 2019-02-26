@@ -294,7 +294,7 @@ void StateGame::OnUpdate(double dt)
 		break;
 	case 2:
 		Exhausts[0].setplocation(*spaceship, +0, -2, -5);
-		Exhausts[0].setRotateangle(100);
+		Exhausts[0].setRotateangle(1);
 		Exhausts[0].setScale(3, 3, 1);
 		break;
 	}
