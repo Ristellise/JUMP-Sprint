@@ -2,7 +2,7 @@
 
 ParticleSystem::ParticleSystem()
 {
-	Rotate = true;
+	pRotateAngle = 1.f;
 	scale_x = 1;
 	scale_y = 1;
 	scale_z = 1;
@@ -47,9 +47,9 @@ void ParticleSystem::setplocation(entity refPoint,float offset_x,float offset_y,
 		+  refPoint.position;
 }
 
-void ParticleSystem::setRotatestatus(bool rtate)
+void ParticleSystem::setRotateangle(float rtate)
 {
-	this->Rotate = rtate;
+	this->pRotateAngle = rtate;
 }
 
 void ParticleSystem::setScale(float scale_x, float scale_y, float scale_z)

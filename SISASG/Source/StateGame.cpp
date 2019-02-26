@@ -287,20 +287,24 @@ void StateGame::OnUpdate(double dt)
 		break;
 	case 1:
 		Exhausts[0].setplocation(*spaceship, +0, -1.5, -7);
-		Exhausts[0].setRotatestatus(false);
+		Exhausts[0].setRotateangle(0);
 		Exhausts[0].setScale(3, 1, 1);
 		Exhausts[1].setplocation(*spaceship, +4, -3, -8);
 		Exhausts[2].setplocation(*spaceship, -4, -3, -8);
 		break;
 	case 2:
 		Exhausts[0].setplocation(*spaceship, +0, -2, -5);
+		Exhausts[0].setRotateangle(100);
 		Exhausts[0].setScale(3, 3, 1);
 		break;
 	}
 
 	for (unsigned int i = 0; Exhausts.size() > i; i++)
 	{
-		Exhausts[i].GenerateParticles(dt);
+		if (this->entityGetFast("spaceship")->velocity > 0)
+		{
+			Exhausts[i].GenerateParticles(dt);
+		}
 		Exhausts[i].ParticleUpdate(dt);
 	}
 
@@ -540,27 +544,22 @@ void StateGame::OnRender()
         RenderMesh(this->meshGetFast("star"), false);
         (*this->modelStack).PopMatrix();
     }
-	if (this->entityGetFast("spaceship")->velocity > 0)
-	{
-		entity *spaceship = this->entityGetFast("spaceship");
 
-		for (unsigned int j = 0; Exhausts.size() > j; j++)
+	entity *spaceship = this->entityGetFast("spaceship");
+
+	for (unsigned int j = 0; Exhausts.size() > j; j++)
+	{
+		for (unsigned int i = 0; Exhausts[j].particles.size() > i; i++)
 		{
-			for (unsigned int i = 0; Exhausts[j].particles.size() > i; i++)
-			{
-				(*this->modelStack).PushMatrix();
+			(*this->modelStack).PushMatrix();
 				
-				(*this->modelStack).Translate(Exhausts[j].particles[i].Position.x, Exhausts[j].particles[i].Position.y, Exhausts[j].particles[i].Position.z);
-				if (Exhausts[j].Rotate)
-				{
-					(*this->modelStack).Rotate(rotateAngle * 10, spaceship->view.x, spaceship->view.y, spaceship->view.z);
-				}
-				(*this->modelStack).MultMatrix(cubeMult2);
-				(*this->modelStack).Scale(Exhausts[j].scale_x, Exhausts[j].scale_y, Exhausts[j].scale_z);
+			(*this->modelStack).Translate(Exhausts[j].particles[i].Position.x, Exhausts[j].particles[i].Position.y, Exhausts[j].particles[i].Position.z);
+			(*this->modelStack).Rotate(Exhausts[j].pRotateAngle * 10 * rotateAngle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
+			(*this->modelStack).MultMatrix(cubeMult2);
+			(*this->modelStack).Scale(Exhausts[j].scale_x, Exhausts[j].scale_y, Exhausts[j].scale_z);
 				
-				RenderMesh(this->meshGetFast("particle"), false);
-				(*this->modelStack).PopMatrix();
-			}
+			RenderMesh(this->meshGetFast("particle"), false);
+			(*this->modelStack).PopMatrix();
 		}
 	}
 
