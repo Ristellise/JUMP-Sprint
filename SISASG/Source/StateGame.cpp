@@ -87,26 +87,26 @@ void StateGame::OnEnter()
     switch (this->STData->shipSelect)
     {
     case 0:
-        spaceship1->topSpeed = 100.0f;
-        spaceship1->fwdaccl = 2000.f;
-        spaceship1->bwdaccl = -20.f;
+        spaceship1->topSpeed = 70.0f;
+        spaceship1->fwdaccl = 70.f;
+        spaceship1->bwdaccl = -40.f;
         spaceship1->drift = 7.0f;
 		Exhausts.push_back(Exhaust);
 		Exhausts.push_back(Exhaust);
         break;
     case 1:
-        spaceship1->topSpeed = 60.0f;
-        spaceship1->fwdaccl = 15.f;
-        spaceship1->bwdaccl = -15.f;
+        spaceship1->topSpeed = 90.0f;
+        spaceship1->fwdaccl = 60.f;
+        spaceship1->bwdaccl = -30.f;
         spaceship1->drift = 10.f;
 		Exhausts.push_back(Exhaust);
 		Exhausts.push_back(Exhaust);
 		Exhausts.push_back(Exhaust);
         break;
     case 2:
-        spaceship1->topSpeed = 80.0f;
-        spaceship1->fwdaccl = 10.f;
-        spaceship1->bwdaccl = -10.f;
+        spaceship1->topSpeed = 120.0f;
+        spaceship1->fwdaccl = 500.f;
+        spaceship1->bwdaccl = -20.f;
         spaceship1->drift = 5.0f;
 		Exhausts.push_back(Exhaust);
         break;
@@ -264,13 +264,14 @@ void StateGame::OnUpdate(double dt)
 			elapsedTime = 0.0;
 		}
 
-		this->STData->moneyEarned = (unsigned long long)(points * elapsedTime);
-		this->STData->pointsPrev = points;
-		this->STData->timePrev = elapsedTime;
-		this->STData->moneyData += this->STData->moneyEarned;
-		this->readyExitlocal = true;
-		this->spawnState = "Stat";
-	}
+        this->STData->moneyEarned = (unsigned long long)(points * elapsedTime);
+
+        this->STData->pointsPrev = points;
+        this->STData->timePrev = elapsedTime;
+        this->STData->moneyData += this->STData->moneyEarned;
+        this->readyExitlocal = true;
+        this->spawnState = "Stat";
+    }
 
 	hoopChecker();
 	
