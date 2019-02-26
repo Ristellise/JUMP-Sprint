@@ -279,7 +279,7 @@ void StateGame::OnUpdate(double dt)
     hoopChecker();
 	Exhaust.GenerateParticles(dt);
 	Exhaust.ParticleUpdate(dt);
-	Exhaust.setplocation(spaceship->position);
+	Exhaust.setplocation(*spaceship, spaceship->position.x, spaceship->position.y,spaceship->position.z);
 	
 	//Bullet returning to ship after 0.5s of timeAlive
 	if ((bullet->timeAlive > 0.5) && (Application::IsKeyPressed(VK_SPACE)))
