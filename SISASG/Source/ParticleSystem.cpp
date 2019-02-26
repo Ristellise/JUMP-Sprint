@@ -8,12 +8,12 @@ ParticleSystem::~ParticleSystem()
 {
 }
 
-void ParticleSystem::GenerateParticles(double dt, float pitch, float yaw, float roll)
+void ParticleSystem::GenerateParticles(double dt)
 {
 	spawndelay -= dt;
 	if (0 >= spawndelay)
 	{
-		particle.pSetlocation(position, pitch, yaw, roll);
+		particle.pSetlocation(position);
 		particles.push_back(particle);
 		spawndelay = 0.001;
 	}
@@ -37,8 +37,8 @@ void ParticleSystem::ParticleUpdate(double dt)
 void ParticleSystem::setplocation(entity refPoint,float offset_x,float offset_y,float offset_z)
 {
 	this->position = 
-		(refPoint.right * offset_x) + 
-		(refPoint.up * offset_y) + 
-		(refPoint.view * offset_z) + 
-		refPoint.position;
+		  (refPoint.right * offset_x)
+		+ (refPoint.up * offset_y)
+		+ (refPoint.view * offset_z)
+		+  refPoint.position;
 }
