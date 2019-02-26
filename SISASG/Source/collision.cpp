@@ -17,7 +17,7 @@ struct ChunkPos
     int Chnky;
 };
 
-float sumComp(entity *Ent, entity *Ent2, Vector3 Axis)
+bool Separated(entity *Ent, entity *Ent2, Vector3 Axis, bool printseperations = false)
 {
     Vector3 Ent1V[] = {
     Ent->HBox.frontLeftUp,
@@ -57,52 +57,10 @@ float sumComp(entity *Ent, entity *Ent2, Vector3 Axis)
     }
     float longSpan = std::fmaxf(aMax, bMax) - std::fminf(aMin, bMin);
     float sumSpan = aMax - aMin + bMax - bMin;
-    std::cout << sumSpan << std::endl;
-    std::cout << longSpan << std::endl;
-    return 0;
-}
-
-bool Separated(entity *Ent, entity *Ent2, Vector3 Axis)
-{
-    Vector3 Ent1V[] = {
-    Ent->HBox.frontLeftUp,
-    Ent->HBox.frontLeftDown,
-    Ent->HBox.frontRightUp,
-    Ent->HBox.frontRightDown,
-
-    Ent->HBox.backLeftUp,
-    Ent->HBox.backLeftDown,
-    Ent->HBox.backRightUp,
-    Ent->HBox.backLeftDown };
-
-    Vector3 Ent2V[] = {
-    Ent2->HBox.frontLeftUp,
-    Ent2->HBox.frontLeftDown,
-    Ent2->HBox.frontRightUp,
-    Ent2->HBox.frontRightDown,
-
-    Ent2->HBox.backLeftUp,
-    Ent2->HBox.backLeftDown,
-    Ent2->HBox.backRightUp,
-    Ent2->HBox.backLeftDown };
-
-    float aMin = std::numeric_limits<float>::max();
-    float aMax = std::numeric_limits<float>::min();
-    float bMin = std::numeric_limits<float>::max();
-    float bMax = std::numeric_limits<float>::min();
-
-    for (size_t i = 0; i < 8; i++)
+    if (printseperations)
     {
-        float aDist = Ent1V[i].Dot(Axis);
-        aMin = aDist < aMin ? aDist : aMin;
-        aMax = aDist > aMax ? aDist : aMax;
-        float bDist = Ent2V[i].Dot(Axis);
-        bMin = bDist < bMin ? bDist : bMin;
-        bMax = bDist > bMax ? bDist : bMax;
+        std::cout << longSpan - sumSpan << "|" << (longSpan >= sumSpan) << std::endl;
     }
-    float longSpan = std::fmaxf(aMax, bMax) - std::fminf(aMin, bMin);
-    float sumSpan = aMax - aMin + bMax - bMin;
-    
     return longSpan >= sumSpan;
 }
 
@@ -122,41 +80,27 @@ ChunkPos getChunk(Vector3 pos)
 
 bool Intersects(entity *Ent1, entity *Ent2)
 {
-    if (Separated(Ent1, Ent2, Ent1->right))
+    if (Separated(Ent1, Ent2, Ent1->right) || Separated(Ent1, Ent2, Ent1->up) ||
+        Separated(Ent1, Ent2, Ent1->view) || Separated(Ent1, Ent2, Ent2->right) ||
+        Separated(Ent1, Ent2, Ent2->up) || Separated(Ent1, Ent2, Ent2->view) ||
+        Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->right)) ||
+        Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->up)) ||
+        Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->view)) ||
+        Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->right)) ||
+        Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->up)) ||
+        Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->view)) ||
+        Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->right)) ||
+        Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->up)) ||
+        Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->view))
+        )
+    {
         return false;
-    if (Separated(Ent1, Ent2, Ent1->up))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->view))
-        return false;
-
-    if (Separated(Ent1, Ent2, Ent2->right))
-        return false;
-    if (Separated(Ent1, Ent2, Ent2->up))
-        return false;
-    if (Separated(Ent1, Ent2, Ent2->view))
-        return false;
-
-    if (Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->right)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->up)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->right.Cross(Ent2->view)))
-        return false;
-
-    if (Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->right)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->up)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->up.Cross(Ent2->view)))
-        return false;
-
-    if (Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->right)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->up)))
-        return false;
-    if (Separated(Ent1, Ent2, Ent1->view.Cross(Ent2->view)))
-        return false;
-    return true;
+    }
+    else
+    {
+        return true;
+    }
+    
 }
 
 void Chunk::popEnt(entity * ent)
@@ -196,50 +140,53 @@ void collision::doCollisions(std::map<std::string, entity*> &entityList, double 
                 for (it2 = entityList.begin(); it2 != entityList.end(); it2++)
                 {
                     Ent2 = it2->second;
-                    if (Ent2->physics)
+                    if (Ent != Ent2)
                     {
-                        Ent2->UpdateBBox();
-                        this->updatingEnts += 1;
-                        if (Intersects(Ent, Ent2))
+                        
+                        if (Ent2->physics)
                         {
-                            float velocity = Ent->velocity + Ent2->velocity;
-                            if (Ent->velocity > Ent2->velocity)
-                            {
+                            Ent2->UpdateBBox();
+                            entity *EntNext = new entity;
+                            entity *Ent2Next = new entity;
+                            *EntNext = *Ent;
+                            *Ent2Next = *Ent2;
 
-                                Ent->velocity = velocity / 4;
-                                if (Ent->velocity <= 0.0f)
-                                {
-                                    Ent->velocity -= 10.0f*dt;
-                                }
-                                Ent2->velocity = velocity / 2;
-                                if (Ent2->velocity <= 0.0f)
-                                {
-                                    Ent2->velocity -= 10.0f*dt;
-                                }
-                                Ent2->view = Ent->view;
-                                Ent2->OnHit(Ent);
-                            }
-                            else if (Ent->velocity > Ent2->velocity)
+                            EntNext->position = Ent->position + (dt * Ent->velocity) * Ent->view;
+                            Ent2Next->position = Ent2->position + (dt * Ent2->velocity) * Ent2->view;
+                            this->updatingEnts += 1;
+                            if (Intersects(Ent, Ent2))
                             {
-                                Ent2->velocity = velocity / 4;
-                                if (Ent2->velocity <= 0.0f)
+                                float velocity = Ent->velocity + Ent2->velocity;
+                                if (Ent->velocity > Ent2->velocity)
                                 {
-                                    Ent2->velocity -= 10.0f*dt;
+                                    Ent->velocity = velocity / 4;
+                                    Ent2->velocity = velocity / 2;
+                                    if (Ent2->type != entityType::eT_Ship)
+                                    {
+                                        Ent2->view = Ent->view;
+                                    }
+                                    
+                                    Ent2->OnHit(Ent);
                                 }
-                                Ent->velocity = velocity / 2;
-                                if (Ent->velocity <= 0.0f)
+                                else
                                 {
-                                    Ent->velocity -= 10.0f*dt;
+                                    Ent2->velocity = 50.0f;
+                                    Ent->velocity = velocity / 2;
+                                    if (Ent2->type != entityType::eT_Ship)
+                                    {
+                                        Ent2->view = Ent->view;
+                                    }
+                                    Ent->OnHit(Ent2);
                                 }
-                                Ent->OnHit(Ent2);
-                                Ent->view = Ent2->view;
                             }
-
+                            // https://www.youtube.com/watch?v=fTVB2Sxa2Cs delete
+                            delete EntNext;
+                            delete Ent2Next;
                         }
                     }
+                    
                 }
             }
         }
-        
     }
 }

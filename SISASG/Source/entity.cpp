@@ -12,9 +12,10 @@ entity::~entity()
 {
 }
 
-void entity::InitSound(SoundContainer * Src)
+void entity::InitSound(SoundContainer * Src, double *dt)
 {
     this->SoundSrc = Src;
+    this->SoundSrc->setDTptr(dt);
     this->SoundSrc->updatePos(&this->position);
 }
 

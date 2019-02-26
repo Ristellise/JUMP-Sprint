@@ -62,9 +62,14 @@ void Stateinit::OnEnter()
     {
         
         std::vector<std::string> Sndbuff = SoundDef.getValueMulti(soundit->first, ',');
-        this->STData->SoundSrcs.insert_or_assign(soundit->first, new SoundContainer(&this->STData->VERYLOUD, Sndbuff[0], srcTypeFromExtension(Sndbuff[0], true)));
-        
+        bool stream = false;
         if (Sndbuff[1] == "1")
+        {
+            stream = true;
+        }
+        this->STData->SoundSrcs.insert_or_assign(soundit->first, new SoundContainer(&this->STData->VERYLOUD, Sndbuff[0], srcTypeFromExtension(Sndbuff[0], stream)));
+        
+        if (Sndbuff[2] == "1")
         {
             this->STData->SoundSrcs[soundit->first]->play(true, true);
             this->STData->SoundSrcs[soundit->first]->loopPos(std::stof(Sndbuff[2]));
@@ -110,4 +115,5 @@ void Stateinit::OnUpdate(double dt)
     {
         this->STData->bounceTime -= dt;
     }
+    this->STData->timeBegin += dt;
 }

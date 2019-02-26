@@ -37,6 +37,7 @@ struct StateData
     bool ship2unlock;
     bool ship3unlock;
     int shopSelect;
+    double timeBegin = 0.0;
 };
 
 class GState

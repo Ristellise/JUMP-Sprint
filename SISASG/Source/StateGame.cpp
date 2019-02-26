@@ -207,22 +207,25 @@ void StateGame::OnEnter()
     for (size_t i = 0; i < this->hoopPos.size(); i++)
     {
         hl = this->hoopPos[i];
-        int rand = mt19937Rand(1, 3);
+        int rand = mt19937Rand(0, 1);
         for (size_t i = 0; i < rand; i++)
         {
             
             asteroidEnt* AstEntity = new asteroidEnt();
             //AstEntity->InitSound(this->STData->SoundSrcs["asteroidhit"]);
             AstEntity->Boxsize;
-            AstEntity->Init(Vector3(hl.offset_x + mt19937Rand(10.0f, 50.0f),
-                                    hl.offset_y + mt19937Rand(10.0f, 50.0f), 
-                                    hl.offset_z + mt19937Rand(10.0f, 50.0f)), Vector3(0, 0, 1), Vector3(0, 1, 0));
-            AstEntity->size = Vector3(mt19937Rand(2.f, 5.0f), mt19937Rand(2.f, 5.0f), mt19937Rand(2.f, 5.0f));
+            AstEntity->Init(Vector3(hl.offset_x + mt19937Rand(-50.0f, 50.0f),
+                                    hl.offset_y + mt19937Rand(-50.0f, 50.0f),
+                                    hl.offset_z + mt19937Rand(-50.0f, 50.0f)), Vector3(0, 0, 1), Vector3(0, 1, 0));
+            AstEntity->size = Vector3(mt19937Rand(2.f, 3.0f), mt19937Rand(2.f, 3.0f), mt19937Rand(2.f, 3.0f));
             AstEntity->type = entityType::eT_Object;
             AstEntity->meshptr = this->meshGetFast("asteroid");
             AstEntity->physics = true;
-            AstEntity->InitSound(this->STData->SoundSrcs["asteroidhit"]);
-            AstEntity->Boxsize = BBoxDimensions(AstEntity->size.x * 5.0f, AstEntity->size.y  * 5.0f, AstEntity->size.z  * 5.0f);
+            AstEntity->pitchTotal = mt19937Rand(.0f, 360.0f);
+            AstEntity->rollTotal = mt19937Rand(.0f, 360.0f);
+            AstEntity->yawTotal = mt19937Rand(.0f, 360.0f);
+            AstEntity->InitSound(this->STData->SoundSrcs["asteroidhit"], &this->STData->timeBegin);
+            AstEntity->Boxsize = BBoxDimensions(AstEntity->size.x * 3.0f, AstEntity->size.y  * 3.0f, AstEntity->size.z  * 3.0f);
             this->entitylists->insert_or_assign("asteroid"+std::to_string(cnter), AstEntity);
             cnter++;
         }
@@ -250,6 +253,20 @@ void StateGame::OnExit()
 	{
 		stars.pop_back();
 	}
+    std::map<std::string, entity*>::iterator it = this->entitylists->begin();
+    while (it != this->entitylists->end())
+    {
+        if (it->first.find("asteroid") != -1)
+        {
+            std::map<std::string, entity*>::iterator toErase = it;
+            ++it;
+            delete toErase->second;
+            this->entitylists->erase(toErase);
+        } 
+        else {
+            ++it;
+        }
+    }
 }
 
 void StateGame::OnUpdate(double dt)
@@ -631,6 +648,7 @@ void StateGame::OnRender()
             (*this->modelStack).Translate(buff->position.x, buff->position.y, buff->position.z);
             (*this->modelStack).Rotate(buff->yawTotal, 0, 1, 0);
             (*this->modelStack).Rotate(buff->pitchTotal, 1, 0, 0);
+            (*this->modelStack).Rotate(buff->rollTotal, 0, 0, 1);
             (*this->modelStack).Scale(buff->size.x, buff->size.y, buff->size.z);
             RenderMesh(buff->meshptr, true);
 

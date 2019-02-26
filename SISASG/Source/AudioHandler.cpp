@@ -100,7 +100,7 @@ void SoundContainer::play(bool background, bool PausedInital)
     }
 }
 
-void SoundContainer::play3d(bool PausedInital)
+void SoundContainer::play3d(bool PausedInital,bool clocked)
 {
     if (this == nullptr)
     {
@@ -112,17 +112,40 @@ void SoundContainer::play3d(bool PausedInital)
         {
         case SourceType::ST_NORMAL:
         {
-            this->Sourcehandle = this->loudPtr->play3d(this->track, pos->x, pos->y, pos->z,0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+            if (clocked)
+            {
+                this->Sourcehandle = this->loudPtr->play3dClocked(*this->dt,this->track, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f);
+            }
+            else
+            {
+                this->Sourcehandle = this->loudPtr->play3d(this->track, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+            }
+            
             break;
         }
         case SourceType::ST_STREAM:
         {
-            this->Sourcehandle = this->loudPtr->play3d(this->trackStream, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+            if (clocked)
+            {
+                this->Sourcehandle = this->loudPtr->play3dClocked(*this->dt, this->trackStream, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f);
+            }
+            else
+            {
+                this->Sourcehandle = this->loudPtr->play3d(this->trackStream, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+            }
+            
             break;
         }
         case SourceType::ST_OPENMPT:
         {
-            this->Sourcehandle = this->loudPtr->play3d(this->mpttrack, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+            if (clocked)
+            {
+                this->Sourcehandle = this->loudPtr->play3dClocked(*this->dt, this->mpttrack, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f);
+            }
+            else
+            {
+                this->Sourcehandle = this->loudPtr->play3d(this->mpttrack, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+            }
             break;
         }
         default:
@@ -141,6 +164,11 @@ void SoundContainer::updatePos(Vector3 *pos)
 {
     this->pos = pos;
     this->loudPtr->set3dSourcePosition(this->Sourcehandle, this->pos->x, this->pos->y, this->pos->z);
+}
+
+void SoundContainer::setDTptr(double * dt)
+{
+    this->dt = dt;
 }
 
 void SoundContainer::loopPos(const float loopPoint)

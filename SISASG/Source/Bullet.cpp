@@ -45,11 +45,6 @@ void Bullet::Update(double dt)
 
 		this->target = spaceship1.target * (float)dt;
 
-		std::cout << spaceship1.position.x << std::endl; // 1
-		std::cout << spaceship1.position.y << std::endl; // 0
-		std::cout << spaceship1.position.z << std::endl; // 0
-		std::cout << spaceship1.target << std::endl; // [0, 0, 0]
-
 		this->timeAlive = 0;
 	}
 } //Spawn after a set amount of time, can only spawn with your holding down a key

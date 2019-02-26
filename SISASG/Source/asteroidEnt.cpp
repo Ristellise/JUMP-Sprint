@@ -10,7 +10,7 @@ void asteroidEnt::OnHit(entity * Ent)
 {
     if (Ent->type == entityType::eT_Ship)
     {
-        this->SoundSrc->play3d();
+        this->SoundSrc->play3d(false,true);
     }
  }
 
