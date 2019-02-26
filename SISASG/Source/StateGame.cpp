@@ -675,10 +675,12 @@ void StateGame::OnRender()
 		}
 		else if (buff->type == entityType::eT_Bullet)
 		{
+			/*
 			(*this->modelStack).PushMatrix();
 			(*this->modelStack).Translate(bullet->position.x,bullet->position.y,bullet->position.z);
 			RenderMesh(buff->meshptr, true);
 			(*this->modelStack).PopMatrix();
+			*/
 		}
 		(*this->modelStack).PopMatrix();
 
