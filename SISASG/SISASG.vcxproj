@@ -185,7 +185,6 @@
     <ClCompile Include="Source\StateManager.cpp" />
     <ClCompile Include="Source\spaceship.cpp" />
     <ClCompile Include="Source\StateMenus.cpp" />
-    <ClCompile Include="Source\StatePlanet.cpp" />
     <ClCompile Include="Source\StateShop.cpp" />
     <ClCompile Include="Source\StateStat.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
@@ -221,7 +220,6 @@
     <ClInclude Include="Source\StateInit.h" />
     <ClInclude Include="Source\StateManager.h" />
     <ClInclude Include="Source\StateMenus.h" />
-    <ClInclude Include="Source\StatePlanet.h" />
     <ClInclude Include="Source\StateShop.h" />
     <ClInclude Include="Source\StateStat.h" />
     <ClInclude Include="Source\Uniforms.h" />
