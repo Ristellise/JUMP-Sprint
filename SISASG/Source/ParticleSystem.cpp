@@ -3,9 +3,9 @@
 ParticleSystem::ParticleSystem()
 {
 	Rotate = true;
-	x = 1;
-	y = 1;
-	z = 1;
+	scale_x = 1;
+	scale_y = 1;
+	scale_z = 1;
 }
 
 ParticleSystem::~ParticleSystem()
@@ -19,7 +19,7 @@ void ParticleSystem::GenerateParticles(double dt)
 	{
 		particle.pSetlocation(position);
 		particles.push_back(particle);
-		spawndelay = spawndelaydefault;
+		spawndelay = spawndelaydefault; // see particlesystem.h for the spawndelaydefault
 	}
 }
 
@@ -52,11 +52,11 @@ void ParticleSystem::setRotatestatus(bool rtate)
 	this->Rotate = rtate;
 }
 
-void ParticleSystem::setScale(float x, float y, float z)
+void ParticleSystem::setScale(float scale_x, float scale_y, float scale_z)
 {
-	this->x = x;
-	this->y = y;
-	this->z = z;
+	this->scale_x = scale_x;
+	this->scale_y = scale_y;
+	this->scale_z = scale_z;
 }
 
 

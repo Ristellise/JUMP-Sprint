@@ -451,7 +451,6 @@ void StateGame::hoopGenerate()
         x = 100.f;
         z = 500.f;
         totalHoops = 7;
-
         for (int i = 0; i < totalHoops; i++)
         {
             hoopPos.push_back(ok);
@@ -562,7 +561,7 @@ void StateGame::OnRender()
 					(*this->modelStack).Rotate(rotateAngle * 10, spaceship->view.x, spaceship->view.y, spaceship->view.z);
 				}
 				(*this->modelStack).MultMatrix(cubeMult2);
-				(*this->modelStack).Scale(Exhausts[j].x, Exhausts[j].y, Exhausts[j].z);
+				(*this->modelStack).Scale(Exhausts[j].scale_x, Exhausts[j].scale_y, Exhausts[j].scale_z);
 				
 				RenderMesh(this->meshGetFast("particle"), false);
 				(*this->modelStack).PopMatrix();
