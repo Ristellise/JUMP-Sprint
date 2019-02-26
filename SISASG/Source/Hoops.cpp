@@ -12,7 +12,7 @@ bool Hoops::hoopsCheckXY(int circle_x, int circle_y, int circle_z, int x, int y,
 	checkY = y - circle_y;
 	checkZ = z - circle_z;
 
-    if (checkX * checkX + checkY * checkY + checkZ * checkZ <= rad * rad)// && (rotationCircle == 0 || rotationCircle == 45 || rotationCircle == 90))
+    if (checkX * checkX + checkY * checkY + checkZ * checkZ <= rad * rad)
     {
         return true;
     }
