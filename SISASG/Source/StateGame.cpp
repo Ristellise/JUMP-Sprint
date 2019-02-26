@@ -364,11 +364,6 @@ void StateGame::hoopGenerate()
     // venus
     float the_addition = 10.f, the_subtraction = 0.f;
 
-    /*if (ok.rotation == 90)
-    {
-        ok.rotation = 0;
-    }*/
-
 	switch (this->STData->planetSelect)
 	{
 	case(0): // venus
@@ -390,7 +385,7 @@ void StateGame::hoopGenerate()
 				the_subtraction += 20;
 			}
 
-            hoopPos[i].offset_z = z + the_addition * 10;
+            hoopPos[i].offset_z = z + the_addition * 15;
 
             the_addition += 30.f; // increases addition value so it keeps going
 
@@ -407,9 +402,9 @@ void StateGame::hoopGenerate()
 			}
         }
         break;
-    case(1):
-        x = 100.f;
-        z = 400.f;
+    case(1): // earth
+        x = 0.f;
+        z = 300.f;
         totalHoops = 6;
         for (int i = 0; i < totalHoops; i++)
         {
@@ -417,19 +412,20 @@ void StateGame::hoopGenerate()
             if (i > 2 && i < totalHoops)
             {
                 the_subtraction -= 30.f;
-                hoopPos[i].offset_x = x + the_subtraction * 5;
-                hoopPos[i].offset_y = y + the_subtraction;
-                hoopPos[i].offset_z = z + the_subtraction;
+                //hoopPos[i].offset_y = y + the_subtraction;
+				hoopPos[i].offset_x = x + the_addition * 2;
+                
             }
             else
             {
-                hoopPos[i].offset_x = x + the_addition;
-                hoopPos[i].offset_y = y + the_addition * 3;
-                hoopPos[i].offset_z = z + the_addition * 5;
+               // hoopPos[i].offset_y = y + the_addition * 3;
+				hoopPos[i].offset_x = x + the_subtraction * 2;
                 the_subtraction += 20.f;
             }
 
-            the_addition += 50.f; // increases addition value so it keeps going
+			hoopPos[i].offset_z = z + the_addition * 15;
+
+            the_addition += 30.f; // increases addition value so it keeps going
            
 			if (i > 0)
 			{
@@ -470,7 +466,7 @@ void StateGame::hoopGenerate()
                 the_subtraction += 50.f;
             }
 
-            hoopPos[i].offset_z = z + the_addition * 3;
+            hoopPos[i].offset_z = z + the_addition * 10;
             the_addition += 40.f; // increases addition value so it keeps going
 			if (i > 0)
 			{
@@ -492,21 +488,20 @@ void StateGame::hoopGenerate()
         for (int i = 0; i < totalHoops; i++)
         {
             hoopPos.push_back(ok);
-            if (i > 2 && i < totalHoops)
+            if (i > 2 && i < 6)
             {
-                the_subtraction -= 20.f;
-                hoopPos[i].offset_x = x - the_subtraction * 3.f;
-                hoopPos[i].offset_y = y - the_subtraction;
-                hoopPos[i].offset_z = z + the_subtraction * 2.f;
+				hoopPos[i].offset_x = x - the_subtraction * 1.5f;
+				hoopPos[i].offset_y = y + the_subtraction;
             }
             else
             {
-                hoopPos[i].offset_x = x + the_addition * 2.f;
-                hoopPos[i].offset_y = y - the_addition;
-                hoopPos[i].offset_z = z + the_addition * 3;
-                the_subtraction += 15.f;
+				hoopPos[i].offset_x = x - the_addition * 2;
+				hoopPos[i].offset_y = y + the_addition;
+				the_subtraction += 50.f;
             }
+			hoopPos[i].offset_z = z + the_addition * 5;
             the_addition += 60.f; // increases addition value so it keeps going
+
 			if (i > 0)
 			{
 				if (hoopPos[i - 1].rotation == 90)
