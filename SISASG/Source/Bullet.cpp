@@ -47,6 +47,4 @@ void Bullet::Update(double dt)
 
 		this->timeAlive = 0;
 	}
-} //Spawn after a set amount of time, can only spawn with your holding down a key
-// How to code it  to return to the position of the spaceship
-// VK_SPACE
+}

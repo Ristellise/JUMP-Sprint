@@ -337,7 +337,7 @@ void StateGame::OnUpdate(double dt)
 		break;
 	case 2:
 		Exhausts[0].setplocation(*spaceship, +0, -2, -5);
-		Exhausts[0].setRotateangle(100);
+		Exhausts[0].setRotateangle(1.0f);
 		Exhausts[0].setScale(3, 3, 1);
 		break;
 	}
@@ -723,12 +723,12 @@ void StateGame::OnRender()
 		}
 		else if (buff->type == entityType::eT_Bullet)
 		{
-			/*
+			
 			(*this->modelStack).PushMatrix();
 			(*this->modelStack).Translate(bullet->position.x,bullet->position.y,bullet->position.z);
 			RenderMesh(buff->meshptr, true);
 			(*this->modelStack).PopMatrix();
-			*/
+			
 		}
 		(*this->modelStack).PopMatrix();
 
