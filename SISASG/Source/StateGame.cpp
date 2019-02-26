@@ -492,17 +492,17 @@ void StateGame::hoopGenerate()
             hoopPos.push_back(ok);
             if (i > 2 && i < 6)
             {
-				hoopPos[i].offset_x = x - the_subtraction * 1.5f;
+				the_subtraction += 50.f;
+				hoopPos[i].offset_x = x - the_subtraction * 3.f;
 				hoopPos[i].offset_y = y + the_subtraction;
             }
             else
             {
-				hoopPos[i].offset_x = x - the_addition * 2;
+				hoopPos[i].offset_x = x - the_addition * 2.f;
 				hoopPos[i].offset_y = y + the_addition;
-				the_subtraction += 50.f;
+				the_addition += 60.f;
             }
 			hoopPos[i].offset_z = z + the_addition * 5;
-            the_addition += 60.f; // increases addition value so it keeps going
 
 			if (i > 0)
 			{
