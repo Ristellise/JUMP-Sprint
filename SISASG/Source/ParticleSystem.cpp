@@ -2,6 +2,10 @@
 
 ParticleSystem::ParticleSystem()
 {
+	Rotate = true;
+	x = 1;
+	y = 1;
+	z = 1;
 }
 
 ParticleSystem::~ParticleSystem()
@@ -15,7 +19,7 @@ void ParticleSystem::GenerateParticles(double dt)
 	{
 		particle.pSetlocation(position);
 		particles.push_back(particle);
-		spawndelay = 0.001;
+		spawndelay = spawndelaydefault;
 	}
 }
 
@@ -42,3 +46,18 @@ void ParticleSystem::setplocation(entity refPoint,float offset_x,float offset_y,
 		+ (refPoint.view * offset_z)
 		+  refPoint.position;
 }
+
+void ParticleSystem::setRotatestatus(bool rtate)
+{
+	this->Rotate = rtate;
+}
+
+void ParticleSystem::setScale(float x, float y, float z)
+{
+	this->x = x;
+	this->y = y;
+	this->z = z;
+}
+
+
+
