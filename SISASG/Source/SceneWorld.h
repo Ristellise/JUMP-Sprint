@@ -42,14 +42,9 @@ public:
     virtual void Init();
     virtual void Update(double dt);
     virtual void Render();
-    void RenderSkybox();
-    void RenderPlanets();
-    void RenderAsteroid();
-    // void RenderSpaceship();
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextScreen(Mesh * mesh, std::string text, Color color, float size, float x, float y);
     virtual void Exit();
-    // void SetWindow(GLFWwindow* window);
 
 private:
     WindowManager* l_window;
@@ -70,14 +65,12 @@ private:
     entity entity;
     std::string dtimestring = "";
     void RenderMesh(Mesh *mesh, bool enableLight);
-    //bool checkerAsteroid = false;
     int random;
-    int asteroidSpawn = 0;
     double lastkeypress = 0.0;
     float rotateAngle;
     float movement_asteroid1_z;
-    bool leg = false;
-    float legdance = 0.0f;
+    //bool leg = false;
+    //float legdance = 0.0f;
     StateManager StateManInst;
     Mesh* meshList[NUM_GEOMETRY];
 

@@ -20,7 +20,7 @@ public:
     ~spaceship();
     void setWindow(WindowManager* winMan) { this->winMan = winMan; };
     virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-
+    void OnHit(entity* Ent);
     virtual void Update(double dt);
 
     virtual void Reset();

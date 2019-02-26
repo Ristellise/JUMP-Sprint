@@ -6,7 +6,7 @@
 #include "collision.h"
 #include "genericEntity.h"
 #include "Bullet.h"
-
+#include "asteroidEnt.h"
 
 StateGame::StateGame()
 {
@@ -202,6 +202,35 @@ void StateGame::OnEnter()
     current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
     this->entitylists->insert_or_assign("testcube",current);
     */
+    Hooplah hl;
+    unsigned int cnter = 0;
+    for (size_t i = 0; i < this->hoopPos.size(); i++)
+    {
+        hl = this->hoopPos[i];
+        int rand = mt19937Rand(0, 1);
+        for (size_t i = 0; i < rand; i++)
+        {
+            
+            asteroidEnt* AstEntity = new asteroidEnt();
+            //AstEntity->InitSound(this->STData->SoundSrcs["asteroidhit"]);
+            AstEntity->Boxsize;
+            AstEntity->Init(Vector3(hl.offset_x + mt19937Rand(-50.0f, 50.0f),
+                                    hl.offset_y + mt19937Rand(-50.0f, 50.0f),
+                                    hl.offset_z + mt19937Rand(-50.0f, 50.0f)), Vector3(0, 0, 1), Vector3(0, 1, 0));
+            AstEntity->size = Vector3(mt19937Rand(2.f, 3.0f), mt19937Rand(2.f, 3.0f), mt19937Rand(2.f, 3.0f));
+            AstEntity->type = entityType::eT_Object;
+            AstEntity->meshptr = this->meshGetFast("asteroid");
+            AstEntity->physics = true;
+            AstEntity->pitchTotal = mt19937Rand(.0f, 360.0f);
+            AstEntity->rollTotal = mt19937Rand(.0f, 360.0f);
+            AstEntity->yawTotal = mt19937Rand(.0f, 360.0f);
+            AstEntity->InitSound(this->STData->SoundSrcs["asteroidhit"], &this->STData->timeBegin);
+            AstEntity->Boxsize = BBoxDimensions(AstEntity->size.x * 3.0f, AstEntity->size.y  * 3.0f, AstEntity->size.z  * 3.0f);
+            this->entitylists->insert_or_assign("asteroid"+std::to_string(cnter), AstEntity);
+            cnter++;
+        }
+    }
+    
 
     Stars();
     std::cout << this->entitylists->size() << std::endl;
@@ -224,6 +253,20 @@ void StateGame::OnExit()
 	{
 		stars.pop_back();
 	}
+    std::map<std::string, entity*>::iterator it = this->entitylists->begin();
+    while (it != this->entitylists->end())
+    {
+        if (it->first.find("asteroid") != -1)
+        {
+            std::map<std::string, entity*>::iterator toErase = it;
+            ++it;
+            delete toErase->second;
+            this->entitylists->erase(toErase);
+        } 
+        else {
+            ++it;
+        }
+    }
 }
 
 void StateGame::OnUpdate(double dt)
@@ -308,13 +351,17 @@ void StateGame::OnUpdate(double dt)
 		Exhausts[i].ParticleUpdate(dt);
 	}
 
+    // Sound Updating
+    this->STData->VERYLOUD.set3dListenerPosition(spaceship->position.x, spaceship->position.y, spaceship->position.z);
+    this->STData->VERYLOUD.set3dListenerUp(spaceship->up.x, spaceship->up.y, spaceship->up.z);
+    this->STData->VERYLOUD.set3dListenerAt(spaceship->view.x, spaceship->view.y, spaceship->view.z);
+    this->STData->VERYLOUD.update3dAudio();
+
     std::map<std::string, entity*>::iterator it;
     for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
     {
         it->second->Update(dt);
-    } // Calling Updates.
-
-    //spaceship->Update(dt);
+    }
 
     this->state_cam->Update(dt, *spaceship);
 
@@ -327,6 +374,8 @@ void StateGame::OnUpdate(double dt)
         this->readyExitlocal = true;
         this->spawnState = "Menus";
     }
+
+    
 
 }
 
@@ -597,6 +646,7 @@ void StateGame::OnRender()
             (*this->modelStack).Translate(buff->position.x, buff->position.y, buff->position.z);
             (*this->modelStack).Rotate(buff->yawTotal, 0, 1, 0);
             (*this->modelStack).Rotate(buff->pitchTotal, 1, 0, 0);
+            (*this->modelStack).Rotate(buff->rollTotal, 0, 0, 1);
             (*this->modelStack).Scale(buff->size.x, buff->size.y, buff->size.z);
             RenderMesh(buff->meshptr, true);
 
@@ -682,6 +732,25 @@ void StateGame::OnRender()
 		}
 		(*this->modelStack).PopMatrix();
 
+        Vector3 temp[] = {
+            buff->HBox.backLeftDown,
+            buff->HBox.backLeftUp,
+            buff->HBox.backRightDown,
+            buff->HBox.backRightUp,
+            buff->HBox.frontLeftDown,
+            buff->HBox.frontLeftUp,
+            buff->HBox.frontRightDown,
+            buff->HBox.frontRightUp,
+        };
+
+        for (size_t i = 0; i < 8; i++)
+        {
+             (*this->modelStack).PushMatrix();
+             (*this->modelStack).Translate(temp[i].x, temp[i].y, temp[i].z);
+             (*this->modelStack).Scale(0.1f, 0.1f, 0.1f);
+             RenderMesh(this->meshGetFast("star"), false);
+             (*this->modelStack).PopMatrix();
+        }
         // (*this->modelStack).PushMatrix();
         // (*this->modelStack).Translate(0, 0, 0);
         // RenderMesh(this->meshGetFast("axes"), false);

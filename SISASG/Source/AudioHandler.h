@@ -23,6 +23,8 @@ private:
     SoLoud::Wav track;
     SoLoud::Openmpt mpttrack;
     SoLoud::Soloud* loudPtr;
+    Vector3* pos;
+    double *dt;
     bool playing = false;
 public:
     void enableLooping() { this->loudPtr->setLooping(this->Sourcehandle, 1); };
@@ -34,8 +36,10 @@ public:
     ~SoundContainer();
     bool Load(std::string filename, SourceType srcType = SourceType::ST_NORMAL);
     void play(bool background = false, bool PausedInital = false);
+    void play3d(bool PausedInital = false, bool clocked = false);
     void stop(bool Now = true, float timeToLive = 2.0f);
-    void updatePos(const Vector3 pos);
+    void updatePos(Vector3 *pos);
+    void setDTptr(double *dt);
     void loopPos(const float loopPoint);
     bool isPlaying();
     void pause();
