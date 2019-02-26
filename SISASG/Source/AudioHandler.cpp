@@ -100,14 +100,47 @@ void SoundContainer::play(bool background, bool PausedInital)
     }
 }
 
+void SoundContainer::play3d(bool PausedInital)
+{
+    if (this == nullptr)
+    {
+        std::cout << "ERROR: SoundContainer is NULL. Check your code." << std::endl;
+    }
+    else
+    {
+        switch (this->srcType)
+        {
+        case SourceType::ST_NORMAL:
+        {
+            this->Sourcehandle = this->loudPtr->play3d(this->track, pos->x, pos->y, pos->z,0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+            break;
+        }
+        case SourceType::ST_STREAM:
+        {
+            this->Sourcehandle = this->loudPtr->play3d(this->trackStream, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+            break;
+        }
+        case SourceType::ST_OPENMPT:
+        {
+            this->Sourcehandle = this->loudPtr->play3d(this->mpttrack, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+            break;
+        }
+        default:
+            break;
+        }
+        this->playing = true;
+    }
+}
+
 void SoundContainer::stop(bool Now, float timeToLive)
 {
     this->DIE(Now, timeToLive);
 }
 
-void SoundContainer::updatePos(const Vector3 pos)
+void SoundContainer::updatePos(Vector3 *pos)
 {
-    this->loudPtr->set3dSourcePosition(this->Sourcehandle, pos.x, pos.y, pos.z);
+    this->pos = pos;
+    this->loudPtr->set3dSourcePosition(this->Sourcehandle, this->pos->x, this->pos->y, this->pos->z);
 }
 
 void SoundContainer::loopPos(const float loopPoint)

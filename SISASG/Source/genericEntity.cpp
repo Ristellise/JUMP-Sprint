@@ -36,6 +36,10 @@ void genericEntity::Reset()
     up.Set(0, 1, 0);
 }
 
+void genericEntity::OnHit(entity * Ent)
+{
+}
+
 void genericEntity::Update(double dt)
 {
     static const float ENTITY_SPEED = 20.f;
@@ -43,5 +47,9 @@ void genericEntity::Update(double dt)
     if (this->velocity > 0)
     {
         this->velocity -= (float)(1.0f * dt);
+    }
+    if (this->SoundSrc != nullptr)
+    {
+        this->SoundSrc->updatePos(&this->position);
     }
 }

@@ -12,6 +12,12 @@ entity::~entity()
 {
 }
 
+void entity::InitSound(SoundContainer * Src)
+{
+    this->SoundSrc = Src;
+    this->SoundSrc->updatePos(&this->position);
+}
+
 void entity::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 {
     this->position = pos;
@@ -35,6 +41,10 @@ void entity::Reset()
     position.Set(1, 0, 0);
     target.Set(0, 0, 0);
     up.Set(0, 1, 0);
+}
+
+void entity::OnHit(entity* Ent)
+{
 }
 
 void entity::Update(double dt)

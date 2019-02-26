@@ -243,6 +243,7 @@ void SceneWorld::Update(double dt)
 
     this->StateManInst.Update(dt, this->l_window->handle);
 
+
     glfwGetWindowSize(l_window->handle, &WindowXpos, &WindowYpos); // gets the size of the window
     Mtx44 projection;
     projection.SetToPerspective(45.f, (float)WindowXpos / WindowYpos, 0.1f, ViewRange); // Window Scaling
