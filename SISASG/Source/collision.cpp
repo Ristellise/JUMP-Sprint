@@ -151,8 +151,8 @@ void collision::doCollisions(std::map<std::string, entity*> &entityList, double 
                             *EntNext = *Ent;
                             *Ent2Next = *Ent2;
 
-                            EntNext->position = Ent->position + (dt * Ent->velocity) * Ent->view;
-                            Ent2Next->position = Ent2->position + (dt * Ent2->velocity) * Ent2->view;
+                            EntNext->position = Ent->position + (float)(dt * Ent->velocity) * Ent->view;
+                            Ent2Next->position = Ent2->position + (float)(dt * Ent2->velocity) * Ent2->view;
                             this->updatingEnts += 1;
                             if (Intersects(Ent, Ent2))
                             {
