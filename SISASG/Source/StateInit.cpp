@@ -59,7 +59,6 @@ void Stateinit::OnEnter()
     {
         
         std::vector<std::string> Sndbuff = SoundDef.getValueMulti(soundit->first, ',');
-        std::cout << soundit->first << std::endl;
         bool stream = false;
         if (Sndbuff[1] == "1")
         {
@@ -78,7 +77,6 @@ void Stateinit::OnEnter()
             {
                 this->STData->SoundSrcs[soundit->first]->loopPos(0.0f);
             }
-            std::cout << "Enabled looping for:" << soundit->first << std::endl;
             this->STData->SoundSrcs[soundit->first]->enableLooping();
         }
         else

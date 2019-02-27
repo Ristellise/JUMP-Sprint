@@ -13,7 +13,6 @@ StateMagic::~StateMagic()
 
 void StateMagic::OnEnter()
 {
-    std::cout << "Magisk Started." << std::endl;
     Mesh* buff;
     buff = MeshBuilder::GenerateQuad("sinon", Color(0, 0, 0), 1.0f);
     buff->textureID = LoadTGA("TGA/sinon.tga", GL_LINEAR, GL_REPEAT);
@@ -39,12 +38,10 @@ void StateMagic::OnUpdate(double dt)
         this->STData->SoundSrcs["title"] = this->STData->SoundSrcs["overcursed"];
         this->STData->SoundSrcs["title"]->enableLooping();
         this->STData->SoundSrcs["title"]->play(true);
-        std::cout << "Replaced Menu with an Overly Cursed music..." << std::endl;
         this->replaced = true;
     }
     if (seckey && this->winMan->IsKeyPressed('U') && !credits)
     {
-        std::cout << "Displaying Credits..." << std::endl;
         credits = true;
         this->STData->SoundSrcs["title"]->pause(1.0f);
         this->STData->SoundSrcs["forgetmenot"]->setSeek(0.0f);
@@ -52,7 +49,6 @@ void StateMagic::OnUpdate(double dt)
     }
     if (this->winMan->IsKeyPressed(GLFW_KEY_BACKSPACE) && credits)
     {
-        std::cout << "Hiding Credits..." << std::endl;
         this->STData->SoundSrcs["title"]->unpause(1.0f);
         
         this->STData->SoundSrcs["forgetmenot"]->pause(1.0f);
@@ -60,7 +56,6 @@ void StateMagic::OnUpdate(double dt)
     }
     else if (this->winMan->IsKeyPressed(GLFW_KEY_BACKSPACE) && seckey)
     {
-        std::cout << "Hiding Magic Scene..." << std::endl;
         this->readyExitlocal = true;
         this->STData->secreton = false;
         this->STData->SoundSrcs["forgetmenot"]->pause(1.0f);

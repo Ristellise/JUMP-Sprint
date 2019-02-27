@@ -116,7 +116,7 @@ void StateGame::OnEnter()
     spaceship1->Reset();
     this->entitylists->insert_or_assign("spaceship", spaceship1);
     
-	// Planets
+    // Planets
     meshbuffer = meshGetFast("planet");
     meshisnull = false;
     if (meshbuffer == nullptr)
@@ -148,10 +148,10 @@ void StateGame::OnEnter()
         this->meshList->push_back(meshbuffer);
     }
 
-	// Sun
-	meshbuffer = MeshBuilder::GenerateOBJ("sun", "OBJ//Planet sphere.obj")[0];
-	meshbuffer->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
-	this->meshList->push_back(meshbuffer);
+    // Sun
+    meshbuffer = MeshBuilder::GenerateOBJ("sun", "OBJ//Planet sphere.obj")[0];
+    meshbuffer->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
+    this->meshList->push_back(meshbuffer);
 
     // Hoops
     meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(0.f, 255.f, 255.f), 36, 36, 15, 1);
@@ -163,10 +163,10 @@ void StateGame::OnEnter()
     this->meshList->push_back(meshbuffer);
 
 
-	// Bullet
-	meshbuffer = MeshBuilder::GenerateOBJ("bullet", "OBJ//Bullet.obj")[0];
-	meshbuffer->textureID = LoadTGA("TGA//Bullet.tga", GL_LINEAR, GL_CLAMP);
-	this->meshList->push_back(meshbuffer);
+    // Bullet
+    meshbuffer = MeshBuilder::GenerateOBJ("bullet", "OBJ//Bullet.obj")[0];
+    meshbuffer->textureID = LoadTGA("TGA//Bullet.tga", GL_LINEAR, GL_CLAMP);
+    this->meshList->push_back(meshbuffer);
 
     bullet = new Bullet();
     bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
@@ -183,7 +183,7 @@ void StateGame::OnEnter()
     {
         hl = this->hoopPos[i];
 
-		// random between 0 and 2 asteroids per hoop
+        // random between 0 and 2 asteroids per hoop
         int rand = mt19937Rand(0, 2);
 
         for (size_t i = 0; i < (unsigned int)rand; i++)
@@ -211,8 +211,6 @@ void StateGame::OnEnter()
     
 
     Stars();
-    std::cout << this->entitylists->size() << std::endl;
-    std::cout << this->meshList->size() << std::endl;
 }
 
 void StateGame::OnExit()
@@ -259,42 +257,34 @@ void StateGame::OnUpdate(double dt)
 
     entity* spaceship1 = this->entityGetFast("spaceship");
 
-	if (spaceship1->velocity > spaceship1->topSpeed)
-	{
-		spaceship1->velocity = spaceship1->topSpeed;
-	}
+    if (spaceship1->velocity > spaceship1->topSpeed)
+    {
+        spaceship1->velocity = spaceship1->topSpeed;
+    }
 
-	if (spaceship1->velocity < -(spaceship1->topSpeed))
-	{
-		spaceship1->velocity = -(spaceship1->topSpeed);
-	}
+    if (spaceship1->velocity < -(spaceship1->topSpeed))
+    {
+        spaceship1->velocity = -(spaceship1->topSpeed);
+    }
 
     this->dgamestring = "POINTS OBTAINED: ";
     this->dgamestring += std::to_string(points);
     this->dgamestring += "\nTIME REMAINING: ";
     this->dgamestring += std::to_string(elapsedTime);
-	this->dgamestring += "\nASTEROIDS DESTOYED: ";
-	this->dgamestring += std::to_string(this->STData->asteroidSmashed);
+    this->dgamestring += "\nASTEROIDS DESTOYED: ";
+    this->dgamestring += std::to_string(this->STData->asteroidSmashed);
 
     this->dtimestring = "\n\nFPS: ";
     this->dtimestring += std::to_string(1.0f / dt);
-    this->dtimestring += "\nCAM X: ";
-    this->dtimestring += std::to_string(this->state_cam->position.x);
-    this->dtimestring += "\nCAM Y: ";
-    this->dtimestring += std::to_string(this->state_cam->position.y);
-    this->dtimestring += "\nCAM Z: ";
-    this->dtimestring += std::to_string(this->state_cam->position.z);
+    this->dtimestring += "\nX: ";
+    this->dtimestring += std::to_string(spaceship1->position.x);
+    this->dtimestring += "\nY: ";
+    this->dtimestring += std::to_string(spaceship1->position.y);
+    this->dtimestring += "\nZ: ";
+    this->dtimestring += std::to_string(spaceship1->position.z);
 
-    this->dtimestring += "\nVEL: ";
+    this->dtimestring += "\nSpeed: ";
     this->dtimestring += std::to_string(spaceship1->velocity);
-    this->dtimestring += "\nACL: ";
-    this->dtimestring += std::to_string(spaceship1->accl);
-    this->dtimestring += "\nPIT: ";
-    this->dtimestring += std::to_string(spaceship1->pitchTotal);
-    this->dtimestring += "\nYAW: ";
-    this->dtimestring += std::to_string(spaceship1->yawTotal);
-    this->dtimestring += "\nROL: ";
-    this->dtimestring += std::to_string(spaceship1->rollTotal);
 
     if (this->bulletBouce >= 0.0)
     {
@@ -309,7 +299,7 @@ void StateGame::OnUpdate(double dt)
         }
 
         this->STData->moneyEarned += (unsigned long long)(points * elapsedTime);
-		this->STData->moneyEarned += (unsigned long long)(this->STData->asteroidSmashed * 10.0);
+        this->STData->moneyEarned += (unsigned long long)(this->STData->asteroidSmashed * 10.0);
 
         this->STData->pointsPrev = points;
         this->STData->timePrev = elapsedTime;
@@ -335,7 +325,6 @@ void StateGame::OnUpdate(double dt)
         b->velocity += spaceship1->velocity;
         this->entitylists->insert_or_assign("bullet" + std::to_string(bcount), b);
         bcount++;
-        std::cout << "New bullet " << std::to_string(bcount) << std::endl;
     }
 
     hoopChecker();
@@ -455,7 +444,7 @@ void StateGame::hoopGenerate()
     switch (this->STData->planetSelect)
     {
     case(0): // venus
-		x = 20.f;
+        x = 20.f;
         z = 400.f;
         totalHoops = 5;
         for (int i = 0; i < totalHoops; i++)
@@ -611,13 +600,13 @@ void StateGame::hoopGenerate()
 
 void StateGame::OnRender()
 {
-	// Sun
-	(*this->modelStack).PushMatrix();
-	(*this->modelStack).Translate(0.f, 0.f, -9500.0f);
-	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
-	(*this->modelStack).Scale(600.f, 600.f, 600.f);
-	RenderMesh(this->meshGetFast("sun"), true);
-	(*this->modelStack).PopMatrix();
+    // Sun
+    (*this->modelStack).PushMatrix();
+    (*this->modelStack).Translate(0.f, 0.f, -9500.0f);
+    (*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
+    (*this->modelStack).Scale(600.f, 600.f, 600.f);
+    RenderMesh(this->meshGetFast("sun"), true);
+    (*this->modelStack).PopMatrix();
 
     // Stars
     for (int i = 0; starsnumber > i; i++)
@@ -758,23 +747,23 @@ void StateGame::OnRender()
                 RenderMesh(buff->meshptr, true);
                 (*this->modelStack).PopMatrix();
 
-			(*this->modelStack).PushMatrix();
-			(*this->modelStack).Translate(0, 0, 0);
-			RenderMesh(this->meshGetFast("axes"), false);
-			(*this->modelStack).PopMatrix();
-		}
-		else if (buff->type == entityType::eT_Bullet)
-		{
-			
-			(*this->modelStack).PushMatrix();
-			(*this->modelStack).Translate(buff->position.x,buff->position.y,buff->position.z);
-			(*this->modelStack).MultMatrix(cubeMult2);
-			(*this->modelStack).Scale(2.f, 2.f, 2.f);
-			RenderMesh(this->meshGetFast("bullet"), false);
-			(*this->modelStack).PopMatrix();
-			
-		}
-		(*this->modelStack).PopMatrix();
+            (*this->modelStack).PushMatrix();
+            (*this->modelStack).Translate(0, 0, 0);
+            RenderMesh(this->meshGetFast("axes"), false);
+            (*this->modelStack).PopMatrix();
+        }
+        else if (buff->type == entityType::eT_Bullet)
+        {
+            
+            (*this->modelStack).PushMatrix();
+            (*this->modelStack).Translate(buff->position.x,buff->position.y,buff->position.z);
+            (*this->modelStack).MultMatrix(cubeMult2);
+            (*this->modelStack).Scale(2.f, 2.f, 2.f);
+            RenderMesh(this->meshGetFast("bullet"), false);
+            (*this->modelStack).PopMatrix();
+            
+        }
+        (*this->modelStack).PopMatrix();
 
             ++it;
         }
