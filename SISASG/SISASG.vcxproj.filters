@@ -204,19 +204,21 @@
     <ClInclude Include="Source\Vertex.h">
       <Filter>Source Files\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Particle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ParticleSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\StateStat.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
     <ClInclude Include="Source\WindowManager.h">
       <Filter>Source Files\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="Source\asteroidEnt.h" />
+    <ClInclude Include="Source\ParticleSystem.h">
+      <Filter>Header Files\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Particle.h">
+      <Filter>Header Files\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\asteroidEnt.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
