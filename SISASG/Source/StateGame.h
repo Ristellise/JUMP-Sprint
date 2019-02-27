@@ -32,6 +32,8 @@ public:
     float rotateAngle;
     bool meshisnull;
 
+    unsigned int bcount = 0;
+
     std::string dtimestring;
     std::string dgamestring;
 

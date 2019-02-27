@@ -58,13 +58,12 @@ void StateShop::OnEnter()
     meshbuffer = MeshBuilder::GenerateQuad("sides", Color(0, 0, 0), 1);
     meshbuffer->textureID = LoadTGA("TGA//hangarsides.tga", GL_LINEAR, GL_CLAMP);
     this->meshList->push_back(meshbuffer);
-
-    this->STData->SoundSrcs.insert_or_assign("testTrack", new SoundContainer(&this->STData->VERYLOUD, "Audio/xmtest.xm", SourceType::ST_OPENMPT));
-    this->STData->SoundSrcs["testTrack"]->play(true);
+    this->STData->SoundSrcs["shopbg"]->unpause();
 }
 
 void StateShop::OnExit()
 {
+    this->STData->SoundSrcs["shopbg"]->pause(1.0f);
 }
 
 void StateShop::OnUpdate(double dt)

@@ -44,6 +44,10 @@ void entity::Reset()
     up.Set(0, 1, 0);
 }
 
+void entity::OnDelete(entity ** Ent)
+{
+}
+
 void entity::OnHit(entity* Ent)
 {
 }
