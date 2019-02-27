@@ -20,7 +20,9 @@ StateGame::~StateGame()
 
 void StateGame::OnEnter()
 {
-    this->STData->SoundSrcs["title"]->unpause();
+    this->STData->SoundSrcs["title"]->pause(1.0f);
+    this->STData->SoundSrcs["flying"]->setSeek(0.0f);
+    this->STData->SoundSrcs["flying"]->unpause(0.0f);
     hoopGenerate(); // Generates the locations of the hoops based on the selected planet
     this->STData->asteroidSmashed = 0;
     // Reset stats
@@ -243,6 +245,8 @@ void StateGame::OnExit()
             ++it;
         }
     }
+    
+    this->STData->SoundSrcs["flying"]->pause(1.0f);
 }
 
 void StateGame::OnUpdate(double dt)

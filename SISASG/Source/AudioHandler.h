@@ -25,6 +25,7 @@ private:
     SoLoud::Soloud* loudPtr;
     Vector3* pos;
     double *dt;
+    double vol = 0.5;
     bool playing = false;
 public:
     void enableLooping() { this->loudPtr->setLooping(this->Sourcehandle, 1); };
@@ -39,7 +40,9 @@ public:
     void play3d(bool PausedInital = false, bool clocked = false);
     void stop(bool Now = true, float timeToLive = 2.0f);
     void updatePos(Vector3 *pos);
+    void volume(double vol);
     void setDTptr(double *dt);
+    void setSeek(float seektime);
     void loopPos(const float loopPoint);
     bool isPlaying();
     void unpause(float fadein = 5.0f);

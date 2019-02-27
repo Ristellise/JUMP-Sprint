@@ -59,19 +59,20 @@ void Stateinit::OnEnter()
     {
         
         std::vector<std::string> Sndbuff = SoundDef.getValueMulti(soundit->first, ',');
+        std::cout << soundit->first << std::endl;
         bool stream = false;
         if (Sndbuff[1] == "1")
         {
             stream = true;
         }
         this->STData->SoundSrcs.insert_or_assign(soundit->first, new SoundContainer(&this->STData->VERYLOUD, Sndbuff[0], srcTypeFromExtension(Sndbuff[0], stream)));
-        
-        if (Sndbuff[2] == "1")
+        this->STData->SoundSrcs[soundit->first]->volume(std::stod(Sndbuff[2]));
+        if (Sndbuff[3] == "1")
         {
             this->STData->SoundSrcs[soundit->first]->play(true, true);
-            if (Sndbuff.size() > 3) // we do have a loop point we want to add.
+            if (Sndbuff.size() > 4) // we do have a loop point we want to add.
             {
-                this->STData->SoundSrcs[soundit->first]->loopPos(std::stof(Sndbuff[3]));
+                this->STData->SoundSrcs[soundit->first]->loopPos(std::stof(Sndbuff[4]));
             }
             else
             {
