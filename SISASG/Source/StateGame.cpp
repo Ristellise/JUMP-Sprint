@@ -186,7 +186,7 @@ void StateGame::OnEnter()
 		// random between 0 and 2 asteroids per hoop
         int rand = mt19937Rand(0, 2);
 
-        for (size_t i = 0; i < rand; i++)
+        for (size_t i = 0; i < (unsigned int)rand; i++)
         {
             
             asteroidEnt* AstEntity = new asteroidEnt();

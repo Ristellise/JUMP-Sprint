@@ -66,7 +66,7 @@ void Stateinit::OnEnter()
             stream = true;
         }
         this->STData->SoundSrcs.insert_or_assign(soundit->first, new SoundContainer(&this->STData->VERYLOUD, Sndbuff[0], srcTypeFromExtension(Sndbuff[0], stream)));
-        this->STData->SoundSrcs[soundit->first]->volume(std::stod(Sndbuff[2]));
+        this->STData->SoundSrcs[soundit->first]->volume(std::stof(Sndbuff[2]));
         if (Sndbuff[3] == "1")
         {
             this->STData->SoundSrcs[soundit->first]->play(true, true);
