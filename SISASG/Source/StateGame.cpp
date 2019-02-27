@@ -259,6 +259,16 @@ void StateGame::OnUpdate(double dt)
 
     entity* spaceship1 = this->entityGetFast("spaceship");
 
+	if (spaceship1->velocity > spaceship1->topSpeed)
+	{
+		spaceship1->velocity = spaceship1->topSpeed;
+	}
+
+	if (spaceship1->velocity < -(spaceship1->topSpeed))
+	{
+		spaceship1->velocity = -(spaceship1->topSpeed);
+	}
+
     this->dgamestring = "POINTS OBTAINED: ";
     this->dgamestring += std::to_string(points);
     this->dgamestring += "\nTIME REMAINING: ";
@@ -445,6 +455,7 @@ void StateGame::hoopGenerate()
     switch (this->STData->planetSelect)
     {
     case(0): // venus
+		x = 20.f;
         z = 400.f;
         totalHoops = 5;
         for (int i = 0; i < totalHoops; i++)
