@@ -164,7 +164,6 @@ void StateGame::OnEnter()
 	// Bullet
 	meshbuffer = MeshBuilder::GenerateOBJ("bullet", "OBJ//Bullet.obj")[0];
 	meshbuffer->textureID = LoadTGA("TGA//Bullet.tga", GL_LINEAR, GL_CLAMP);
-	
 	this->meshList->push_back(meshbuffer);
 
     bullet = new Bullet();
@@ -750,7 +749,7 @@ void StateGame::OnRender()
 		{
 			
 			(*this->modelStack).PushMatrix();
-			(*this->modelStack).Translate(bullet->position.x,bullet->position.y,bullet->position.z);
+			(*this->modelStack).Translate(buff->position.x,buff->position.y,buff->position.z);
 			(*this->modelStack).Rotate(10 * rotateAngle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
 			(*this->modelStack).MultMatrix(cubeMult2);
 			RenderMesh(this->meshGetFast("bullet"), true);
