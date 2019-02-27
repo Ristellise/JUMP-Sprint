@@ -31,7 +31,7 @@ void Bullet::Init(const Vector3 & pos, const Vector3 & target, const Vector3 & u
 
 void Bullet::Update(double dt)
 {
-    this->position += view * dt * this->bbSpeed;
+    this->position += view * (float)(dt * this->bbSpeed);
     this->timeAlive += dt; //Bullet Update is running, Bullet not updating.
     if (this->timeAlive > 5.0)
     {

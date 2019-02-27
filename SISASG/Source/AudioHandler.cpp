@@ -167,7 +167,7 @@ void SoundContainer::updatePos(Vector3 *pos)
     this->loudPtr->set3dSourcePosition(this->Sourcehandle, this->pos->x, this->pos->y, this->pos->z);
 }
 
-void SoundContainer::volume(double vol)
+void SoundContainer::volume(float vol)
 {
     this->vol = vol;
 }
