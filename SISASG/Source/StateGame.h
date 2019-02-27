@@ -49,6 +49,7 @@ public:
     SoundContainer audiosrc;
 
 	Bullet* bullet;
+	bool isFiring = false;
 
 	void OnEnter();
 	void OnExit();

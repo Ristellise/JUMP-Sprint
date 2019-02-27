@@ -31,22 +31,6 @@ void Bullet::Init(const Vector3 & pos, const Vector3 & target, const Vector3 & u
 
 void Bullet::Update(double dt)
 {
-	spaceship spaceship1;
-	Bullet bullet;
-
-	this->position += view * (float)dt * this->bbSpeed;
-	this->timeAlive += (float)dt; //Bullet Update is running, Bullet not updating.
-
-	if (this->timeAlive > 0.5)
-	{
-		this->position.x = spaceship1.position.x;
-		this->position.y = spaceship1.position.y;
-		this->position.z = spaceship1.position.z;
-
-		this->target = spaceship1.target * (float)dt;
-
-		this->timeAlive = 0;
-	}
-} //Spawn after a set amount of time, can only spawn with your holding down a key
-// How to code it  to return to the position of the spaceship
-// VK_SPACE
+	this->position += view * dt * this->bbSpeed;
+	this->timeAlive += dt; //Bullet Update is running, Bullet not updating.
+}

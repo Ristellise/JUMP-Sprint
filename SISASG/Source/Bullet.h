@@ -1,11 +1,11 @@
 #pragma once
 #ifndef BULLET_H
 #define BULLET_H
-#include "entity.h"
+#include "genericEntity.h"
 
-class Bullet : public entity
+class Bullet : public genericEntity
 {
-	double bbSpeed = 100.0;
+	double bbSpeed = 1200.0;
 public:
     Bullet();
     Bullet(const Vector3 & pos, const Vector3 & target, const Vector3 & up);

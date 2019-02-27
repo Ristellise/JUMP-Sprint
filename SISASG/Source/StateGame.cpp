@@ -192,7 +192,6 @@ void StateGame::OnEnter()
 	bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
 	bullet->type = entityType::eT_Bullet;
 	bullet->name = "bullet";
-	bullet->size = (1.f, 1.f, 1.f);
 	bullet->meshptr = this->meshGetFast("bullet");
 	this->entitylists->insert_or_assign("bullet", bullet); 
 
@@ -328,6 +327,19 @@ void StateGame::OnUpdate(double dt)
         this->spawnState = "Stat";
     }
 
+    hoopChecker();
+	Exhaust.GenerateParticles(dt);
+	Exhaust.ParticleUpdate(dt);
+	Exhaust.setplocation(*spaceship, spaceship->position.x, spaceship->position.y,spaceship->position.z);
+	
+	//Bullet returning to ship after 0.5s of timeAlive
+	if ((bullet->timeAlive > 0.5) && (Application::IsKeyPressed(VK_SPACE)))
+	{
+		bullet->position = spaceship->position;
+		bullet->view = spaceship->view;
+		bullet->timeAlive = 0;
+	}
+
 	hoopChecker();
 	
 	switch (STData->shipSelect)
@@ -345,7 +357,7 @@ void StateGame::OnUpdate(double dt)
 		break;
 	case 2:
 		Exhausts[0].setplocation(*spaceship, +0, -2, -5);
-		Exhausts[0].setRotateangle(1);
+		Exhausts[0].setRotateangle(1.0f);
 		Exhausts[0].setScale(3, 3, 1);
 		break;
 	}
@@ -739,12 +751,12 @@ void StateGame::OnRender()
 		}
 		else if (buff->type == entityType::eT_Bullet)
 		{
-			/*
+			
 			(*this->modelStack).PushMatrix();
 			(*this->modelStack).Translate(bullet->position.x,bullet->position.y,bullet->position.z);
 			RenderMesh(buff->meshptr, true);
 			(*this->modelStack).PopMatrix();
-			*/
+			
 		}
 		(*this->modelStack).PopMatrix();
 
