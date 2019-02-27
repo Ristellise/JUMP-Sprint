@@ -445,6 +445,7 @@ void StateGame::hoopGenerate()
     switch (this->STData->planetSelect)
     {
     case(0): // venus
+		x = 20.f;
         z = 400.f;
         totalHoops = 5;
         for (int i = 0; i < totalHoops; i++)
