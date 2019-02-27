@@ -22,7 +22,7 @@ void StateGame::OnEnter()
 {
     this->STData->SoundSrcs["title"]->unpause();
     hoopGenerate(); // Generates the locations of the hoops based on the selected planet
-
+    this->STData->asteroidSmashed = 0;
     // Reset stats
     this->STData->moneyEarned = 0;
     this->STData->pointsPrev = 0;
