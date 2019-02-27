@@ -67,6 +67,7 @@ private:
     float x = 20.f, y = 0.f, z = 180.f, rad = 14.f; // main coords starts at venus, inner radius of ring is 9
     int points = 0; // counts the points (fairly bugged)
     int totalHoops = 0;
+    double bulletBouce = 0.0;
 
     struct Hooplah
     {

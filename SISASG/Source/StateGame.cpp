@@ -151,42 +151,19 @@ void StateGame::OnEnter()
 	meshbuffer->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList->push_back(meshbuffer);
 
-    // Test Env
-    // meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
-    // meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
-    // this->meshList->push_back(meshbuffer);
-
-    // Audio src
-    // this->audiosrc.Load("Audio/testtrack.flac");
-
-    /*
-    // Test Env
-    entity* testEnv = new entity();
-    testEnv->Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
-    testEnv->type = entityType::eT_Environment;
-    testEnv->name = "testenv";
-    // testEnv->physics = true;
-    // testEnv->Boxsize = BBoxDimensions(0.f, 0.f, 0.f);
-    testEnv->meshptr = this->meshGetFast("testenv");
-    this->entitylists->insert_or_assign("testenv",testEnv);
-    */
-
     // Hoops
     meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(0.f, 255.f, 255.f), 36, 36, 15, 1);
     this->meshList->push_back(meshbuffer);
 
-	// Particle
-	meshbuffer = MeshBuilder::GenerateQuad("particle", Color(0.f, 255.f, 255.f), 1);
-	//meshbuffer = MeshBuilder::GenerateCube("particle", Color(0.f, 255.f, 255.f),1);
-	meshbuffer->textureID = LoadTGA("TGA//testparticle.tga", GL_LINEAR, GL_CLAMP);
-	this->meshList->push_back(meshbuffer);
+    // Particle
+    meshbuffer = MeshBuilder::GenerateQuad("particle", Color(0.f, 255.f, 255.f),1);
+    meshbuffer->textureID = LoadTGA("TGA//testparticle.tga", GL_LINEAR, GL_CLAMP);
+    this->meshList->push_back(meshbuffer);
 
-    // Axes
-    // meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
-    // this->meshList->push_back(meshbuffer);
 
 	// Bullet
-	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255.f, 255.f, 255.f), 18, 36, 1);
+	meshbuffer = MeshBuilder::GenerateOBJ("bullet", "OBJ//Bullet.obj")[0];
+	meshbuffer->textureID = LoadTGA("TGA//Bullet.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList->push_back(meshbuffer);
 
     bullet = new Bullet();
@@ -196,17 +173,6 @@ void StateGame::OnEnter()
     bullet->physics = true;
     bullet->name = "bullet";
     bullet->meshptr = this->meshGetFast("bullet");
-
-    // Collision tester
-    /*
-    entity* current = new genericEntity();
-    current->Init(Vector3(1.f, 24.f, 2.f), Vector3(0, 0, 1), Vector3(0, 1, 0));
-    current->type = entityType::eT_Object;
-    current->meshptr = this->meshGetFast("spaceship");
-    current->physics = true;
-    current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
-    this->entitylists->insert_or_assign("testcube",current);
-    */
 
     Hooplah hl;
     unsigned int cnter = 0;
@@ -313,6 +279,11 @@ void StateGame::OnUpdate(double dt)
     this->dtimestring += "\nROL: ";
     this->dtimestring += std::to_string(spaceship1->rollTotal);
 
+    if (this->bulletBouce >= 0.0)
+    {
+        this->bulletBouce -= dt;
+    }
+
     if ((points >= totalHoops) || (elapsedTime <= 0.0))
     {
         if (elapsedTime < 0.0)
@@ -333,10 +304,11 @@ void StateGame::OnUpdate(double dt)
     Exhaust.GenerateParticles(dt);
     Exhaust.ParticleUpdate(dt);
     Exhaust.setplocation(*spaceship1, spaceship1->position.x, spaceship1->position.y,spaceship1->position.z);
-    
+
     //Bullet returning to ship after 0.5s of timeAlive
-    if ((this->winMan->IsKeyPressed(GLFW_KEY_SPACE)))
+    if ((this->winMan->IsKeyPressed(GLFW_KEY_SPACE)) && (this->bulletBouce <= 0.0))
     {
+        this->bulletBouce = 0.3;
         Bullet* b = new Bullet;
         *b = *this->bullet;
         b->Init(spaceship1->position,spaceship1->target, spaceship1->up);
@@ -777,32 +749,15 @@ void StateGame::OnRender()
 		{
 			
 			(*this->modelStack).PushMatrix();
-			(*this->modelStack).Translate(bullet->position.x,bullet->position.y,bullet->position.z);
-			RenderMesh(buff->meshptr, false);
+			(*this->modelStack).Translate(buff->position.x,buff->position.y,buff->position.z);
+			(*this->modelStack).Rotate(10 * rotateAngle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
+			(*this->modelStack).MultMatrix(cubeMult2);
+			RenderMesh(this->meshGetFast("bullet"), true);
 			(*this->modelStack).PopMatrix();
 			
 		}
 		(*this->modelStack).PopMatrix();
 
-            Vector3 temp[] = {
-                buff->HBox.backLeftDown,
-                buff->HBox.backLeftUp,
-                buff->HBox.backRightDown,
-                buff->HBox.backRightUp,
-                buff->HBox.frontLeftDown,
-                buff->HBox.frontLeftUp,
-                buff->HBox.frontRightDown,
-                buff->HBox.frontRightUp,
-            };
-
-            for (size_t i = 0; i < 8; i++)
-            {
-                (*this->modelStack).PushMatrix();
-                (*this->modelStack).Translate(temp[i].x, temp[i].y, temp[i].z);
-                (*this->modelStack).Scale(0.1f, 0.1f, 0.1f);
-                RenderMesh(this->meshGetFast("star"), false);
-                (*this->modelStack).PopMatrix();
-            }
             ++it;
         }
     }

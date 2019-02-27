@@ -15,7 +15,7 @@ public:
     void ReleaseRecollections(entity ** bullet2);
     void OnDelete(entity **Ent);
     double timeAlive = 0;
-    double bbSpeed = 100.0;
+    double bbSpeed = 500.0;
     //bool BulletActive = false;
 };
 
