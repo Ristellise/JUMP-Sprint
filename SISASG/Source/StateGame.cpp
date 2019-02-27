@@ -175,7 +175,7 @@ void StateGame::OnEnter()
     this->meshList->push_back(meshbuffer);
 
 	// Particle
-	meshbuffer = MeshBuilder::GenerateQuad("particle", Color(0.f, 255.f, 255.f),1);
+	meshbuffer = MeshBuilder::GenerateQuad("particle", Color(0.f, 255.f, 255.f), 1);
 	//meshbuffer = MeshBuilder::GenerateCube("particle", Color(0.f, 255.f, 255.f),1);
 	meshbuffer->textureID = LoadTGA("TGA//testparticle.tga", GL_LINEAR, GL_CLAMP);
 	this->meshList->push_back(meshbuffer);
@@ -185,7 +185,7 @@ void StateGame::OnEnter()
     // this->meshList->push_back(meshbuffer);
 
 	// Bullet
-	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 1);
+	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255.f, 255.f, 255.f), 18, 36, 1);
 	this->meshList->push_back(meshbuffer);
 
 	bullet = new Bullet();
@@ -754,7 +754,7 @@ void StateGame::OnRender()
 			
 			(*this->modelStack).PushMatrix();
 			(*this->modelStack).Translate(bullet->position.x,bullet->position.y,bullet->position.z);
-			RenderMesh(buff->meshptr, true);
+			RenderMesh(buff->meshptr, false);
 			(*this->modelStack).PopMatrix();
 			
 		}
