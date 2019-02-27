@@ -38,10 +38,8 @@ void StateMenus::OnExit()
 
 void StateMenus::OnUpdate(double dt)
 {
-    this->dtimestring = "\nCURSOR: " + std::to_string(this->mouse->X) +
-        " | " + std::to_string(this->mouse->Y) +
-        " | SPEED: " + std::to_string(this->mouse->XChange) +
-        " | " + std::to_string(this->mouse->YChange);
+	this->dtimestring = "\nCURSOR: " + std::to_string(this->mouse->X) +
+		" | " + std::to_string(this->mouse->Y);
 
     static int rotateDir_asteroid = 1;
     static int rotateDir = -1;
