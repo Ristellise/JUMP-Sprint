@@ -20,7 +20,6 @@ StateGame::~StateGame()
 
 void StateGame::OnEnter()
 {
-
 	hoopGenerate(); // Generates the locations of the hoops based on the selected planet
 
     // Reset stats
@@ -114,7 +113,7 @@ void StateGame::OnEnter()
     spaceship1->Reset();
     this->entitylists->insert_or_assign("spaceship", spaceship1);
     
-
+	// Planets
     meshbuffer = meshGetFast("planet");
     meshisnull = false;
     if (meshbuffer == nullptr)
@@ -145,6 +144,11 @@ void StateGame::OnEnter()
     {
         this->meshList->push_back(meshbuffer);
     }
+
+	// Sun
+	meshbuffer = MeshBuilder::GenerateOBJ("sun", "OBJ//Planet sphere.obj")[0];
+	meshbuffer->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
+	this->meshList->push_back(meshbuffer);
 
     // Test Env
     // meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
@@ -202,12 +206,16 @@ void StateGame::OnEnter()
     current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
     this->entitylists->insert_or_assign("testcube",current);
     */
+
     Hooplah hl;
     unsigned int cnter = 0;
     for (size_t i = 0; i < this->hoopPos.size(); i++)
     {
         hl = this->hoopPos[i];
-        int rand = mt19937Rand(0, 1);
+
+		// random between 0 and 2 asteroids per hoop
+        int rand = mt19937Rand(0, 2);
+
         for (size_t i = 0; i < rand; i++)
         {
             
@@ -578,6 +586,14 @@ void StateGame::hoopGenerate()
 
 void StateGame::OnRender()
 {
+	// Sun
+	(*this->modelStack).PushMatrix();
+	(*this->modelStack).Translate(0.f, 0.f, -9500.0f);
+	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
+	(*this->modelStack).Scale(600.f, 600.f, 600.f);
+	RenderMesh(this->meshGetFast("sun"), true);
+	(*this->modelStack).PopMatrix();
+
     // Stars
     for (int i = 0; starsnumber > i; i++)
     {

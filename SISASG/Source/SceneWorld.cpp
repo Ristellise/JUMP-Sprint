@@ -98,8 +98,8 @@ void SceneWorld::Init()
     // Use our shader
     glUseProgram(m_programID);
 
-    lights[0].type = Light::LIGHT_DIRECTIONAL;
-    lights[0].position.Set(0.f, 0.f, -50.0f);
+    lights[0].type = Light::LIGHT_POINT;
+    lights[0].position.Set(0.f, 0.f, -6000.0f);
 
     glUniform1i(m_parameters[U_NUMLIGHTS], 8);
     glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
