@@ -5,14 +5,17 @@
 
 class Bullet : public genericEntity
 {
-	double bbSpeed = 1200.0;
+	
 public:
     Bullet();
     Bullet(const Vector3 & pos, const Vector3 & target, const Vector3 & up);
     ~Bullet();
     void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
     void Update(double dt);
-    float timeAlive = 0;
+    void ReleaseRecollections(entity ** bullet2);
+    void OnDelete(entity **Ent);
+    double timeAlive = 0;
+    double bbSpeed = 100.0;
     //bool BulletActive = false;
 };
 

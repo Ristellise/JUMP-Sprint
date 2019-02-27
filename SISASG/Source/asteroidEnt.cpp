@@ -17,4 +17,5 @@ void asteroidEnt::OnHit(entity * Ent)
 
 asteroidEnt::~asteroidEnt()
 {
+    this->SoundSrc->play3d(false, true);
 }

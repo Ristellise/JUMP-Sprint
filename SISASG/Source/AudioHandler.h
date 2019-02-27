@@ -42,7 +42,8 @@ public:
     void setDTptr(double *dt);
     void loopPos(const float loopPoint);
     bool isPlaying();
-    void pause();
+    void unpause(float fadein = 5.0f);
+    void pause(float fadeout = 5.0f);
     bool DIE(bool Now, float timeToLive = 1.0f);
     void SetLoudInstance(SoLoud::Soloud* loudPtr);
     // SoLoud::Wav get();

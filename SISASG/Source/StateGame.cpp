@@ -20,9 +20,9 @@ StateGame::~StateGame()
 
 void StateGame::OnEnter()
 {
-
-	hoopGenerate(); // Generates the locations of the hoops based on the selected planet
-
+    this->STData->SoundSrcs["title"]->unpause();
+    hoopGenerate(); // Generates the locations of the hoops based on the selected planet
+    this->STData->asteroidSmashed = 0;
     // Reset stats
     this->STData->moneyEarned = 0;
     this->STData->pointsPrev = 0;
@@ -91,30 +91,30 @@ void StateGame::OnEnter()
         spaceship1->fwdaccl = 70.f;
         spaceship1->bwdaccl = -40.f;
         spaceship1->drift = 7.0f;
-		Exhausts.push_back(Exhaust);
-		Exhausts.push_back(Exhaust);
+        Exhausts.push_back(Exhaust);
+        Exhausts.push_back(Exhaust);
         break;
     case 1:
         spaceship1->topSpeed = 90.0f;
         spaceship1->fwdaccl = 60.f;
         spaceship1->bwdaccl = -30.f;
         spaceship1->drift = 10.f;
-		Exhausts.push_back(Exhaust);
-		Exhausts.push_back(Exhaust);
-		Exhausts.push_back(Exhaust);
+        Exhausts.push_back(Exhaust);
+        Exhausts.push_back(Exhaust);
+        Exhausts.push_back(Exhaust);
         break;
     case 2:
         spaceship1->topSpeed = 120.0f;
         spaceship1->fwdaccl = 500.f;
         spaceship1->bwdaccl = -20.f;
         spaceship1->drift = 5.0f;
-		Exhausts.push_back(Exhaust);
+        Exhausts.push_back(Exhaust);
         break;
     }
     spaceship1->Reset();
     this->entitylists->insert_or_assign("spaceship", spaceship1);
     
-
+	// Planets
     meshbuffer = meshGetFast("planet");
     meshisnull = false;
     if (meshbuffer == nullptr)
@@ -146,6 +146,11 @@ void StateGame::OnEnter()
         this->meshList->push_back(meshbuffer);
     }
 
+	// Sun
+	meshbuffer = MeshBuilder::GenerateOBJ("sun", "OBJ//Planet sphere.obj")[0];
+	meshbuffer->textureID = LoadTGA("TGA//sun texture.tga", GL_LINEAR, GL_CLAMP);
+	this->meshList->push_back(meshbuffer);
+
     // Test Env
     // meshbuffer = MeshBuilder::GenerateOBJ("testenv", "OBJ//TestEnv.obj")[0];
     // meshbuffer->textureID = LoadTGA("TGA//TestEnv.tga", GL_LINEAR, GL_CLAMP);
@@ -170,11 +175,11 @@ void StateGame::OnEnter()
     meshbuffer = MeshBuilder::GenerateTorus("hoop", Color(0.f, 255.f, 255.f), 36, 36, 15, 1);
     this->meshList->push_back(meshbuffer);
 
-	// Particle
-	meshbuffer = MeshBuilder::GenerateQuad("particle", Color(0.f, 255.f, 255.f),1);
-	//meshbuffer = MeshBuilder::GenerateCube("particle", Color(0.f, 255.f, 255.f),1);
-	meshbuffer->textureID = LoadTGA("TGA//testparticle.tga", GL_LINEAR, GL_CLAMP);
-	this->meshList->push_back(meshbuffer);
+    // Particle
+    meshbuffer = MeshBuilder::GenerateQuad("particle", Color(0.f, 255.f, 255.f),1);
+    //meshbuffer = MeshBuilder::GenerateCube("particle", Color(0.f, 255.f, 255.f),1);
+    meshbuffer->textureID = LoadTGA("TGA//testparticle.tga", GL_LINEAR, GL_CLAMP);
+    this->meshList->push_back(meshbuffer);
 
     // Axes
     // meshbuffer = MeshBuilder::GenerateAxes("axes", 200, 200, 200);
@@ -186,12 +191,13 @@ void StateGame::OnEnter()
 	
 	this->meshList->push_back(meshbuffer);
 
-	bullet = new Bullet();
-	bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
-	bullet->type = entityType::eT_Bullet;
-	bullet->name = "bullet";
-	bullet->meshptr = this->meshGetFast("bullet");
-	this->entitylists->insert_or_assign("bullet", bullet); 
+    bullet = new Bullet();
+    bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
+    bullet->type = entityType::eT_Bullet;
+    bullet->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
+    bullet->physics = true;
+    bullet->name = "bullet";
+    bullet->meshptr = this->meshGetFast("bullet");
 
     // Collision tester
     /*
@@ -203,12 +209,16 @@ void StateGame::OnEnter()
     current->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
     this->entitylists->insert_or_assign("testcube",current);
     */
+
     Hooplah hl;
     unsigned int cnter = 0;
     for (size_t i = 0; i < this->hoopPos.size(); i++)
     {
         hl = this->hoopPos[i];
-        int rand = mt19937Rand(0, 1);
+
+		// random between 0 and 2 asteroids per hoop
+        int rand = mt19937Rand(0, 2);
+
         for (size_t i = 0; i < rand; i++)
         {
             
@@ -240,24 +250,24 @@ void StateGame::OnEnter()
 
 void StateGame::OnExit()
 {
-	delete this->entitylists->find("spaceship")->second;
-	this->entitylists->erase("spaceship");
-	while (hoopPos.size()) // Clears the hoops
-	{
-		hoopPos.pop_back();
-	}
-	while (Exhausts.size()) // Clears particles
-	{
-		Exhausts.pop_back();
-	}
-	while (stars.size())
-	{
-		stars.pop_back();
-	}
+    delete this->entitylists->find("spaceship")->second;
+    this->entitylists->erase("spaceship");
+    while (hoopPos.size()) // Clears the hoops
+    {
+        hoopPos.pop_back();
+    }
+    while (Exhausts.size()) // Clears particles
+    {
+        Exhausts.pop_back();
+    }
+    while (stars.size())
+    {
+        stars.pop_back();
+    }
     std::map<std::string, entity*>::iterator it = this->entitylists->begin();
     while (it != this->entitylists->end())
     {
-        if (it->first.find("asteroid") != -1)
+        if (it->first.find("asteroid") != -1 || it->first.find("bullet") != -1)
         {
             std::map<std::string, entity*>::iterator toErase = it;
             ++it;
@@ -272,47 +282,47 @@ void StateGame::OnExit()
 
 void StateGame::OnUpdate(double dt)
 {
-	elapsedTime -= dt;
+    elapsedTime -= dt;
 
-	static int rotateDir = 1;
-	static const float ROTATE_SPEED = 10.f;
-	rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
+    static int rotateDir = 1;
+    static const float ROTATE_SPEED = 10.f;
+    rotateAngle += (float)(rotateDir * ROTATE_SPEED * dt);
 
-	entity* spaceship = this->entityGetFast("spaceship");
+    entity* spaceship1 = this->entityGetFast("spaceship");
 
-	this->dgamestring = "POINTS OBTAINED: ";
-	this->dgamestring += std::to_string(points);
-	this->dgamestring += "\nTIME REMAINING: ";
-	this->dgamestring += std::to_string(elapsedTime);
+    this->dgamestring = "POINTS OBTAINED: ";
+    this->dgamestring += std::to_string(points);
+    this->dgamestring += "\nTIME REMAINING: ";
+    this->dgamestring += std::to_string(elapsedTime);
 
-	this->dtimestring = "\n\nFPS: ";
-	this->dtimestring += std::to_string(1.0f / dt);
-	this->dtimestring += "\nCAM X: ";
-	this->dtimestring += std::to_string(this->state_cam->position.x);
-	this->dtimestring += "\nCAM Y: ";
-	this->dtimestring += std::to_string(this->state_cam->position.y);
-	this->dtimestring += "\nCAM Z: ";
-	this->dtimestring += std::to_string(this->state_cam->position.z);
+    this->dtimestring = "\n\nFPS: ";
+    this->dtimestring += std::to_string(1.0f / dt);
+    this->dtimestring += "\nCAM X: ";
+    this->dtimestring += std::to_string(this->state_cam->position.x);
+    this->dtimestring += "\nCAM Y: ";
+    this->dtimestring += std::to_string(this->state_cam->position.y);
+    this->dtimestring += "\nCAM Z: ";
+    this->dtimestring += std::to_string(this->state_cam->position.z);
 
-	this->dtimestring += "\nVEL: ";
-	this->dtimestring += std::to_string(spaceship->velocity);
-	this->dtimestring += "\nACL: ";
-	this->dtimestring += std::to_string(spaceship->accl);
-	this->dtimestring += "\nPIT: ";
-	this->dtimestring += std::to_string(spaceship->pitchTotal);
-	this->dtimestring += "\nYAW: ";
-	this->dtimestring += std::to_string(spaceship->yawTotal);
-	this->dtimestring += "\nROL: ";
-	this->dtimestring += std::to_string(spaceship->rollTotal);
+    this->dtimestring += "\nVEL: ";
+    this->dtimestring += std::to_string(spaceship1->velocity);
+    this->dtimestring += "\nACL: ";
+    this->dtimestring += std::to_string(spaceship1->accl);
+    this->dtimestring += "\nPIT: ";
+    this->dtimestring += std::to_string(spaceship1->pitchTotal);
+    this->dtimestring += "\nYAW: ";
+    this->dtimestring += std::to_string(spaceship1->yawTotal);
+    this->dtimestring += "\nROL: ";
+    this->dtimestring += std::to_string(spaceship1->rollTotal);
 
-	if ((points >= totalHoops) || (elapsedTime <= 0.0))
-	{
-		if (elapsedTime < 0.0)
-		{
-			elapsedTime = 0.0;
-		}
+    if ((points >= totalHoops) || (elapsedTime <= 0.0))
+    {
+        if (elapsedTime < 0.0)
+        {
+            elapsedTime = 0.0;
+        }
 
-        this->STData->moneyEarned = (unsigned long long)(points * elapsedTime);
+        this->STData->moneyEarned += (unsigned long long)(points * elapsedTime);
 
         this->STData->pointsPrev = points;
         this->STData->timePrev = elapsedTime;
@@ -322,62 +332,83 @@ void StateGame::OnUpdate(double dt)
     }
 
     hoopChecker();
-	Exhaust.GenerateParticles(dt);
-	Exhaust.ParticleUpdate(dt);
-	Exhaust.setplocation(*spaceship, spaceship->position.x, spaceship->position.y,spaceship->position.z);
-	
-	//Bullet returning to ship after 0.5s of timeAlive
-	if ((bullet->timeAlive > 0.5) && (Application::IsKeyPressed(VK_SPACE)))
-	{
-		bullet->position = spaceship->position;
-		bullet->view = spaceship->view;
-		bullet->timeAlive = 0;
-	}
-
-	hoopChecker();
-	
-	switch (STData->shipSelect)
-	{
-	case 0:
-		Exhausts[0].setplocation(*spaceship, -2, -2, -11);
-		Exhausts[1].setplocation(*spaceship, +2, -2, -11);
-		break;
-	case 1:
-		Exhausts[0].setplocation(*spaceship, +0, -1.5, -7);
-		Exhausts[0].setRotateangle(0);
-		Exhausts[0].setScale(3, 1, 1);
-		Exhausts[1].setplocation(*spaceship, +4, -3, -8);
-		Exhausts[2].setplocation(*spaceship, -4, -3, -8);
-		break;
-	case 2:
-		Exhausts[0].setplocation(*spaceship, +0, -2, -5);
-		Exhausts[0].setRotateangle(1.0f);
-		Exhausts[0].setScale(3, 3, 1);
-		break;
-	}
-
-	for (unsigned int i = 0; Exhausts.size() > i; i++)
-	{
-		if (this->entityGetFast("spaceship")->velocity > 0)
-		{
-			Exhausts[i].GenerateParticles(dt);
-		}
-		Exhausts[i].ParticleUpdate(dt);
-	}
-
-    // Sound Updating
-    this->STData->VERYLOUD.set3dListenerPosition(spaceship->position.x, spaceship->position.y, spaceship->position.z);
-    this->STData->VERYLOUD.set3dListenerUp(spaceship->up.x, spaceship->up.y, spaceship->up.z);
-    this->STData->VERYLOUD.set3dListenerAt(spaceship->view.x, spaceship->view.y, spaceship->view.z);
-    this->STData->VERYLOUD.update3dAudio();
-
-    std::map<std::string, entity*>::iterator it;
-    for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
+    Exhaust.GenerateParticles(dt);
+    Exhaust.ParticleUpdate(dt);
+    Exhaust.setplocation(*spaceship1, spaceship1->position.x, spaceship1->position.y,spaceship1->position.z);
+    
+    //Bullet returning to ship after 0.5s of timeAlive
+    if ((this->winMan->IsKeyPressed(GLFW_KEY_SPACE)))
     {
-        it->second->Update(dt);
+        Bullet* b = new Bullet;
+        *b = *this->bullet;
+        b->Init(spaceship1->position,spaceship1->target, spaceship1->up);
+        b->velocity += spaceship1->velocity;
+        this->entitylists->insert_or_assign("bullet" + std::to_string(bcount), b);
+        bcount++;
+        std::cout << "New bullet " << std::to_string(bcount) << std::endl;
     }
 
-    this->state_cam->Update(dt, *spaceship);
+    hoopChecker();
+    
+    switch (STData->shipSelect)
+    {
+    case 0:
+        Exhausts[0].setplocation(*spaceship1, -2, -2, -11);
+        Exhausts[1].setplocation(*spaceship1, +2, -2, -11);
+        break;
+    case 1:
+        Exhausts[0].setplocation(*spaceship1, +0, -1.5, -7);
+        Exhausts[0].setRotateangle(0);
+        Exhausts[0].setScale(3, 1, 1);
+        Exhausts[1].setplocation(*spaceship1, +4, -3, -8);
+        Exhausts[2].setplocation(*spaceship1, -4, -3, -8);
+        break;
+    case 2:
+        Exhausts[0].setplocation(*spaceship1, +0, -2, -5);
+        Exhausts[0].setRotateangle(1.0f);
+        Exhausts[0].setScale(3, 3, 1);
+        break;
+    }
+
+    for (unsigned int i = 0; Exhausts.size() > i; i++)
+    {
+        if (this->entityGetFast("spaceship")->velocity > 0)
+        {
+            Exhausts[i].GenerateParticles(dt);
+        }
+        Exhausts[i].ParticleUpdate(dt);
+    }
+
+    // Sound Updating
+    this->STData->VERYLOUD.set3dListenerPosition(spaceship1->position.x, spaceship1->position.y, spaceship1->position.z);
+    this->STData->VERYLOUD.set3dListenerUp(spaceship1->up.x, spaceship1->up.y, spaceship1->up.z);
+    this->STData->VERYLOUD.set3dListenerAt(spaceship1->view.x, spaceship1->view.y, spaceship1->view.z);
+    this->STData->VERYLOUD.update3dAudio();
+
+    std::map<std::string, entity*>::iterator eit = this->entitylists->begin();
+
+    while (eit != this->entitylists->end())
+    {
+        if (eit->second->doDestroy)
+        {
+            if (eit->second->type == entityType::eT_Object)
+            {
+                this->STData->asteroidSmashed++;
+            }
+            eit->second->OnDelete(&eit->second);
+            
+            std::map<std::string, entity*>::iterator toErase = eit;
+            ++eit;
+            this->entitylists->erase(toErase);
+        }
+        else
+        {
+            eit->second->Update(dt);
+            ++eit;
+        }
+    }
+
+    this->state_cam->Update(dt, *spaceship1);
 
     this->collideInstance->updatingEnts = 0;
 
@@ -434,42 +465,42 @@ void StateGame::hoopGenerate()
     // venus
     float the_addition = 10.f, the_subtraction = 0.f;
 
-	switch (this->STData->planetSelect)
-	{
-	case(0): // venus
-		z = 400.f;
-		totalHoops = 5;
-		for (int i = 0; i < totalHoops; i++)
-		{
-			hoopPos.push_back(ok);
-			if (i > 2 && i < totalHoops)
-			{
-				the_subtraction -= 20;
-				hoopPos[i].offset_x = x + the_subtraction * 2;
-				hoopPos[i].offset_y = y + the_subtraction;
-			}
-			else
-			{
-				hoopPos[i].offset_x = x + the_addition * 2;
-				hoopPos[i].offset_y = y + the_addition;
-				the_subtraction += 20;
-			}
+    switch (this->STData->planetSelect)
+    {
+    case(0): // venus
+        z = 400.f;
+        totalHoops = 5;
+        for (int i = 0; i < totalHoops; i++)
+        {
+            hoopPos.push_back(ok);
+            if (i > 2 && i < totalHoops)
+            {
+                the_subtraction -= 20;
+                hoopPos[i].offset_x = x + the_subtraction * 2;
+                hoopPos[i].offset_y = y + the_subtraction;
+            }
+            else
+            {
+                hoopPos[i].offset_x = x + the_addition * 2;
+                hoopPos[i].offset_y = y + the_addition;
+                the_subtraction += 20;
+            }
 
             hoopPos[i].offset_z = z + the_addition * 15;
 
             the_addition += 30.f; // increases addition value so it keeps going
 
-			if (i > 0)
-			{
-				if (hoopPos[i - 1].rotation == 90)
-				{
-					hoopPos[i].rotation = 0;
-				}
-				else
-				{
-					hoopPos[i].rotation += 45 + hoopPos[i - 1].rotation; // for rotation of hoops
-				}
-			}
+            if (i > 0)
+            {
+                if (hoopPos[i - 1].rotation == 90)
+                {
+                    hoopPos[i].rotation = 0;
+                }
+                else
+                {
+                    hoopPos[i].rotation += 45 + hoopPos[i - 1].rotation; // for rotation of hoops
+                }
+            }
         }
         break;
     case(1): // earth
@@ -483,31 +514,31 @@ void StateGame::hoopGenerate()
             {
                 the_subtraction -= 30.f;
                 //hoopPos[i].offset_y = y + the_subtraction;
-				hoopPos[i].offset_x = x + the_addition * 2;
+                hoopPos[i].offset_x = x + the_addition * 2;
                 
             }
             else
             {
                // hoopPos[i].offset_y = y + the_addition * 3;
-				hoopPos[i].offset_x = x + the_subtraction * 2;
+                hoopPos[i].offset_x = x + the_subtraction * 2;
                 the_subtraction += 20.f;
             }
 
-			hoopPos[i].offset_z = z + the_addition * 15;
+            hoopPos[i].offset_z = z + the_addition * 15;
 
             the_addition += 30.f; // increases addition value so it keeps going
            
-			if (i > 0)
-			{
-				if (hoopPos[i - 1].rotation == 90)
-				{
-					hoopPos[i].rotation = 0;
-				}
-				else
-				{
-					hoopPos[i].rotation += 45 + hoopPos[i - 1].rotation; // for rotation of hoops
-				}
-			}
+            if (i > 0)
+            {
+                if (hoopPos[i - 1].rotation == 90)
+                {
+                    hoopPos[i].rotation = 0;
+                }
+                else
+                {
+                    hoopPos[i].rotation += 45 + hoopPos[i - 1].rotation; // for rotation of hoops
+                }
+            }
         }
         break;
     case(2): // mars
@@ -537,17 +568,17 @@ void StateGame::hoopGenerate()
 
             hoopPos[i].offset_z = z + the_addition * 10;
             the_addition += 40.f; // increases addition value so it keeps going
-			if (i > 0)
-			{
-				if (hoopPos[i - 1].rotation == 90)
-				{
-					hoopPos[i].rotation = 0;
-				}
-				else
-				{
-					hoopPos[i].rotation += 45 + hoopPos[i - 1].rotation; // for rotation of hoops
-				}
-			}
+            if (i > 0)
+            {
+                if (hoopPos[i - 1].rotation == 90)
+                {
+                    hoopPos[i].rotation = 0;
+                }
+                else
+                {
+                    hoopPos[i].rotation += 45 + hoopPos[i - 1].rotation; // for rotation of hoops
+                }
+            }
         }
         break;
     case(3): // jupiter
@@ -559,29 +590,29 @@ void StateGame::hoopGenerate()
             hoopPos.push_back(ok);
             if (i > 2 && i < 6)
             {
-				the_subtraction += 50.f;
-				hoopPos[i].offset_x = x - the_subtraction * 3.f;
-				hoopPos[i].offset_y = y + the_subtraction;
+                the_subtraction += 50.f;
+                hoopPos[i].offset_x = x - the_subtraction * 3.f;
+                hoopPos[i].offset_y = y + the_subtraction;
             }
             else
             {
-				hoopPos[i].offset_x = x - the_addition * 2.f;
-				hoopPos[i].offset_y = y + the_addition;
-				the_addition += 60.f;
+                hoopPos[i].offset_x = x - the_addition * 2.f;
+                hoopPos[i].offset_y = y + the_addition;
+                the_addition += 60.f;
             }
-			hoopPos[i].offset_z = z + the_addition * 5;
+            hoopPos[i].offset_z = z + the_addition * 5;
 
-			if (i > 0)
-			{
-				if (hoopPos[i - 1].rotation == 90)
-				{
-					hoopPos[i].rotation = 0;
-				}
-				else
-				{
-					hoopPos[i].rotation += 45 + hoopPos[i - 1].rotation; // for rotation of hoops
-				}
-			}
+            if (i > 0)
+            {
+                if (hoopPos[i - 1].rotation == 90)
+                {
+                    hoopPos[i].rotation = 0;
+                }
+                else
+                {
+                    hoopPos[i].rotation += 45 + hoopPos[i - 1].rotation; // for rotation of hoops
+                }
+            }
         }
         break;
     default:
@@ -592,6 +623,14 @@ void StateGame::hoopGenerate()
 
 void StateGame::OnRender()
 {
+	// Sun
+	(*this->modelStack).PushMatrix();
+	(*this->modelStack).Translate(0.f, 0.f, -9500.0f);
+	(*this->modelStack).Rotate(rotateAngle, 0, 1, 0);
+	(*this->modelStack).Scale(600.f, 600.f, 600.f);
+	RenderMesh(this->meshGetFast("sun"), true);
+	(*this->modelStack).PopMatrix();
+
     // Stars
     for (int i = 0; starsnumber > i; i++)
     {
@@ -608,23 +647,23 @@ void StateGame::OnRender()
         (*this->modelStack).PopMatrix();
     }
 
-	entity *spaceship = this->entityGetFast("spaceship");
+    entity *spaceship = this->entityGetFast("spaceship");
 
-	for (unsigned int j = 0; Exhausts.size() > j; j++)
-	{
-		for (unsigned int i = 0; Exhausts[j].particles.size() > i; i++)
-		{
-			(*this->modelStack).PushMatrix();
-				
-			(*this->modelStack).Translate(Exhausts[j].particles[i].Position.x, Exhausts[j].particles[i].Position.y, Exhausts[j].particles[i].Position.z);
-			(*this->modelStack).Rotate(Exhausts[j].pRotateAngle * 10 * rotateAngle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
-			(*this->modelStack).MultMatrix(cubeMult2);
-			(*this->modelStack).Scale(Exhausts[j].scale_x, Exhausts[j].scale_y, Exhausts[j].scale_z);
-				
-			RenderMesh(this->meshGetFast("particle"), false);
-			(*this->modelStack).PopMatrix();
-		}
-	}
+    for (unsigned int j = 0; Exhausts.size() > j; j++)
+    {
+        for (unsigned int i = 0; Exhausts[j].particles.size() > i; i++)
+        {
+            (*this->modelStack).PushMatrix();
+                
+            (*this->modelStack).Translate(Exhausts[j].particles[i].Position.x, Exhausts[j].particles[i].Position.y, Exhausts[j].particles[i].Position.z);
+            (*this->modelStack).Rotate(Exhausts[j].pRotateAngle * 10 * rotateAngle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
+            (*this->modelStack).MultMatrix(cubeMult2);
+            (*this->modelStack).Scale(Exhausts[j].scale_x, Exhausts[j].scale_y, Exhausts[j].scale_z);
+                
+            RenderMesh(this->meshGetFast("particle"), false);
+            (*this->modelStack).PopMatrix();
+        }
+    }
 
     // Planet
     (*this->modelStack).PushMatrix();
@@ -639,96 +678,97 @@ void StateGame::OnRender()
     this->RenderTextScreen(this->STData->font, this->dgamestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 4.f, 1.f, 9.5f);
     this->RenderTextScreen(this->STData->font, this->dtimestring, Color(0 / 255.f, 0 / 255.f, 0 / 255.f), 2.f, 2.f, 20.f);
 
-    std::map<std::string, entity*>::iterator it;
+    std::map<std::string, entity*>::iterator it = this->entitylists->begin();
 
-    for (it = this->entitylists->begin(); it != this->entitylists->end(); it++)
+    while (it != this->entitylists->end())
     {
-        (*this->modelStack).PushMatrix();
-        entity *buff = it->second;
-        if (buff->type == entityType::eT_Text)
-        {
-            buff->position;
-            (*this->modelStack).Translate(buff->position.x,
-                buff->position.y,
-                buff->position.z);
-            // rotation coords
-            this->RenderText(buff->meshptr, *buff->text, Color(0, 0, 0));
-        }
-        else if (buff->type == entityType::eT_Object)
-        {
-
-            (*this->modelStack).Translate(buff->position.x, buff->position.y, buff->position.z);
-            (*this->modelStack).Rotate(buff->yawTotal, 0, 1, 0);
-            (*this->modelStack).Rotate(buff->pitchTotal, 1, 0, 0);
-            (*this->modelStack).Rotate(buff->rollTotal, 0, 0, 1);
-            (*this->modelStack).Scale(buff->size.x, buff->size.y, buff->size.z);
-            RenderMesh(buff->meshptr, true);
-
-        }
-        else if (buff->type == entityType::eT_TextUI)
-        {
-            this->RenderTextScreen(buff->meshptr, *buff->text, Color(0, 0, 0),
-                buff->position.z,    // Used for Text Scaling. only applies to 2d UI 
-                buff->position.x,    // Same as before
-                buff->position.y);    // Same as before
-        }
-        else if (buff->type == entityType::eT_Ship)
-        {
-            entity *spaceship = this->entityGetFast("spaceship");
-
-            // Matrix method v2
-            (*this->modelStack).PushMatrix();
-            cubeMult1.SetToTranslation(spaceship->position.x, spaceship->position.y, spaceship->position.z);
-
-            if (spaceship->lKey == true)
-            {
-                cubeMultR.SetToRotation(spaceship->angle, spaceship->up.x, spaceship->up.y, spaceship->up.z);
-                cubeMult2 = cubeMultR * cubeMult2;
-            }
-
-            if (spaceship->rKey == true)
-            {
-                cubeMultR.SetToRotation(-(spaceship->angle), spaceship->up.x, spaceship->up.y, spaceship->up.z);
-                cubeMult2 = cubeMultR * cubeMult2;
-            }
-
-            if (spaceship->uKey == true)
-            {
-                cubeMultR.SetToRotation(-(spaceship->angle), spaceship->right.x, spaceship->right.y, spaceship->right.z);
-                cubeMult2 = cubeMultR * cubeMult2;
-            }
-
-            if (spaceship->dKey == true)
-            {
-                cubeMultR.SetToRotation(spaceship->angle, spaceship->right.x, spaceship->right.y, spaceship->right.z);
-                cubeMult2 = cubeMultR * cubeMult2;
-            }
-
-            if (spaceship->qKey == true)
-            {
-                cubeMultR.SetToRotation(-(spaceship->angle), spaceship->view.x, spaceship->view.y, spaceship->view.z);
-                cubeMult2 = cubeMultR * cubeMult2;
-            }
-
-            if (spaceship->eKey == true)
-            {
-                cubeMultR.SetToRotation(spaceship->angle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
-                cubeMult2 = cubeMultR * cubeMult2;
-            }
-
-            cubeMult3.SetToScale(5.0f, 5.0f, 5.0f);
-            cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
-
-            (*this->modelStack).LoadMatrix(cubeMatrix);
-            RenderMesh(spaceship->meshptr, true);
-            (*this->modelStack).PopMatrix();
-        }
-        else if (buff->type == entityType::eT_Environment)
         {
             (*this->modelStack).PushMatrix();
-            (*this->modelStack).Scale(10.0f, 10.0f, 10.0f);
-            RenderMesh(buff->meshptr, true);
-            (*this->modelStack).PopMatrix();
+            entity *buff = it->second;
+            if (buff->type == entityType::eT_Text)
+            {
+                buff->position;
+                (*this->modelStack).Translate(buff->position.x,
+                    buff->position.y,
+                    buff->position.z);
+                // rotation coords
+                this->RenderText(buff->meshptr, *buff->text, Color(0, 0, 0));
+            }
+            else if (buff->type == entityType::eT_Object)
+            {
+
+                (*this->modelStack).Translate(buff->position.x, buff->position.y, buff->position.z);
+                (*this->modelStack).Rotate(buff->yawTotal, 0, 1, 0);
+                (*this->modelStack).Rotate(buff->pitchTotal, 1, 0, 0);
+                (*this->modelStack).Rotate(buff->rollTotal, 0, 0, 1);
+                (*this->modelStack).Scale(buff->size.x, buff->size.y, buff->size.z);
+                RenderMesh(buff->meshptr, true);
+
+            }
+            else if (buff->type == entityType::eT_TextUI)
+            {
+                this->RenderTextScreen(buff->meshptr, *buff->text, Color(0, 0, 0),
+                    buff->position.z,    // Used for Text Scaling. only applies to 2d UI 
+                    buff->position.x,    // Same as before
+                    buff->position.y);    // Same as before
+            }
+            else if (buff->type == entityType::eT_Ship)
+            {
+                entity *spaceship = this->entityGetFast("spaceship");
+
+                // Matrix method v2
+                (*this->modelStack).PushMatrix();
+                cubeMult1.SetToTranslation(spaceship->position.x, spaceship->position.y, spaceship->position.z);
+
+                if (spaceship->lKey == true)
+                {
+                    cubeMultR.SetToRotation(spaceship->angle, spaceship->up.x, spaceship->up.y, spaceship->up.z);
+                    cubeMult2 = cubeMultR * cubeMult2;
+                }
+
+                if (spaceship->rKey == true)
+                {
+                    cubeMultR.SetToRotation(-(spaceship->angle), spaceship->up.x, spaceship->up.y, spaceship->up.z);
+                    cubeMult2 = cubeMultR * cubeMult2;
+                }
+
+                if (spaceship->uKey == true)
+                {
+                    cubeMultR.SetToRotation(-(spaceship->angle), spaceship->right.x, spaceship->right.y, spaceship->right.z);
+                    cubeMult2 = cubeMultR * cubeMult2;
+                }
+
+                if (spaceship->dKey == true)
+                {
+                    cubeMultR.SetToRotation(spaceship->angle, spaceship->right.x, spaceship->right.y, spaceship->right.z);
+                    cubeMult2 = cubeMultR * cubeMult2;
+                }
+
+                if (spaceship->qKey == true)
+                {
+                    cubeMultR.SetToRotation(-(spaceship->angle), spaceship->view.x, spaceship->view.y, spaceship->view.z);
+                    cubeMult2 = cubeMultR * cubeMult2;
+                }
+
+                if (spaceship->eKey == true)
+                {
+                    cubeMultR.SetToRotation(spaceship->angle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
+                    cubeMult2 = cubeMultR * cubeMult2;
+                }
+
+                cubeMult3.SetToScale(5.0f, 5.0f, 5.0f);
+                cubeMatrix = cubeMult1 * cubeMult2 * cubeMult3;
+
+                (*this->modelStack).LoadMatrix(cubeMatrix);
+                RenderMesh(spaceship->meshptr, true);
+                (*this->modelStack).PopMatrix();
+            }
+            else if (buff->type == entityType::eT_Environment)
+            {
+                (*this->modelStack).PushMatrix();
+                (*this->modelStack).Scale(10.0f, 10.0f, 10.0f);
+                RenderMesh(buff->meshptr, true);
+                (*this->modelStack).PopMatrix();
 
 			(*this->modelStack).PushMatrix();
 			(*this->modelStack).Translate(0, 0, 0);
@@ -748,29 +788,27 @@ void StateGame::OnRender()
 		}
 		(*this->modelStack).PopMatrix();
 
-        Vector3 temp[] = {
-            buff->HBox.backLeftDown,
-            buff->HBox.backLeftUp,
-            buff->HBox.backRightDown,
-            buff->HBox.backRightUp,
-            buff->HBox.frontLeftDown,
-            buff->HBox.frontLeftUp,
-            buff->HBox.frontRightDown,
-            buff->HBox.frontRightUp,
-        };
+            Vector3 temp[] = {
+                buff->HBox.backLeftDown,
+                buff->HBox.backLeftUp,
+                buff->HBox.backRightDown,
+                buff->HBox.backRightUp,
+                buff->HBox.frontLeftDown,
+                buff->HBox.frontLeftUp,
+                buff->HBox.frontRightDown,
+                buff->HBox.frontRightUp,
+            };
 
-        for (size_t i = 0; i < 8; i++)
-        {
-             (*this->modelStack).PushMatrix();
-             (*this->modelStack).Translate(temp[i].x, temp[i].y, temp[i].z);
-             (*this->modelStack).Scale(0.1f, 0.1f, 0.1f);
-             RenderMesh(this->meshGetFast("star"), false);
-             (*this->modelStack).PopMatrix();
+            for (size_t i = 0; i < 8; i++)
+            {
+                (*this->modelStack).PushMatrix();
+                (*this->modelStack).Translate(temp[i].x, temp[i].y, temp[i].z);
+                (*this->modelStack).Scale(0.1f, 0.1f, 0.1f);
+                RenderMesh(this->meshGetFast("star"), false);
+                (*this->modelStack).PopMatrix();
+            }
+            ++it;
         }
-        // (*this->modelStack).PushMatrix();
-        // (*this->modelStack).Translate(0, 0, 0);
-        // RenderMesh(this->meshGetFast("axes"), false);
-        // (*this->modelStack).PopMatrix();
     }
 }
 

@@ -249,6 +249,9 @@
     <Filter Include="Source Files\Internal">
       <UniqueIdentifier>{98100814-ddf7-486f-b3f1-583e36eae24b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SpecialSource">
+      <UniqueIdentifier>{816de2d7-12eb-428d-9ec1-5014f33f3cc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="config.ini" />
