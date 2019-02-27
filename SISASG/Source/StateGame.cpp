@@ -161,9 +161,11 @@ void StateGame::OnEnter()
     this->meshList->push_back(meshbuffer);
 
 
-    // Bullet
-    meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(255, 255, 255), 18, 36, 1);
-    this->meshList->push_back(meshbuffer);
+	// Bullet
+	meshbuffer = MeshBuilder::GenerateOBJ("bullet", "OBJ//Bullet.obj")[0];
+	meshbuffer->textureID = LoadTGA("TGA//Bullet.tga", GL_LINEAR, GL_CLAMP);
+	
+	this->meshList->push_back(meshbuffer);
 
     bullet = new Bullet();
     bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
@@ -739,21 +741,23 @@ void StateGame::OnRender()
                 RenderMesh(buff->meshptr, true);
                 (*this->modelStack).PopMatrix();
 
-                (*this->modelStack).PushMatrix();
-                (*this->modelStack).Translate(0, 0, 0);
-                RenderMesh(this->meshGetFast("axes"), false);
-                (*this->modelStack).PopMatrix();
-            }
-            else if (buff->type == entityType::eT_Bullet)
-            {
-
-                (*this->modelStack).PushMatrix();
-                (*this->modelStack).Translate(buff->position.x, buff->position.y, buff->position.z);
-                RenderMesh(buff->meshptr, true);
-                (*this->modelStack).PopMatrix();
-
-            }
-            (*this->modelStack).PopMatrix();
+			(*this->modelStack).PushMatrix();
+			(*this->modelStack).Translate(0, 0, 0);
+			RenderMesh(this->meshGetFast("axes"), false);
+			(*this->modelStack).PopMatrix();
+		}
+		else if (buff->type == entityType::eT_Bullet)
+		{
+			
+			(*this->modelStack).PushMatrix();
+			(*this->modelStack).Translate(bullet->position.x,bullet->position.y,bullet->position.z);
+			(*this->modelStack).Rotate(10 * rotateAngle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
+			(*this->modelStack).MultMatrix(cubeMult2);
+			RenderMesh(this->meshGetFast("bullet"), true);
+			(*this->modelStack).PopMatrix();
+			
+		}
+		(*this->modelStack).PopMatrix();
 
             ++it;
         }
