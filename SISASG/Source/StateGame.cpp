@@ -170,6 +170,7 @@ void StateGame::OnEnter()
     bullet = new Bullet();
     bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
     bullet->type = entityType::eT_Bullet;
+    bullet->InitSound(this->STData->SoundSrcs["bulletfire"], &this->STData->timeBegin);
     bullet->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
     bullet->physics = true;
     bullet->name = "bullet";
@@ -309,9 +310,11 @@ void StateGame::OnUpdate(double dt)
     //Bullet returning to ship after 0.5s of timeAlive
     if ((this->winMan->IsKeyPressed(GLFW_KEY_SPACE)) && (this->bulletBouce <= 0.0))
     {
+        
         this->bulletBouce = 0.3;
         Bullet* b = new Bullet;
         *b = *this->bullet;
+        b->SoundSrc->play3d(false,true);
         b->Init(spaceship1->position,spaceship1->target, spaceship1->up);
         b->velocity += spaceship1->velocity;
         this->entitylists->insert_or_assign("bullet" + std::to_string(bcount), b);
