@@ -10,7 +10,7 @@ GLuint LoadTGA(const char *file_path,GLint MagMinFilter,GLint Clamping) // load 
     std::cout << "Loading " << file_path << "... ";
     std::ifstream fileStream(file_path, std::ios::binary);
     if(!fileStream.is_open()) {
-        std::cout << "Impossible to open " << file_path << ". Are you in the right directory ?]\n";
+        std::cout << "Impossible to open " << file_path << ". Check your Directory!]\n";
         return 0;
     }
 

@@ -181,18 +181,19 @@ bool SoundContainer::isPlaying()
     return this->playing;
 }
 
-void SoundContainer::pause()
+void SoundContainer::unpause(float fadein)
 {
-    if (this->loudPtr->getPause(this->Sourcehandle))
-    {
-        std::cout << "Unpausing..." << std::endl;
-        this->loudPtr->setPause(this->Sourcehandle, 0);
-    }
-    else
-    {
-        std::cout << "Pausing..." << std::endl;
-        this->loudPtr->setPause(this->Sourcehandle, 1);
-    }
+    this->loudPtr->setPause(this->Sourcehandle, 0);
+    this->loudPtr->fadeVolume(this->Sourcehandle, 1.0f, fadein);
+    this->loudPtr->setProtectVoice(this->Sourcehandle, 0); // no need to mamoru it
+
+}
+
+void SoundContainer::pause(float fadeout)
+{
+    this->loudPtr->schedulePause(this->Sourcehandle, fadeout);
+    this->loudPtr->fadeVolume(this->Sourcehandle, 0.0f, fadeout);
+    this->loudPtr->setProtectVoice(this->Sourcehandle, 1);
     
 }
 
@@ -236,7 +237,7 @@ std::string fileNameNoExt(std::string filename)
     if (index != std::string::npos)
     {
         std::string ext = filename.substr(0, index);
-		return ext;
+        return ext;
     }
     else
     {

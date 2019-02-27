@@ -38,6 +38,7 @@ struct StateData
     bool ship3unlock;
     int shopSelect;
     double timeBegin = 0.0;
+    unsigned int asteroidSmashed = 0;
 };
 
 class GState

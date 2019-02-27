@@ -103,6 +103,7 @@ public:
     virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
     virtual void Init(const Vector3 & pos, const Vector3 & target, const Vector3 & up, const Vector3 & size);
     virtual void Reset();
+    virtual void OnDelete(entity **Ent);
     virtual void OnHit(entity* Ent);
     virtual void Update(double dt);
 

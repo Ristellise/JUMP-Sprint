@@ -29,12 +29,11 @@ void StateMenus::OnEnter()
     rotateAngle = 0;
     movement_asteroid1_z = 0;
 
-    this->STData->SoundSrcs["title"]->pause();
+    this->STData->SoundSrcs["title"]->unpause(1.0f);
 }
 
 void StateMenus::OnExit()
 {
-    this->STData->SoundSrcs["title"]->DIE(false);
 }
 
 void StateMenus::OnUpdate(double dt)
@@ -107,6 +106,7 @@ void StateMenus::OnRender()
             this->STData->bounceTime = 0.3;
             this->readyExitlocal = true;
             this->spawnState = "Shop";
+            this->STData->SoundSrcs["title"]->pause(5.0f);
         }
     }
     else

@@ -159,22 +159,55 @@ void collision::doCollisions(std::map<std::string, entity*> &entityList, double 
                                 float velocity = Ent->velocity + Ent2->velocity;
                                 if (Ent->velocity > Ent2->velocity)
                                 {
-                                    Ent->velocity = velocity / 4;
-                                    Ent2->velocity = velocity / 2;
+                                    if (Ent->type != entityType::eT_Ship)
+                                    {
+                                        Ent->velocity = Ent->velocity + velocity / 4;
+                                    }
+                                    if (Ent2->type != entityType::eT_Ship)
+                                    {
+                                        Ent2->velocity = velocity / 2;
+                                    }
                                     if (Ent2->type != entityType::eT_Ship)
                                     {
                                         Ent2->view = Ent->view;
+                                    }
+                                    if (Ent2->type == entityType::eT_Bullet && Ent->type == entityType::eT_Object)
+                                    {
+                                        Ent->doDestroy = true;
+                                        Ent2->doDestroy = true;
+                                    }
+                                    else if (Ent2->type == entityType::eT_Object && Ent->type == entityType::eT_Bullet)
+                                    {
+                                        Ent->doDestroy = true;
+                                        Ent2->doDestroy = true;
                                     }
                                     
                                     Ent2->OnHit(Ent);
                                 }
                                 else
                                 {
-                                    Ent2->velocity = 50.0f;
-                                    Ent->velocity = velocity / 2;
+                                    if (Ent2->type == entityType::eT_Bullet && Ent2->type == Ent->type)
+                                    if (Ent2->type != entityType::eT_Ship)
+                                    {
+                                        Ent2->velocity = 50.0f;
+                                    }
+                                    if (Ent->type != entityType::eT_Ship)
+                                    {
+                                        Ent->velocity = Ent->velocity + velocity / 2;
+                                    }
                                     if (Ent2->type != entityType::eT_Ship)
                                     {
                                         Ent2->view = Ent->view;
+                                    }
+                                    if (Ent2->type == entityType::eT_Bullet && Ent->type == entityType::eT_Object)
+                                    {
+                                        Ent->doDestroy = true;
+                                        Ent2->doDestroy = true;
+                                    }
+                                    else if (Ent2->type == entityType::eT_Object && Ent->type == entityType::eT_Bullet)
+                                    {
+                                        Ent->doDestroy = true;
+                                        Ent2->doDestroy = true;
                                     }
                                     Ent->OnHit(Ent2);
                                 }

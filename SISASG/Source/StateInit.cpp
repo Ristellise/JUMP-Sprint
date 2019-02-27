@@ -33,11 +33,11 @@ void Stateinit::OnEnter()
     meshbuffer = MeshBuilder::GenerateSphere("debugballs", Color(1, 1, 1), 10, 10, 0.25f);
     this->meshList->push_back(meshbuffer);
 
-	meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(1, 1, 1), 18, 36, 0.5);
-	this->meshList->push_back(meshbuffer);
+    meshbuffer = MeshBuilder::GenerateSphere("bullet", Color(1, 1, 1), 18, 36, 0.5);
+    this->meshList->push_back(meshbuffer);
 
-	// Camera
-	this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
+    // Camera
+    this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
     // Camera
     this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
 
@@ -72,7 +72,15 @@ void Stateinit::OnEnter()
         if (Sndbuff[2] == "1")
         {
             this->STData->SoundSrcs[soundit->first]->play(true, true);
-            this->STData->SoundSrcs[soundit->first]->loopPos(std::stof(Sndbuff[2]));
+            if (Sndbuff.size() > 3) // we do have a loop point we want to add.
+            {
+                this->STData->SoundSrcs[soundit->first]->loopPos(std::stof(Sndbuff[3]));
+            }
+            else
+            {
+                this->STData->SoundSrcs[soundit->first]->loopPos(0.0f);
+            }
+            std::cout << "Enabled looping for:" << soundit->first << std::endl;
             this->STData->SoundSrcs[soundit->first]->enableLooping();
         }
         else
@@ -80,13 +88,13 @@ void Stateinit::OnEnter()
             this->STData->SoundSrcs[soundit->first]->play(true, true);
         }
     }
-	// Debugging string
-	// Init: Only the first Vector3 matters. Format: (translateX, translateY, scale) This is for TextUI
-	current->Init(Vector3(1.f, 24.f, 2.f), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
-	current->text = &dtimestring;
-	current->type = entityType::eT_TextUI;
-	current->meshptr = this->meshGetFast("saofontsheet");
-	this->entitylists->insert_or_assign("saofontsheet", current);
+    // Debugging string
+    // Init: Only the first Vector3 matters. Format: (translateX, translateY, scale) This is for TextUI
+    current->Init(Vector3(1.f, 24.f, 2.f), Vector3(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f));
+    current->text = &dtimestring;
+    current->type = entityType::eT_TextUI;
+    current->meshptr = this->meshGetFast("saofontsheet");
+    this->entitylists->insert_or_assign("saofontsheet", current);
 }
 
 void Stateinit::OnRender()
