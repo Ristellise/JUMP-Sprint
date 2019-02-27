@@ -34,7 +34,7 @@ public:
 
     int WindowXpos = 0;
     int WindowYpos = 0;
-    float ViewRange = 10000.f;
+    float ViewRange = 20000.f;
 
     int prevRotate;
     int currRotate;
