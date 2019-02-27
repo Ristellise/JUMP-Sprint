@@ -33,8 +33,8 @@ void Stateinit::OnEnter()
     meshbuffer = MeshBuilder::GenerateSphere("debugballs", Color(1, 1, 1), 10, 10, 0.25f);
     this->meshList->push_back(meshbuffer);
 
-	// Camera
-	this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
+    // Camera
+    this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
     // Camera
     this->state_cam->Init(Vector3(0, 4, -40), Vector3(0, 4, 1), Vector3(0, 1, 0));
 

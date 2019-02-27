@@ -38,8 +38,6 @@ void StateMenus::OnExit()
 
 void StateMenus::OnUpdate(double dt)
 {
-	this->dtimestring = "\nCURSOR: " + std::to_string(this->mouse->X) +
-		" | " + std::to_string(this->mouse->Y);
 
     static int rotateDir_asteroid = 1;
     static int rotateDir = -1;
@@ -55,6 +53,24 @@ void StateMenus::OnUpdate(double dt)
     if (movement_asteroid1_z < -40 && rotateDir_asteroid < -40)
     {
         rotateDir_asteroid = -rotateDir_asteroid;
+    }
+
+    if (!this->STData->secreton &&
+        (this->winMan->IsKeyPressed(GLFW_KEY_LEFT_SHIFT) &&
+            this->winMan->IsKeyPressed(GLFW_KEY_LEFT_CONTROL)
+            ) && this->STData->secretheld > 1.0)
+    {
+        this->STData->secreton = true;
+        this->spawnState = "secrets";
+    }
+    else if (!this->STData->secreton && this->winMan->IsKeyPressed(GLFW_KEY_LEFT_SHIFT) &&
+        this->winMan->IsKeyPressed(GLFW_KEY_LEFT_CONTROL))
+    {
+        this->STData->secretheld += dt;
+    }
+    else
+    {
+        this->STData->secretheld = 0.0;
     }
 }
 
@@ -75,7 +91,6 @@ void StateMenus::OnRender()
     (*this->modelStack).PopMatrix();
       
     this->RenderTextScreen(this->STData->font, "SISASG", Color(255, 255, 255), 6.f, 1.3f, 4.5f);
-    this->RenderTextScreen(this->STData->font, this->dtimestring, Color(255, 255, 255), 2.f, 4.f, 21.f);
 
     // Ship Hangar button
     if ((this->mouse->X > 100) && (this->mouse->X < 330) && (this->mouse->Y >450) && (this->mouse->Y < 520))

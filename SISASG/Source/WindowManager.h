@@ -2,7 +2,7 @@
 #include "Application.h"
 
 // Why this? Because blame Ms Tan.
-// Keypresses are NOW actually only active on the active window...
+// Key presses are NOW actually only active on the active window...
 class WindowManager
 {
 private:

@@ -104,8 +104,13 @@ void Application::Run()
     scene->Init();
 
     m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-    while (!winMan.getExit() || !glfwWindowShouldClose(this->m_window))
+    bool exit = false;
+    while (!exit)
     {
+        if ((winMan.getExit() || glfwWindowShouldClose(this->m_window)))
+        {
+            exit = true;
+        }
         scene->Update(m_timer.getElapsedTime());
         scene->Render();
         //Swap buffers
@@ -114,7 +119,7 @@ void Application::Run()
         glfwPollEvents(); //Get and organize events, like keyboard and mouse input, window resizing.
         m_timer.waitUntil(frameTime); // Frame rate limiter. Limits each frame to a specified time in ms.   
 
-    } //Check if the ESC key had been pressed or if the window had been closed
+    }
     scene->Exit();
     delete scene;
 }

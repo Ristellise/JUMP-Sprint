@@ -39,6 +39,9 @@ struct StateData
     int shopSelect;
     double timeBegin = 0.0;
     unsigned int asteroidSmashed = 0;
+    //secret toggles
+    double secretheld = 0.0;
+    double secreton = false;
 };
 
 class GState

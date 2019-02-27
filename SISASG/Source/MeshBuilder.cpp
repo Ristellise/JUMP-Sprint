@@ -573,6 +573,8 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, FontLoader loaderIn
         // TexCoord Math is annoying...
         // bottom left
         // ((float)(buff.offset.b) / (float)(ft.scaleH)) * scale
+        
+        // Unavoidable. unelss you want to have texture corruption...
         buff = loaderInstance.characters[i];
         v.pos.Set(scale * ((float)(buff.offset.a) / (float)(ft.scaleH)),
                   scale - ((scale * (float)(buff.characterSize.b) / (float)(ft.scaleH)) +

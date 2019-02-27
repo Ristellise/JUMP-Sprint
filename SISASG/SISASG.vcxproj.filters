@@ -106,6 +106,9 @@
     <ClCompile Include="Source\asteroidEnt.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Source\StateMagic.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\AudioHandler.h">
@@ -217,6 +220,9 @@
       <Filter>Source Files\Internal</Filter>
     </ClInclude>
     <ClInclude Include="Source\asteroidEnt.h" />
+    <ClInclude Include="Source\StateMagic.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

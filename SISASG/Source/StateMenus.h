@@ -10,11 +10,13 @@ private:
 public:
     StateMenus();
     ~StateMenus();
-    std::string dtimestring;
 
     float size = 10.0f;
     float xpos = 10.0f;
     float ypos = 10.0f;
+
+    bool enableSecrets = false;
+    double secretlength = 0.0;
 
     void OnEnter();
     void OnExit();

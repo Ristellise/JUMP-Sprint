@@ -13,6 +13,7 @@
 #include "StateMenus.h"
 #include "StateHangar.h"
 #include "StateShop.h"
+#include "StateMagic.h"
 #include <stdexcept>
 
 
@@ -33,33 +34,43 @@ SceneWorld::~SceneWorld()
 
 void SceneWorld::Init()
 {
-    // Vector method
-    currRotate = 3;
-    prevRotate = 3;
-
-    srand(unsigned int(time(NULL)));
-
-    random = rand() % 10 + 1;
-
+    // Transparency Stuff.
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    rotateAngle = 0;
-    movement_asteroid1_z = 0;
+
+    glEnable(GL_DEPTH_TEST);
+
+    glDepthFunc(GL_LESS);
+
+    // Yeahh no...
+    //glEnable(GL_CULL_FACE);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     // Generate a default VAO for now
     glGenVertexArrays(1, &m_vertexArrayID);
     glBindVertexArray(m_vertexArrayID);
 
-    glEnable(GL_DEPTH_TEST);
+    
 
-    // Accept fragment if it closer to the camera than the former one
-    glDepthFunc(GL_LESS);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
 
     
     // bullet.Init(Vector3(spaceship.position.x, spaceship.position.y, spaceship.position.z),Vector3(0,0,-1),Vector3(0,1,0));
     // camera.Init(Vector3(0, 4, -30), Vector3(0, 4, 1), Vector3(0, 1, 0));
     // spaceship.Init(Vector3(0, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0));
+
+    srand(unsigned int(time(NULL)));
+
+    currRotate = 3;
+    prevRotate = 3;
+
+    random = rand() % 10 + 1;
+
+    rotateAngle = 0;
+    movement_asteroid1_z = 0;
 
     this->Mouse = MouseHandler(20.0f);
     Mtx44 projection;
@@ -123,6 +134,7 @@ void SceneWorld::Init()
     StateMenus* menustate = new StateMenus();
     StateHangar* hangarstate = new StateHangar();
     StateShop* shopstate = new StateShop();
+    StateMagic* magicstate = new StateMagic();
     this->StateManInst.SetMatrixes(&this->modelStack, &this->viewStack, &this->projectionStack);
     this->StateManInst.addAvailable(initInstance);
     this->StateManInst.addAvailable(statstate);
@@ -130,6 +142,7 @@ void SceneWorld::Init()
     this->StateManInst.addAvailable(menustate);
     this->StateManInst.addAvailable(hangarstate);
     this->StateManInst.addAvailable(shopstate);
+    this->StateManInst.addAvailable(magicstate);
     this->StateManInst.setCam(&camera);
     this->StateManInst.Init(this->m_parameters, &this->FLInstance, &this->Mouse);
 
