@@ -14,6 +14,7 @@ public:
     bool IsKeyPressed(int key);
     bool IsButtonPressed(int button);
     WindowManager();
+    void getWindowSize(int & x, int & y);
     void setWindow(GLFWwindow * window);
     ~WindowManager();
 };

@@ -64,6 +64,7 @@ void StateShop::OnEnter()
 void StateShop::OnExit()
 {
     this->STData->SoundSrcs["shopbg"]->pause(1.0f);
+    //this->STData->SoundSrcs["shopbg"]->setSeek(0.0f);
 }
 
 void StateShop::OnUpdate(double dt)

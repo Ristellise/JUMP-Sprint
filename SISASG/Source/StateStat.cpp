@@ -18,6 +18,8 @@ void StateStat::OnUpdate(double dt)
     this->dtimestring += std::to_string(this->STData->pointsPrev);
     this->dtimestring += "\nTIME REMAINING: ";
     this->dtimestring += std::to_string(this->STData->timePrev);
+	this->dtimestring += "\nASTEROIDS DESTOYED: ";
+	this->dtimestring += std::to_string(this->STData->asteroidSmashed);
     this->dtimestring += "\nMONEY EARNED: ";
     this->dtimestring += std::to_string(this->STData->moneyEarned);
     this->dtimestring += "\nMONEY TOTAL: ";

@@ -59,11 +59,12 @@ void SoundContainer::play(bool background, bool PausedInital)
         {
             if (background)
             {
-                this->Sourcehandle = this->loudPtr->playBackground(this->track, -1.0f, PausedInital);
+                
+                this->Sourcehandle = this->loudPtr->playBackground(this->track, this->vol, PausedInital);
             }
             else
             {
-                this->Sourcehandle = this->loudPtr->play(this->track, -1.0f, PausedInital);
+                this->Sourcehandle = this->loudPtr->play(this->track, this->vol, PausedInital);
             }
             break;
         }
@@ -71,11 +72,11 @@ void SoundContainer::play(bool background, bool PausedInital)
         {
             if (background)
             {
-                this->Sourcehandle = this->loudPtr->playBackground(this->trackStream, -1.0f, PausedInital);
+                this->Sourcehandle = this->loudPtr->playBackground(this->trackStream, this->vol, PausedInital);
             }
             else
             {
-                this->Sourcehandle = this->loudPtr->play(this->trackStream, -1.0f, PausedInital);
+                this->Sourcehandle = this->loudPtr->play(this->trackStream, this->vol, PausedInital);
 
             }
             break;
@@ -114,11 +115,11 @@ void SoundContainer::play3d(bool PausedInital,bool clocked)
         {
             if (clocked)
             {
-                this->Sourcehandle = this->loudPtr->play3dClocked(*this->dt,this->track, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f);
+                this->Sourcehandle = this->loudPtr->play3dClocked(*this->dt,this->track, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, this->vol);
             }
             else
             {
-                this->Sourcehandle = this->loudPtr->play3d(this->track, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+                this->Sourcehandle = this->loudPtr->play3d(this->track, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, this->vol, PausedInital);
             }
             
             break;
@@ -127,11 +128,11 @@ void SoundContainer::play3d(bool PausedInital,bool clocked)
         {
             if (clocked)
             {
-                this->Sourcehandle = this->loudPtr->play3dClocked(*this->dt, this->trackStream, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f);
+                this->Sourcehandle = this->loudPtr->play3dClocked(*this->dt, this->trackStream, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, this->vol);
             }
             else
             {
-                this->Sourcehandle = this->loudPtr->play3d(this->trackStream, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+                this->Sourcehandle = this->loudPtr->play3d(this->trackStream, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, this->vol, PausedInital);
             }
             
             break;
@@ -140,11 +141,11 @@ void SoundContainer::play3d(bool PausedInital,bool clocked)
         {
             if (clocked)
             {
-                this->Sourcehandle = this->loudPtr->play3dClocked(*this->dt, this->mpttrack, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f);
+                this->Sourcehandle = this->loudPtr->play3dClocked(*this->dt, this->mpttrack, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, this->vol);
             }
             else
             {
-                this->Sourcehandle = this->loudPtr->play3d(this->mpttrack, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, 1.0f, PausedInital);
+                this->Sourcehandle = this->loudPtr->play3d(this->mpttrack, pos->x, pos->y, pos->z, 0.0f, 0.0f, 0.0f, this->vol, PausedInital);
             }
             break;
         }
@@ -166,9 +167,19 @@ void SoundContainer::updatePos(Vector3 *pos)
     this->loudPtr->set3dSourcePosition(this->Sourcehandle, this->pos->x, this->pos->y, this->pos->z);
 }
 
+void SoundContainer::volume(double vol)
+{
+    this->vol = vol;
+}
+
 void SoundContainer::setDTptr(double * dt)
 {
     this->dt = dt;
+}
+
+void SoundContainer::setSeek(float seektime)
+{
+    this->loudPtr->seek(this->Sourcehandle, seektime);
 }
 
 void SoundContainer::loopPos(const float loopPoint)
@@ -184,7 +195,7 @@ bool SoundContainer::isPlaying()
 void SoundContainer::unpause(float fadein)
 {
     this->loudPtr->setPause(this->Sourcehandle, 0);
-    this->loudPtr->fadeVolume(this->Sourcehandle, 1.0f, fadein);
+    this->loudPtr->fadeVolume(this->Sourcehandle, this->vol, fadein);
     this->loudPtr->setProtectVoice(this->Sourcehandle, 0); // no need to mamoru it
 
 }

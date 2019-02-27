@@ -20,7 +20,9 @@ StateGame::~StateGame()
 
 void StateGame::OnEnter()
 {
-    this->STData->SoundSrcs["title"]->unpause();
+    this->STData->SoundSrcs["title"]->pause(1.0f);
+    this->STData->SoundSrcs["flying"]->setSeek(0.0f);
+    this->STData->SoundSrcs["flying"]->unpause(0.0f);
     hoopGenerate(); // Generates the locations of the hoops based on the selected planet
     this->STData->asteroidSmashed = 0;
     // Reset stats
@@ -169,7 +171,8 @@ void StateGame::OnEnter()
     bullet = new Bullet();
     bullet->Init(Vector3(spaceship1->position.x,spaceship1->position.y,spaceship1->position.z), Vector3(spaceship1->target.x,spaceship1->target.y,spaceship1->target.z), Vector3(0, 1, 0));
     bullet->type = entityType::eT_Bullet;
-    bullet->Boxsize = BBoxDimensions(0.5f, 0.5f, 0.5f);
+    bullet->InitSound(this->STData->SoundSrcs["bulletfire"], &this->STData->timeBegin);
+    bullet->Boxsize = BBoxDimensions(1.f, 1.f, 1.f);
     bullet->physics = true;
     bullet->name = "bullet";
     bullet->meshptr = this->meshGetFast("bullet");
@@ -242,6 +245,8 @@ void StateGame::OnExit()
             ++it;
         }
     }
+    
+    this->STData->SoundSrcs["flying"]->pause(1.0f);
 }
 
 void StateGame::OnUpdate(double dt)
@@ -258,6 +263,8 @@ void StateGame::OnUpdate(double dt)
     this->dgamestring += std::to_string(points);
     this->dgamestring += "\nTIME REMAINING: ";
     this->dgamestring += std::to_string(elapsedTime);
+	this->dgamestring += "\nASTEROIDS DESTOYED: ";
+	this->dgamestring += std::to_string(this->STData->asteroidSmashed);
 
     this->dtimestring = "\n\nFPS: ";
     this->dtimestring += std::to_string(1.0f / dt);
@@ -292,6 +299,7 @@ void StateGame::OnUpdate(double dt)
         }
 
         this->STData->moneyEarned += (unsigned long long)(points * elapsedTime);
+		this->STData->moneyEarned += (unsigned long long)(this->STData->asteroidSmashed * 10.0);
 
         this->STData->pointsPrev = points;
         this->STData->timePrev = elapsedTime;
@@ -308,9 +316,11 @@ void StateGame::OnUpdate(double dt)
     //Bullet returning to ship after 0.5s of timeAlive
     if ((this->winMan->IsKeyPressed(GLFW_KEY_SPACE)) && (this->bulletBouce <= 0.0))
     {
+        
         this->bulletBouce = 0.3;
         Bullet* b = new Bullet;
         *b = *this->bullet;
+        b->SoundSrc->play3d(false,true);
         b->Init(spaceship1->position,spaceship1->target, spaceship1->up);
         b->velocity += spaceship1->velocity;
         this->entitylists->insert_or_assign("bullet" + std::to_string(bcount), b);
@@ -327,14 +337,14 @@ void StateGame::OnUpdate(double dt)
         Exhausts[1].setplocation(*spaceship1, +2, -2, -11);
         break;
     case 1:
-        Exhausts[0].setplocation(*spaceship1, +0, -1.5, -7);
+        Exhausts[0].setplocation(*spaceship1, +0, -2.5, -7);
         Exhausts[0].setRotateangle(0);
         Exhausts[0].setScale(3, 1, 1);
-        Exhausts[1].setplocation(*spaceship1, +4, -3, -8);
-        Exhausts[2].setplocation(*spaceship1, -4, -3, -8);
+        Exhausts[1].setplocation(*spaceship1, +4, -4, -8);
+        Exhausts[2].setplocation(*spaceship1, -4, -4, -8);
         break;
     case 2:
-        Exhausts[0].setplocation(*spaceship1, +0, -2, -5);
+        Exhausts[0].setplocation(*spaceship1, +0, -3, -5);
         Exhausts[0].setRotateangle(1.0f);
         Exhausts[0].setScale(3, 3, 1);
         break;
@@ -389,9 +399,6 @@ void StateGame::OnUpdate(double dt)
         this->readyExitlocal = true;
         this->spawnState = "Menus";
     }
-
-    
-
 }
 
 void StateGame::hoopChecker()
@@ -750,9 +757,9 @@ void StateGame::OnRender()
 			
 			(*this->modelStack).PushMatrix();
 			(*this->modelStack).Translate(buff->position.x,buff->position.y,buff->position.z);
-			(*this->modelStack).Rotate(10 * rotateAngle, spaceship->view.x, spaceship->view.y, spaceship->view.z);
 			(*this->modelStack).MultMatrix(cubeMult2);
-			RenderMesh(this->meshGetFast("bullet"), true);
+			(*this->modelStack).Scale(2.f, 2.f, 2.f);
+			RenderMesh(this->meshGetFast("bullet"), false);
 			(*this->modelStack).PopMatrix();
 			
 		}

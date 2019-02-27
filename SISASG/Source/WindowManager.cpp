@@ -6,6 +6,11 @@ WindowManager::WindowManager()
 {
 }
 
+void WindowManager::getWindowSize(int &x, int &y)
+{
+    glfwGetFramebufferSize(this->handle, &x, &y);
+}
+
 void WindowManager::setWindow(GLFWwindow* window)
 {
     this->handle = window;
